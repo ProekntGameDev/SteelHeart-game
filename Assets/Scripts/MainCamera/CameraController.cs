@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position = target.position - offset;
+        if(target)
+            transform.position = target.position - offset;
     }
 }
