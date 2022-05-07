@@ -2,30 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDefault : MonoBehaviour
+namespace SteelHeart
 {
-    [Header("Хар-ки врага")]
-    [SerializeField] private float _enemyHealth; //HP
-    [SerializeField] private float _collisionDamage; 
-
-
-    void Start()
+    public class EnemyDefault : Unit
     {
+        [Header("пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")] [SerializeField]
+        private float _enemyHealth; //HP
+
+        [SerializeField] private float _collisionDamage;
+
+        private const string PlayerTag = "Player";
         
-    }
-
-
-    void Update()
-    {
-        
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Player") 
+        private void OnCollisionEnter(Collision collision)
         {
-            PlayerMovment Player = collision.gameObject.GetComponent<PlayerMovment>(); //ссылка на игрока
-            Player.TakeDamage(_collisionDamage); //нанесение урона игроку
+            if (collision.gameObject.CompareTag(PlayerTag))
+            {
+                var player = collision.gameObject.GetComponent<Player>(); //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                player.TakeDamage(_collisionDamage); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            }
         }
     }
 }
