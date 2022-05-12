@@ -8,54 +8,60 @@ using Random = UnityEngine.Random;
 
 namespace SteelHeart
 {
-
-    
     public class CameraController : MonoBehaviour
     {
         [SerializeField] private Transform _target;
         [SerializeField] private Vector3 _offset;
-        [SerializeField] private Transform _zoomTarget;
-
+        [SerializeField] private float _zoomStep;
+        private float _zoomDuration = 0.5f;
+        private Camera _camera;
+        private float _defaultFov;
         private void Awake()
         {
+            _camera = Camera.main;
+            
+            if(_camera)
+                _defaultFov = _camera.fieldOfView;
+        }
+
+        public async Task ZoomIn()
+        {
+            while (_camera.fieldOfView > _defaultFov)
+            {
+                _camera.fieldOfView -= _zoomStep;
+                await UniTask.NextFrame();
+            }
+
+            await Task.CompletedTask;
+        }
+        
+        public async Task ZoomOut()
+        {
+            float targetFov = 40f;
+            while (_camera.fieldOfView < targetFov)
+            {
+                _camera.fieldOfView += _zoomStep;
+                await UniTask.NextFrame();
+            }
+
+            await Task.CompletedTask;
         }
 
         private void Start()
         {
             Application.targetFrameRate = 144;
-            FollowToPlayer();
-            // Shake(3f);
-            // ZoomIn();
-        }
-
-        private void Update()
-        {
+            FollowToTarget();
         }
 
         private void FixedUpdate()
         {
             if (_target)
-                FollowToPlayer();
+                FollowToTarget();
         }
 
-        private async void ZoomIn()
+        public async void Shake(float duration, float magnitudeX = 0.1f, float magnitudeY = 0.1f)
         {
             var pos = transform.position;
-            while (transform.position.x != _zoomTarget.position.x)
-            {
-                pos.x += 0.1f;
-                // pos.z += 0.1f;
-
-                transform.position = pos;
-                await UniTask.NextFrame();
-            }
-        }
-
-        private async void Shake(float duration)
-        {
-            var pos = transform.position;
-            float magnitudeX = 0.1f;
-            float magnitudeY = 0.1f;
 
             while (duration > 0)
             {
@@ -70,7 +76,7 @@ namespace SteelHeart
             transform.position = pos;
         }
 
-        private void FollowToPlayer()
+        private void FollowToTarget()
         {
             transform.position = _target.position - _offset;
         }

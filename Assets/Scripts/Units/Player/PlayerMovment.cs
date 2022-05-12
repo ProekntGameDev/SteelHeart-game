@@ -11,7 +11,6 @@ namespace SteelHeart
     {
         [SerializeField] private float _speed = 10f;
         [SerializeField] private float boostSpeed = 15f;
-        public static PlayerMovment Instance { get; private set; }
         private Rigidbody _rigidbody;
         public bool IsGrounded;
 
@@ -25,7 +24,6 @@ namespace SteelHeart
 
         private void Awake()
         {
-            Instance = this;
             _rigidbody = GetComponent<Rigidbody>();
         }
 

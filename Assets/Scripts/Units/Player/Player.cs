@@ -7,10 +7,10 @@ namespace SteelHeart
 {
     public class Player : Unit
     {
-        private PlayerMovment _playerMovment = PlayerMovment.Instance;
-        
+        [SerializeField] private PlayerMovment _playerMovment;
         [Header("Health")] [SerializeField] private float _health;
         [SerializeField] private float _startTimeGodMode;
+        [SerializeField] private CameraController _cameraController;
         private float _timeGodMode;
 
         private void Awake()
@@ -20,7 +20,7 @@ namespace SteelHeart
 
         private void Update()
         {
-            _playerMovment.Boost();
+            // _playerMovment.Boost();
         }
         
         private void FixedUpdate()
@@ -29,7 +29,7 @@ namespace SteelHeart
 
         }
         
-        public void TakeDamage(float damage)
+        public async void TakeDamage(float damage)
         {
             if (_timeGodMode <= 0)
             {
@@ -48,6 +48,9 @@ namespace SteelHeart
                 // CanvasDead.gameObject.SetActive(true);
                 Destroy(gameObject);
             }
+            
+            await _cameraController.ZoomOut();
+            await _cameraController.ZoomIn();
         }
     }
 }
