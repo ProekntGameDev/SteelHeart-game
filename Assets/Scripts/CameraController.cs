@@ -13,6 +13,8 @@ public class CameraController : MonoBehaviour
     private float defaultFoV;
     //
     private float shake_duration;
+    private float last_x_magnitude = 0;
+    private float last_y_magnitude = 0;
     private float target_FoV;
     public float zoom_speed;
 
@@ -33,8 +35,16 @@ public class CameraController : MonoBehaviour
         if (target_FoV != camera_component.fieldOfView) Zoom(target_FoV);
     }
 
-    public void Shake(float duration, float magnitudeX = 0.1f, float magnitudeY = 0.1f)
+    public void Shake(float duration, float magnitudeX = 0, float magnitudeY = 0)
     {
+        if (magnitudeX == 0 && magnitudeY == 0)
+        {
+            magnitudeX = last_x_magnitude;
+            magnitudeY = last_y_magnitude;
+        }
+        last_x_magnitude = magnitudeX;
+        last_y_magnitude = magnitudeY;
+
         shake_duration = duration;
         float x, y;
         if (shake_duration > 0)
