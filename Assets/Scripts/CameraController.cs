@@ -7,15 +7,14 @@ using Random = UnityEngine.Random;
 
 public class CameraController : MonoBehaviour
 {
+    public Transform target_transform;
+    public Vector3 offset;
     private Camera camera_component;
-    private Transform target_transform;
-    private Vector3 offset;
-    private float zoomStep;
-    private float zoomDuration = 0.5f;
     private float defaultFoV;
     //
     private float shake_duration;
-    private float target_zoom;
+    private float target_FoV;
+    public float zoom_speed;
 
     private void Start()
     {
@@ -24,36 +23,15 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         camera_component = gameObject.GetComponent<Camera>();
-        target_zoom = defaultFoV = camera_component.fieldOfView;
+        target_FoV = defaultFoV = camera_component.fieldOfView;
     }
 
     private void LateUpdate()
     {
         if (target_transform) base.transform.position = target_transform.position - offset;
         if (shake_duration > 0) Shake(shake_duration);
+        if (target_FoV != camera_component.fieldOfView) Zoom(target_FoV);
     }
-
-    //public async Task ZoomIn()
-    //{
-    //    while (camera_component.fieldOfView > defaultFoV)
-    //    {
-    //        camera_component.fieldOfView -= zoomStep;
-    //        //await UniTask.NextFrame();
-    //    }
-
-    //    await Task.CompletedTask;
-    //}
-
-    //public async Task ZoomOut()
-    //{
-    //    float targetFov = 40f;
-    //    while (camera_component.fieldOfView < targetFov)
-    //    {
-    //        camera_component.fieldOfView += zoomStep;
-    //        //await UniTask.NextFrame();
-    //    }
-    //    await Task.CompletedTask;
-    //}
 
     public void Shake(float duration, float magnitudeX = 0.1f, float magnitudeY = 0.1f)
     {
@@ -68,10 +46,10 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void Zoom(float target_zoom, float speed)
+    public void Zoom(float target_FoV)
     {
-        this.target_zoom = target_zoom;
-        float FoV_diversity = camera_component.fieldOfView - target_zoom;
-        if (FoV_diversity != 0) camera_component.fieldOfView *= (camera_component.fieldOfView / target_zoom) * speed * Time.deltaTime;
+        this.target_FoV = target_FoV;
+        float FoV_diversity = target_FoV - camera_component.fieldOfView;
+        if (FoV_diversity != 0) camera_component.fieldOfView += FoV_diversity * zoom_speed * Time.deltaTime;
     }
 }
