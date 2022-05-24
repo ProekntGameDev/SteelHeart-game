@@ -75,7 +75,7 @@ public class PlayerCtrl : MonoBehaviour
         //walk ability^
 
         isJumpButtonPressed = Input.GetAxis("Vertical") > 0;
-        if (isJumpButtonPressed && isOnFloor) Jump(jump_force);
+        if (isJumpButtonPressed && isOnFloor) { Jump(jump_force); GameObject.Find("Camera").GetComponent<CameraController>().Shake(1f, 2, 2); }
         //jump ability^
 
         bool isSprintButtonPressed = Input.GetKey(KeyCode.LeftShift);
@@ -118,7 +118,9 @@ public class PlayerCtrl : MonoBehaviour
             current_force = (current_force > max_boucer_jump_force) ? max_boucer_jump_force : current_force;
             if (current_force != 0) Jump(current_force);
             isOnFloor = false;
+            GameObject.Find("Camera").GetComponent<CameraController>().Zoom((current_force / max_boucer_jump_force) * 120f, 0.5f);
         }
+        else current_force = 0;
         //bouncer feature^
 
         if (collision.collider.gameObject.tag == "climbing_wall")

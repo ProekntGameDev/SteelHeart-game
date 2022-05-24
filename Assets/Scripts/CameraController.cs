@@ -2,76 +2,76 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace SteelHeart
+public class CameraController : MonoBehaviour
 {
-    public class CameraController : MonoBehaviour
+    private Camera camera_component;
+    private Transform target_transform;
+    private Vector3 offset;
+    private float zoomStep;
+    private float zoomDuration = 0.5f;
+    private float defaultFoV;
+    //
+    private float shake_duration;
+    private float target_zoom;
+
+    private void Start()
     {
-        [SerializeField] private Transform _target;
-        [SerializeField] private Vector3 _offset;
-        [SerializeField] private float _zoomStep;
-        private float _zoomDuration = 0.5f;
-        private Camera _camera;
-        private float _defaultFov;
+        Application.targetFrameRate = 144;
+    }
+    private void Awake()
+    {
+        camera_component = gameObject.GetComponent<Camera>();
+        target_zoom = defaultFoV = camera_component.fieldOfView;
+    }
 
-        private void Start()
+    private void LateUpdate()
+    {
+        if (target_transform) base.transform.position = target_transform.position - offset;
+        if (shake_duration > 0) Shake(shake_duration);
+    }
+
+    //public async Task ZoomIn()
+    //{
+    //    while (camera_component.fieldOfView > defaultFoV)
+    //    {
+    //        camera_component.fieldOfView -= zoomStep;
+    //        //await UniTask.NextFrame();
+    //    }
+
+    //    await Task.CompletedTask;
+    //}
+
+    //public async Task ZoomOut()
+    //{
+    //    float targetFov = 40f;
+    //    while (camera_component.fieldOfView < targetFov)
+    //    {
+    //        camera_component.fieldOfView += zoomStep;
+    //        //await UniTask.NextFrame();
+    //    }
+    //    await Task.CompletedTask;
+    //}
+
+    public void Shake(float duration, float magnitudeX = 0.1f, float magnitudeY = 0.1f)
+    {
+        shake_duration = duration;
+        float x, y;
+        if (shake_duration > 0)
         {
-            Application.targetFrameRate = 144;
+            x = Random.Range(-magnitudeX, magnitudeX);
+            y = Random.Range(-magnitudeY, magnitudeY);
+            gameObject.transform.position += Vector3.up * y + Vector3.right * x;
+            shake_duration -= Time.deltaTime;
         }
-        private void Awake()
-        {
-            _camera = Camera.main;
-            
-            if(_camera)
-                _defaultFov = _camera.fieldOfView;
-        }
+    }
 
-        private void LateUpdate()
-        {
-            if (_target) transform.position = _target.position - _offset;
-        }
-
-        public async Task ZoomIn()
-        {
-            while (_camera.fieldOfView > _defaultFov)
-            {
-                _camera.fieldOfView -= _zoomStep;
-                await UniTask.NextFrame();
-            }
-
-            await Task.CompletedTask;
-        }
-
-        public async Task ZoomOut()
-        {
-            float targetFov = 40f;
-            while (_camera.fieldOfView < targetFov)
-            {
-                _camera.fieldOfView += _zoomStep;
-                await UniTask.NextFrame();
-            }
-
-            await Task.CompletedTask;
-        }
-
-        public async void Shake(float duration, float magnitudeX = 0.1f, float magnitudeY = 0.1f)
-        {
-            var pos = transform.position;
-
-            while (duration > 0)
-            {
-                float x = Random.Range(pos.x -= magnitudeX, pos.x += magnitudeX);
-                float y = Random.Range(pos.y -= magnitudeY, pos.y += magnitudeY);
-
-                transform.position = new Vector3(x, y, pos.z);
-                duration -= Time.deltaTime;
-                await UniTask.NextFrame();
-            }
-
-            transform.position = pos;
-        }
+    public void Zoom(float target_zoom, float speed)
+    {
+        this.target_zoom = target_zoom;
+        float FoV_diversity = camera_component.fieldOfView - target_zoom;
+        if (FoV_diversity != 0) camera_component.fieldOfView *= (camera_component.fieldOfView / target_zoom) * speed * Time.deltaTime;
     }
 }
