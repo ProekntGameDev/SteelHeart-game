@@ -75,7 +75,7 @@ public class PlayerCtrl : MonoBehaviour
         //walk ability^
 
         isJumpButtonPressed = Input.GetAxis("Vertical") > 0;
-        if (isJumpButtonPressed && isOnFloor) { Jump(jump_force); GameObject.Find("Camera").GetComponent<CameraController>().Shake(1f, 2, 2); }
+        if (isJumpButtonPressed && isOnFloor) { Jump(jump_force); }
         //jump ability^
 
         bool isSprintButtonPressed = Input.GetKey(KeyCode.LeftShift);
@@ -108,7 +108,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         ray.direction = Vector3.down;
         ray.origin = gameObject.transform.position;
-        if (Physics.Raycast(ray, ray_lenght)) { isOnFloor = true; }
+        if (Physics.Raycast(ray, ray_lenght) && isOnFloor == false) { isOnFloor = true; GameObject.Find("Camera").GetComponent<CameraController>().Shake(0.15f, 0.02f, 0.02f); }
 
         if (collision.collider.gameObject.tag == "bouncer")
         {
