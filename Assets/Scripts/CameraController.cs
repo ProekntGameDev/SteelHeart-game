@@ -16,12 +16,22 @@ namespace SteelHeart
         private float _zoomDuration = 0.5f;
         private Camera _camera;
         private float _defaultFov;
+
+        private void Start()
+        {
+            Application.targetFrameRate = 144;
+        }
         private void Awake()
         {
             _camera = Camera.main;
             
             if(_camera)
                 _defaultFov = _camera.fieldOfView;
+        }
+
+        private void LateUpdate()
+        {
+            if (_target) transform.position = _target.position - _offset;
         }
 
         public async Task ZoomIn()
@@ -34,7 +44,7 @@ namespace SteelHeart
 
             await Task.CompletedTask;
         }
-        
+
         public async Task ZoomOut()
         {
             float targetFov = 40f;
@@ -45,18 +55,6 @@ namespace SteelHeart
             }
 
             await Task.CompletedTask;
-        }
-
-        private void Start()
-        {
-            Application.targetFrameRate = 144;
-            FollowToTarget();
-        }
-
-        private void FixedUpdate()
-        {
-            if (_target)
-                FollowToTarget();
         }
 
         public async void Shake(float duration, float magnitudeX = 0.1f, float magnitudeY = 0.1f)
@@ -74,11 +72,6 @@ namespace SteelHeart
             }
 
             transform.position = pos;
-        }
-
-        private void FollowToTarget()
-        {
-            transform.position = _target.position - _offset;
         }
     }
 }

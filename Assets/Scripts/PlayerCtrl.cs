@@ -16,15 +16,14 @@ public class PlayerCtrl : MonoBehaviour
     public float max_walk_speed = 1;
     public float jump_force = 200;
     public float climb_speed = 1;
-    public float crane_speed = 1;
     //
-    public float sprint_req_stamina_level_for_activation;
-    public float sprint_stamina_spend;
     public float sprint_walk_speed_scale;
     public float sprint_accel_scale;
-    public float stamina_max;
-    public float stamina_restore_speed;
-    public float health_max;
+    public float sprint_req_stamina_level_for_activation;//in points
+    public float sprint_stamina_spend;//in points
+    public float stamina_max;//point count
+    public float stamina_restore_speed;//point per second
+    public float health_max;//in points
     public float ray_lenght = 1;
     // fields^
 
@@ -73,7 +72,7 @@ public class PlayerCtrl : MonoBehaviour
         if      (isMoveLeft ) transform.eulerAngles = v3_left_rotation;
         else if (isMoveRight) transform.eulerAngles = v3_right_rotation;
         if (isWalkingBanned == false) Walk(walk_accel * Math.Abs(MoveControl_HorizontalAxis));//front of model must be looking world-right
-        //movement ability^
+        //walk ability^
 
         isJumpButtonPressed = Input.GetAxis("Vertical") > 0;
         if (isJumpButtonPressed && isOnFloor) Jump(jump_force);
@@ -90,7 +89,7 @@ public class PlayerCtrl : MonoBehaviour
             stamina -= sprint_stamina_spend * Time.fixedDeltaTime;
             isSprinting = true;
         }
-        else if (isSprinting == true) {
+        else if (isSprinting == true && isOnFloor == true) {
             max_walk_speed *= sprint_opposite_walk_speed_scale;
             walk_accel *= sprint_opposite_accel_scale;
             isSprinting = false;
