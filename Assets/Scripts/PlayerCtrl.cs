@@ -26,13 +26,17 @@ public class PlayerCtrl : MonoBehaviour
     public float stamina_restore_speed;//point per second
     public float health_max;//in points
     public float ray_lenght = 1;
+    public float additional_lives = 1;
     // fields^
 
     private Rigidbody physics_component;
+    private CapsuleCollider collider;
     // components^
 
     private bool isOnFloor = false;
     private bool isSprinting = false;
+    private bool isSneaking = false;
+    private bool isTimeSlowed = false;
     private bool isWalkingBanned;
     private bool isJumpButtonPressed = false;
     private bool isDownButtonPressed = false;
@@ -43,7 +47,8 @@ public class PlayerCtrl : MonoBehaviour
     private float bouncer_accel = 1;
     //
     private float stamina;
-    [SerializeField]private float health;
+    private float health;
+    private float coins;
     // variables^
 
     Ray ray;
@@ -53,6 +58,8 @@ public class PlayerCtrl : MonoBehaviour
     {
         physics_component = gameObject.GetComponent<Rigidbody>();
         physics_component.sleepThreshold = 0;//rigidbody never sleep now
+
+        collider = gameObject.GetComponent<CapsuleCollider>();
 
         health = health_max;
         stamina = stamina_max;
@@ -93,7 +100,15 @@ public class PlayerCtrl : MonoBehaviour
         //sprint ability^
 
         isDownButtonPressed = Input.GetAxis("Vertical") < 0;
-        //supply data update^
+        if (isDownButtonPressed && isOnFloor && isSneaking == false) { collider.height /= 2; isSneaking = true; }
+        else if (isSneaking && isDownButtonPressed == false) { collider.height *= 2; isSneaking = false; }
+        //sneaking ability^
+
+        bool isTimeSlowButtonPressed = Input.GetKey(KeyCode.F);
+        if (isTimeSlowButtonPressed && isTimeSlowed == false)
+        { Time.timeScale /= 2; isTimeSlowed = true; }
+        else if (isTimeSlowed) 
+        { Time.timeScale *= 2; isTimeSlowed = false; }
 
         if (isSprintButtonPressed == false) stamina = (stamina > stamina_max) ? stamina_max : stamina + stamina_restore_speed * Time.fixedDeltaTime;
         //restorable restoration^
@@ -135,6 +150,13 @@ public class PlayerCtrl : MonoBehaviour
             trigger.gameObject.SetActive(false);
         }
 
+        if (trigger.gameObject.tag == "coin")
+        {
+            coins += 1;
+            if (coins % 100 == 0) additional_lives += 1;
+            trigger.gameObject.SetActive(false);
+        }
+
         if (trigger.gameObject.tag == "note")
         {
             trigger.gameObject.GetComponent<NoteSpecification>().AddInJournal();
@@ -145,7 +167,7 @@ public class PlayerCtrl : MonoBehaviour
         {
             health -= trigger.gameObject.GetComponent<BulletSpecification>().damage;
             trigger.gameObject.SetActive(false);
-            if (health < 1) Debug.Log("Death!");
+            if (health < 1) { Death(); return; }
         }
 
         if (trigger.gameObject.tag == "drag_object")
@@ -192,4 +214,15 @@ public class PlayerCtrl : MonoBehaviour
     {
         gameObject.transform.position += gameObject.transform.up * speed * Time.fixedDeltaTime;
     }
+
+    public void Death()
+    {
+        if (additional_lives > 0)
+        {
+            additional_lives -= 1;
+            Respawn();
+        }
+        else Debug.Log("Death!");
+    }
+    private void Respawn() { }
 }

@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
     float speed;
     float accel;
     float move_damping_speed;
-    float fly_height;
+    public float fly_height;
     float sprint_speed_scale;
     float sprint_accel_scale;
     //
@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
                 sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 9;
                 break;
             case 1: 
-                health = 25; damage = 25; range_of_view = 6; speed = 2; accel = 100; move = Fly; fly_height = 4f; patrol_distance = 9; physics_component.useGravity = false;
+                health = 25; damage = 25; range_of_view = 16; speed = 2; accel = 5; move = Fly; fly_height = 4f; patrol_distance = 9; physics_component.useGravity = false;
                 sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 14;
                 break;
             default: 
@@ -134,14 +134,12 @@ public class Enemy : MonoBehaviour
     }
     private void Fly()
     {
-        Vector3 direction = (target_position - gameObject.transform.position).normalized;
-        physics_component.AddForce(direction * speed, ForceMode.Acceleration);
-
+        float inner_accel = (target_position + Vector3.up * fly_height - gameObject.transform.position).magnitude / range_of_view * accel;
+        Vector3 direction = (target_position + Vector3.up * fly_height - gameObject.transform.position).normalized;
+        physics_component.velocity += direction * inner_accel * Time.deltaTime;
+        Debug.Log(direction);
         float velocity_magnitude = physics_component.velocity.magnitude;
         if (velocity_magnitude > speed) physics_component.velocity *= speed/velocity_magnitude;//comment this for get orbital satellite
-
-        ray.direction = Vector3.down;
-        ray.origin = gameObject.transform.position;
-        if (Physics.Raycast(ray, fly_height)) { physics_component.AddForce(Vector3.up * speed, ForceMode.Acceleration); }
+        if (inner_accel < 0.1f*accel) physics_component.velocity *= 1f - 1f * Time.deltaTime;
     }
 }

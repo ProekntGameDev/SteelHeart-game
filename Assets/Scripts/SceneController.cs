@@ -9,4 +9,15 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    IEnumerator AsyncLoadScene(int id) 
+    {
+        AsyncOperation op = SceneManager.LoadSceneAsync(id);
+        while (op.isDone == false) 
+        {
+            float progress = op.progress;
+            //update displaying <<<
+            yield return null;
+        }
+    }
 }
