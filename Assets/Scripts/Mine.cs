@@ -5,18 +5,19 @@ using UnityEngine;
 public class Mine : MonoBehaviour
 {
     public float time;
-    float counter;
+    bool isActivated = false;
     void Activate()
     {
-        counter = time;
+        isActivated = true;
     }
     void Update()
     {
-        if (counter < 0)
+        if (isActivated == false) return;
+        if (time < 0)
         {
             FindObjectOfType<PlayerCtrl>().Death();
             gameObject.SetActive(false);
         }
-        else counter -= Time.deltaTime;
+        else time -= Time.deltaTime;
     }
 }

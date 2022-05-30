@@ -139,6 +139,12 @@ public class PlayerCtrl : MonoBehaviour
             isOnFloor = false;
         }
         //climbing_wall feature^
+
+        if (collision.collider.gameObject.tag == "fragile")
+        {
+            collision.collider.gameObject.GetComponent<FragilePlatform>().Tick(Time.deltaTime);
+        }
+        //breaking fragiles feature^
     }
 
     private void OnTriggerStay(Collider trigger)

@@ -7,7 +7,12 @@ public class Enemy : MonoBehaviour
     private Rigidbody physics_component;
     // components^
 
-    public float type;
+    public enum EnemyTypes
+    {
+        WalkerDrone,
+        HelicopterDrone
+    }
+    public EnemyTypes type;
     public bool isElite = false;
     // fields^
 
@@ -20,18 +25,20 @@ public class Enemy : MonoBehaviour
     float health;
     float damage;
     float attack_cooldown;
+    float shooting_cooldown;
+    float shooting_cooldown_timer = -1;
     float range_of_view;
     float patrol_distance;
     float shooting_distance;
     float speed;
     float accel;
     float move_damping_speed;
-    public float fly_height;
+    float fly_height;
     float sprint_speed_scale;
     float sprint_accel_scale;
     //
     Vector3 buffer_position;
-    [SerializeField]Vector3 target_position;
+    Vector3 target_position;
     Transform player_transform;
     float patrol_direction = 1;
     Vector3 next_patrol_position;
@@ -56,13 +63,13 @@ public class Enemy : MonoBehaviour
         target_position = next_patrol_position = gameObject.transform.position;
 
         switch (type) {
-            case 0: 
+            case EnemyTypes.WalkerDrone: 
                 health = 100; damage = 15; range_of_view = 9; speed = 2; accel = 100; patrol_distance = 9; move = Walk;
-                sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 9;
+                sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 9; shooting_cooldown = 1f; physics_component.useGravity = true;
                 break;
-            case 1: 
+            case EnemyTypes.HelicopterDrone: 
                 health = 25; damage = 25; range_of_view = 16; speed = 2; accel = 5; move = Fly; fly_height = 4f; patrol_distance = 9; physics_component.useGravity = false;
-                sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 14;
+                sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 14; shooting_cooldown = 0.3f;
                 break;
             default: 
                 break;
@@ -120,8 +127,12 @@ public class Enemy : MonoBehaviour
 
         transform.eulerAngles = (Math.Sign(physics_component.velocity.x) > 0 && Math.Sign(physics_component.velocity.x) != 0) ? v3_right_rotation : v3_left_rotation;
 
-        if (isPlayerDetected && Vector3.Distance(gameObject.transform.position, player_transform.position) < shooting_distance) 
-            bullet_pool.UseBullet(5, 2, (player_transform.position-gameObject.transform.position).normalized*5f, gameObject.transform.position); 
+        if (isPlayerDetected && Vector3.Distance(gameObject.transform.position, player_transform.position) < shooting_distance)
+        {
+            if (shooting_cooldown_timer < 0) { shooting_cooldown_timer = shooting_cooldown; bullet_pool.UseBullet(5, 1, (player_transform.position - gameObject.transform.position).normalized * 20f, gameObject.transform.position); }
+            else shooting_cooldown_timer -= Time.deltaTime;
+        }
+        else shooting_cooldown_timer = -1;
         // shooting ability^
     }
 
@@ -134,12 +145,12 @@ public class Enemy : MonoBehaviour
     }
     private void Fly()
     {
-        float inner_accel = (target_position + Vector3.up * fly_height - gameObject.transform.position).magnitude / range_of_view * accel;
+        float accel_mult = (target_position + Vector3.up * fly_height - gameObject.transform.position).magnitude / range_of_view * accel;
         Vector3 direction = (target_position + Vector3.up * fly_height - gameObject.transform.position).normalized;
-        physics_component.velocity += direction * inner_accel * Time.deltaTime;
+        physics_component.velocity += direction * accel * accel_mult * Time.deltaTime;
         Debug.Log(direction);
         float velocity_magnitude = physics_component.velocity.magnitude;
         if (velocity_magnitude > speed) physics_component.velocity *= speed/velocity_magnitude;//comment this for get orbital satellite
-        if (inner_accel < 0.1f*accel) physics_component.velocity *= 1f - 1f * Time.deltaTime;
+        if (accel_mult < 0.1f) physics_component.velocity *= 1f - 1f * Time.deltaTime;
     }
 }
