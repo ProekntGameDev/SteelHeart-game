@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
     float sprint_accel_scale;
     //
     Vector3 buffer_position;
-    Vector3 target_position;
+    public Vector3 target_position;
     Transform player_transform;
     float patrol_direction = 1;
     Vector3 next_patrol_position;
@@ -145,12 +145,11 @@ public class Enemy : MonoBehaviour
     }
     private void Fly()
     {
-        float accel_mult = (target_position + Vector3.up * fly_height - gameObject.transform.position).magnitude / range_of_view * accel;
-        Vector3 direction = (target_position + Vector3.up * fly_height - gameObject.transform.position).normalized;
-        physics_component.velocity += direction * accel * accel_mult * Time.deltaTime;
-        Debug.Log(direction);
+        float accel_mult = (target_position + (Vector3.up * fly_height) - gameObject.transform.position).magnitude / range_of_view;
+        Vector3 direction = (target_position + (Vector3.up * fly_height) - gameObject.transform.position).normalized;
+        physics_component.velocity = direction * accel * accel_mult * Time.deltaTime;
         float velocity_magnitude = physics_component.velocity.magnitude;
         if (velocity_magnitude > speed) physics_component.velocity *= speed/velocity_magnitude;//comment this for get orbital satellite
-        if (accel_mult < 0.1f) physics_component.velocity *= 1f - 1f * Time.deltaTime;
+        if (accel_mult < 0.1f) physics_component.velocity *= 1f - Time.deltaTime;
     }
 }
