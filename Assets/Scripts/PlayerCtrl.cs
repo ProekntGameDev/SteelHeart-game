@@ -14,6 +14,7 @@ public class PlayerCtrl : MonoBehaviour
 
     public float walk_accel = 200;
     public float max_walk_speed = 1;
+    public float walk_damping_force = 200;//no_used
     public float jump_force = 200;
     public float climb_speed = 1;
     //
@@ -25,29 +26,32 @@ public class PlayerCtrl : MonoBehaviour
     public float stamina_restore_speed;//point per second
     public float health_max;//in points
     public float ray_lenght = 1;
+    public int additional_lives = 1;
     // fields^
 
     private Rigidbody physics_component;
+    private CapsuleCollider collider;
     // components^
 
     private bool isOnFloor = false;
     private bool isSprinting = false;
+    private bool isSneaking = false;
+    private bool isTimeSlowed = false;
     private bool isWalkingBanned;
     private bool isJumpButtonPressed = false;
     private bool isDownButtonPressed = false;
     // object state^
 
     private float current_force = 0;
-    private float bouncer_loss = 40;
-    private float bouncer_accel = 40;
+    private float bouncer_loss = 1;
+    private float bouncer_accel = 1;
     //
     private float stamina;
     private float health;
+    private float coins;
     // variables^
 
     Ray ray;
-    private float sprint_opposite_walk_speed_scale;
-    private float sprint_opposite_accel_scale;
     //supply variables^
 
     private void Awake()
@@ -55,12 +59,10 @@ public class PlayerCtrl : MonoBehaviour
         physics_component = gameObject.GetComponent<Rigidbody>();
         physics_component.sleepThreshold = 0;//rigidbody never sleep now
 
+        collider = gameObject.GetComponent<CapsuleCollider>();
+
         health = health_max;
         stamina = stamina_max;
-
-        sprint_opposite_walk_speed_scale = 1 / sprint_walk_speed_scale;
-        sprint_opposite_accel_scale = 1 / sprint_accel_scale;
-        //supply data^
     }
 
     private void FixedUpdate()
@@ -90,15 +92,23 @@ public class PlayerCtrl : MonoBehaviour
             isSprinting = true;
         }
         else if (isSprinting == true && isOnFloor == true) {
-            max_walk_speed *= sprint_opposite_walk_speed_scale;
-            walk_accel *= sprint_opposite_accel_scale;
+            max_walk_speed *= 1 / sprint_walk_speed_scale;
+            walk_accel *= 1 / sprint_accel_scale;
             isSprinting = false;
             //restore state after sprint ability using^
         }
         //sprint ability^
 
         isDownButtonPressed = Input.GetAxis("Vertical") < 0;
-        //supply data update^
+        if (isDownButtonPressed && isOnFloor && isSneaking == false) { collider.height /= 2; isSneaking = true; }
+        else if (isSneaking && isDownButtonPressed == false) { collider.height *= 2; isSneaking = false; }
+        //sneaking ability^
+
+        bool isTimeSlowButtonPressed = Input.GetKey(KeyCode.F);
+        if (isTimeSlowButtonPressed && isTimeSlowed == false)
+        { Time.timeScale /= 2; isTimeSlowed = true; }
+        else if (isTimeSlowed) 
+        { Time.timeScale *= 2; isTimeSlowed = false; }
 
         if (isSprintButtonPressed == false) stamina = (stamina > stamina_max) ? stamina_max : stamina + stamina_restore_speed * Time.fixedDeltaTime;
         //restorable restoration^
@@ -108,7 +118,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         ray.direction = Vector3.down;
         ray.origin = gameObject.transform.position;
-        if (Physics.Raycast(ray, ray_lenght) && isOnFloor == false) { isOnFloor = true; GameObject.Find("Camera").GetComponent<CameraController>().Shake(0.15f, 0.02f, 0.02f); }
+        if (Physics.Raycast(ray, ray_lenght) && isOnFloor == false) { isOnFloor = true; GameObject.Find("Camera").GetComponent<CameraController>().Shake(0.15f, 0.1f, 0.1f); }
 
         if (collision.collider.gameObject.tag == "bouncer")
         {
@@ -120,7 +130,7 @@ public class PlayerCtrl : MonoBehaviour
             isOnFloor = false;
             GameObject.Find("Camera").GetComponent<CameraController>().Zoom(30f + (current_force / max_boucer_jump_force) * 60f);
         }
-        else current_force = 0;
+        else if (isOnFloor) current_force = 0;
         //bouncer feature^
 
         if (collision.collider.gameObject.tag == "climbing_wall")
@@ -129,6 +139,12 @@ public class PlayerCtrl : MonoBehaviour
             isOnFloor = false;
         }
         //climbing_wall feature^
+
+        if (collision.collider.gameObject.tag == "fragile")
+        {
+            collision.collider.gameObject.GetComponent<FragilePlatform>().Tick(Time.deltaTime);
+        }
+        //breaking fragiles feature^
     }
 
     private void OnTriggerStay(Collider trigger)
@@ -138,6 +154,31 @@ public class PlayerCtrl : MonoBehaviour
             float health_restore_count = trigger.gameObject.GetComponent<HP_Restore_item_specification>().health_restore_count;
             health = stamina = (health > health_max) ? health_max : health + health_restore_count;
             trigger.gameObject.SetActive(false);
+        }
+
+        if (trigger.gameObject.tag == "coin")
+        {
+            coins += 1;
+            if (coins % 100 == 0) additional_lives += 1;
+            trigger.gameObject.SetActive(false);
+        }
+
+        if (trigger.gameObject.tag == "note")
+        {
+            trigger.gameObject.GetComponent<NoteSpecification>().AddInJournal();
+            trigger.gameObject.SetActive(false);
+        }
+
+        if (trigger.gameObject.tag == "mine")
+        {
+            trigger.gameObject.GetComponent<Mine>().Activate();
+        }
+
+        if (trigger.gameObject.tag == "bullet")
+        {
+            //health -= trigger.gameObject.GetComponent<BulletSpecification>().damage;
+            trigger.gameObject.SetActive(false);
+            if (health < 1) { Death(); return; }
         }
 
         if (trigger.gameObject.tag == "drag_object")
@@ -177,11 +218,22 @@ public class PlayerCtrl : MonoBehaviour
     }
     private void Jump(float force)
     {
-        physics_component.AddForce(Vector3.up * force, ForceMode.Force);
+        physics_component.velocity += Vector3.up * force;
         isOnFloor = false;
     }
     private void Climb(float speed) 
     {
         gameObject.transform.position += gameObject.transform.up * speed * Time.fixedDeltaTime;
     }
+
+    public void Death()
+    {
+        if (additional_lives > 0)
+        {
+            additional_lives -= 1;
+            Respawn();
+        }
+        else Debug.Log("Death!");
+    }
+    private void Respawn() { }
 }
