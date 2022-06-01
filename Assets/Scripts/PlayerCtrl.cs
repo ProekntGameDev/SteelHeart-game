@@ -26,7 +26,7 @@ public class PlayerCtrl : MonoBehaviour
     public float stamina_restore_speed;//point per second
     public float health_max;//in points
     public float ray_lenght = 1;
-    public float additional_lives = 1;
+    public int additional_lives = 1;
     // fields^
 
     private Rigidbody physics_component;
@@ -169,9 +169,14 @@ public class PlayerCtrl : MonoBehaviour
             trigger.gameObject.SetActive(false);
         }
 
+        if (trigger.gameObject.tag == "mine")
+        {
+            trigger.gameObject.GetComponent<Mine>().Activate();
+        }
+
         if (trigger.gameObject.tag == "bullet")
         {
-            health -= trigger.gameObject.GetComponent<BulletSpecification>().damage;
+            //health -= trigger.gameObject.GetComponent<BulletSpecification>().damage;
             trigger.gameObject.SetActive(false);
             if (health < 1) { Death(); return; }
         }

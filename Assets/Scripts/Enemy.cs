@@ -36,12 +36,16 @@ public class Enemy : MonoBehaviour
     float fly_height;
     float sprint_speed_scale;
     float sprint_accel_scale;
+    float reachtarget_waiting;
+    float waiting_counter = 0;
     //
     Vector3 buffer_position;
-    public Vector3 target_position;
+    Vector3 target_position;
     Transform player_transform;
     float patrol_direction = 1;
     Vector3 next_patrol_position;
+    Vector3 start_position;
+    Vector3 shooting_offset;
     //
     delegate void MoveDamping();
     MoveDamping move_damping;
@@ -52,24 +56,21 @@ public class Enemy : MonoBehaviour
     private Vector3 v3_left_rotation = new Vector3(0, 180, 0);
     private Vector3 v3_right_rotation = new Vector3(0, 0, 0);//front of model must be looking world-right
     //euler-angle values vectors^ constants^
-    Ray ray;
-    //supply variables^
 
     void Start()
     {
+        player_transform = GameObject.Find("Player").transform;
         physics_component = gameObject.GetComponent<Rigidbody>();
         bullet_pool = gameObject.GetComponent<BulletPool>();
-        player_transform = GameObject.Find("Player").transform;
-        target_position = next_patrol_position = gameObject.transform.position;
 
         switch (type) {
             case EnemyTypes.WalkerDrone: 
-                health = 100; damage = 15; range_of_view = 9; speed = 2; accel = 100; patrol_distance = 9; move = Walk;
-                sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 9; shooting_cooldown = 1f; physics_component.useGravity = true;
-                break;
+                health = 100; damage = 15; range_of_view = 9; speed = 2; accel = 100; patrol_distance = 9; move = Walk; shooting_offset = Vector3.up*-1f;
+                 sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 9; shooting_cooldown = 1f; physics_component.useGravity = true; reachtarget_waiting = 4f;
+                break; 
             case EnemyTypes.HelicopterDrone: 
                 health = 25; damage = 25; range_of_view = 16; speed = 2; accel = 5; move = Fly; fly_height = 4f; patrol_distance = 9; physics_component.useGravity = false;
-                sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 14; shooting_cooldown = 0.3f;
+                sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 14; shooting_cooldown = 0.3f; reachtarget_waiting = 10f; shooting_offset = Vector3.up * 0.6f;
                 break;
             default: 
                 break;
@@ -79,6 +80,12 @@ public class Enemy : MonoBehaviour
             health *= 2;
             damage *= 2;
         }
+
+        Ray ray = new Ray(gameObject.transform.position, -gameObject.transform.up);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit);
+        gameObject.transform.position += (gameObject.transform.position.y - hit.point.y < fly_height) ? Vector3.up*(hit.point.y + fly_height - gameObject.transform.position.y) : Vector3.zero;
+        start_position = target_position = next_patrol_position = gameObject.transform.position;
     }
 
     void Update()
@@ -110,16 +117,21 @@ public class Enemy : MonoBehaviour
         }
         else 
         {
-            if (isBufferFilled)
+            if (waiting_counter > 0) { waiting_counter -= Time.deltaTime; }
+            else
             {
-                target_position = buffer_position; 
-                isBufferFilled = false;
-            }
-            if (Math.Abs(gameObject.transform.position.x-target_position.x) < 1f) 
-            {
-                next_patrol_position += Vector3.right * patrol_direction * patrol_distance;
-                patrol_direction *= -1;
-                target_position = next_patrol_position;
+                waiting_counter = reachtarget_waiting;
+                if (isBufferFilled)
+                {
+                    target_position = buffer_position;
+                    isBufferFilled = false;
+                }
+                if (Math.Abs(gameObject.transform.position.x - target_position.x) < 1f)
+                {
+                    next_patrol_position += Vector3.right * patrol_direction * patrol_distance;
+                    patrol_direction *= -1;
+                    target_position = next_patrol_position;
+                }
             }
         }
         // target change^
@@ -129,7 +141,7 @@ public class Enemy : MonoBehaviour
 
         if (isPlayerDetected && Vector3.Distance(gameObject.transform.position, player_transform.position) < shooting_distance)
         {
-            if (shooting_cooldown_timer < 0) { shooting_cooldown_timer = shooting_cooldown; bullet_pool.UseBullet(5, 1, (player_transform.position - gameObject.transform.position).normalized * 20f, gameObject.transform.position); }
+            if (shooting_cooldown_timer < 0) { shooting_cooldown_timer = shooting_cooldown; bullet_pool.UseBullet(5, 1, (player_transform.position + shooting_offset - gameObject.transform.position).normalized * 20f, gameObject.transform.position - shooting_offset); }
             else shooting_cooldown_timer -= Time.deltaTime;
         }
         else shooting_cooldown_timer = -1;
@@ -145,9 +157,10 @@ public class Enemy : MonoBehaviour
     }
     private void Fly()
     {
-        float accel_mult = (target_position + (Vector3.up * fly_height) - gameObject.transform.position).magnitude / range_of_view;
-        Vector3 direction = (target_position + (Vector3.up * fly_height) - gameObject.transform.position).normalized;
-        physics_component.velocity = direction * accel * accel_mult * Time.deltaTime;
+        Vector3 v3 = (isPlayerDetected) ? Vector3.up * fly_height : Vector3.zero;
+        float accel_mult = (target_position + v3 - gameObject.transform.position).magnitude / range_of_view;
+        Vector3 direction = (target_position + v3 - gameObject.transform.position).normalized;
+        physics_component.velocity += direction * accel * accel_mult * Time.deltaTime;
         float velocity_magnitude = physics_component.velocity.magnitude;
         if (velocity_magnitude > speed) physics_component.velocity *= speed/velocity_magnitude;//comment this for get orbital satellite
         if (accel_mult < 0.1f) physics_component.velocity *= 1f - Time.deltaTime;
