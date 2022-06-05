@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     private bool isPlayerDetected = false;
     // object state^
 
-    float health;
+    public float health;
     float damage;
     float attack_cooldown;
     float shooting_cooldown;
@@ -90,6 +90,9 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if (health <= 0) gameObject.SetActive(false);
+        // death ability^
+
         isPlayerDetected = Vector3.Distance(gameObject.transform.position, player_transform.position) < range_of_view;
         if (isPlayerDetected)
         {
@@ -107,7 +110,7 @@ public class Enemy : MonoBehaviour
             isSprinting = false;
             //restore state after sprint ability using^
         }
-        //sprint ability^
+        // sprint ability^
 
         if (isPlayerDetected)
         {
@@ -135,9 +138,12 @@ public class Enemy : MonoBehaviour
             }
         }
         // target change^
+
         move();
+        // moving to target^
 
         transform.eulerAngles = (Math.Sign(physics_component.velocity.x) > 0 && Math.Sign(physics_component.velocity.x) != 0) ? v3_right_rotation : v3_left_rotation;
+        // update model face direction^
 
         if (isPlayerDetected && Vector3.Distance(gameObject.transform.position, player_transform.position) < shooting_distance)
         {
@@ -153,16 +159,39 @@ public class Enemy : MonoBehaviour
         Vector3 direction = (target_position - gameObject.transform.position).normalized;
         physics_component.velocity += Vector3.right * Math.Sign(direction.x) * accel * Time.deltaTime;
         if (Math.Abs(physics_component.velocity.x) > speed)
-            physics_component.velocity = physics_component.velocity + Vector3.right * (speed * Math.Sign(physics_component.velocity.x) - physics_component.velocity.x);
+            physics_component.velocity = physics_component.velocity + Vector3.right * (speed * Math.Sign(physics_component.velocity.x) - physics_component.velocity.x);//velocity limit
     }
     private void Fly()
     {
-        Vector3 v3 = (isPlayerDetected) ? Vector3.up * fly_height : Vector3.zero;
-        float accel_mult = (target_position + v3 - gameObject.transform.position).magnitude / range_of_view;
-        Vector3 direction = (target_position + v3 - gameObject.transform.position).normalized;
-        physics_component.velocity += direction * accel * accel_mult * Time.deltaTime;
+        Vector3 offset = (isPlayerDetected) ? Vector3.up * fly_height : Vector3.zero;
+        Vector3 direction = target_position + offset - gameObject.transform.position;
+        float accel_multiplier = direction.magnitude / range_of_view;
+        physics_component.velocity += direction.normalized * accel * accel_multiplier * Time.deltaTime;
         float velocity_magnitude = physics_component.velocity.magnitude;
-        if (velocity_magnitude > speed) physics_component.velocity *= speed/velocity_magnitude;//comment this for get orbital satellite
-        if (accel_mult < 0.1f) physics_component.velocity *= 1f - Time.deltaTime;
+        if (velocity_magnitude > speed) physics_component.velocity *= speed/velocity_magnitude;//velocity limit
+        if (accel_multiplier < 0.1f) physics_component.velocity *= 1f - Time.deltaTime;//velocity damping on approach target
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "explosive")
+        {
+            collider.gameObject.GetComponent<Explosive>().DamageSubscribe(this);
+        }
+    }
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.tag == "explosive")
+        {
+            collider.gameObject.GetComponent<Explosive>().CancelDamageSubscription(this);
+        }
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.gameObject.tag == "fragile")
+        {
+            collision.collider.gameObject.GetComponent<FragilePlatform>().Tick(Time.deltaTime);
+        }
+        //breaking fragiles feature^
     }
 }
