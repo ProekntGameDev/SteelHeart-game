@@ -27,18 +27,23 @@ public class PlayerCtrl : MonoBehaviour
     public float health_max;//in points
     public float ray_lenght = 1;
     public int additional_lives = 1;
+    public int jetpack_jumps;
+    public int consumed_jetpack_jumps;
     // fields^
 
     private Rigidbody physics_component;
     private CapsuleCollider collider;
     // components^
 
+    bool isDoubleJump_Allow = false;
+    //
     private bool isOnFloor = false;
     private bool isSprinting = false;
     private bool isSneaking = false;
     private bool isTimeSlowed = false;
-    private bool isWalkingBanned;
+    private bool isWalkingBanned = false;
     private bool isJumpButtonPressed = false;
+    private bool isJumpButtonPressed_last = false;
     private bool isDownButtonPressed = false;
     // object state^
 
@@ -47,7 +52,7 @@ public class PlayerCtrl : MonoBehaviour
     private float bouncer_accel = 1;
     //
     private float stamina;
-    private float health;
+    public float health;
     private float coins;
     // variables^
 
@@ -76,8 +81,11 @@ public class PlayerCtrl : MonoBehaviour
         if (isWalkingBanned == false) Walk(walk_accel * Math.Abs(MoveControl_HorizontalAxis));//front of model must be looking world-right
         //walk ability^
 
-        isJumpButtonPressed = Input.GetAxis("Vertical") > 0;
-        if (isJumpButtonPressed && isOnFloor) { Jump(jump_force); }
+        isJumpButtonPressed = Input.GetAxis("Jump") > 0;
+        bool isJustPressed = isJumpButtonPressed && isJumpButtonPressed_last == false;
+        isJumpButtonPressed_last = isJumpButtonPressed;
+        if (isJumpButtonPressed && isOnFloor) { Jump(jump_force); consumed_jetpack_jumps = 0; }
+        else if (isDoubleJump_Allow == true && isJustPressed && consumed_jetpack_jumps < jetpack_jumps) { Jump(jump_force * 1.2f); ++consumed_jetpack_jumps; }
         //jump ability^
 
         bool isSprintButtonPressed = Input.GetKey(KeyCode.LeftShift);
@@ -109,6 +117,10 @@ public class PlayerCtrl : MonoBehaviour
         { Time.timeScale /= 2; isTimeSlowed = true; }
         else if (isTimeSlowed) 
         { Time.timeScale *= 2; isTimeSlowed = false; }
+        // time slowing ability^
+
+        if (health <= 0) Death();
+        // death ability^
 
         if (isSprintButtonPressed == false) stamina = (stamina > stamina_max) ? stamina_max : stamina + stamina_restore_speed * Time.fixedDeltaTime;
         //restorable restoration^
@@ -176,9 +188,9 @@ public class PlayerCtrl : MonoBehaviour
 
         if (trigger.gameObject.tag == "bullet")
         {
-            //health -= trigger.gameObject.GetComponent<BulletSpecification>().damage;
+            health -= trigger.gameObject.GetComponent<BulletSpecification>().damage;
             trigger.gameObject.SetActive(false);
-            if (health < 1) { Death(); return; }
+            if (health <= 1) { Death(); return; }
         }
 
         if (trigger.gameObject.tag == "drag_object")
@@ -199,6 +211,14 @@ public class PlayerCtrl : MonoBehaviour
             physics_component.useGravity = false;
             physics_component.velocity -= physics_component.velocity.y * Vector3.up;
             isOnFloor = false;
+        }
+        //ladder feature^
+
+        if (trigger.gameObject.tag == "upgrade_jetpack")
+        {
+            jetpack_jumps = 1;
+            isDoubleJump_Allow = true;
+            trigger.gameObject.SetActive(false);
         }
         //ladder feature^
     }
