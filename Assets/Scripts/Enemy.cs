@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     // object state^
 
     public float health;
-    float damage;
+    int damage;
     float attack_cooldown;
     float shooting_cooldown;
     float shooting_cooldown_timer = -1;
@@ -147,7 +147,7 @@ public class Enemy : MonoBehaviour
 
         if (isPlayerDetected && Vector3.Distance(gameObject.transform.position, player_transform.position) < shooting_distance)
         {
-            if (shooting_cooldown_timer < 0) { shooting_cooldown_timer = shooting_cooldown; bullet_pool.UseBullet(5, 1, (player_transform.position + shooting_offset - gameObject.transform.position).normalized * 20f, gameObject.transform.position - shooting_offset); }
+            if (shooting_cooldown_timer < 0) { shooting_cooldown_timer = shooting_cooldown; bullet_pool.UseBullet(damage, 1, (player_transform.position + shooting_offset - gameObject.transform.position).normalized * 20f, gameObject.transform.position - shooting_offset); }
             else shooting_cooldown_timer -= Time.deltaTime;
         }
         else shooting_cooldown_timer = -1;

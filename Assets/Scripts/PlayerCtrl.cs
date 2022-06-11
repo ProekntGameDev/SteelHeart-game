@@ -45,6 +45,7 @@ public class PlayerCtrl : MonoBehaviour
     private bool isJumpButtonPressed = false;
     private bool isJumpButtonPressed_last = false;
     private bool isDownButtonPressed = false;
+    [SerializeField] private Vector3 checkpoint;
     // object state^
 
     private float current_force = 0;
@@ -119,11 +120,26 @@ public class PlayerCtrl : MonoBehaviour
         { Time.timeScale *= 2; isTimeSlowed = false; }
         // time slowing ability^
 
+        if (Input.GetAxis("Submit") > 0)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit);
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.tag == "checkpoint")
+                    checkpoint = hit.collider.gameObject.transform.position - Vector3.forward * hit.collider.gameObject.transform.position.z;
+                if (hit.collider.gameObject.tag == "restoration_point")
+                    health = health_max;
+            }
+        }
+        // clickable object using ability^
+
         if (health <= 0) Death();
         // death ability^
 
         if (isSprintButtonPressed == false) stamina = (stamina > stamina_max) ? stamina_max : stamina + stamina_restore_speed * Time.fixedDeltaTime;
-        //restorable restoration^
+        // restorable restoration^
     }
 
     private void OnCollisionStay(Collision collision)
@@ -248,6 +264,7 @@ public class PlayerCtrl : MonoBehaviour
 
     public void Death()
     {
+        health = 0;
         if (additional_lives > 0)
         {
             additional_lives -= 1;
@@ -255,5 +272,5 @@ public class PlayerCtrl : MonoBehaviour
         }
         else Debug.Log("Death!");
     }
-    private void Respawn() { }
+    private void Respawn() { gameObject.transform.position = checkpoint; health = health_max; }
 }
