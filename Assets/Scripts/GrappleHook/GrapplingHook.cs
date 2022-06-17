@@ -9,6 +9,7 @@ public class GrapplingHook : MonoBehaviour
       public float sizeRope;
       public float gallowsRope;
       public float weight;
+      public KeyCode KeyGrappelr;
 
       private GameObject _player;
       private Rigidbody _rigidbody;
@@ -23,7 +24,7 @@ public class GrapplingHook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _player= GameObject.FindGameObjectWithTag("Player");
+        _player= GameObject.FindGameObjectWithTag("Player");//опеределение игрока
         _rigidbody = GetComponent<Rigidbody>();
         _springjoint = _player.GetComponent<SpringJoint>();
 
@@ -34,9 +35,9 @@ public class GrapplingHook : MonoBehaviour
     // Update is called once per frame
     void Update(){
 
-        _DistanceToPlayer = Vector3.Distance(transform.position , _player.transform.position);
+        _DistanceToPlayer = Vector3.Distance(transform.position , _player.transform.position);// дистация крбка
 
-        if(Input.GetMouseButtonDown(0)){
+        if(Input.GetKeyDown(KeyGrappelr)){// переключение мыши
              _shootrope = false;
         }
 
@@ -57,7 +58,7 @@ public class GrapplingHook : MonoBehaviour
          
     }
 
-     public void ShootGrapplingHook(){
+     public void ShootGrapplingHook(){//выстрел
          if(_DistanceToPlayer <=sizeRope){
              if(!_collidedrope){
                   transform.Translate( 0 , 0 , velLauncher*Time.deltaTime);
