@@ -4,7 +4,10 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SteelHeart
+
+namespace SteelHeart {
+public class NarrativeCtrl : MonoBehaviour
+
 {
     public class NarrativeCtrl : MonoBehaviour
     {
@@ -33,3 +36,4 @@ namespace SteelHeart
         }
     }
 }
+
