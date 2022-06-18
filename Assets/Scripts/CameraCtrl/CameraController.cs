@@ -7,13 +7,14 @@ namespace SteelHeart {
 
 public class CameraController : MonoBehaviour {
 
-    public Transform target;
-    public Vector3 offset;
 
-    private void FixedUpdate()
-    {
-        transform.position = target.position - offset;
+        public Transform target;
+        public Vector3 offset;
+
+        private void FixedUpdate()
+        {
+            transform.position = target.position - offset;
+        }
     }
 }
 
-}
