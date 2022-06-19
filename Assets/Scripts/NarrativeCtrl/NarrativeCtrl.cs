@@ -5,9 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace SteelHeart {
-public class NarrativeCtrl : MonoBehaviour
-
+namespace SteelHeart
 {
     public class NarrativeCtrl : MonoBehaviour
     {
@@ -23,12 +21,15 @@ public class NarrativeCtrl : MonoBehaviour
             {
                 noteUI.SetActive(true);
             }
+
             if (Input.GetKey(KeyCode.T))
             {
                 noteUI.SetActive(false);
             }
+
             notice.SetActive(true);
         }
+
         private void OnTriggerExit(Collider other)
         {
             notice.SetActive(false);
@@ -36,4 +37,3 @@ public class NarrativeCtrl : MonoBehaviour
         }
     }
 }
-
