@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44359335, g: 0.49291104, b: 0.5724862, a: 1}
+  m_IndirectSpecularColor: {r: 0.44359314, g: 0.4929105, b: 0.5724858, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -295,11 +295,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 75027409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24feb35fe83a86c49a411aee168e780b, type: 3}
+  m_Script: {fileID: 11500000, guid: c7f33defefab8044d9190991576f1218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1587405011}
-  offset: {x: 0, y: -1, z: 10}
+  target_transform: {fileID: 1587405011}
+  offset: {x: 0, y: -1.5, z: 13.2}
+  zoom_speed: 0
 --- !u!1 &81758778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,10 +1784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa87d21f68977c4e97edaafc3ab3d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrapplingHook: {fileID: 5640558283726883574, guid: 6db8f6fff1129e94b80c806ad2d71065, type: 3}
-  KeyGrappelr: 113
-  _camera: {fileID: 75027411}
-  dirDoubleclick: {fileID: 8112866915202167131, guid: 309c11dd2b47e7c49b37fd2e558df6f0, type: 3}
 --- !u!145 &1587405014
 SpringJoint:
   m_ObjectHideFlags: 0
