@@ -3,13 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SteelHeart {
-
-public class CameraController : MonoBehaviour {
-
-
+namespace SteelHeart
+{
+    public class CameraController : MonoBehaviour
+    {
         public Transform target;
         public Vector3 offset;
+
+        private void Start()
+        {
+#if UNITY_EDITOR
+            Application.targetFrameRate = 144;
+#endif
+        }
 
         private void FixedUpdate()
         {
@@ -17,4 +23,3 @@ public class CameraController : MonoBehaviour {
         }
     }
 }
-
