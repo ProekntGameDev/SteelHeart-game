@@ -5,8 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+
+
 namespace SteelHeart
 {
+
+
     public class NarrativeCtrl : MonoBehaviour
     {
         public string noteTextstr;
@@ -36,4 +40,6 @@ namespace SteelHeart
             noteUI.SetActive(false);
         }
     }
+
+
 }
