@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2705801902892437257}
   - component: {fileID: 4332617699238191334}
   - component: {fileID: 6693681987973423711}
-  - component: {fileID: 6705252653051045704}
   - component: {fileID: 3258385770072526757}
+  - component: {fileID: 5407977667044194511}
   m_Layer: 0
   m_Name: GrapplingGun
   m_TagString: Untagged
@@ -114,23 +114,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6705252653051045704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5640558283726883574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5f344a204805a42bc0a11101a52009, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velLauncher: 25
-  sizeRope: 20
-  gallowsRope: 10
-  weight: 15
-  KeyGrappelr: 113
 --- !u!120 &3258385770072526757
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -229,3 +212,20 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &5407977667044194511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640558283726883574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c1761f36459dd4c94e84955febebe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velLauncher: 25
+  sizeRope: 20
+  gallowsRope: 10
+  weight: 15
+  KeyGrappelr: 113

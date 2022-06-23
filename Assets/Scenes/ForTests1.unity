@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 75027412}
   - component: {fileID: 75027411}
   - component: {fileID: 75027410}
+  - component: {fileID: 75027413}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -285,6 +286,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &75027413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75027409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f33defefab8044d9190991576f1218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target_transform: {fileID: 1587405011}
+  offset: {x: 0, y: -1, z: 10}
+  zoom_speed: 0
 --- !u!1 &81758778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,9 +1651,9 @@ GameObject:
   - component: {fileID: 1587405008}
   - component: {fileID: 1587405014}
   - component: {fileID: 1587405007}
-  - component: {fileID: 1587405013}
   - component: {fileID: 1587405015}
   - component: {fileID: 1587405012}
+  - component: {fileID: 1587405013}
   m_Layer: 0
   m_Name: Amogus
   m_TagString: Player
@@ -1765,10 +1781,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1587405006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfa87d21f68977c4e97edaafc3ab3d85, type: 3}
+  m_Script: {fileID: 11500000, guid: 5809055d5af3b664b907c05d6d169119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrapplingHook: {fileID: 5640558283726883574, guid: 6db8f6fff1129e94b80c806ad2d71065, type: 3}
+  GrapplingHook: {fileID: 5640558283726883574, guid: fb879ab2e482a0e4a8d3d735d6699d5e, type: 3}
   KeyGrappelr: 113
   _camera: {fileID: 75027411}
   dirDoubleclick: {fileID: 8112866915202167131, guid: 309c11dd2b47e7c49b37fd2e558df6f0, type: 3}
