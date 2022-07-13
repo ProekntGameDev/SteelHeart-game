@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HP_Bar : MonoBehaviour
 {
-    UnityEngine.UI.Image image;
+    public Image image;
     PlayerCtrl player_ctrl;
+    private  Gradient _gradient;
+     
     private void Start()
     {
         image = gameObject.GetComponent<UnityEngine.UI.Image>();
@@ -17,5 +20,7 @@ public class HP_Bar : MonoBehaviour
         float a = hp_percent * 19f;
         int h = Mathf.FloorToInt(a+1);
         image.fillAmount = h/19f;
+        
+        
     }
 }
