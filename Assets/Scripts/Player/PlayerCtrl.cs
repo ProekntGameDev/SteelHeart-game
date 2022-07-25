@@ -22,6 +22,8 @@ public class PlayerCtrl : MonoBehaviour
     public float jump_force = 200;
     public float climb_speed = 1;
     //
+    public float block_req_stamina_level_for_activation;
+    public float block_stamina_spend;
     public float sprint_walk_speed_scale;
     public float sprint_accel_scale;
     public float sprint_req_stamina_level_for_activation;//in points
@@ -47,6 +49,7 @@ public class PlayerCtrl : MonoBehaviour
     private bool isSprinting = false;
     private bool isSneaking = false;
     private bool isTimeSlowed = false;
+    private bool isBlocking = false;
     private bool isNightVisionActive = false;
     private bool isWalkingBanned = false;
     private bool isJumpButtonPressed = false;
@@ -133,6 +136,10 @@ public class PlayerCtrl : MonoBehaviour
             Camera.main.gameObject.GetComponent<CameraController>().NightVisionEffectActiveStateChange();
         }
         // night vision ability^
+
+        if (Input.GetMouseButton(1)) { isBlocking = stamina > block_req_stamina_level_for_activation; }
+        else isBlocking = false;
+        // block ability^
 
         if (Input.GetAxis("Submit") > 0)
         {
@@ -222,6 +229,7 @@ public class PlayerCtrl : MonoBehaviour
 
         if (trigger.gameObject.tag == "bullet")
         {
+            if (isBlocking) { stamina -= block_stamina_spend; return; }
             health -= trigger.gameObject.GetComponent<BulletSpecification>().damage;
             trigger.gameObject.SetActive(false);
             if (health <= 1) { Death(); return; }
