@@ -12,6 +12,10 @@ public class PlayerCtrl : MonoBehaviour
     private Vector3 v3_right_rotation = new Vector3(0, 0, 0);//front of model must be looking world-right
     //euler-angle values vectors^ constants^
 
+    public KeyCode TimeSlowing_btn;
+    public KeyCode NightVision_btn;
+    // buttons^
+
     public float walk_accel = 200;
     public float max_walk_speed = 1;
     public float walk_damping_force = 200;//no_used
@@ -36,11 +40,13 @@ public class PlayerCtrl : MonoBehaviour
     // components^
 
     bool isDoubleJump_Allow = false;
+    bool isNightvision_Allow = false;
     //
     private bool isOnFloor = false;
     private bool isSprinting = false;
     private bool isSneaking = false;
     private bool isTimeSlowed = false;
+    private bool isNightVisionActive = false;
     private bool isWalkingBanned = false;
     private bool isJumpButtonPressed = false;
     private bool isJumpButtonPressed_last = false;
@@ -54,7 +60,7 @@ public class PlayerCtrl : MonoBehaviour
     //
     private float stamina;
     public float health;
-    private float coins;
+    public float coins;
     // variables^
 
     Ray ray;
@@ -80,14 +86,14 @@ public class PlayerCtrl : MonoBehaviour
         if      (isMoveLeft ) transform.eulerAngles = v3_left_rotation;
         else if (isMoveRight) transform.eulerAngles = v3_right_rotation;
         if (isWalkingBanned == false) Walk(walk_accel * Math.Abs(MoveControl_HorizontalAxis));//front of model must be looking world-right
-        //walk ability^
+        // walk ability^
 
         isJumpButtonPressed = Input.GetAxis("Jump") > 0;
         bool isJustPressed = isJumpButtonPressed && isJumpButtonPressed_last == false;
         isJumpButtonPressed_last = isJumpButtonPressed;
         if (isJumpButtonPressed && isOnFloor) { Jump(jump_force); consumed_jetpack_jumps = 0; }
         else if (isDoubleJump_Allow == true && isJustPressed && consumed_jetpack_jumps < jetpack_jumps) { Jump(jump_force * 1.2f); ++consumed_jetpack_jumps; }
-        //jump ability^
+        // jump ability^
 
         bool isSprintButtonPressed = Input.GetKey(KeyCode.LeftShift);
         bool isStaminaEnough = stamina >= sprint_req_stamina_level_for_activation;
@@ -106,19 +112,26 @@ public class PlayerCtrl : MonoBehaviour
             isSprinting = false;
             //restore state after sprint ability using^
         }
-        //sprint ability^
+        // sprint ability^
 
         isDownButtonPressed = Input.GetAxis("Vertical") < 0;
         if (isDownButtonPressed && isOnFloor && isSneaking == false) { collider.height /= 2; isSneaking = true; }
         else if (isSneaking && isDownButtonPressed == false) { collider.height *= 2; isSneaking = false; }
-        //sneaking ability^
+        // sneaking ability^
 
-        bool isTimeSlowButtonPressed = Input.GetKey(KeyCode.F);
+        bool isTimeSlowButtonPressed = Input.GetKey(TimeSlowing_btn);
         if (isTimeSlowButtonPressed && isTimeSlowed == false)
         { Time.timeScale /= 2; isTimeSlowed = true; }
         else if (isTimeSlowed) 
         { Time.timeScale *= 2; isTimeSlowed = false; }
         // time slowing ability^
+
+        if (Input.GetKey(NightVision_btn) && isNightvision_Allow)
+        {
+            isNightVisionActive = !isNightVisionActive;
+            Camera.main.gameObject.GetComponent<CameraController>().NightVisionEffectActiveStateChange();
+        }
+        // night vision ability^
 
         if (Input.GetAxis("Submit") > 0)
         {
@@ -156,7 +169,7 @@ public class PlayerCtrl : MonoBehaviour
             current_force = (current_force > max_boucer_jump_force) ? max_boucer_jump_force : current_force;
             if (current_force != 0) Jump(current_force);
             isOnFloor = false;
-            GameObject.Find("Camera").GetComponent<CameraController>().Zoom(30f + (current_force / max_boucer_jump_force) * 60f);
+            Camera.main.gameObject.GetComponent<CameraController>().Zoom(30f + (current_force / max_boucer_jump_force) * 60f);
         }
         else if (isOnFloor) current_force = 0;
         //bouncer feature^
@@ -183,6 +196,7 @@ public class PlayerCtrl : MonoBehaviour
             health = stamina = (health > health_max) ? health_max : health + health_restore_count;
             trigger.gameObject.SetActive(false);
         }
+        //medkit feature^
 
         if (trigger.gameObject.tag == "coin")
         {
@@ -190,17 +204,20 @@ public class PlayerCtrl : MonoBehaviour
             if (coins % 100 == 0) additional_lives += 1;
             trigger.gameObject.SetActive(false);
         }
+        //coin feature^
 
         if (trigger.gameObject.tag == "note")
         {
             trigger.gameObject.GetComponent<NoteSpecification>().AddInJournal();
             trigger.gameObject.SetActive(false);
         }
+        //note feature^
 
         if (trigger.gameObject.tag == "mine")
         {
             trigger.gameObject.GetComponent<Mine>().Activate();
         }
+        //mine feature^
 
         if (trigger.gameObject.tag == "bullet")
         {
@@ -208,6 +225,7 @@ public class PlayerCtrl : MonoBehaviour
             trigger.gameObject.SetActive(false);
             if (health <= 1) { Death(); return; }
         }
+        //bullet feature^
 
         if (trigger.gameObject.tag == "drag_object")
         {
@@ -218,6 +236,7 @@ public class PlayerCtrl : MonoBehaviour
             isWalkingBanned = true;
             isOnFloor = false;
         }
+        //zipline/crane feature^
 
         if (trigger.gameObject.tag == "ladder")
         {
@@ -236,7 +255,14 @@ public class PlayerCtrl : MonoBehaviour
             isDoubleJump_Allow = true;
             trigger.gameObject.SetActive(false);
         }
-        //ladder feature^
+        //jetpack feature^
+
+        if (trigger.gameObject.tag == "upgrade_nightvision")
+        {
+            isNightvision_Allow = true;
+            trigger.gameObject.SetActive(false);
+        }
+        //nightvision feature^
     }
     private void OnTriggerExit(Collider trigger)
     {
