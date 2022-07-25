@@ -130,7 +130,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         ray.direction = Vector3.down;
         ray.origin = gameObject.transform.position;
-        if (Physics.Raycast(ray, ray_lenght) && isOnFloor == false) { isOnFloor = true; GameObject.Find("Camera").GetComponent<CameraController>().Shake(0.15f, 0.1f, 0.1f); }
+        if (Physics.Raycast(ray, ray_lenght) && isOnFloor == false) { isOnFloor = true; Camera.main.gameObject.GetComponent<CameraController>().Shake(0.15f, 0.1f, 0.1f); }
 
         if (collision.collider.gameObject.tag == "bouncer")
         {
