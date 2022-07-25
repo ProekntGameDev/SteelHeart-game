@@ -62,4 +62,18 @@ public class CameraController : MonoBehaviour
         float FoV_diversity = target_FoV - camera_component.fieldOfView;
         if (FoV_diversity != 0) camera_component.fieldOfView += FoV_diversity * zoom_speed * Time.deltaTime;
     }
+
+    public void NightVisionEffectActiveStateChange() 
+    {
+        ObjectActiveChange("GreenFilter");
+        ObjectActiveChange("Spotlight");
+
+        void ObjectActiveChange(string name)
+        {
+            UnityEngine.GameObject[] objects = Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
+            for (int i = 0; i < objects.Length; ++i) 
+            if (objects[i].name == name) 
+            { objects[i].SetActive(!objects[i].activeSelf); break; }
+        }
+    }
 }
