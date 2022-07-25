@@ -169,7 +169,7 @@ public class PlayerCtrl : MonoBehaviour
             current_force = (current_force > max_boucer_jump_force) ? max_boucer_jump_force : current_force;
             if (current_force != 0) Jump(current_force);
             isOnFloor = false;
-            GameObject.Find("Camera").GetComponent<CameraController>().Zoom(30f + (current_force / max_boucer_jump_force) * 60f);
+            Camera.main.gameObject.GetComponent<CameraController>().Zoom(30f + (current_force / max_boucer_jump_force) * 60f);
         }
         else if (isOnFloor) current_force = 0;
         //bouncer feature^
