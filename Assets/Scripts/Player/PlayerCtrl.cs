@@ -29,7 +29,8 @@ public class PlayerCtrl : MonoBehaviour
     public float stamina_max;//point count
     public float stamina_restore_speed;//point per second
     public float health_max;//in points
-    public float ray_lenght = 1;
+    public float ray_lenght_default = 1;
+    private float ray_lenght = 1;
     public int additional_lives = 1;
     public int jetpack_jumps;
     public int consumed_jetpack_jumps;
@@ -157,21 +158,21 @@ public class PlayerCtrl : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        ray.direction = Vector3.down;
-        ray.origin = gameObject.transform.position;
-        if (Physics.Raycast(ray, ray_lenght) && isOnFloor == false) { isOnFloor = true; Camera.main.gameObject.GetComponent<CameraController>().Shake(0.15f, 0.1f, 0.1f); }
+        RaycastHit raycast_result;
+        bool isHit = Physics.Raycast(gameObject.transform.position, Vector3.down, out raycast_result, ray_lenght);
+        if (isHit && isOnFloor == false) { isOnFloor = true; Camera.main.gameObject.GetComponent<CameraController>().Shake(0.15f, 0.1f, 0.1f); }
 
-        if (collision.collider.gameObject.tag == "bouncer")
+        if (collision.collider.gameObject.tag == "bouncer" && isHit && raycast_result.collider.gameObject.tag == "bouncer")
         {
             float max_boucer_jump_force = collision.collider.gameObject.GetComponent<BouncerSpecification>().max_boucer_jump_force;
+            ray_lenght = ray_lenght_default*1.1f + ray_lenght_default * (current_force / max_boucer_jump_force);
             if (isJumpButtonPressed) current_force = current_force + bouncer_accel;
             else current_force = (current_force > bouncer_loss) ? current_force - bouncer_loss : 0;
             current_force = (current_force > max_boucer_jump_force) ? max_boucer_jump_force : current_force;
-            if (current_force != 0) Jump(current_force);
-            isOnFloor = false;
+            if (current_force != 0) { Jump(current_force); isOnFloor = false; }
             Camera.main.gameObject.GetComponent<CameraController>().Zoom(30f + (current_force / max_boucer_jump_force) * 60f);
         }
-        else if (isOnFloor) current_force = 0;
+        else if (isOnFloor) { current_force = 0; ray_lenght = ray_lenght_default; }
         //bouncer feature^
 
         if (collision.collider.gameObject.tag == "climbing_wall")
