@@ -67,9 +67,6 @@ public class PlayerCtrl : MonoBehaviour
     public float coins;
     // variables^
 
-    Ray ray;
-    //supply variables^
-
     private void Awake()
     {
         physics_component = gameObject.GetComponent<Rigidbody>();
@@ -79,6 +76,8 @@ public class PlayerCtrl : MonoBehaviour
 
         health = health_max;
         stamina = stamina_max;
+
+        checkpoint = gameObject.transform.position;
     }
 
     private void FixedUpdate()
