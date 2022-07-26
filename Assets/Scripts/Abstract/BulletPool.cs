@@ -9,7 +9,7 @@ public class BulletPool : MonoBehaviour
     BulletSpecification[] bullet_spec;
     [SerializeField]GameObject bullet_prefab;
     int pointer;
-    private void Fill()
+    private void Start()
     {
         pool = new GameObject[pool_lenght];
         bullet_spec = new BulletSpecification[pool_lenght];
@@ -19,9 +19,25 @@ public class BulletPool : MonoBehaviour
             bullet_spec[i] = pool[i].GetComponent<BulletSpecification>();
         }
     }
-    public void UseBullet(int damage, float lifetime, Vector3 velocity, Vector3 spawn_position) 
+    private void Update()
     {
-        if (pool == null) Fill();
-        for (int i = 0; i < bullet_spec.Length; ++i) { if (pool[i].activeSelf == false) { bullet_spec[i].Activate(damage, lifetime, velocity, spawn_position); return; } }
+        for (int i = 0; i < pool.Length; ++i)
+        {
+            if (bullet_spec[i].lifetime < 0) pool[i].SetActive(false);
+            else bullet_spec[i].lifetime -= Time.deltaTime;
+        }
+    }
+    public void UseBullet(int damage, float lifetime, Vector3 velocity, Vector3 spawn_position)
+    {
+        for (int i = 0; i < bullet_spec.Length; ++i) 
+            if (pool[i].activeSelf == false)
+            {
+                bullet_spec[i].damage = damage;
+                bullet_spec[i].lifetime = lifetime;
+                pool[i].GetComponent<Rigidbody>().velocity = velocity;
+                pool[i].transform.position = spawn_position;
+                pool[i].SetActive(true);
+                break;
+            }
     }
 }

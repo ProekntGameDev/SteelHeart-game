@@ -6,7 +6,7 @@ WARNING!!! ALARM!!!
 front of model must be looking world-right!
 WARNING!!! ALARM!!!
 */
-public class PlayerCtrl : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private Vector3 v3_left_rotation = new Vector3(0, 180, 0);
     private Vector3 v3_right_rotation = new Vector3(0, 0, 0);//front of model must be looking world-right
