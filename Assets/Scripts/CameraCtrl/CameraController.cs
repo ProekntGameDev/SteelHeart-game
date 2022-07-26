@@ -7,10 +7,11 @@ using Random = UnityEngine.Random;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target_transform;
     public Vector3 offset;
     private Camera camera_component;
     private float defaultFoV;
+    //
+    private Transform target_transform;
     //
     private float shake_duration;
     private float last_x_magnitude = 0;
@@ -21,6 +22,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 144;
+        target_transform = GameObject.Find("Player").transform;
     }
     private void Awake()
     {
