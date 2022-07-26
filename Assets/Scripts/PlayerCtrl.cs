@@ -185,6 +185,7 @@ public class PlayerCtrl : MonoBehaviour
         {
             if (isJumpButtonPressed) Climb(climb_speed);
             isOnFloor = false;
+            ray_lenght = 0;
         }
         //climbing_wall feature^
 
@@ -193,6 +194,10 @@ public class PlayerCtrl : MonoBehaviour
             collision.collider.gameObject.GetComponent<FragilePlatform>().Tick(Time.deltaTime);
         }
         //breaking fragiles feature^
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.gameObject.tag == "climbing_wall") ray_lenght = ray_lenght_default;
     }
 
     private void OnTriggerStay(Collider trigger)
