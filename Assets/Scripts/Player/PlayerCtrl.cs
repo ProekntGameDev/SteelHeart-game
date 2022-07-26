@@ -254,7 +254,9 @@ public class PlayerCtrl : MonoBehaviour
             physics_component.useGravity = false;
             physics_component.velocity -= physics_component.velocity.y * Vector3.up;
             isOnFloor = false;
+            ray_lenght = 0;
         }
+        else { ray_lenght = ray_lenght_default; }
         //ladder feature^
 
         if (trigger.gameObject.tag == "upgrade_jetpack")
