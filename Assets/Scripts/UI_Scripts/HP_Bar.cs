@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class HP_Bar : MonoBehaviour
 {
     public Image image;
-    PlayerCtrl player_ctrl;
+    PlayerController player_ctrl;
     private  Gradient _gradient;
      
     private void Start()
     {
         image = gameObject.GetComponent<UnityEngine.UI.Image>();
-        player_ctrl = FindObjectOfType<PlayerCtrl>();
+        player_ctrl = FindObjectOfType<PlayerController>();
     }
     void Update()
     {

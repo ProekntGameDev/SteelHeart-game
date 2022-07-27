@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class CoinDisplay : MonoBehaviour
 {
     Text text;
-    PlayerCtrl player_ctrl;
+    PlayerController player_ctrl;
     private void Start()
     {
         text = gameObject.GetComponent<UnityEngine.UI.Text>();
-        player_ctrl = FindObjectOfType<PlayerCtrl>();
+        player_ctrl = FindObjectOfType<PlayerController>();
     }
     void Update()
     {

@@ -7,11 +7,11 @@ public class Mine : MonoBehaviour
     public float time;
     public float boom_range;
     bool isActivated = false;
-    PlayerCtrl player_ctrl;
+    PlayerController player_ctrl;
     public void Activate()
     {
         isActivated = true;
-        player_ctrl = FindObjectOfType<PlayerCtrl>();
+        player_ctrl = FindObjectOfType<PlayerController>();
     }
     void Update()
     {

@@ -8,7 +8,7 @@ public class Explosive : MonoBehaviour
     public float boom_range;
 
     private SphereCollider collider;
-    public List<Enemy> enemy_storage = new List<Enemy>();
+    public List<EnemyController> enemy_storage = new List<EnemyController>();
 
     private void Start()
     {
@@ -19,20 +19,20 @@ public class Explosive : MonoBehaviour
     {
         if (collision.gameObject.tag == "bullet") 
         {
-            bool inRange = Vector3.Distance(FindObjectOfType<PlayerCtrl>().gameObject.transform.position, gameObject.transform.position) < boom_range;
-            if (inRange) FindObjectOfType<PlayerCtrl>().health -= damage;
+            bool inRange = Vector3.Distance(FindObjectOfType<PlayerController>().gameObject.transform.position, gameObject.transform.position) < boom_range;
+            if (inRange) FindObjectOfType<PlayerController>().health -= damage;
 
-            foreach (Enemy enemy in enemy_storage) enemy.health -= damage;
+            foreach (EnemyController enemy in enemy_storage) enemy.health -= damage;
 
             gameObject.SetActive(false);
         }
     }
 
-    public void DamageSubscribe(Enemy sender)
+    public void DamageSubscribe(EnemyController sender)
     {
         enemy_storage.Add(sender);
     }
-    public void CancelDamageSubscription(Enemy sender)
+    public void CancelDamageSubscription(EnemyController sender)
     {
         if (enemy_storage.Contains(sender))
             enemy_storage.Remove(sender);
