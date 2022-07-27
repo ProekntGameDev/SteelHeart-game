@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
             if (current_force != 0) { Jump(current_force); isOnFloor = false; }
             Camera.main.gameObject.GetComponent<CameraController>().Zoom(30f + (current_force / max_boucer_jump_force) * 60f);
         }
-        else if (isOnFloor) { current_force = 0; ray_lenght = ray_lenght_default; }
+        else if (isOnFloor) { current_force = 0; ray_lenght = ray_lenght_default; Camera.main.gameObject.GetComponent<CameraController>().Zoom(30f); }
         //bouncer feature^
 
         if (collision.collider.gameObject.tag == "climbing_wall")
@@ -261,7 +261,6 @@ public class PlayerController : MonoBehaviour
             isOnFloor = false;
             ray_lenght = 0;
         }
-        else { ray_lenght = ray_lenght_default; }
         //ladder feature^
 
         if (trigger.gameObject.tag == "upgrade_jetpack")
@@ -281,7 +280,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerExit(Collider trigger)
     {
-        if (trigger.gameObject.tag == "ladder") physics_component.useGravity = true;
+        if (trigger.gameObject.tag == "ladder") { physics_component.useGravity = true; ray_lenght = ray_lenght_default; }
         //restore state after ladder feature using^
         if (trigger.gameObject.tag == "drag_object") { physics_component.useGravity = true; isWalkingBanned = false; }
         //restore state after crane feature using^
