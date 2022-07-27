@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public float health_max;//in points
     public float ray_lenght_default = 1;
     private float ray_lenght = 1;
+    public int shooting_damage = 5;
     public int additional_lives = 1;
     public int jetpack_jumps;
     public int consumed_jetpack_jumps;
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool isSneaking = false;
     private bool isTimeSlowed = false;
     private bool isBlocking = false;
+    private bool isShooting = false;
     private bool isNightVisionActive = false;
     private bool isWalkingBanned = false;
     private bool isJumpButtonPressed = false;
@@ -67,6 +69,9 @@ public class PlayerController : MonoBehaviour
     public float coins;
     // variables^
 
+    BulletPool bullet_pool;
+    //temporary fields^
+
     private void Awake()
     {
         physics_component = gameObject.GetComponent<Rigidbody>();
@@ -78,6 +83,8 @@ public class PlayerController : MonoBehaviour
         stamina = stamina_max;
 
         checkpoint = gameObject.transform.position;
+
+        bullet_pool = new BulletPool(100);
     }
 
     private void FixedUpdate()
@@ -86,9 +93,18 @@ public class PlayerController : MonoBehaviour
         bool isMoveLeft = MoveControl_HorizontalAxis < 0;
         bool isMoveRight= MoveControl_HorizontalAxis > 0;
         //
-        if      (isMoveLeft ) transform.eulerAngles = v3_left_rotation;
-        else if (isMoveRight) transform.eulerAngles = v3_right_rotation;
-        if (isWalkingBanned == false) Walk(walk_accel * Math.Abs(MoveControl_HorizontalAxis));//front of model must be looking world-right
+        Vector3 cursor_delta = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        if (isShooting)
+        {
+                 if (cursor_delta.x < 0) transform.eulerAngles = v3_left_rotation;
+            else if (cursor_delta.x > 0) transform.eulerAngles = v3_right_rotation;
+        }
+        else
+        {
+                 if (isMoveLeft)  transform.eulerAngles = v3_left_rotation;
+            else if (isMoveRight) transform.eulerAngles = v3_right_rotation;
+        }
+        if (isWalkingBanned == false) Walk(walk_accel * MoveControl_HorizontalAxis);//front of model must be looking world-right
         // walk ability^
 
         isJumpButtonPressed = Input.GetAxis("Jump") > 0;
@@ -136,7 +152,22 @@ public class PlayerController : MonoBehaviour
         }
         // night vision ability^
 
-        if (Input.GetMouseButton(1)) { isBlocking = stamina > block_req_stamina_level_for_activation; }
+        bullet_pool.Tick();
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 bullet_spawnpoint = gameObject.transform.position + Vector3.right*Math.Sign(cursor_delta.x);
+            Vector3 wp = Camera.main.WorldToScreenPoint(bullet_spawnpoint);
+            bullet_pool.UseBullet(shooting_damage, 1, Vector3.Normalize(Input.mousePosition - wp) * 6, bullet_spawnpoint);
+            isShooting = true;
+        }
+        else isShooting = false;
+        // shoot ability^
+
+        if (Input.GetMouseButton(1))
+        {
+            isBlocking = stamina > block_req_stamina_level_for_activation;
+            stamina -= block_stamina_spend * Time.deltaTime;
+        }
         else isBlocking = false;
         // block ability^
 
@@ -288,7 +319,7 @@ public class PlayerController : MonoBehaviour
 
     private void Walk(float speed)
     {
-        physics_component.AddForce(gameObject.transform.right * speed, ForceMode.Acceleration);
+        physics_component.AddForce(Vector3.right * speed, ForceMode.Acceleration);
         float direction = (physics_component.velocity.x >= 0) ? 1 :-1;
         if (Math.Abs(physics_component.velocity.x) > max_walk_speed) physics_component.velocity = physics_component.velocity + Vector3.right * (max_walk_speed*direction - physics_component.velocity.x);
     }

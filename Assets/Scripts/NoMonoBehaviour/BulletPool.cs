@@ -2,24 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletPool : MonoBehaviour
+public class BulletPool
 {
-    [SerializeField]int pool_lenght;
+    int pool_lenght;
     GameObject[] pool;
     BulletSpecification[] bullet_spec;
-    [SerializeField]GameObject bullet_prefab;
-    int pointer;
-    private void Start()
+    GameObject bullet_prefab;
+    public BulletPool(int pool_lenght) 
+    {
+        this.pool_lenght = pool_lenght;
+        bullet_prefab = Resources.Load<GameObject>("Prefabs/_DO_NOT_USE_MANUALLY/Bullet");
+        Init();
+    }
+    private void Init()
     {
         pool = new GameObject[pool_lenght];
         bullet_spec = new BulletSpecification[pool_lenght];
         for (int i = 0; i < pool.Length; ++i)
         {
-            pool[i] = Instantiate(bullet_prefab, Vector3.zero, Quaternion.identity);
+            pool[i] = MonoBehaviour.Instantiate(bullet_prefab, Vector3.zero, Quaternion.identity);
             bullet_spec[i] = pool[i].GetComponent<BulletSpecification>();
         }
     }
-    private void Update()
+    public void Tick()
     {
         for (int i = 0; i < pool.Length; ++i)
         {
