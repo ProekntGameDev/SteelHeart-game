@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2292750725959530178}
   - component: {fileID: 2292750725959530179}
   - component: {fileID: 686338912204487381}
-  - component: {fileID: 2292750725959530183}
   - component: {fileID: 2292750725959530182}
   m_Layer: 0
   m_Name: Enemy
@@ -113,20 +112,6 @@ MonoBehaviour:
   type: 0
   isElite: 0
   health: 0
---- !u!114 &2292750725959530183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2292750725959530189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1db253e56876cd04abae55db7e3036a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pool_lenght: 10
-  bullet_prefab: {fileID: 533768593416110341, guid: dd85b5ce09b0d294097c814009a58c93, type: 3}
 --- !u!54 &2292750725959530182
 Rigidbody:
   m_ObjectHideFlags: 0
