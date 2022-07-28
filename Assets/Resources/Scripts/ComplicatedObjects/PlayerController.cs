@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public float jump_force = 200;
     public float climb_speed = 1;
     //
+    public float hook_mounting_distance_correction_speed = 0.2f;
+    public float hook_mounting_target_distance = 4f;
     public float block_req_stamina_level_for_activation;
     public float block_stamina_spend;
     public float sprint_walk_speed_scale;
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool isOnFloor = false;
     private bool isSprinting = false;
     private bool isSneaking = false;
+    private bool isMounting = false;
     private bool isTimeSlowed = false;
     private bool isBlocking = false;
     private bool isShooting = false;
@@ -69,8 +72,16 @@ public class PlayerController : MonoBehaviour
     public float coins;
     // variables^
 
-    BulletPool bullet_pool;
+    Vector2 mount_point_delta;
+    Vector2 hitted_object_position;
+    float last_deltatime = 0;
+    float delta_x = 0;
+    float delta_y = 0;
+    double rad_speed = 0;
+    float starting_distance = 0;
     //temporary fields^
+
+    BulletPool bullet_pool;
 
     private void Awake()
     {
@@ -89,22 +100,27 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
         float MoveControl_HorizontalAxis = Input.GetAxis("Horizontal");
         bool isMoveLeft = MoveControl_HorizontalAxis < 0;
-        bool isMoveRight= MoveControl_HorizontalAxis > 0;
+        bool isMoveRight = MoveControl_HorizontalAxis > 0;
         //
         Vector3 cursor_delta = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
         if (isShooting)
         {
-                 if (cursor_delta.x < 0) transform.eulerAngles = v3_left_rotation;
+            if (cursor_delta.x < 0) transform.eulerAngles = v3_left_rotation;
             else if (cursor_delta.x > 0) transform.eulerAngles = v3_right_rotation;
         }
         else
         {
-                 if (isMoveLeft)  transform.eulerAngles = v3_left_rotation;
+            if (isMoveLeft) transform.eulerAngles = v3_left_rotation;
             else if (isMoveRight) transform.eulerAngles = v3_right_rotation;
         }
-        if (isWalkingBanned == false) Walk(walk_accel * MoveControl_HorizontalAxis);//front of model must be looking world-right
+        // model rotation^
+
+        if (isWalkingBanned == false && isOnFloor) Walk(walk_accel * MoveControl_HorizontalAxis);//front of model must be looking world-right
         // walk ability^
 
         isJumpButtonPressed = Input.GetAxis("Jump") > 0;
@@ -141,7 +157,7 @@ public class PlayerController : MonoBehaviour
         bool isTimeSlowButtonPressed = Input.GetKey(TimeSlowing_btn);
         if (isTimeSlowButtonPressed && isTimeSlowed == false)
         { Time.timeScale /= 2; isTimeSlowed = true; }
-        else if (isTimeSlowed) 
+        else if (isTimeSlowed)
         { Time.timeScale *= 2; isTimeSlowed = false; }
         // time slowing ability^
 
@@ -152,10 +168,60 @@ public class PlayerController : MonoBehaviour
         }
         // night vision ability^
 
-        bullet_pool.Tick();
-        if (Input.GetMouseButton(0))
+        bool isHookMountingPointHit = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "hook_mount_point";
+        if (Input.GetMouseButton(0) && ((isHookMountingPointHit && isOnFloor == false) || isMounting))
         {
-            Vector3 bullet_spawnpoint = gameObject.transform.position + Vector3.right*Math.Sign(cursor_delta.x);
+            double rad;
+            delta_x = 0;
+            delta_y = 0;
+            if (isMounting == false)
+            {
+                rad_speed = 0;
+                physics_component.velocity = Vector3.zero;
+                hitted_object_position = hit.collider.gameObject.transform.position;
+                mount_point_delta = (Vector2)gameObject.transform.position - hitted_object_position;
+                rad = Math.Atan2(mount_point_delta.y, mount_point_delta.x);
+                //rad_speed = physics_component.velocity.x * Math.Abs(Math.Sin(rad)) + physics_component.velocity.y * Math.Abs(Math.Cos(rad));
+            }
+            // feature required state set^
+
+            mount_point_delta = (Vector2)gameObject.transform.position - hitted_object_position;
+            //
+            float current_distance = Vector2.Distance(Vector2.zero, mount_point_delta);
+            float distance_shift = current_distance - hook_mounting_target_distance;
+            Debug.Log(distance_shift);
+            if (Math.Abs(distance_shift) > 0.01f)
+            {
+                delta_x -= mount_point_delta.x*Math.Sign(distance_shift) * hook_mounting_distance_correction_speed * Time.deltaTime;
+                delta_y -= mount_point_delta.y*Math.Sign(distance_shift) * hook_mounting_distance_correction_speed * Time.deltaTime;
+            }
+            // distance correction^
+
+            rad = Math.Atan2(mount_point_delta.y, mount_point_delta.x);
+            rad_speed *= 0.99f;//soprotivlenie vozduha
+            rad_speed += 0.04f*MoveControl_HorizontalAxis + -0.27f*Math.Cos(rad); ;
+            double cos = Math.Cos(rad_speed*Time.deltaTime);
+            double sin = Math.Sin(rad_speed*Time.deltaTime);
+            delta_x += (float)(mount_point_delta.x * cos - mount_point_delta.y * sin) - mount_point_delta.x;
+            delta_y += (float)(mount_point_delta.x * sin + mount_point_delta.y * cos) - mount_point_delta.y;
+            gameObject.transform.position += Vector3.right * delta_x + Vector3.up * delta_y;
+            // physics and user input control^
+
+            physics_component.Sleep();
+            last_deltatime = Time.deltaTime;
+            isMounting = true; isWalkingBanned = true; physics_component.useGravity = false;//change state
+        }// hook feature using^
+        else if (isMounting)
+        {
+            physics_component.velocity = new Vector3(delta_x/last_deltatime, delta_y/last_deltatime);
+            isMounting = false; isWalkingBanned = false; physics_component.useGravity = true;//restore state
+        }// restore state after hook feature using^
+        // grapling hook ability^
+
+        bullet_pool.Tick();
+        if (Input.GetMouseButton(0) && isMounting == false)
+        {
+            Vector3 bullet_spawnpoint = gameObject.transform.position + Vector3.right * Math.Sign(cursor_delta.x);
             Vector3 wp = Camera.main.WorldToScreenPoint(bullet_spawnpoint);
             bullet_pool.UseBullet(shooting_damage, 1, Vector3.Normalize(Input.mousePosition - wp) * 6, bullet_spawnpoint);
             isShooting = true;
@@ -171,18 +237,12 @@ public class PlayerController : MonoBehaviour
         else isBlocking = false;
         // block ability^
 
-        if (Input.GetAxis("Submit") > 0)
+        if (Input.GetAxis("Submit") > 0 && Physics.Raycast(ray, out hit))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit);
-            if (hit.collider != null)
-            {
-                if (hit.collider.gameObject.tag == "checkpoint")
-                    checkpoint = hit.collider.gameObject.transform.position - Vector3.forward * hit.collider.gameObject.transform.position.z;
-                if (hit.collider.gameObject.tag == "restoration_point")
-                    health = health_max;
-            }
+            if (hit.collider.gameObject.tag == "checkpoint")
+                checkpoint = hit.collider.gameObject.transform.position - Vector3.forward * hit.collider.gameObject.transform.position.z;
+            if (hit.collider.gameObject.tag == "restoration_point")
+                health = health_max;
         }
         // clickable object using ability^
 
@@ -321,7 +381,8 @@ public class PlayerController : MonoBehaviour
     {
         physics_component.AddForce(Vector3.right * speed, ForceMode.Acceleration);
         float direction = (physics_component.velocity.x >= 0) ? 1 :-1;
-        if (Math.Abs(physics_component.velocity.x) > max_walk_speed) physics_component.velocity = physics_component.velocity + Vector3.right * (max_walk_speed*direction - physics_component.velocity.x);
+        if (Math.Abs(physics_component.velocity.x) > max_walk_speed) 
+            physics_component.velocity = physics_component.velocity + Vector3.right * (max_walk_speed*direction - physics_component.velocity.x);
     }
     private void Jump(float force)
     {
