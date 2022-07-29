@@ -47,16 +47,19 @@ public class PlayerController : MonoBehaviour
 
     bool isDoubleJump_Allow = false;
     bool isNightvision_Allow = false;
+    bool isHookUse_Allow = false;
     //
     private bool isOnFloor = false;
     private bool isSprinting = false;
     private bool isSneaking = false;
     private bool isMounting = false;
+    private bool isClimbing = false;
     private bool isTimeSlowed = false;
     private bool isBlocking = false;
     private bool isShooting = false;
     private bool isNightVisionActive = false;
     private bool isWalkingBanned = false;
+    private bool isJumpingBanned = false;
     private bool isJumpButtonPressed = false;
     private bool isJumpButtonPressed_last = false;
     private bool isDownButtonPressed = false;
@@ -120,7 +123,7 @@ public class PlayerController : MonoBehaviour
         }
         // model rotation^
 
-        if (isWalkingBanned == false && isOnFloor) Walk(walk_accel * MoveControl_HorizontalAxis);//front of model must be looking world-right
+        if (isWalkingBanned == false && (isOnFloor || isClimbing)) Walk(walk_accel * MoveControl_HorizontalAxis);//front of model must be looking world-right
         // walk ability^
 
         isJumpButtonPressed = Input.GetAxis("Jump") > 0;
@@ -169,7 +172,7 @@ public class PlayerController : MonoBehaviour
         // night vision ability^
 
         bool isHookMountingPointHit = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "hook_mount_point";
-        if (Input.GetMouseButton(0) && ((isHookMountingPointHit && isOnFloor == false) || isMounting))
+        if (Input.GetMouseButton(0) && isHookUse_Allow && ((isHookMountingPointHit && isOnFloor == false) || isMounting))
         {
             double rad;
             delta_x = 0;
@@ -276,6 +279,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isJumpButtonPressed) Climb(climb_speed);
             isOnFloor = false;
+            isClimbing = true;
             ray_lenght = 0;
         }
         //climbing_wall feature^
@@ -288,7 +292,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.collider.gameObject.tag == "climbing_wall") ray_lenght = ray_lenght_default;
+        if (collision.collider.gameObject.tag == "climbing_wall") { ray_lenght = ray_lenght_default; isClimbing = false; }
     }
 
     private void OnTriggerStay(Collider trigger)
@@ -350,6 +354,7 @@ public class PlayerController : MonoBehaviour
             physics_component.useGravity = false;
             physics_component.velocity -= physics_component.velocity.y * Vector3.up;
             isOnFloor = false;
+            isClimbing = true;
             ray_lenght = 0;
         }
         //ladder feature^
@@ -360,18 +365,25 @@ public class PlayerController : MonoBehaviour
             isDoubleJump_Allow = true;
             trigger.gameObject.SetActive(false);
         }
-        //jetpack feature^
+        //jetpack_upgrade feature^
 
         if (trigger.gameObject.tag == "upgrade_nightvision")
         {
             isNightvision_Allow = true;
             trigger.gameObject.SetActive(false);
         }
-        //nightvision feature^
+        //nightvision_upgrade feature^
+
+        if (trigger.gameObject.tag == "upgrade_hook")
+        {
+            isHookUse_Allow = true;
+            trigger.gameObject.SetActive(false);
+        }
+        //hook_upgrade feature^
     }
     private void OnTriggerExit(Collider trigger)
     {
-        if (trigger.gameObject.tag == "ladder") { physics_component.useGravity = true; ray_lenght = ray_lenght_default; }
+        if (trigger.gameObject.tag == "ladder") { physics_component.useGravity = true; ray_lenght = ray_lenght_default; isClimbing = false; }
         //restore state after ladder feature using^
         if (trigger.gameObject.tag == "drag_object") { physics_component.useGravity = true; isWalkingBanned = false; }
         //restore state after crane feature using^
