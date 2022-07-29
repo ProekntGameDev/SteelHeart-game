@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
     bool isDoubleJump_Allow = false;
     bool isNightvision_Allow = false;
+    bool isHookUse_Allow = false;
     //
     private bool isOnFloor = false;
     private bool isSprinting = false;
@@ -169,7 +170,7 @@ public class PlayerController : MonoBehaviour
         // night vision ability^
 
         bool isHookMountingPointHit = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "hook_mount_point";
-        if (Input.GetMouseButton(0) && ((isHookMountingPointHit && isOnFloor == false) || isMounting))
+        if (Input.GetMouseButton(0) && isHookUse_Allow && ((isHookMountingPointHit && isOnFloor == false) || isMounting))
         {
             double rad;
             delta_x = 0;
@@ -360,14 +361,21 @@ public class PlayerController : MonoBehaviour
             isDoubleJump_Allow = true;
             trigger.gameObject.SetActive(false);
         }
-        //jetpack feature^
+        //jetpack_upgrade feature^
 
         if (trigger.gameObject.tag == "upgrade_nightvision")
         {
             isNightvision_Allow = true;
             trigger.gameObject.SetActive(false);
         }
-        //nightvision feature^
+        //nightvision_upgrade feature^
+
+        if (trigger.gameObject.tag == "upgrade_hook")
+        {
+            isHookUse_Allow = true;
+            trigger.gameObject.SetActive(false);
+        }
+        //hook_upgrade feature^
     }
     private void OnTriggerExit(Collider trigger)
     {
