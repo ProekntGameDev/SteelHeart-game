@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false;
     private bool isSneaking = false;
     private bool isMounting = false;
+    private bool isBouncing = false;
     private bool isClimbing = false;
     private bool isTimeSlowed = false;
     private bool isBlocking = false;
@@ -123,7 +124,7 @@ public class PlayerController : MonoBehaviour
         }
         // model rotation^
 
-        if (isWalkingBanned == false && (isOnFloor || isClimbing)) Walk(walk_accel * MoveControl_HorizontalAxis);//front of model must be looking world-right
+        if (isWalkingBanned == false && (isOnFloor || isClimbing || isBouncing)) Walk(walk_accel * MoveControl_HorizontalAxis);//front of model must be looking world-right
         // walk ability^
 
         isJumpButtonPressed = Input.GetAxis("Jump") > 0;
@@ -271,8 +272,9 @@ public class PlayerController : MonoBehaviour
             current_force = (current_force > max_boucer_jump_force) ? max_boucer_jump_force : current_force;
             if (current_force != 0) { Jump(current_force); isOnFloor = false; }
             Camera.main.gameObject.GetComponent<CameraController>().Zoom(30f + (current_force / max_boucer_jump_force) * 60f);
+            isBouncing = true;
         }
-        else if (isOnFloor) { current_force = 0; ray_lenght = ray_lenght_default; Camera.main.gameObject.GetComponent<CameraController>().Zoom(30f); }
+        else if (isOnFloor) { current_force = 0; ray_lenght = ray_lenght_default; Camera.main.gameObject.GetComponent<CameraController>().Zoom(30f); isBouncing = false; }
         //bouncer feature^
 
         if (collision.collider.gameObject.tag == "climbing_wall")
