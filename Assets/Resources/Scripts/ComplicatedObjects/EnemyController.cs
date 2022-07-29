@@ -21,7 +21,6 @@ public class EnemyController : MonoBehaviour
     private bool isSprinting = false;
     private bool isPlayerDetected = false;
     // object state^
-
     public float health;
     int damage;
     float attack_cooldown;
@@ -69,7 +68,7 @@ public class EnemyController : MonoBehaviour
                  sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 9; shooting_cooldown = 1f; physics_component.useGravity = true; reachtarget_waiting = 4f;
                 break; 
             case EnemyTypes.HelicopterDrone: 
-                health = 25; damage = 25; range_of_view = 16; speed = 2; accel = 5; move = Fly; fly_height = 4f; patrol_distance = 9; physics_component.useGravity = false;
+                health = 25; damage = 25; range_of_view = 12; speed = 2; accel = 5; move = Fly; fly_height = 4f; patrol_distance = 9; physics_component.useGravity = false;
                 sprint_speed_scale = 2f; sprint_accel_scale = 2f; shooting_distance = 14; shooting_cooldown = 0.3f; reachtarget_waiting = 10f; shooting_offset = Vector3.up * 0.6f;
                 break;
             default: 

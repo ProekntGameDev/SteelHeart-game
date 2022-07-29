@@ -9,16 +9,14 @@ using UnityEngine.UI;
 
 namespace SteelHeart
 {
-
-
-    public class NarrativeCtrl : MonoBehaviour
+    public class NarrativeCtrl
     {
         public string noteTextstr;
         public GameObject notice;
         public GameObject noteUI;
         public Text text;
 
-        private void OnTriggerStay(Collider other)
+        private void Method1()
         {
             text.text = noteTextstr;
             if (Input.GetKey(KeyCode.E))
@@ -34,12 +32,10 @@ namespace SteelHeart
             notice.SetActive(true);
         }
 
-        private void OnTriggerExit(Collider other)
+        private void Method2()
         {
             notice.SetActive(false);
             noteUI.SetActive(false);
         }
     }
-
-
 }
