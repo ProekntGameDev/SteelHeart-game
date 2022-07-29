@@ -33,8 +33,6 @@ public class PlayerController : MonoBehaviour
     public float stamina_max;//point count
     public float stamina_restore_speed;//point per second
     public float health_max;//in points
-    public float ray_lenght_default = 1;
-    private float ray_lenght = 1;
     public int shooting_damage = 5;
     public int additional_lives = 1;
     public int jetpack_jumps;
@@ -45,10 +43,14 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider collider;
     // components^
 
+    private bool isJumpButtonPressed = false;
+    private bool isJumpButtonPressed_last = false;
+    private bool isDownButtonPressed = false;
+    //input^
     bool isDoubleJump_Allow = false;
     bool isNightvision_Allow = false;
     bool isHookUse_Allow = false;
-    //
+    //upgrades^
     private bool isOnFloor = false;
     private bool isSprinting = false;
     private bool isSneaking = false;
@@ -60,16 +62,16 @@ public class PlayerController : MonoBehaviour
     private bool isShooting = false;
     private bool isNightVisionActive = false;
     private bool isWalkingBanned = false;
-    private bool isJumpingBanned = false;
-    private bool isJumpButtonPressed = false;
-    private bool isJumpButtonPressed_last = false;
-    private bool isDownButtonPressed = false;
     [SerializeField] private Vector3 checkpoint;
     // object state^
 
     private float current_force = 0;
     private float bouncer_loss = 1;
     private float bouncer_accel = 1;
+    //
+    private float ray_lenght_default = 1;
+    private float ray_lenght = 1;
+    private float standing_base_lenght = 0.5f;
     //
     private float stamina;
     public float health;
@@ -261,6 +263,8 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit raycast_result;
         bool isHit = Physics.Raycast(gameObject.transform.position, Vector3.down, out raycast_result, ray_lenght);
+        if (isHit == false) isHit = Physics.Raycast(gameObject.transform.position + Vector3.right*standing_base_lenght, Vector3.down, out raycast_result, ray_lenght);
+        if (isHit == false) isHit = Physics.Raycast(gameObject.transform.position - Vector3.right*standing_base_lenght, Vector3.down, out raycast_result, ray_lenght);
         if (isHit && isOnFloor == false) { isOnFloor = true; Camera.main.gameObject.GetComponent<CameraController>().Shake(0.15f, 0.1f, 0.1f); }
 
         if (collision.collider.gameObject.tag == "bouncer" && isHit && raycast_result.collider.gameObject.tag == "bouncer")
