@@ -1,26 +1,45 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Mine : MonoBehaviour
+public class Mine : MonoBehaviour, IInteractableMonoBehaviour
 {
-    public float time;
-    public float boom_range;
-    bool isActivated = false;
-    PlayerController player_ctrl;
-    public void Activate()
+    public float timeBeforeExplosion = 2;
+    public float explosionRadius = 6;
+    public float damage = 100;
+
+    public void Interact(Transform obj)
     {
-        isActivated = true;
-        player_ctrl = FindObjectOfType<PlayerController>();
+        StartCoroutine(Activate());
     }
-    void Update()
+
+    private IEnumerator Activate()
     {
-        if (isActivated == false) return;
-        if (time < 0)
+        while(timeBeforeExplosion > 0)
         {
-            if (Vector3.Distance(player_ctrl.gameObject.transform.position, gameObject.transform.position) < boom_range) player_ctrl.Death();
-            gameObject.SetActive(false);
+            timeBeforeExplosion -= Time.deltaTime;
+            yield return null;
         }
-        else time -= Time.deltaTime;
+        Explode();
+    }
+
+    private void Explode() 
+    {
+        var colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (var collider in colliders)
+        {
+            var health = collider.GetComponent<Health>();
+            if (health == null) continue;
+
+            float damageAmount = CalculateDamage(collider.transform.position);
+            health.Damage(damageAmount);
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    private float CalculateDamage(Vector3 position)
+    {
+        float distance = Vector3.Distance(position, transform.position);
+        return damage / (distance * distance);
     }
 }
