@@ -19,8 +19,8 @@ public class Explosive : MonoBehaviour
     {
         if (collision.gameObject.tag == "bullet") 
         {
-            bool inRange = Vector3.Distance(FindObjectOfType<PlayerController>().gameObject.transform.position, gameObject.transform.position) < boom_range;
-            if (inRange) FindObjectOfType<PlayerController>().health -= damage;
+            bool inRange = Vector3.Distance(FindObjectOfType<PlayerController>().transform.position, transform.position) < boom_range;
+            //if (inRange) FindObjectOfType<PlayerController>().health -= damage;
 
             foreach (EnemyController enemy in enemy_storage) enemy.health -= damage;
 

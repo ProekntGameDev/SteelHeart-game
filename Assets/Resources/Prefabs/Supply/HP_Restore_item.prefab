@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8862644072163456738}
   - component: {fileID: 8862644072163456749}
   - component: {fileID: 8862644072163456748}
-  - component: {fileID: 3511866307362009548}
+  - component: {fileID: 7486169481272176073}
   m_Layer: 0
   m_Name: HP_Restore_item
   m_TagString: hp_restore
@@ -96,7 +96,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3511866307362009548
+--- !u!114 &7486169481272176073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8862644072163456751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdf36ca4287a81b4cad29035a4786b90, type: 3}
+  m_Script: {fileID: 11500000, guid: fd9bba98024c02d4e992cfe55e7c3834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health_restore_count: 20
+  restorationAmount: 20
