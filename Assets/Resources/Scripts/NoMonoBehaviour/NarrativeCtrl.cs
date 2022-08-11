@@ -4,9 +4,6 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
-
 namespace SteelHeart
 {
     public class NarrativeCtrl
