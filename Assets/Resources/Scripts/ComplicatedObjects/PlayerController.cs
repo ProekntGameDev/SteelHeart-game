@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public int jetpack_jumps;
     public int jetpackJumpsLeft;
     // fields^
+    public GameObject player_shield;
 
     private Rigidbody _rigidbody;
     private CapsuleCollider collider;
@@ -93,6 +94,17 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if(Input.GetKey(KeyCode.Alpha1))
+        {
+              player_shield.SetActive(true);
+        }
+        else
+        {
+             player_shield.SetActive(false);
+        }
+
+        
         float MoveControl_HorizontalAxis = Input.GetAxis("Horizontal");
         bool isMoveLeft = MoveControl_HorizontalAxis < 0;
         bool isMoveRight = MoveControl_HorizontalAxis > 0;
@@ -306,4 +318,7 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(transform.position, Vector3.down, floorCheckRayLength);
     }
     */
+   
+
+
 }
