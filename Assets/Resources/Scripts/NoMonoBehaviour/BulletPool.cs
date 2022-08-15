@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 
 public class BulletPool
@@ -8,10 +10,12 @@ public class BulletPool
     GameObject[] pool;
     BulletSpecification[] bullet_spec;
     GameObject bullet_prefab;
-    public BulletPool(int pool_lenght) 
+    public BulletPool(int pool_lenght, MonoBehaviour shooter_component) 
     {
         this.pool_lenght = pool_lenght;
         bullet_prefab = Resources.Load<GameObject>("Prefabs/_DO_NOT_USE_MANUALLY/Bullet");
+        bullet_prefab.GetComponent<Bullet>().shooter_component = shooter_component;
+
         Init();
     }
     private void Init()

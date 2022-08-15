@@ -60,7 +60,7 @@ public class EnemyController : MonoBehaviour
     {
         player_transform = GameObject.Find("Player").transform;
         physics_component = gameObject.GetComponent<Rigidbody>();
-        bullet_pool = new BulletPool(10);
+        bullet_pool = new BulletPool(10, this);
 
         switch (type) {
             case EnemyTypes.WalkerDrone: 

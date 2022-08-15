@@ -1,10 +1,18 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    [HideInInspector] public bool IsBulletDefenderActive = true;
+    [SerializeField] private TextMeshProUGUI count_bullets_text_mesh;
+    [SerializeField] private int count_bullets = 100;
+    [SerializeField] private float reload_time = 1;
+    private float passedTime = 0;
+    
+    
     private Vector3 v3_left_rotation = new Vector3(0, 180, 0);
     private Vector3 v3_right_rotation = new Vector3(0, 0, 0);//front of model must be looking world-right
     //euler-angle values vectors^ constants^
@@ -47,8 +55,10 @@ public class PlayerController : MonoBehaviour
     private bool isTimeSlowed = false;
     private bool isBlocking = false;
     private bool isShooting = false;
+    private bool isCanShoot = true;
     private bool isNightVisionActive = false;
     private bool isWalkingBanned = false;
+    
     public bool IsJumpButtonPressed { get; private set; } = false;
     private bool isJumpButtonPressed_last = false;
     private bool isDownButtonPressed = false;
@@ -77,9 +87,10 @@ public class PlayerController : MonoBehaviour
 
         checkpoint = gameObject.transform.position;
 
-        bullet_pool = new BulletPool(100);
+        bullet_pool = new BulletPool(100, this);
 
         _health = GetComponent<Health>();
+        count_bullets_text_mesh.text = count_bullets + "";
     }
 
     private void OnEnable()
@@ -94,6 +105,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Set isCanShoot after reload timer.
+        if (isCanShoot == false && count_bullets > 0)
+        {
+            passedTime += Time.deltaTime;
+            if (passedTime >= reload_time)
+            {
+                passedTime = 0;
+                isCanShoot = true;
+            }
+        }
 
         if(Input.GetKey(KeyCode.Alpha1))
         {
@@ -168,10 +189,40 @@ public class PlayerController : MonoBehaviour
         bullet_pool.Tick();
         if (Input.GetMouseButton(0))
         {
-            Vector3 bullet_spawnpoint = gameObject.transform.position + Vector3.right * Math.Sign(cursor_delta.x);
-            Vector3 wp = Camera.main.WorldToScreenPoint(bullet_spawnpoint);
-            bullet_pool.UseBullet(shooting_damage, 1, Vector3.Normalize(Input.mousePosition - wp) * 6, bullet_spawnpoint);
-            isShooting = true;
+            if (isCanShoot)
+            {
+                isCanShoot = false;
+                count_bullets--;
+                count_bullets_text_mesh.text = count_bullets + "";
+                Vector3 bullet_spawnpoint = gameObject.transform.position + Vector3.right * Math.Sign(cursor_delta.x);
+                Vector3 wp = Camera.main.WorldToScreenPoint(bullet_spawnpoint);
+                Vector3 directionPosition = Input.mousePosition;
+
+                // If bullet spawnpoint on right side.
+                if (wp.x > Screen.width / 2)
+                {
+                    if (wp.x > Input.mousePosition.x)
+                    {
+                        float xOffset = 10;
+                        directionPosition = new Vector3(wp.x + xOffset, Input.mousePosition.y);
+                    }
+                }
+                // If bullet spawnpoint on left side.
+                else
+                {
+                    if (wp.x < Input.mousePosition.x)
+                    {
+                        float xOffset = 10;
+                        directionPosition = new Vector3(wp.x - xOffset, Input.mousePosition.y);
+                    }
+                }
+
+                Vector3 velocity = Vector3.Normalize(directionPosition - wp) * 6;
+
+
+                bullet_pool.UseBullet(shooting_damage, 1, velocity, bullet_spawnpoint);
+                isShooting = true;
+            }
         }
         else isShooting = false;
         // shoot ability^
@@ -232,6 +283,11 @@ public class PlayerController : MonoBehaviour
         if (interactable != null)
         {
             interactable.Interact(this.transform);
+        }
+
+        if (trigger.GetComponent<Thorns>() != null)
+        {
+            _health.Damage(_health.Current);
         }
 
         if (trigger.gameObject.tag == "drag_object")
@@ -304,6 +360,11 @@ public class PlayerController : MonoBehaviour
             Respawn();
         }
         else Debug.Log("Death!");
+    }
+
+    public void AddAmmunition(int ammunition_to_add)
+    {
+        count_bullets += ammunition_to_add;
     }
 
     private void Respawn()
