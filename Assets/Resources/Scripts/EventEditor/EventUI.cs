@@ -21,7 +21,7 @@ public class EventUI : MonoBehaviour
         if (cv == null)
         {
             //v3_constructor = GameObject.Find("V3_Constructor").transform;
-            GameObject cv_obj = GameObject.Find("CanvasUI");
+            GameObject cv_obj = GameObject.Find("Canvas");
             cv_transform = cv_obj.transform;
             cv = cv_obj.GetComponent<Canvas>();
         }
