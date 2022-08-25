@@ -51,17 +51,17 @@ public class PlayerController : MonoBehaviour
     bool isNightvision_Allow = false;
     bool isHookUse_Allow = false;
     //upgrades^
-    private bool isOnFloor = false;
+    public bool isOnFloor { get; private set; } = false;
     private bool isSprinting = false;
     private bool isSneaking = false;
-    private bool isMounting = false;
+    //private bool isMounting = false;
     private bool isBouncing = false;
     private bool isClimbing = false;
     private bool isTimeSlowed = false;
     private bool isBlocking = false;
     private bool isShooting = false;
     private bool isNightVisionActive = false;
-    private bool isWalkingBanned = false;
+    public bool isWalkingBanned { get; private set; }  = false;
     [SerializeField] private Vector3 checkpoint;
     // object state^
 
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
     // variables^
 
     Vector2 mount_point_delta;
-    Vector2 hitted_object_position;
+    Vector2 mounting_point_position;
     float last_deltatime = 0;
     float delta_x = 0;
     float delta_y = 0;
@@ -88,6 +88,8 @@ public class PlayerController : MonoBehaviour
     //temporary fields^
 
     BulletPool bullet_pool;
+
+    private GrapplingGun _grapplingGun;
 
     private void Awake()
     {
@@ -102,10 +104,14 @@ public class PlayerController : MonoBehaviour
         checkpoint = gameObject.transform.position;
 
         bullet_pool = new BulletPool(100);
+
+        _grapplingGun = GetComponent<GrapplingGun>();
     }
 
     private void FixedUpdate()
     {
+        bool isMounting = _grapplingGun.isMounting;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -174,9 +180,11 @@ public class PlayerController : MonoBehaviour
         }
         // night vision ability^
 
-        bool isHookMountingPointHit = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "hook_mount_point";
+        bool isHookMountingPointHit = Physics.Raycast(ray, out hit) && hit.collider.tag == "hook_mount_point";
         if (Input.GetMouseButton(0) && isHookUse_Allow && ((isHookMountingPointHit && isOnFloor == false) || isMounting))
         {
+            #region grappling gun
+            /*
             double rad;
             delta_x = 0;
             delta_y = 0;
@@ -184,14 +192,13 @@ public class PlayerController : MonoBehaviour
             {
                 rad_speed = 0;
                 physics_component.velocity = Vector3.zero;
-                hitted_object_position = hit.collider.gameObject.transform.position;
-                mount_point_delta = (Vector2)gameObject.transform.position - hitted_object_position;
-                rad = Math.Atan2(mount_point_delta.y, mount_point_delta.x);
-                //rad_speed = physics_component.velocity.x * Math.Abs(Math.Sin(rad)) + physics_component.velocity.y * Math.Abs(Math.Cos(rad));
-            }
+                mounting_point_position = hit.collider.transform.position;
+                mount_point_delta = (Vector2)transform.position - mounting_point_position;
+              
+            }*/
             // feature required state set^
-
-            mount_point_delta = (Vector2)gameObject.transform.position - hitted_object_position;
+            /*
+            mount_point_delta = (Vector2)transform.position - mounting_point_position;
             //
             float current_distance = Vector2.Distance(Vector2.zero, mount_point_delta);
             float distance_shift = current_distance - hook_mounting_target_distance;
@@ -200,9 +207,9 @@ public class PlayerController : MonoBehaviour
             {
                 delta_x -= mount_point_delta.x*Math.Sign(distance_shift) * hook_mounting_distance_correction_speed * Time.deltaTime;
                 delta_y -= mount_point_delta.y*Math.Sign(distance_shift) * hook_mounting_distance_correction_speed * Time.deltaTime;
-            }
+            }*/
             // distance correction^
-
+            /*
             rad = Math.Atan2(mount_point_delta.y, mount_point_delta.x);
             rad_speed *= 0.99f;//soprotivlenie vozduha
             rad_speed += 0.04f*MoveControl_HorizontalAxis + -0.27f*Math.Cos(rad); ;
@@ -210,18 +217,24 @@ public class PlayerController : MonoBehaviour
             double sin = Math.Sin(rad_speed*Time.deltaTime);
             delta_x += (float)(mount_point_delta.x * cos - mount_point_delta.y * sin) - mount_point_delta.x;
             delta_y += (float)(mount_point_delta.x * sin + mount_point_delta.y * cos) - mount_point_delta.y;
-            gameObject.transform.position += Vector3.right * delta_x + Vector3.up * delta_y;
+            transform.position += Vector3.right * delta_x + Vector3.up * delta_y;*/
             // physics and user input control^
-
-            physics_component.Sleep();
-            last_deltatime = Time.deltaTime;
-            isMounting = true; isWalkingBanned = true; physics_component.useGravity = false;//change state
+            #endregion
+            _grapplingGun.Grapple();
+            //physics_component.Sleep();
+            //last_deltatime = Time.deltaTime;
+            isMounting = true; 
+            isWalkingBanned = true; 
+            //physics_component.useGravity = false;
         }// hook feature using^
         else if (isMounting)
         {
-            physics_component.velocity = new Vector3(delta_x/last_deltatime, delta_y/last_deltatime);
-            isMounting = false; isWalkingBanned = false; physics_component.useGravity = true;//restore state
-        }// restore state after hook feature using^
+            _grapplingGun.Ungrapple();
+            //physics_component.velocity = new Vector3(delta_x/last_deltatime, delta_y/last_deltatime);
+            isMounting = false; 
+            isWalkingBanned = false; 
+            physics_component.useGravity = true;
+        }
         // grapling hook ability^
 
         bullet_pool.Tick();
