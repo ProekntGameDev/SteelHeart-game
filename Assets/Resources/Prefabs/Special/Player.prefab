@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 8836779659844082193}
   - component: {fileID: 8836779659844082192}
   - component: {fileID: 8836779659844082191}
-  - component: {fileID: 8836779659844082197}
   - component: {fileID: 8836779659844082196}
+  - component: {fileID: 7063627114853659943}
+  - component: {fileID: 1736586580008402263}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3980fcc8b828a384cbf06f1a495ee359, type: 2}
+  - {fileID: 2100000, guid: c0ace1b040f35214e96f04a0089c3be6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -115,22 +116,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!114 &8836779659844082197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8836779659844082190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5809055d5af3b664b907c05d6d169119, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GrapplingHook: {fileID: 5640558283726883574, guid: fb879ab2e482a0e4a8d3d735d6699d5e, type: 3}
-  KeyGrappelr: 113
-  _camera: {fileID: 0}
-  dirDoubleclick: {fileID: 8112866915202167131, guid: 309c11dd2b47e7c49b37fd2e558df6f0, type: 3}
 --- !u!114 &8836779659844082196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,17 +135,45 @@ MonoBehaviour:
   walk_damping_force: 200
   jump_force: 5
   climb_speed: 10
+  block_req_stamina_level_for_activation: 0
+  block_stamina_spend: 0
   sprint_walk_speed_scale: 2
   sprint_accel_scale: 2
   sprint_req_stamina_level_for_activation: 2
   sprint_stamina_spend: 2
   stamina_max: 10
   stamina_restore_speed: 5
-  health_max: 100
-  ray_lenght: 1
+  shooting_damage: 5
   additional_lives: 2
   jetpack_jumps: 1
-  consumed_jetpack_jumps: 1
+  jetpackJumpsLeft: 0
+  player_shield: {fileID: 0}
   checkpoint: {x: 0, y: 0, z: 0}
-  health: 100
   coins: 0
+--- !u!114 &7063627114853659943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8836779659844082190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8098156c18aba4f8a6d462d8778625, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1736586580008402263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8836779659844082190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5bfd6c7991adcf47b9d3aa498e86517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 5
+  floorCheckRayLength: 1.05
+  maxJetpackJumps: 0
