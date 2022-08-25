@@ -40,18 +40,23 @@ public class PlayerController : MonoBehaviour
     // components^
 
     bool isNightvision_Allow = false;
-    //
-    private bool isOnFloor = true;
+
+    bool isHookUse_Allow = false;
+    //upgrades^
+    public bool isOnFloor { get; private set; } = false;
     private bool isSprinting = false;
     private bool isSneaking = false;
+    //private bool isMounting = false;
+    private bool isBouncing = false;
+    private bool isClimbing = false;
+
     private bool isTimeSlowed = false;
     private bool isBlocking = false;
     private bool isShooting = false;
     private bool isNightVisionActive = false;
-    private bool isWalkingBanned = false;
-    public bool IsJumpButtonPressed { get; private set; } = false;
-    private bool isJumpButtonPressed_last = false;
-    private bool isDownButtonPressed = false;
+
+    public bool isWalkingBanned { get; private set; }  = false;
+
     [SerializeField] private Vector3 checkpoint;
     // object state^
 
@@ -61,10 +66,20 @@ public class PlayerController : MonoBehaviour
     public float coins;
     // variables^
 
-    BulletPool bullet_pool;
+
+    Vector2 mount_point_delta;
+    Vector2 mounting_point_position;
+    float last_deltatime = 0;
+    float delta_x = 0;
+    float delta_y = 0;
+    double rad_speed = 0;
+    float starting_distance = 0;
+
     //temporary fields^
 
     private Health _health;
+
+    private GrapplingGun _grapplingGun;
 
     private void Awake()
     {
@@ -79,6 +94,8 @@ public class PlayerController : MonoBehaviour
 
         bullet_pool = new BulletPool(100);
 
+        _grapplingGun = GetComponent<GrapplingGun>();
+
         _health = GetComponent<Health>();
     }
 
@@ -90,10 +107,13 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         _health.OnDeath -= Death;
-    }
 
-    private void FixedUpdate()
-    {
+
+        bool isMounting = _grapplingGun.isMounting;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
 
         if(Input.GetKey(KeyCode.Alpha1))
         {
@@ -164,6 +184,29 @@ public class PlayerController : MonoBehaviour
             Camera.main.gameObject.GetComponent<CameraController>().NightVisionEffectActiveStateChange();
         }
         // night vision ability^
+
+
+        bool isHookMountingPointHit = Physics.Raycast(ray, out hit) && hit.collider.tag == "hook_mount_point";
+        if (Input.GetMouseButton(0) && isHookUse_Allow && ((isHookMountingPointHit && isOnFloor == false) || isMounting))
+        {
+        
+            _grapplingGun.Grapple();
+            //physics_component.Sleep();
+            //last_deltatime = Time.deltaTime;
+            isMounting = true; 
+            isWalkingBanned = true; 
+            //physics_component.useGravity = false;
+        }// hook feature using^
+        else if (isMounting)
+        {
+            _grapplingGun.Ungrapple();
+            //physics_component.velocity = new Vector3(delta_x/last_deltatime, delta_y/last_deltatime);
+            isMounting = false; 
+            isWalkingBanned = false; 
+            physics_component.useGravity = true;
+        }
+        // grapling hook ability^
+
 
         bullet_pool.Tick();
         if (Input.GetMouseButton(0))
