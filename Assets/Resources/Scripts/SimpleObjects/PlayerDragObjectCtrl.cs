@@ -11,22 +11,21 @@ namespace SteelHeart
         public float speed;
         public float cooldown;
 
-        Vector3 start_pos;
-        Vector3 direction;
-        Ray ray;
-        RaycastHit[] hits;
-        RaycastHit hit;
-        float distance;
-        float least_distance;
-        Collider collider;
-        float counter;
-
-        bool isUsing;
+        private Vector3 start_pos;
+        private Vector3 direction;
+        private Ray ray;
+        private RaycastHit[] hits;
+        private RaycastHit hit;
+        private float distance;
+        private float least_distance;
+        private Collider _collider;
+        private float counter;
+        private bool isUsing;
 
         void Start()
         {
-            collider = gameObject.GetComponent<Collider>();
-            collider.enabled = false;
+            _collider = gameObject.GetComponent<Collider>();
+            _collider.enabled = false;
 
             start_pos = gameObject.transform.position;
             distance = Vector3.Distance(start_pos, finish_transform.position);
@@ -42,7 +41,7 @@ namespace SteelHeart
                 return;
             }
 
-            if (isUsing == false) collider.enabled = false;
+            if (isUsing == false) _collider.enabled = false;
 
             bool isHitsPlayer = false;
             hits = Physics.RaycastAll(ray, distance);
@@ -57,11 +56,9 @@ namespace SteelHeart
                 }
             }
 
-            //if (!isHitsPlayer && !isUsing) collider.enabled = false;
-
             if (isHitsPlayer || isUsing)
             {
-                collider.enabled = true;
+                _collider.enabled = true;
                 if (isUsing == false)
                 {
                     isUsing = true;

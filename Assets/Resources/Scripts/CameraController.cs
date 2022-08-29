@@ -49,7 +49,7 @@ public class CameraController : MonoBehaviour
         {
             x = Random.Range(-magnitudeX, magnitudeX);
             y = Random.Range(-magnitudeY, magnitudeY);
-            gameObject.transform.position += Vector3.up * y + Vector3.right * x;
+            transform.position += Vector3.up * y + Vector3.right * x;
             shake_duration -= Time.deltaTime;
         }
     }
@@ -68,7 +68,7 @@ public class CameraController : MonoBehaviour
 
         void ObjectActiveChange(string name)
         {
-            UnityEngine.GameObject[] objects = Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
+            GameObject[] objects = Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
             for (int i = 0; i < objects.Length; ++i) 
             if (objects[i].name == name) 
             { objects[i].SetActive(!objects[i].activeSelf); break; }
