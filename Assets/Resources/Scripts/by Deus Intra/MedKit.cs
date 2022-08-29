@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class MedKit : MonoBehaviour, IInteractableMonoBehaviour
+public class MedKit : MonoBehaviour, ITriggerableMonoBehaviour
 {
     public float restorationAmount = 20;
 
-    public void Interact(Transform obj)
+    public void Trigger(Transform obj)
     {
         var health = obj.GetComponent<Health>();
         if (health == null) return;

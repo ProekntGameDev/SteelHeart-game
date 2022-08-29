@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Note : MonoBehaviour, IInteractableMonoBehaviour
+public class Note : MonoBehaviour, ITriggerableMonoBehaviour
 {
     [SerializeField] private string text;
     public static List<string> notes;
@@ -11,9 +11,9 @@ public class Note : MonoBehaviour, IInteractableMonoBehaviour
         if (notes == null) notes = new List<string>();
     }
 
-    public void Interact(Transform obj)
+    public void Trigger(Transform obj)
     {
-        if (obj.GetComponent<PlayerController>() == null) return;
+        if (obj.GetComponent<PlayerMovementController>() == null) return;
 
         Debug.Log("Note: " + text);
         notes.Add(text);

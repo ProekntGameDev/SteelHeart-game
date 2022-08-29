@@ -7,40 +7,39 @@ public class Health : MonoBehaviour
     public event VoidDelegate OnDeath;
     public event VoidDelegate OnChange;
 
-    public float Maximum { get; private set; } = 100;
-    public float Current { get; private set; } = 100;
-    public bool IsFull { get { return Current == Maximum; } }
+    [SerializeField] private float _maximum = 100;
+    [SerializeField] private float _current = 100;
+
+    public float Maximum { get { return _maximum; } }
+    public float Current { get { return _current; } }
+    public float Percentage { get { return _current / _maximum; } }
+    public bool IsFull { get { return _current == _maximum; } }
     
     public void Heal(float amount)
     {
-        if (Current == Maximum) return;
+        if (_current == _maximum) return;
 
-        Current += amount;
-        if (Current > Maximum) Current = Maximum;
+        _current += amount;
+        if (_current > _maximum) _current = _maximum;
 
-        OnChange.Invoke();
+        OnChange?.Invoke();
     }
 
     public void FullHeal()
     {
-        if (Current == Maximum) return;
-        Current = Maximum;
-        OnChange.Invoke();
+        if (_current == _maximum) return;
+        _current = _maximum;
+        OnChange?.Invoke();
     }
 
     public void Damage(float amount)
     {
-        Current -= amount;
-        if (Current <= 0)
+        _current -= amount;
+        if (_current <= 0)
         {
-            Current = 0;
-            OnDeath.Invoke();
+            _current = 0;
+            OnDeath?.Invoke();
         }
-        OnChange.Invoke();
-    }
-
-    public float GetPercentage()
-    {
-        return Current / Maximum;
+        OnChange?.Invoke();
     }
 }

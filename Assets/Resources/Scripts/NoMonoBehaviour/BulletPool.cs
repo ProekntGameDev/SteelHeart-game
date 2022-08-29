@@ -1,46 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletPool
 {
-    int pool_lenght;
-    GameObject[] pool;
-    BulletSpecification[] bullet_spec;
-    GameObject bullet_prefab;
-    public BulletPool(int pool_lenght) 
+    private GameObject[] pool;
+    private Bullet[] bullets;
+    private GameObject bulletPrefab;
+
+
+    public BulletPool(int length) 
     {
-        this.pool_lenght = pool_lenght;
-        bullet_prefab = Resources.Load<GameObject>("Prefabs/_DO_NOT_USE_MANUALLY/Bullet");
-        Init();
-    }
-    private void Init()
-    {
-        pool = new GameObject[pool_lenght];
-        bullet_spec = new BulletSpecification[pool_lenght];
+        bulletPrefab = Resources.Load<GameObject>("Prefabs/_DO_NOT_USE_MANUALLY/Bullet");
+        pool = new GameObject[length];
+        bullets = new Bullet[length];
         for (int i = 0; i < pool.Length; ++i)
         {
-            pool[i] = MonoBehaviour.Instantiate(bullet_prefab, Vector3.zero, Quaternion.identity);
-            bullet_spec[i] = pool[i].GetComponent<BulletSpecification>();
+            pool[i] = MonoBehaviour.Instantiate(bulletPrefab, Vector3.zero, Quaternion.identity);
+            bullets[i] = pool[i].GetComponent<Bullet>();
         }
     }
+
     public void Tick()
     {
         for (int i = 0; i < pool.Length; ++i)
         {
-            if (bullet_spec[i].lifetime < 0) pool[i].SetActive(false);
-            else bullet_spec[i].lifetime -= Time.deltaTime;
+            bullets[i].Tick();
         }
     }
-    public void UseBullet(int damage, float lifetime, Vector3 velocity, Vector3 spawn_position)
+
+    public void UseBullet(Vector3 velocity, Vector3 spawnPosition)
     {
-        for (int i = 0; i < bullet_spec.Length; ++i) 
+        for (int i = 0; i < bullets.Length; ++i) 
             if (pool[i].activeSelf == false)
             {
-                bullet_spec[i].damage = damage;
-                bullet_spec[i].lifetime = lifetime;
+                //bullet_spec[i].damage = damage;
+                bullets[i].Shoot();//_lifetime = lifetime;
                 pool[i].GetComponent<Rigidbody>().velocity = velocity;
-                pool[i].transform.position = spawn_position;
+                pool[i].transform.position = spawnPosition;
                 pool[i].SetActive(true);
                 break;
             }

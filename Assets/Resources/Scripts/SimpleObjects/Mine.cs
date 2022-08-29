@@ -1,26 +1,39 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Mine : MonoBehaviour
 {
-    public float time;
-    public float boom_range;
-    bool isActivated = false;
-    PlayerController player_ctrl;
-    public void Activate()
+    public float damage = 100f;
+    public float timeToExplode = 2f;
+    public float radius = 1.5f;
+
+
+    private void OnTriggerEnter(Collider other)
     {
-        isActivated = true;
-        player_ctrl = FindObjectOfType<PlayerController>();
+        StartCoroutine(activationCoroutine());
     }
-    void Update()
+
+    private IEnumerator activationCoroutine()
     {
-        if (isActivated == false) return;
-        if (time < 0)
+        float time = timeToExplode;
+        while (time > 0)
         {
-            if (Vector3.Distance(player_ctrl.gameObject.transform.position, gameObject.transform.position) < boom_range) player_ctrl.Death();
-            gameObject.SetActive(false);
+            time -= Time.deltaTime;
+            yield return null;
         }
-        else time -= Time.deltaTime;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        foreach (var collider in colliders)
+        {
+            var health = collider.GetComponent<Health>();
+            if (health != null) health.Damage(damage);
+        }
+        gameObject.SetActive(false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

@@ -19,12 +19,12 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Awake()
     {
-        var playerController = FindObjectOfType<PlayerController>();
+        var playerController = FindObjectOfType<PlayerMovementController>();
         _playerHealth = playerController.GetComponent<Health>();        
     }
 
     private void Fill()
     {
-        image.fillAmount = _playerHealth.GetPercentage();
+        image.fillAmount = _playerHealth.Percentage;
     }
 }

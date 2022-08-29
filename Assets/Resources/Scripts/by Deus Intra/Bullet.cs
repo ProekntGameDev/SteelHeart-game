@@ -1,15 +1,34 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, IInteractableMonoBehaviour
+public class Bullet : MonoBehaviour, ITriggerableMonoBehaviour
 {
-    public float damage;
+    [SerializeField] private float _damage;
+    [SerializeField] private float _lifetime;
 
-    public void Interact(Transform obj)
+    private float _currentLifetime;
+
+
+    public void Trigger(Transform obj)
     {
+        var blockAblility = obj.GetComponent<PlayerBlockAbility>();
+        if (blockAblility != null)
+            if (blockAblility.IsBlocking) return;
+
         var health = obj.GetComponent<Health>();
         if (health == null) return;
 
-        health.Damage(damage);
+        health.Damage(_damage);
         gameObject.SetActive(false);
+    }
+
+    public void Tick()
+    {
+        if (_currentLifetime < 0) gameObject.SetActive(false);
+        else _currentLifetime -= Time.fixedDeltaTime;
+    }
+
+    public void Shoot()
+    {
+        _currentLifetime = _lifetime;
     }
 }

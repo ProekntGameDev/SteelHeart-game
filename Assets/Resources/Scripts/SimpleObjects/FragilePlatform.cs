@@ -1,16 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FragilePlatform : MonoBehaviour
 {
     public float time = 2;
-    public void Tick(float time = 0)
+
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (this.time < 0)
+        var player = collision.gameObject.GetComponent<PlayerMovementController>();
+        if (player != null) StartCoroutine(TimerCoroutine());
+    }
+
+    private IEnumerator TimerCoroutine()
+    {
+        while (time > 0)
         {
-            gameObject.SetActive(false);
+            time -= Time.fixedDeltaTime;
+            yield return null;
         }
-        else this.time -= time;
+
+        gameObject.SetActive(false);
     }
 }

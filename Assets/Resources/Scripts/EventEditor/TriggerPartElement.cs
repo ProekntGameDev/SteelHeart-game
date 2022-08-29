@@ -21,8 +21,8 @@ public class TriggerPartElement : MonoBehaviour
         if (stickerbox_image.sprite == default_sprite) return;
         if (next == null) next = Instantiate(Resources.Load("event_editor/EditorDropElementDefault") as GameObject, transform.position + (Vector3.down*60f)*EventUI.cv_transform.localScale.x, Quaternion.identity, transform.parent);
         //
-             if (stickerbox_image.sprite.name == "condition");
-        else if (stickerbox_image.sprite.name == "action") ;
+        //     if (stickerbox_image.sprite.name == "condition");
+        //else if (stickerbox_image.sprite.name == "action") ;
     }
     //
     public void OpenV3Constructor() 

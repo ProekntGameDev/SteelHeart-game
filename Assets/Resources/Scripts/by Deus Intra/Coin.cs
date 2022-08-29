@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour, IInteractableMonoBehaviour
+public class Coin : MonoBehaviour, ITriggerableMonoBehaviour
 {
     public int worth = 1;
 
-    public void Interact(Transform obj)
+    public void Trigger(Transform obj)
     {
-        var player = obj.GetComponent<PlayerController>();
+        var player = obj.GetComponent<PlayerCoinHolder>();
         if (player == null) return;
 
         player.coins += worth;
