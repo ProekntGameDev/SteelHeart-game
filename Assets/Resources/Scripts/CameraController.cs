@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 144;
-        target_transform = GameObject.Find("Player").transform;
+        target_transform = GameObject.FindObjectOfType<PlayerMovementController>().transform;
     }
     private void Awake()
     {

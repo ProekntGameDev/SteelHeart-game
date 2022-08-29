@@ -95,7 +95,8 @@ GameObject:
   - component: {fileID: 8836779659844082196}
   - component: {fileID: 7063627114853659943}
   - component: {fileID: 1736586580008402263}
-  - component: {fileID: 2027942189246917180}
+  - component: {fileID: 4361519301927138123}
+  - component: {fileID: 2295212359762313822}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -160,27 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e7b09100153dc848b61e6b627b33d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeSlowing_btn: 102
-  NightVision_btn: 108
-  walk_accel: 200
-  max_walk_speed: 1
-  jump_force: 5
-  climb_speed: 10
-  hook_mounting_distance_correction_speed: 0.2
-  hook_mounting_target_distance: 4
-  block_req_stamina_level_for_activation: 0
-  block_stamina_spend: 0
-  sprint_walk_speed_scale: 2
-  sprint_accel_scale: 2
-  sprint_req_stamina_level_for_activation: 2
-  sprint_stamina_spend: 2
-  stamina_max: 10
-  stamina_restore_speed: 5
-  health_max: 0
-  shooting_damage: 5
-  additional_lives: 2
-  jetpack_jumps: 1
-  consumed_jetpack_jumps: 0
   checkpoint: {x: 0, y: 0, z: 0}
   health: 0
   coins: 0
@@ -211,9 +191,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 5
-  floorCheckRayLength: 1.05
   maxJetpackJumps: 0
---- !u!114 &2027942189246917180
+  jumpTimeout: 0.1
+  jumpButton: 32
+--- !u!114 &4361519301927138123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,12 +203,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 8836779659844082190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3802a0a52c9fb2e4aaaa854299eb0638, type: 3}
+  m_Script: {fileID: 11500000, guid: f8d0e2709bbd70e48a12a7556c8a2922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunPosition: {x: 1, y: 1, z: 0}
-  gizmoRadius: 0.25
-  hook_mounting_distance_correction_speed: 0.2
-  hook_mounting_target_distance: 4
-  airResistanceMultiplier: 0.99
-  isHookUse_Allow: 0
+  _maximum: 10
+  _sufficient: 2
+  _restorationRate: 5
+--- !u!114 &2295212359762313822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8836779659844082190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ccb08cfcca7ba64ab1ad1ef8041d711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 200
+  maxWalkSpeed: 1
+  maxSpeedMultiplier: 2
+  accelerationMultiplier: 2
+  sprintStaminaSpend: 2
+  floorCheckRayLength: 1.05
+  sprintKey: 304
+  climbUpwardsKey: 119
+  climbDownwardsKey: 115
+  isWalkingBanned: 0

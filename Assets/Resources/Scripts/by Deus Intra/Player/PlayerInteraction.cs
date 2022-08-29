@@ -11,9 +11,9 @@ public class PlayerInteraction : MonoBehaviour
         if (triggerable != null) triggerable.Trigger(transform);
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        var interactable = collision.gameObject.GetComponent<IInteractableMonoBehaviour>();
+        var interactable = other.GetComponent<IInteractableMonoBehaviour>();
         if (interactable != null) interactable.Interact(transform);
     }
 }

@@ -7,6 +7,6 @@ public class Checkpoint : MonoBehaviour, IInteractableMonoBehaviour
         var player = obj.GetComponent<PlayerRespawnBehaviour>();
         if (player == null) return;
 
-        player.checkpoint = transform.position;
+        player.checkpoint = (Vector2)transform.position;
     }
 }

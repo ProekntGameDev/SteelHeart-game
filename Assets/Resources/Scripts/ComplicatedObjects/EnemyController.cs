@@ -146,7 +146,7 @@ public class EnemyController : MonoBehaviour
 
         if (isPlayerDetected && Vector3.Distance(gameObject.transform.position, player_transform.position) < shooting_distance)
         {
-            if (shooting_cooldown_timer < 0) { shooting_cooldown_timer = shooting_cooldown; bullet_pool.UseBullet(damage, 1, (player_transform.position + shooting_offset - gameObject.transform.position).normalized * 20f, gameObject.transform.position - shooting_offset); }
+            if (shooting_cooldown_timer < 0) { shooting_cooldown_timer = shooting_cooldown; bullet_pool.UseBullet(/*damage, 1,*/ (player_transform.position + shooting_offset - gameObject.transform.position).normalized * 20f, gameObject.transform.position - shooting_offset); }
             else shooting_cooldown_timer -= Time.deltaTime;
         }
         else shooting_cooldown_timer = -1;
@@ -189,7 +189,7 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.collider.gameObject.tag == "fragile")
         {
-            collision.collider.gameObject.GetComponent<FragilePlatform>().Tick(Time.deltaTime);
+            //collision.collider.gameObject.GetComponent<FragilePlatform>().Tick(Time.deltaTime);
         }
         //breaking fragiles feature^
     }

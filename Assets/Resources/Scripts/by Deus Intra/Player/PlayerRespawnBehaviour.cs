@@ -41,7 +41,8 @@ public class PlayerRespawnBehaviour : MonoBehaviour
 
     public void Respawn()
     {
-        transform.position = checkpoint;
+        //var player's transform is _health.transform;
+        _health.transform.position = checkpoint;
         _health.FullHeal();
     }
 }
