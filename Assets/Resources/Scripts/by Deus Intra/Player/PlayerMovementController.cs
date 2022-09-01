@@ -4,10 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Stamina))]
 public class PlayerMovementController : MonoBehaviour
 {
-    public float walkSpeed = 200;
-    public float maxWalkSpeed = 1;
-    public float maxSpeedMultiplier = 2f;
-    public float accelerationMultiplier = 2f;
+    //public float walkSpeed = 200;
+    public float walkSpeed = 1;
+    public float sprintSpeed = 2;
     public float sprintStaminaSpend = 2f;
     public float floorCheckRayLength = 1.05f;
     [Space]
@@ -20,10 +19,13 @@ public class PlayerMovementController : MonoBehaviour
 
     [HideInInspector] public bool isWalkingBanned = false;
 
-    private float MoveControl_HorizontalAxis;
-    private bool _isSprinting = false;
+    private float _horizontalAxis;
     private Rigidbody _rigidbody;
     private Stamina _stamina;
+
+    private bool _isSprinting = false;
+    private bool _isSprintKeyPressedLast = false;
+    private bool _isSprintKeyPressed;
 
 
     private void Awake()
@@ -31,47 +33,40 @@ public class PlayerMovementController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _stamina = GetComponent<Stamina>();
     }
-
     private void Update()
     {
-        MoveControl_HorizontalAxis = Input.GetAxis("Horizontal");
+        _horizontalAxis = Input.GetAxis("Horizontal");
+        _isSprintKeyPressed = Input.GetKey(sprintKey);
     }
 
     private void FixedUpdate()
     {
         IsOnFloor = CheckFloor();
-        if (isWalkingBanned == false)
-            Walk(walkSpeed * MoveControl_HorizontalAxis);
+        if (isWalkingBanned == false && _isSprinting == false)
+            Walk(walkSpeed);
 
-        bool isSprintButtonPressed = Input.GetKey(sprintKey);
-        bool isSprintButtonDown = Input.GetKeyDown(sprintKey);
-        if (isSprintButtonDown && _stamina.IsSufficient)
+        _isSprinting = (_isSprintKeyPressed && _stamina.IsSufficient) || _isSprinting;
+
+
+        if (_isSprintKeyPressed && _isSprinting && _stamina.Current > 0)
         {
-            _isSprinting = true;
-            maxWalkSpeed *= maxSpeedMultiplier;
-            walkSpeed *= accelerationMultiplier;
-        }
-        else if (isSprintButtonPressed && _isSprinting)
-        {
-            if (_stamina.Current > 0)
-            {
-                _stamina.Decay(sprintStaminaSpend * Time.fixedDeltaTime);
-            }
-            else _isSprinting = false;
+            Walk(sprintSpeed);
+            _stamina.DecayFixedTime(sprintStaminaSpend);
         }
         else
         {
+            _isSprinting = false;
             _stamina.RestoreFixedTime();
         }
+        
     }
 
     private void Walk(float speed)
-    {        
-        _rigidbody.AddForce(Vector3.right * speed, ForceMode.Acceleration);
-
-        float direction = (_rigidbody.velocity.x >= 0) ? 1 : -1;
-        if (Mathf.Abs(_rigidbody.velocity.x) > maxWalkSpeed)
-            _rigidbody.velocity = _rigidbody.velocity + Vector3.right * (maxWalkSpeed * direction - _rigidbody.velocity.x);
+    {
+        Vector3 velocity = Vector3.right * speed * _horizontalAxis * Time.fixedDeltaTime;
+        //_rigidbody.AddForce(velocity, ForceMode.VelocityChange);
+        velocity.y = _rigidbody.velocity.y;
+        _rigidbody.velocity = velocity;
     }
 
     private bool CheckFloor()

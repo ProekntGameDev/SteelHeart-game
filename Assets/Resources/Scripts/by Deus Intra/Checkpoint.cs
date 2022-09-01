@@ -4,9 +4,10 @@ public class Checkpoint : MonoBehaviour, IInteractableMonoBehaviour
 {
     public void Interact(Transform obj)
     {
-        var player = obj.GetComponent<PlayerRespawnBehaviour>();
-        if (player == null) return;
+        var _respawnBehaviour = obj.GetComponent<PlayerRespawnBehaviour>();
+        if (_respawnBehaviour == null) return;
 
-        player.checkpoint = (Vector2)transform.position;
+        var levelParameters = _respawnBehaviour.levelParameters;
+        levelParameters.respawnCheckpoint = transform.position;
     }
 }

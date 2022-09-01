@@ -1,19 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CoinDisplay : MonoBehaviour
 {
-    Text text;
-    //PlayerController player_ctrl;
-    private void Start()
+    private Text _text;
+    private PlayerCoinHolder _coinHolder;
+
+
+    private void Awake()
     {
-        text = gameObject.GetComponent<UnityEngine.UI.Text>();
-        ///player_ctrl = FindObjectOfType<PlayerController>();
+        _text = GetComponent<Text>();
+        _coinHolder = FindObjectOfType<PlayerCoinHolder>();
     }
-    void Update()
+
+    private void OnEnable()
     {
-        ///text.text = player_ctrl.coins.ToString();
+        _coinHolder.OnChange += UpdateCoins;
+    }
+
+    private void OnDisable()
+    {
+        _coinHolder.OnChange -= UpdateCoins;
+    }
+
+    private void UpdateCoins()
+    {
+        _text.text = _coinHolder.Coins.ToString();
     }
 }
