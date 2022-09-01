@@ -7,8 +7,8 @@ public class Stamina : MonoBehaviour
 
     [SerializeField] private float _maximum = 10;
     [Tooltip("Minimal amount to perform action")]
-    [SerializeField] private float _sufficient = 2f;
-    [SerializeField] private float _restorationRate = 5f;
+    [SerializeField] private float _sufficient = 5f;
+    [SerializeField] private float _restorationRate = 1f;
     
     private float _current;
 
@@ -24,9 +24,9 @@ public class Stamina : MonoBehaviour
         _current = _maximum;
     }
 
-    public void Decay(float amount)
+    public void DecayFixedTime(float amount)
     {
-        _current -= amount;
+        _current -= amount * Time.fixedDeltaTime;
         if (_current < 0) _current = 0;
         OnChange?.Invoke();
     }

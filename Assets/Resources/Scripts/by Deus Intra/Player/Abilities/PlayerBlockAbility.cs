@@ -26,6 +26,6 @@ public class PlayerBlockAbility : MonoBehaviour
     {
         if (IsBlocking == false) return;
 
-        _stamina.Decay(_blockStaminaSpend * Time.fixedDeltaTime);
+        _stamina.DecayFixedTime(_blockStaminaSpend * Time.fixedDeltaTime);
     }
 }

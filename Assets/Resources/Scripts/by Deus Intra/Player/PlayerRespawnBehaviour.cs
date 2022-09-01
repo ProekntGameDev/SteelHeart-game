@@ -3,8 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class PlayerRespawnBehaviour : MonoBehaviour
 {
-    public int additionalLives = 0;
-    public Vector2 checkpoint;
+    public int amountOfCoinsForAdditionalLife = 100;
+
+    private int _additionalLives = 0;
+    public LevelParameters levelParameters;
 
     private Health _health;
 
@@ -12,11 +14,6 @@ public class PlayerRespawnBehaviour : MonoBehaviour
     private void Awake()
     {
         _health = GetComponent<Health>();
-    }
-
-    private void Start()
-    {
-        checkpoint = transform.position;
     }
 
     private void OnEnable()
@@ -31,9 +28,9 @@ public class PlayerRespawnBehaviour : MonoBehaviour
 
     public void Die()
     {
-        if (additionalLives > 0)
+        if (_additionalLives > 0)
         {
-            additionalLives -= 1;
+            _additionalLives -= 1;
             Respawn();
         }
         else Debug.Log("Death!");
@@ -41,8 +38,13 @@ public class PlayerRespawnBehaviour : MonoBehaviour
 
     public void Respawn()
     {
-        //var player's transform is _health.transform;
-        _health.transform.position = checkpoint;
+        //player's transform is _health.transform;
+        _health.transform.position = levelParameters.respawnCheckpoint;
         _health.FullHeal();
+    }
+
+    public void AddLifes(int amount)
+    {
+        _additionalLives += amount;
     }
 }
