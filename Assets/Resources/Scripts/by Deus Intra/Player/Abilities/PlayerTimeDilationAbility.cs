@@ -12,12 +12,14 @@ public class PlayerTimeDilationAbility : MonoBehaviour
         
         if(IsTimeSlowed == false)
         { 
-            Time.timeScale /= 2; 
+            Time.timeScale /= 2;
+            Time.fixedDeltaTime /= 2;
             IsTimeSlowed = true; 
         }
         else
         { 
-            Time.timeScale *= 2; 
+            Time.timeScale *= 2;
+            Time.fixedDeltaTime *= 2;
             IsTimeSlowed = false; 
         }
     }

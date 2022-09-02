@@ -4,9 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Stamina))]
 public class PlayerMovementController : MonoBehaviour
 {
-    //public float walkSpeed = 200;
-    public float walkSpeed = 1;
-    public float sprintSpeed = 2;
+    public float walkSpeed = 250;
+    public float sprintSpeed = 500;
     public float sprintStaminaSpend = 2f;
     public float floorCheckRayLength = 1.05f;
     [Space]
@@ -14,17 +13,15 @@ public class PlayerMovementController : MonoBehaviour
     public KeyCode climbUpwardsKey = KeyCode.W;
     public KeyCode climbDownwardsKey = KeyCode.S;
 
-
     public bool IsOnFloor { get; private set; } = false;
 
-    [HideInInspector] public bool isWalkingBanned = false;
+    [HideInInspector] public bool isWalkingAllowed;
 
     private float _horizontalAxis;
     private Rigidbody _rigidbody;
     private Stamina _stamina;
 
     private bool _isSprinting = false;
-    private bool _isSprintKeyPressedLast = false;
     private bool _isSprintKeyPressed;
 
 
@@ -32,6 +29,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _stamina = GetComponent<Stamina>();
+        isWalkingAllowed = true;
     }
     private void Update()
     {
@@ -42,13 +40,13 @@ public class PlayerMovementController : MonoBehaviour
     private void FixedUpdate()
     {
         IsOnFloor = CheckFloor();
-        if (isWalkingBanned == false && _isSprinting == false)
-            Walk(walkSpeed);
-
         _isSprinting = (_isSprintKeyPressed && _stamina.IsSufficient) || _isSprinting;
 
-
-        if (_isSprintKeyPressed && _isSprinting && _stamina.Current > 0)
+        if (isWalkingAllowed && _isSprinting == false)
+        {
+            Walk(walkSpeed);
+        }
+        else if (_isSprintKeyPressed && _isSprinting && _stamina.Current > 0)
         {
             Walk(sprintSpeed);
             _stamina.DecayFixedTime(sprintStaminaSpend);
@@ -57,8 +55,7 @@ public class PlayerMovementController : MonoBehaviour
         {
             _isSprinting = false;
             _stamina.RestoreFixedTime();
-        }
-        
+        }        
     }
 
     private void Walk(float speed)
