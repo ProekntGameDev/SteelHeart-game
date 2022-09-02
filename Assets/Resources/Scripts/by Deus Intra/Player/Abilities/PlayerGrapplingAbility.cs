@@ -18,6 +18,7 @@ public class PlayerGrapplingAbility : MonoBehaviour
     [HideInInspector] public bool isHookUse_Allow = false;
 
     private PlayerMovementController _movementController;
+    private PlayerShootingAbility _shootingAbility;
 
     private float _delta_x = 0;
     private float _delta_y = 0;
@@ -31,6 +32,7 @@ public class PlayerGrapplingAbility : MonoBehaviour
     private void Awake()
     {
         _movementController = GetComponent<PlayerMovementController>();
+        _shootingAbility = GetComponent<PlayerShootingAbility>();
         _rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -45,15 +47,17 @@ public class PlayerGrapplingAbility : MonoBehaviour
             if ((isHookMountingPointHit && isOnFloor == false) || isMounting)
             {
                 Grapple(hit.collider);                
-                _movementController.isWalkingBanned = true;
-            }
-            
-        }// hook feature using^
+                _movementController.isWalkingAllowed = false;
+                if (_shootingAbility != null)
+                    _shootingAbility.enabled = false;
+            }            
+        }
         else if (isMounting)
         {
             Ungrapple();
-            _movementController.isWalkingBanned = false;
-            _rigidbody.useGravity = true;
+            _movementController.isWalkingAllowed = true;
+            if (_shootingAbility != null)
+                _shootingAbility.enabled = true;
         }
     }
 

@@ -5,7 +5,7 @@ public class PlayerRespawnBehaviour : MonoBehaviour
 {
     public int amountOfCoinsForAdditionalLife = 100;
 
-    private int _additionalLives = 0;
+    private int _additionalLives = 1;
     public LevelParameters levelParameters;
 
     private Health _health;
@@ -33,11 +33,19 @@ public class PlayerRespawnBehaviour : MonoBehaviour
             _additionalLives -= 1;
             Respawn();
         }
-        else Debug.Log("Death!");
+        else
+        {
+            Debug.Log("Death!");
+            foreach (var component in GetComponents<MonoBehaviour>())
+            {
+                component.enabled = false;
+            }
+        }
     }
 
     public void Respawn()
     {
+        Debug.Log("Respawn!");
         //player's transform is _health.transform;
         _health.transform.position = levelParameters.respawnCheckpoint;
         _health.FullHeal();
