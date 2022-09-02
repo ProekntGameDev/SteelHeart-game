@@ -183,8 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccb08cfcca7ba64ab1ad1ef8041d711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 200
-  sprintSpeed: 2
+  walkSpeed: 250
+  sprintSpeed: 500
   sprintStaminaSpend: 2
   floorCheckRayLength: 1.05
   sprintKey: 304
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d0e2709bbd70e48a12a7556c8a2922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maximum: 10
+  _maximum: 25
   _sufficient: 2
   _restorationRate: 5
 --- !u!114 &4759089364807675503
@@ -265,7 +265,7 @@ MonoBehaviour:
   hook_mounting_distance_correction_speed: 0.2
   hook_mounting_target_distance: 4
   airResistanceMultiplier: 0.99
-  grappleKey: 323
+  grappleKey: 113
   isHookUse_Allow: 0
 --- !u!114 &4759089364807675499
 MonoBehaviour:
