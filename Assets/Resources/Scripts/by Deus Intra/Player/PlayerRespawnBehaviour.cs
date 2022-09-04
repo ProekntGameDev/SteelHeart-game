@@ -6,7 +6,7 @@ public class PlayerRespawnBehaviour : MonoBehaviour
     public int amountOfCoinsForAdditionalLife = 100;
 
     private int _additionalLives = 1;
-    public LevelParameters levelParameters;
+    public LevelData levelParameters;
 
     private Health _health;
 
@@ -14,6 +14,11 @@ public class PlayerRespawnBehaviour : MonoBehaviour
     private void Awake()
     {
         _health = GetComponent<Health>();
+    }
+
+    private void Start()
+    {
+        levelParameters.respawnCheckpoint = transform.position;
     }
 
     private void OnEnable()
