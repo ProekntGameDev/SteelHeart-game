@@ -9,6 +9,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         var triggerable = other.GetComponent<ITriggerableMonoBehaviour>();
         if (triggerable != null) triggerable.Trigger(transform);
+        
+        if (other.GetComponent<Thorns>() != null)
+        {
+            gameObject.GetComponent<PlayerRespawnBehaviour>().Die();
+        }
     }
 
     private void OnTriggerStay(Collider other)
