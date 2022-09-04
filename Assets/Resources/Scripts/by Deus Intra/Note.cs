@@ -1,22 +1,25 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Note : MonoBehaviour, ITriggerableMonoBehaviour
 {
-    [SerializeField] private string text;
-    public static List<string> notes;
+    public NoteData data;
+
 
     private void Awake()
     {
-        if (notes == null) notes = new List<string>();
+        if (data == null)
+            Debug.LogError($"Заметка {gameObject.name} не имеет данных");
     }
 
     public void Trigger(Transform obj)
     {
         if (obj.GetComponent<PlayerMovementController>() == null) return;
 
-        Debug.Log("Note: " + text);
-        notes.Add(text);
+        if (StaticGameData.AddNote(data))
+            Debug.Log("Note: " + data.title + "\n" + "Text: " + data.text);
+        else
+            Debug.LogError("Эта заметка уже была добавлена! " +
+                "Проверь, чтобы не было дубликатов (если только это не было сделано специально)");
         gameObject.SetActive(false);
     }
 }

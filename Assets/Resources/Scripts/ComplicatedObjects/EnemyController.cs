@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
     public bool isElite = false;
     // fields^
 
-    private bool isOnFloor = false;
+    //private bool isOnFloor = false;
     private bool isBufferFilled = false;
     private bool isSprinting = false;
     private bool isPlayerDetected = false;
