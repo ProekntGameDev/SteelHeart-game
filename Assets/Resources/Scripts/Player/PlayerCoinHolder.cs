@@ -17,22 +17,21 @@ public class PlayerCoinHolder : MonoBehaviour
     public void AddCoin(int worth)
     {
         Coins += worth;
+        OnChange?.Invoke();
 
-        if (_respawnBehaviour != null)
-        {
-            int lifeIncrement = _respawnBehaviour.amountOfCoinsForAdditionalLife;
-            if (Coins > lifeIncrement)
-            {
-                int livesToAdd = Coins / lifeIncrement;
-                _respawnBehaviour.AddLifes(livesToAdd);
-
-                Coins %= lifeIncrement;
-            }
-        }
-        else
+        if(_respawnBehaviour == null)
         {
             Debug.LogError("скрипт PlayerRespawnBehaviour не найден");
+            return;
         }
-        OnChange?.Invoke();
+
+        int lifeIncrement = _respawnBehaviour.amountOfCoinsForAdditionalLife;
+        if (Coins > lifeIncrement)
+        {
+            int livesToAdd = Coins / lifeIncrement;
+            _respawnBehaviour.AddLifes(livesToAdd);
+
+            Coins %= lifeIncrement;
+        }
     }
 }
