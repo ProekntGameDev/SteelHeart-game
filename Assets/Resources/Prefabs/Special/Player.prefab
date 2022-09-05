@@ -190,7 +190,7 @@ MonoBehaviour:
   sprintKey: 304
   climbUpwardsKey: 119
   climbDownwardsKey: 115
-  isWalkingBanned: 0
+  isWalkingAllowed: 0
 --- !u!114 &4759089364807675491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,10 +244,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4759089364807675492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec73d9864e3e357418235bee383b8ab2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c67b355d58605d4b9660e7c786c6955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpeed: 6
+  _countBullets: 100
+  _reloadTime: 1
+  _countBulletsTextMesh: {fileID: 0}
 --- !u!114 &4759089364807675500
 MonoBehaviour:
   m_ObjectHideFlags: 0

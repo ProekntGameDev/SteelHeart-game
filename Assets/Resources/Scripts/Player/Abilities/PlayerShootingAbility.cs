@@ -24,7 +24,7 @@ public class PlayerShootingAbility : MonoBehaviour
         _grapplingAbility = GetComponent<PlayerGrapplingAbility>();
         _bulletPool = new BulletPool(100);
         _playerHeight = GetComponent<CapsuleCollider>().height;
-        _countBulletsTextMesh.text = _countBullets + "";
+        //_countBulletsTextMesh.text = _countBullets + "";
     }
 
     private void Update()
@@ -46,7 +46,8 @@ public class PlayerShootingAbility : MonoBehaviour
             if (_isCanShoot)
             {
                 _countBullets--;
-                _countBulletsTextMesh.text = _countBullets + "";
+                if (_countBulletsTextMesh != null)                    
+                        _countBulletsTextMesh.text = _countBullets + "";
                 
                 if (_grapplingAbility != null)
                 {
