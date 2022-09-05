@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerHealthBar : MonoBehaviour
 {
     public Image image;
+    public TextMeshProUGUI healthPercent;
 
     private Health _playerHealth;
 
@@ -25,6 +27,8 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Fill()
     {
-        image.fillAmount = _playerHealth.Percentage;
+        float percentage = _playerHealth.Percentage;
+        image.fillAmount = percentage;
+        healthPercent.text = $"{(int)(percentage*100)}%";
     }
 }

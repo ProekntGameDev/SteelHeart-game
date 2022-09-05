@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CoinDisplay : MonoBehaviour
 {
-    private Text _text;
+    private TextMeshProUGUI _text;
     private PlayerCoinHolder _coinHolder;
 
 
     private void Awake()
     {
-        _text = GetComponent<Text>();
+        _text = GetComponent<TextMeshProUGUI>();
         _coinHolder = FindObjectOfType<PlayerCoinHolder>();
     }
 
