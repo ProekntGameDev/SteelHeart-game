@@ -1,14 +1,14 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovementController))]
+[RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(CapsuleCollider))]
-public class PlayerCrouchController : MonoBehaviour
+public class PlayerCrouch : MonoBehaviour
 {
     public KeyCode crouchButton = KeyCode.S;
 
     public bool IsCrouchButtonPressed { get; private set; }
 
-    private PlayerMovementController _movementController;
+    private PlayerMovement _movementController;
     private CapsuleCollider _collider;
     private bool _isCrouching = false;
     private bool _isOnFloor = false;
@@ -17,13 +17,13 @@ public class PlayerCrouchController : MonoBehaviour
     private void Awake()
     {
         _collider = GetComponent<CapsuleCollider>();
-        _movementController = GetComponent<PlayerMovementController>();        
+        _movementController = GetComponent<PlayerMovement>();        
     }
 
     private void Update()
     {
         IsCrouchButtonPressed = Input.GetKey(crouchButton);
-        _isOnFloor = _movementController.IsOnFloor;        
+        _isOnFloor = _movementController.IsOnFloor;
     }
 
     private void FixedUpdate()

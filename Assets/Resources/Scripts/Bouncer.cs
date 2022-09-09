@@ -11,7 +11,7 @@ public class Bouncer : MonoBehaviour
         var rigidbody = collision.gameObject.GetComponent<Rigidbody>();
         if (rigidbody == null) return;
 
-        var jumpController = collision.gameObject.GetComponent<PlayerJumpController>();
+        var jumpController = collision.gameObject.GetComponent<PlayerJump>();
         if (jumpController == null) return;
 
         float verticalVelocity = Mathf.Abs(jumpController.PreviousVelocityY);

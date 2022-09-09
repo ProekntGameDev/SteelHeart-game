@@ -8,17 +8,16 @@ public class PlayerInteraction : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var triggerable = other.GetComponent<ITriggerableMonoBehaviour>();
-        if (triggerable != null) triggerable.Trigger(transform);
-        
-        if (other.GetComponent<Thorns>() != null)
-        {
-            gameObject.GetComponent<PlayerRespawnBehaviour>().Die();
-        }
+        if (triggerable != null) triggerable.Trigger(transform);        
     }
 
     private void OnTriggerStay(Collider other)
     {
-        var interactable = other.GetComponent<IInteractableMonoBehaviour>();
-        if (interactable != null) interactable.Interact(transform);
+        if (Input.GetKeyDown(interactionKey))
+        {
+            var interactable = other.GetComponent<IInteractableMonoBehaviour>();
+            if (interactable != null) interactable.Interact(transform);
+        }
+        
     }
 }

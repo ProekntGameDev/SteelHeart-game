@@ -1,8 +1,8 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(PlayerMovementController))]
-public class PlayerJumpController : MonoBehaviour
+[RequireComponent(typeof(PlayerMovement))]
+public class PlayerJump : MonoBehaviour
 {
     public float jumpForce = 5f;
     public int maxJetpackJumps = 0;
@@ -11,7 +11,7 @@ public class PlayerJumpController : MonoBehaviour
     public KeyCode jumpButton = KeyCode.Space;
 
     private Rigidbody _rigidbody;
-    private PlayerMovementController _movementController;
+    private PlayerMovement _movementController;
     private float _currentJumpTimeout;
     private int _currentJetpackJumps;
 
@@ -23,7 +23,7 @@ public class PlayerJumpController : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _movementController = GetComponent<PlayerMovementController>();
+        _movementController = GetComponent<PlayerMovement>();
     }
 
     private void Update()

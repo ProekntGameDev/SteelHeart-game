@@ -9,13 +9,13 @@ public class Ladder : MonoBehaviour
     protected KeyCode _downKey;
     protected Rigidbody _playerRB;
 
-    private PlayerMovementController _player;
+    private PlayerMovement _player;
     private bool _isBeingClimbed = false;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        _player = other.GetComponent<PlayerMovementController>();
+        _player = other.GetComponent<PlayerMovement>();
         if (_player == null) return;
 
         _isBeingClimbed = true;
@@ -29,7 +29,7 @@ public class Ladder : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        var playerMovement = other.GetComponent<PlayerMovementController>();
+        var playerMovement = other.GetComponent<PlayerMovement>();
         if (playerMovement == null) return;
 
         _isBeingClimbed = false;

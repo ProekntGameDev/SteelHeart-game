@@ -13,7 +13,7 @@ public class Note : MonoBehaviour, ITriggerableMonoBehaviour
 
     public void Trigger(Transform obj)
     {
-        if (obj.GetComponent<PlayerMovementController>() == null) return;
+        if (obj.GetComponent<PlayerMovement>() == null) return;
 
         if (StaticGameData.AddNote(data))
             Debug.Log("Note: " + data.title + "\n" + "Text: " + data.text);

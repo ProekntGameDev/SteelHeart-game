@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Health))]
-public class PlayerRespawnBehaviour : MonoBehaviour
+public class PlayerRespawn : MonoBehaviour
 {
     public int amountOfCoinsForAdditionalLife = 100;
 

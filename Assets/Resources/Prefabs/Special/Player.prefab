@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4759089364807675498}
   - component: {fileID: 4759089364807675497}
   - component: {fileID: 3518437060974442555}
+  - component: {fileID: 5908864491483328624}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -180,7 +181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4759089364807675492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccb08cfcca7ba64ab1ad1ef8041d711, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a0405aa86f1ffb4a964b722eb242454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 250
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4759089364807675492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0a101e69e53dc4eb06bb5b3dc2fd64, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c67b355d58605d4b9660e7c786c6955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpeed: 6
@@ -347,3 +348,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountOfCoinsForAdditionalLife: 100
   levelParameters: {fileID: 11400000, guid: 4e8f0502597455542b0fda00fe59418f, type: 2}
+--- !u!114 &5908864491483328624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4759089364807675492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a0405aa86f1ffb4a964b722eb242454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 250
+  sprintSpeed: 500
+  sprintStaminaSpend: 2
+  floorCheckRayLength: 1.05
+  sprintKey: 304
+  climbUpwardsKey: 119
+  climbDownwardsKey: 115
+  isWalkingAllowed: 0

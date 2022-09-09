@@ -1,8 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Thorns : MonoBehaviour
+public class Thorns : MonoBehaviour, ITriggerableMonoBehaviour
 {
-
+    public void Trigger(Transform obj)
+    {
+        var respawnBehaviour = obj.GetComponent<PlayerRespawn>();
+        if (respawnBehaviour != null)
+        {
+            respawnBehaviour.Die();
+        }
+    }
 }
