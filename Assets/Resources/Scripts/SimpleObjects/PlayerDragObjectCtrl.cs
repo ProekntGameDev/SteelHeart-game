@@ -24,10 +24,10 @@ namespace SteelHeart
 
         void Start()
         {
-            _collider = gameObject.GetComponent<Collider>();
+            _collider = GetComponent<Collider>();
             _collider.enabled = false;
 
-            start_pos = gameObject.transform.position;
+            start_pos = transform.position;
             distance = Vector3.Distance(start_pos, finish_transform.position);
             direction = finish_transform.position - start_pos;
             ray = new Ray(start_pos, direction);
@@ -48,7 +48,7 @@ namespace SteelHeart
             if (hits == null) return;
             for (int i = 0; i < hits.Length; ++i)
             {
-                isHitsPlayer = hits[i].collider.gameObject.tag == "player";
+                isHitsPlayer = hits[i].collider.tag == "player";
                 if (isHitsPlayer)
                 {
                     hit = hits[i];
@@ -62,17 +62,17 @@ namespace SteelHeart
                 if (isUsing == false)
                 {
                     isUsing = true;
-                    gameObject.transform.position = hit.point;
-                    least_distance = Vector3.Distance(gameObject.transform.position, finish_transform.position);
+                    transform.position = hit.point;
+                    least_distance = Vector3.Distance(transform.position, finish_transform.position);
                 }
                 else
                 {
                     least_distance -= speed * Time.deltaTime;
-                    gameObject.transform.position = start_pos + direction * (1 - (least_distance / distance));
+                    transform.position = start_pos + direction * (1 - (least_distance / distance));
                     if (least_distance / distance <= 0)
                     {
                         isUsing = false;
-                        gameObject.transform.position = start_pos;
+                        transform.position = start_pos;
                         counter = cooldown;
                     }
                 }
