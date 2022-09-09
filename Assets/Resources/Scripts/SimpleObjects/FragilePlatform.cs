@@ -8,7 +8,7 @@ public class FragilePlatform : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        var player = collision.gameObject.GetComponent<PlayerMovementController>();
+        var player = collision.gameObject.GetComponent<PlayerMovement>();
         if (player != null) StartCoroutine(TimerCoroutine());
     }
 

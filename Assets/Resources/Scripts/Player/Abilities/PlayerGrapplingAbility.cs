@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovementController))]
+[RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerGrapplingAbility : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class PlayerGrapplingAbility : MonoBehaviour
 
     [HideInInspector] public bool isHookUse_Allow = false;
 
-    private PlayerMovementController _movementController;
+    private PlayerMovement _movementController;
     private PlayerShootingAbility _shootingAbility;
 
     private float _delta_x = 0;
@@ -31,7 +31,7 @@ public class PlayerGrapplingAbility : MonoBehaviour
 
     private void Awake()
     {
-        _movementController = GetComponent<PlayerMovementController>();
+        _movementController = GetComponent<PlayerMovement>();
         _shootingAbility = GetComponent<PlayerShootingAbility>();
         _rigidbody = GetComponent<Rigidbody>();
     }

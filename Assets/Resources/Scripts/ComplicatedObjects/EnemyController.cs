@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        player_transform = FindObjectOfType<PlayerMovementController>().transform;
+        player_transform = FindObjectOfType<PlayerMovement>().transform;
         physics_component = gameObject.GetComponent<Rigidbody>();
         bullet_pool = new BulletPool(10);
 

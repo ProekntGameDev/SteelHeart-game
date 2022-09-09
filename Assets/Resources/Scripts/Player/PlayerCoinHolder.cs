@@ -6,12 +6,12 @@ public class PlayerCoinHolder : MonoBehaviour
     public event VoidDelegate OnChange;
 
     public int Coins { get; private set; }
-    private PlayerRespawnBehaviour _respawnBehaviour;
+    private PlayerRespawn _respawnBehaviour;
 
 
     private void Awake()
     {
-        _respawnBehaviour = GetComponent<PlayerRespawnBehaviour>();
+        _respawnBehaviour = GetComponent<PlayerRespawn>();
     }
 
     public void AddCoin(int worth)
