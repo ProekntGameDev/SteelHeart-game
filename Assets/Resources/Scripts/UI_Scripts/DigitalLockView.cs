@@ -4,9 +4,13 @@ using UnityEngine;
 public class DigitalLockView : MonoBehaviour
 {
     public delegate void OnNumberButtonClickDelegate(int clickedNumber);
+    public delegate void OnCloseButtonClickDelegate();
     public OnNumberButtonClickDelegate OnNumberButtonClickEvent;
+    public OnCloseButtonClickDelegate OnCloseButtonClickEvent;
+
     
     [SerializeField] private TextMeshProUGUI _outputCodeTMP;
+    [SerializeField] private GameObject _digitalLockGameObject;
     private string _outputCodeString;
     
 
@@ -24,5 +28,10 @@ public class DigitalLockView : MonoBehaviour
     {
         OnNumberButtonClickEvent?.Invoke(clickedNumber);
     }
-    
+
+    public void OnCloseButtonClick()
+    {
+        _digitalLockGameObject.SetActive(false);
+        OnCloseButtonClickEvent?.Invoke();
+    }
 }

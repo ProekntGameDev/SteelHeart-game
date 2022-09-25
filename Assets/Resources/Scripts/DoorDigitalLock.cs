@@ -9,6 +9,7 @@ public class DoorDigitalLock : MonoBehaviour, IInteractableMonoBehaviour
     
     public void Interact(Transform obj)
     {
+        Time.timeScale = 0;
         var player = obj.GetComponent<PlayerMovement>();
         if (player == null) return;
         
