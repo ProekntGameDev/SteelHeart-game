@@ -18,11 +18,14 @@ public class DigitalLock : MonoBehaviour
     private void OnEnable()
     {
         _digitalLockView.OnNumberButtonClickEvent += OnNumberButtonClick;
+        _digitalLockView.OnCloseButtonClickEvent += OnCloseButtonClick;
+
     }
     
     private void OnDisable()
     {
         _digitalLockView.OnNumberButtonClickEvent -= OnNumberButtonClick;
+        _digitalLockView.OnCloseButtonClickEvent -= OnCloseButtonClick;
     }
 
     
@@ -63,5 +66,10 @@ public class DigitalLock : MonoBehaviour
                 _onWrongCodeInputted?.Invoke();
             }
         }
+    }
+
+    private void OnCloseButtonClick()
+    {
+        Time.timeScale = 1;
     }
 }
