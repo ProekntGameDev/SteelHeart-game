@@ -24,6 +24,7 @@ public class PlayerGrapplingAbility : MonoBehaviour
     private float _delta_y = 0;
     private float _rad_speed = 0;
     private Rigidbody _rigidbody;
+    private SpringJoint _springjoint;
     private Vector2 mount_point_delta;
     private Vector2 _hitted_object_position;
     private float _last_deltatime = 0;
