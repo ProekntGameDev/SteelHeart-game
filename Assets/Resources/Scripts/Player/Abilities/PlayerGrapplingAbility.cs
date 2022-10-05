@@ -9,9 +9,13 @@ public class PlayerGrapplingAbility : MonoBehaviour
     [Space]
     public float hook_mounting_distance_correction_speed = 0.2f;
     public float hook_mounting_target_distance = 4f;
+    public float hook_grab_distance_max = 4f;
     public float airResistanceMultiplier = 0.99f;
+    public float inputStrenght = 0.04f;
+    public float gravityStrenght = -0.11f;
     [Space]
     public KeyCode grappleKey = KeyCode.Mouse0;
+    public KeyCode ungrappleKey = KeyCode.Space;
 
     public bool isMounting { get; private set; } = false;
 
@@ -29,6 +33,7 @@ public class PlayerGrapplingAbility : MonoBehaviour
     private Vector2 _hitted_object_position;
     private float _last_deltatime = 0;
 
+    Collider selectedMountPoint = null;
 
     private void Awake()
     {
@@ -38,23 +43,34 @@ public class PlayerGrapplingAbility : MonoBehaviour
     }
 
     private void Update()
-    {        
-        if (Input.GetKey(grappleKey) && isHookUse_Allow)
+    {
+        bool isOnFloor = _movementController.IsOnFloor;
+        if (Input.GetKey(grappleKey) && isHookUse_Allow && isOnFloor == false)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            bool isHookMountingPointHit = Physics.Raycast(ray, out hit) && hit.collider.tag == "hook_mount_point";
-            bool isOnFloor = _movementController.IsOnFloor;
-            if ((isHookMountingPointHit && isOnFloor == false) || isMounting)
-            {
-                Grapple(hit.collider);                
-                _movementController.isWalkingAllowed = false;
-                if (_shootingAbility != null)
-                    _shootingAbility.enabled = false;
-            }            
+            float minDistance = float.MaxValue;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, hook_grab_distance_max);
+            foreach (var collider in colliders)
+
+                if (collider.transform.tag == "hook_mount_point")
+                {
+                    float distance = Vector3.Distance(transform.position, collider.transform.position);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance; selectedMountPoint = collider;
+                    }
+                }
         }
-        else if (isMounting)
+
+        if (selectedMountPoint != null || isMounting)
         {
+            Grapple(selectedMountPoint);
+            _movementController.isWalkingAllowed = false;
+            if (_shootingAbility != null)
+                _shootingAbility.enabled = false;
+        }
+        if (isMounting && Input.GetKey(ungrappleKey))
+        {
+            selectedMountPoint = null;
             Ungrapple();
             _movementController.isWalkingAllowed = true;
             if (_shootingAbility != null)
@@ -92,7 +108,7 @@ public class PlayerGrapplingAbility : MonoBehaviour
 
         rad = Mathf.Atan2(mount_point_delta.y, mount_point_delta.x);
         _rad_speed *= airResistanceMultiplier;
-        _rad_speed += 0.04f * MoveControl_HorizontalAxis + -0.27f * Mathf.Cos(rad); ;
+        _rad_speed += inputStrenght * MoveControl_HorizontalAxis + gravityStrenght * Mathf.Cos(rad); ;
         float cos = Mathf.Cos(_rad_speed * Time.deltaTime);
         float sin = Mathf.Sin(_rad_speed * Time.deltaTime);
         _delta_x += mount_point_delta.x * cos - mount_point_delta.y * sin - mount_point_delta.x;
