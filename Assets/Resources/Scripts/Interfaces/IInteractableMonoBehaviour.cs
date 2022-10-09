@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public interface IInteractableMonoBehaviour
+namespace Interfaces
 {
-    void Interact(Transform obj);
+    public interface IInteractableMonoBehaviour
+    {
+        void Interact(Transform obj);
+    }
 }
+

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Interfaces;
 
 public class Thorns : MonoBehaviour, ITriggerableMonoBehaviour
 {

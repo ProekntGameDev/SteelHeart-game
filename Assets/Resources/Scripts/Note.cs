@@ -1,4 +1,5 @@
 using UnityEngine;
+using Interfaces;
 
 public class Note : MonoBehaviour, ITriggerableMonoBehaviour
 {
