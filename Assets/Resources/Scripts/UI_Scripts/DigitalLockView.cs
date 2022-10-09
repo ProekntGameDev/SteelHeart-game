@@ -1,14 +1,22 @@
+
 using Interfaces;
 using TMPro;
 using UnityEngine;
 
 public class DigitalLockView : MonoBehaviour
 {
+
+    public delegate void OnNumberButtonClickDelegate(int clickedNumber);
+    public delegate void OnCloseButtonClickDelegate();
+    public OnNumberButtonClickDelegate OnNumberButtonClickEvent;
+    public OnCloseButtonClickDelegate OnCloseButtonClickEvent;
+    
     [SerializeField] private TextMeshProUGUI _outputCodeTMP;
     [SerializeField] private MonoBehaviour _controller;
-    private INumberButtonClickable _numberButtonClickable;
+    [SerializeField] private GameObject _digitalLockGameObject;
+    
     private string _outputCodeString;
-
+    private INumberButtonClickable _numberButtonClickable;
 
     private void Awake()
     {
@@ -19,7 +27,6 @@ public class DigitalLockView : MonoBehaviour
     {
         _outputCodeTMP.text = newCode.ToString();
     }
-    
     public void SetOutputCodeString(string newCodeString)
     {
         _outputCodeTMP.text = newCodeString;
@@ -33,5 +40,16 @@ public class DigitalLockView : MonoBehaviour
     public void OnClickNumberButton(int clickedNumber)
     {
         _numberButtonClickable.OnClickNumberButton(clickedNumber);
+    }
+
+    public void OnNumberButtonClick(int clickedNumber)
+    {
+        OnNumberButtonClickEvent?.Invoke(clickedNumber);
+    }
+
+    public void OnCloseButtonClick()
+    {
+        _digitalLockGameObject.SetActive(false);
+        OnCloseButtonClickEvent?.Invoke();
     }
 }
