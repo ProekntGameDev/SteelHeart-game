@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Interfaces;
 
 public class Zipline : MonoBehaviour, IInteractableMonoBehaviour
 {
