@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Elevator : MonoBehaviour, IInteractableMonoBehaviour
+public class Elevator : MonoBehaviour, Interfaces.IInteractableMonoBehaviour
 {
     public float lift_height = 4;
     public float lift_speed = 1f;

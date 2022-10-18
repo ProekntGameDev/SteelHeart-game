@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorDigitalLock : MonoBehaviour, IInteractableMonoBehaviour
+public class DoorDigitalLock : MonoBehaviour, Interfaces.IInteractableMonoBehaviour
 {
     [SerializeField] private GameObject _digitalLockGameObject; 
     
