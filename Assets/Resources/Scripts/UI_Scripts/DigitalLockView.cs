@@ -37,11 +37,6 @@ public class DigitalLockView : MonoBehaviour
         return _outputCodeString;
     }
 
-    public void OnClickNumberButton(int clickedNumber)
-    {
-        _numberButtonClickable.OnClickNumberButton(clickedNumber);
-    }
-
     public void OnNumberButtonClick(int clickedNumber)
     {
         OnNumberButtonClickEvent?.Invoke(clickedNumber);

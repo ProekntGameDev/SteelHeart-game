@@ -2,6 +2,6 @@ namespace Interfaces
 {
     public interface INumberButtonClickable
     {
-        void OnClickNumberButton(int clickedNumber);
+        void OnNumberButtonClick(int clickedNumber);
     }
 }

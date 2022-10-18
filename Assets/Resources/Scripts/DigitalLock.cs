@@ -53,7 +53,7 @@ public class DigitalLock : MonoBehaviour
         _stringUserCode += clickedNumber;
         int userCode = Int32.Parse(_stringUserCode);
         _digitalLockView.SetOutputCodeString(_stringUserCode);
-        
+
         if (_stringUserCode.Length == _correctCode.ToString().Length)
         {
             if (userCode == _correctCode)
