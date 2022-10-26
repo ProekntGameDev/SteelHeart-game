@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface ITriggerableMonoBehaviour
+namespace Interfaces
 {
-    void Trigger(Transform obj);
+    public interface ITriggerableMonoBehaviour
+    {
+        void Trigger(Transform obj);
+    }
 }
