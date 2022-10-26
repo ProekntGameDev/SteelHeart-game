@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 4759089364807675513}
   - component: {fileID: 4759089364807675514}
   - component: {fileID: 4759089364807675493}
-  - component: {fileID: 6534205978177388877}
   - component: {fileID: 4759089364807675490}
   - component: {fileID: 4759089364807675491}
   - component: {fileID: 4759089364807675489}
@@ -158,20 +157,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!114 &6534205978177388877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4759089364807675492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da8098156c18aba4f8a6d462d8778625, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maximum: 100
-  _current: 100
 --- !u!114 &4759089364807675490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,8 +253,12 @@ MonoBehaviour:
   gizmoRadius: 0.25
   hook_mounting_distance_correction_speed: 0.2
   hook_mounting_target_distance: 4
+  hook_grab_distance_max: 4
   airResistanceMultiplier: 0.99
+  inputStrenght: 0.04
+  gravityStrenght: -0.11
   grappleKey: 113
+  ungrappleKey: 32
   isHookUse_Allow: 0
 --- !u!114 &4759089364807675499
 MonoBehaviour:
