@@ -3,17 +3,16 @@ using UnityEngine.UI;
 
 public class ButtonClickMask : MonoBehaviour
 {
-    [Range(0f, 1f)] public float AlphaLevel = 1f;
-    private Image _buttonImage;
-    
+    [SerializeField] [Range(0f, 1f)] private float _alphaLevel = 1f;
+
     private void Start()
     {
-        // _buttonImage = gameObject.GetComponentInChildren<Image>();
+        SetMask();
     }
 
-    private void Update()
+    public void SetMask()
     {
-        _buttonImage = gameObject.GetComponentInChildren<Image>();
-        _buttonImage.alphaHitTestMinimumThreshold = AlphaLevel;
+        var buttonImage = gameObject.GetComponentInChildren<Image>();
+        buttonImage.alphaHitTestMinimumThreshold = _alphaLevel;
     }
 }

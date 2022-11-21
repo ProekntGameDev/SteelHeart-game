@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +7,7 @@ public class Upgrader : MonoBehaviour
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Sprite onSelectedSprite;
     [SerializeField] private GameObject upgrades;
-    
+
     private int _previousSelected;
     private int _selected;
 
@@ -23,6 +22,12 @@ public class Upgrader : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab)) upgrades.SetActive(true);
+        else if (Input.GetKeyUp(KeyCode.Tab)) upgrades.SetActive(false);
+    }
+
     private void UpdateButton(int index)
     {
         _selected = index;
@@ -30,12 +35,9 @@ public class Upgrader : MonoBehaviour
         buttons[_previousSelected].image.sprite = defaultSprite;
         buttons[index].image.sprite = onSelectedSprite;
 
-        _previousSelected = _selected;
-    }
+        if (buttons[index].TryGetComponent<ButtonClickMask>(out var buttonClickMask)) 
+            buttonClickMask.SetMask();
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Tab)) upgrades.SetActive(true);
-        else if(Input.GetKeyUp(KeyCode.Tab)) upgrades.SetActive(false);
+        _previousSelected = _selected;
     }
 }
