@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &107686563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 107686564}
+  m_Layer: 7
+  m_Name: GroundChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &107686564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107686563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5592846713727562684}
+  m_RootOrder: 98
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5592846712829932658
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846712829932657}
   - component: {fileID: 5592846712829932656}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.095
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846712840028083}
   - component: {fileID: 5592846712840028082}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hand_low.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846712858101883}
   - component: {fileID: 5592846712858101882}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.054
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846712897106393}
   - component: {fileID: 5592846712897106392}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: neck.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846712923104118}
   - component: {fileID: 5592846712923104117}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: detail1.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,7 +472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846712932701267}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846712944571857}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,7 +534,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846712946803694}
   - component: {fileID: 5592846712946803693}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.088
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -589,7 +619,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846712972387657}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -621,7 +651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713008154100}
   - component: {fileID: 5592846713008154099}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: polySurface31.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +738,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713027349611}
   - component: {fileID: 5592846713027349610}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.070
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,7 +824,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713033179008}
   - component: {fileID: 5592846713033179039}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.105
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713033456132}
   - component: {fileID: 5592846713033456131}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: lamp.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -968,7 +998,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713051654636}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -999,7 +1029,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713053688223}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1030,7 +1060,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713070722514}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1062,7 +1092,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713071189326}
   - component: {fileID: 5592846713071189325}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: head.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1147,7 +1177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713078113833}
   - component: {fileID: 5592846713078113832}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BezierCurve.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1231,7 +1261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713107856041}
   - component: {fileID: 5592846713107856040}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body.012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1325,7 +1355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713116636030}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1356,7 +1386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713126197493}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1387,7 +1417,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713132973232}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1419,7 +1449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713136370099}
   - component: {fileID: 5592846713136370098}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.020
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1507,7 +1537,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713172540889}
   - component: {fileID: 5592846713172540888}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.062
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1593,7 +1623,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713203503088}
   - component: {fileID: 5592846713203503055}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wristWork.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1680,7 +1710,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713219330594}
   - component: {fileID: 5592846713219330593}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body.016
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1767,7 +1797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713240806605}
   - component: {fileID: 5592846713240806604}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.075
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1855,7 +1885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713242209951}
   - component: {fileID: 5592846713242209950}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: detail2.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1941,7 +1971,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713282618717}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1973,7 +2003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713285343901}
   - component: {fileID: 5592846713285343900}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2059,7 +2089,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713298060425}
   - component: {fileID: 5592846713298060424}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: polySurface16.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2144,7 +2174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713305798040}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2176,7 +2206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713350502419}
   - component: {fileID: 5592846713350502418}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pipe.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2262,7 +2292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713359570594}
   - component: {fileID: 5592846713359570593}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.097
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2348,7 +2378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713369390606}
   - component: {fileID: 5592846713369390605}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.061
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2434,7 +2464,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713406793193}
   - component: {fileID: 5592846713406793192}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.072
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2520,7 +2550,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713448694893}
   - component: {fileID: 5592846713448694892}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.084
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2607,7 +2637,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713477108775}
   - component: {fileID: 5592846713477108774}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.064
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2693,7 +2723,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713493311066}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2725,7 +2755,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713501985791}
   - component: {fileID: 5592846713501985790}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.077
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2809,7 +2839,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713583861991}
   - component: {fileID: 5592846713583861990}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.090
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2896,7 +2926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713598617156}
   - component: {fileID: 5592846713598617155}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.094
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2982,7 +3012,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713610547956}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3014,7 +3044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713611841863}
   - component: {fileID: 5592846713611841862}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.085
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3100,7 +3130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713640858667}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3132,7 +3162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713660287030}
   - component: {fileID: 5592846713660287029}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.073
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3218,7 +3248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713670558182}
   - component: {fileID: 5592846713670558181}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.051
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3304,7 +3334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713678546945}
   - component: {fileID: 5592846713678546944}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.024
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3389,7 +3419,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713682960211}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3420,7 +3450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713683943180}
   - component: {fileID: 5592846713683943179}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.074
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3508,7 +3538,7 @@ GameObject:
   - component: {fileID: 5592846713727562686}
   - component: {fileID: 5592846713752942558}
   - component: {fileID: 5592846713727562665}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerMode
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3624,6 +3654,7 @@ Transform:
   - {fileID: 5592846713992186560}
   - {fileID: 5592846714119945315}
   - {fileID: 5592846713203503088}
+  - {fileID: 107686564}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3690,6 +3721,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4.5
   rotationSpeed: 20
+  jumpforce: 5
+  groundChecker: {fileID: 107686564}
+  notPlayerMask:
+    serializedVersion: 2
+    m_Bits: 127
 --- !u!1 &5592846713728689740
 GameObject:
   m_ObjectHideFlags: 0
@@ -3699,7 +3735,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713728689739}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3731,7 +3767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713738202615}
   - component: {fileID: 5592846713738202614}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pipeHolder.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3819,7 +3855,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713743401402}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3849,7 +3885,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713763351289}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3881,7 +3917,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713766590734}
   - component: {fileID: 5592846713766590733}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3967,7 +4003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713767468900}
   - component: {fileID: 5592846713767468899}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.055
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4054,7 +4090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713777940007}
   - component: {fileID: 5592846713777940006}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.096
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4140,7 +4176,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713820821091}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4171,7 +4207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713828938625}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4202,7 +4238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713832116912}
   - component: {fileID: 5592846713832116879}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: detail2.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4289,7 +4325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713872592900}
   - component: {fileID: 5592846713872592899}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.106
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4376,7 +4412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713906653132}
   - component: {fileID: 5592846713906653131}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.076
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4459,7 +4495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713909275575}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4490,7 +4526,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713967042556}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4521,7 +4557,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846713968998032}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4555,7 +4591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846713992186560}
   - component: {fileID: 5592846713992186591}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: sw_work.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4642,7 +4678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714023039155}
   - component: {fileID: 5592846714023039154}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4732,7 +4768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714023195301}
   - component: {fileID: 5592846714023195300}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.052
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4817,7 +4853,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714050836884}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,7 +4885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714052149427}
   - component: {fileID: 5592846714052149426}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hand_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4936,7 +4972,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714060339597}
   - component: {fileID: 5592846714060339596}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5020,7 +5056,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714079364760}
   - component: {fileID: 5592846714079364759}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.021
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5107,7 +5143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714108342252}
   - component: {fileID: 5592846714108342251}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pipe.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5197,7 +5233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714115364918}
   - component: {fileID: 5592846714115364917}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.059
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5284,7 +5320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714119945315}
   - component: {fileID: 5592846714119945314}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wristWork.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5371,7 +5407,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714136317157}
   - component: {fileID: 5592846714136317156}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: detail3.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5459,7 +5495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714144981202}
   - component: {fileID: 5592846714144981201}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body.017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5547,7 +5583,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714149710340}
   - component: {fileID: 5592846714149710339}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.078
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5633,7 +5669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714176605748}
   - component: {fileID: 5592846714176605747}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle.016
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5718,7 +5754,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714206201790}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5750,7 +5786,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714215629462}
   - component: {fileID: 5592846714215629461}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: eye.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5834,7 +5870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714222782083}
   - component: {fileID: 5592846714222782082}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: raf.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5919,7 +5955,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714242537237}
   - component: {fileID: 5592846714242537236}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.098
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6005,7 +6041,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714252239979}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6037,7 +6073,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714291732001}
   - component: {fileID: 5592846714291732000}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6123,7 +6159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714307826023}
   - component: {fileID: 5592846714307826022}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.068
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6210,7 +6246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714307870543}
   - component: {fileID: 5592846714307870542}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.057
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6295,7 +6331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714323665556}
   - component: {fileID: 5592846714323665555}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.058
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6379,7 +6415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714346763788}
   - component: {fileID: 5592846714346763787}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: lamp.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6465,7 +6501,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714349154159}
   - component: {fileID: 5592846714349154158}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6551,7 +6587,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714356973134}
   - component: {fileID: 5592846714356973133}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BezierCurve.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6637,7 +6673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714412993962}
   - component: {fileID: 5592846714412993961}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: head_low.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6721,7 +6757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714439177440}
   - component: {fileID: 5592846714439177471}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6808,7 +6844,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714447327345}
   - component: {fileID: 5592846714447327344}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.067
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6895,7 +6931,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714447905745}
   - component: {fileID: 5592846714447905744}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BezierCurve.012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6978,7 +7014,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714448153233}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7010,7 +7046,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714463730457}
   - component: {fileID: 5592846714463730456}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: boxForWires.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7096,7 +7132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714474347861}
   - component: {fileID: 5592846714474347860}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.108
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7182,7 +7218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714474801293}
   - component: {fileID: 5592846714474801292}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.053
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7269,7 +7305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714490393366}
   - component: {fileID: 5592846714490393365}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.016
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7357,7 +7393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714496485762}
   - component: {fileID: 5592846714496485761}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.087
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7443,7 +7479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714501209249}
   - component: {fileID: 5592846714501209248}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.065
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7529,7 +7565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714556574239}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7561,7 +7597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714557332036}
   - component: {fileID: 5592846714557332035}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7647,7 +7683,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714567681241}
   - component: {fileID: 5592846714567681240}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.109
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7733,7 +7769,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714580200657}
   - component: {fileID: 5592846714580200656}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.071
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7818,7 +7854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714593097990}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:HeadTop_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7848,7 +7884,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714610094467}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:LeftUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7880,7 +7916,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714623061822}
   - component: {fileID: 5592846714623061821}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BezierCurve.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7966,7 +8002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714634423499}
   - component: {fileID: 5592846714634423498}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: sw_work.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8052,7 +8088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714636378432}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:RightShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8084,7 +8120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714667719271}
   - component: {fileID: 5592846714667719270}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BezierCurve.011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8170,7 +8206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714684126314}
   - component: {fileID: 5592846714684126313}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: polySurface31.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8257,7 +8293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714686848168}
   - component: {fileID: 5592846714686848167}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.060
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8343,7 +8379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714690311920}
   - component: {fileID: 5592846714690311887}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8429,7 +8465,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714711253875}
   - component: {fileID: 5592846714711253874}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.063
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8516,7 +8552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714737831362}
   - component: {fileID: 5592846714737831361}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.050
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8605,7 +8641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714742993564}
   - component: {fileID: 5592846714742993563}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.089
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8692,7 +8728,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714749507899}
   - component: {fileID: 5592846714749507898}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BezierCurve.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8779,7 +8815,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714759317177}
   - component: {fileID: 5592846714759317176}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: polySurface16.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8864,7 +8900,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714762265466}
   - component: {fileID: 5592846714762265465}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.018
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8953,7 +8989,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714762594790}
   - component: {fileID: 5592846714762594789}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: detail1.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9040,7 +9076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714782948558}
   - component: {fileID: 5592846714782948557}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.086
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9127,7 +9163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714830458729}
   - component: {fileID: 5592846714830458728}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body.015
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9214,7 +9250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714840054847}
   - component: {fileID: 5592846714840054846}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: detail3.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9302,7 +9338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714855178777}
   - component: {fileID: 5592846714855178776}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.056
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9388,7 +9424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714914532420}
   - component: {fileID: 5592846714914532419}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.091
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9474,7 +9510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592846714947283560}
   - component: {fileID: 5592846714947283559}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder.066
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9559,7 +9595,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714949883802}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9592,7 +9628,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5592846714950167462}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mixamorig:Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
