@@ -15,10 +15,14 @@ public class PlayerCN : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private Animator _animator;
+    private CapsuleCollider _collider;
+
+    private bool isGrounded;
 
     // Start is called before the first frame update
     public void Start()
     {
+        _collider = GetComponent<CapsuleCollider>();
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
     }
@@ -43,26 +47,59 @@ public class PlayerCN : MonoBehaviour
         {
               Jump();
         }
+
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Crouch();
+        }
+
+          if(Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            UnCrouch();
+        }
+        
         
         if(Physics.CheckSphere(groundChecker.position,0.3f,notPlayerMask))
           {
               _animator.SetBool("isInAir",false);
+              isGrounded = true;
+              
           }
           else 
           {
                _animator.SetBool("isInAir",true);
+               isGrounded = false;
           }
     }
 
-    public void Jump() 
+     public void Crouch()
+     {
+          if(isGrounded)
+          {
+                _animator.SetBool("isCrouching",true);
+                speed = 1.2f;
+                _collider.height = 1.4f;
+                 _collider.center = new Vector3(_collider.center.x,0.55f,_collider.center.z);
+          }
+
+     }
+
+     public void UnCrouch()
+     {
+         _animator.SetBool("isCrouching",false);
+         speed = 4.5f;
+         _collider.height = 1.9f;
+         _collider.center = new Vector3(_collider.center.x,0.9603896f,_collider.center.z);
+     }
+
+    public void Jump()  
     {
+         if(_animator.GetBool("isCrouching")) return;
           _animator.SetTrigger("Jump");
-          if(Physics.Raycast(groundChecker.position,Vector3.down,0.2f,notPlayerMask))
+          if(isGrounded)
           {
                  _rigidbody.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
           }
     }
-
-
-    
 }
+    
