@@ -21,7 +21,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Awake()
     {
-        var playerController = FindObjectOfType<PlayerMovement>();
+        var playerController = FindObjectOfType<PlayerCN>();
         _playerHealth = playerController.GetComponent<Health>();        
     }
 
