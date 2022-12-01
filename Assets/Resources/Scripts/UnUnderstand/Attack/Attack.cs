@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+
+     
     private float _timeAttack;
     public float startTimeAttack;
 
@@ -12,11 +14,15 @@ public class Attack : MonoBehaviour
     public float attackRange;
     public int damage;
 
+    public Animator animator;
+
     private void Update()
     {
+         animator.SetTrigger("Attack");
+    
         if(_timeAttack <= 0){
 
-         if(Input.GetMouseButton(1))
+         if(Input.GetKeyDown(KeyCode.Q))
          {
              Collider[] enemies = Physics.OverlapSphere(attackPos.position,attackRange,enemy);
              for ( int i =0; i< enemies.Length; i++)
