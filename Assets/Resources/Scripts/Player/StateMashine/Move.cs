@@ -41,7 +41,7 @@ namespace stateMachinePlayer
             if (directionVector.magnitude > Mathf.Abs(0.1f))
                 player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(directionVector), Time.deltaTime * rotationSpeed);
 
-            QQ();
+            NewAnimate();
 
             player.animator.SetFloat("speed", Vector3.ClampMagnitude(directionVector, 1).magnitude);
             Vector3 moveDir = Vector3.ClampMagnitude(directionVector, 1) * speed;
@@ -49,6 +49,8 @@ namespace stateMachinePlayer
             player.rigidbody.angularVelocity = Vector3.zero;
         }
 
-        protected abstract void QQ();
+        protected virtual void NewAnimate()
+        { 
+        }
     }
 }

@@ -29,9 +29,15 @@ namespace stateMachinePlayer
 
         public override void FixedUpdate()
         {
-            player.rigidbody.AddForce(Vector3.up * jumpVelocity, ForceMode.Impulse);
-            player.animator.SetBool("isJump", true);
-            stateMachine.ChangeState(new IdleState(stateMachine, player));
+            if (player.isGround)
+            {
+                player.rigidbody.AddForce(Vector3.up * jumpVelocity, ForceMode.Impulse);
+                stateMachine.ChangeState(new IdleState(stateMachine, player));
+            }
+            else 
+            {
+                stateMachine.ChangeState(new IdleState(stateMachine, player));
+            }
         }
     }
 }
