@@ -9,23 +9,9 @@ namespace stateMachinePlayer
         public JumpState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
 
-        }
+        }        
 
-        
-
-        private float jumpVelocity = 10f;
-
-        public override void Enter()
-        {
-            Debug.Log("Я в состоянии прыжка!");
-        }
-
-        public override void Exit()
-        {
-            Debug.Log("Я вышел из состояния прыжка!");
-            //player.animator.SetBool("isInAir", false);
-            //player.animator.SetBool("isJump", false);
-        }
+        private float jumpVelocity = 10f;                
 
         public override void FixedUpdate()
         {

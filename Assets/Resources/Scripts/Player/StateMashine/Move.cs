@@ -11,13 +11,15 @@ namespace stateMachinePlayer
         protected StateMachine stateMachine;
         protected float speed;
         protected float rotationSpeed;
+        protected float limitSpeed;
 
-        public Move(StateMachine stateMachine, Player player, float speed, float rotationSpeed) : base (stateMachine, player) 
+        public Move(StateMachine stateMachine, Player player, float speed, float rotationSpeed, float limitSpeed) : base (stateMachine, player) 
         {
             this.stateMachine = stateMachine;
             this.player = player;
             this.speed = speed;
             this.rotationSpeed = rotationSpeed;
+            this.limitSpeed = limitSpeed;
         }
 
         public override void Enter()
@@ -43,10 +45,17 @@ namespace stateMachinePlayer
 
             NewAnimate();
 
-            player.animator.SetFloat("speed", Vector3.ClampMagnitude(directionVector, 1).magnitude);
-            Vector3 moveDir = Vector3.ClampMagnitude(directionVector, 1) * speed;
-            player.rigidbody.velocity = new Vector3(moveDir.x, player.rigidbody.velocity.y, moveDir.z);
-            player.rigidbody.angularVelocity = Vector3.zero;
+            player.animator.SetFloat("speed", Vector3.ClampMagnitude(directionVector, 1).magnitude);           
+
+            Vector3 moveDir = directionVector * speed;
+            moveDir.y = 0;
+
+
+            var velocity = player.rigidbody.velocity;
+            if (velocity.x + velocity.z < limitSpeed)
+            {
+                player.rigidbody.AddForce(moveDir);
+            }                       
         }
 
         protected virtual void NewAnimate()
