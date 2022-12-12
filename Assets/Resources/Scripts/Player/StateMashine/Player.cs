@@ -1,35 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+using GroundCheck;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody), typeof(Animator), typeof(CapsuleCollider))]
 public class Player : MonoBehaviour
 {
-    public Rigidbody rigidbody;
-    public Animator animator;
-    public CapsuleCollider collider;
-    public Transform target;
+    [SerializeField] private GroundChecker _groundChecker;
 
-    public bool isGround => collisionCount > 0;
-    private int collisionCount = 0;
-    
+    private Rigidbody _rigidbody;
+    private Animator _animator;
+    private CapsuleCollider _collider;
+
+    public bool OnGround => _groundChecker.IsGrounded;
+
+    public Rigidbody Rigidbody => _rigidbody;
+    public Animator Animator => _animator;
+    public CapsuleCollider Collider => _collider;
+
     public void Start()
     {
-        collider = GetComponent<CapsuleCollider>();
-        animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private List<string> ignoredTags = new List<string>() {  };
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(!ignoredTags.Contains(other.tag))
-            collisionCount++;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!ignoredTags.Contains(other.tag))
-            collisionCount--;
+        _rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+        _collider = GetComponent<CapsuleCollider>();
     }
 }
