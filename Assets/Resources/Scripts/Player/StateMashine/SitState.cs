@@ -20,7 +20,7 @@ namespace stateMachinePlayer
         public override void Exit()
         {
             Debug.Log("Я вышел из состояния сижу!");
-            player.animator.SetBool("isCrouching", false);
+            player.Animator.SetBool("isCrouching", false);
         }
         public override void Update()
         {
@@ -44,7 +44,7 @@ namespace stateMachinePlayer
 
         protected override void NewAnimate()
         {
-            player.animator.SetBool("isCrouching", true);
+            player.Animator.SetBool("isCrouching", true);
         }
     }
 }

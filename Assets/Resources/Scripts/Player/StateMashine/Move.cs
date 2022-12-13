@@ -45,16 +45,16 @@ namespace stateMachinePlayer
 
             NewAnimate();
 
-            player.animator.SetFloat("speed", Vector3.ClampMagnitude(directionVector, 1).magnitude);           
+            player.Animator.SetFloat("speed", Vector3.ClampMagnitude(directionVector, 1).magnitude);           
 
             Vector3 moveDir = directionVector * speed;
             moveDir.y = 0;
 
 
-            var velocity = player.rigidbody.velocity;
+            var velocity = player.Rigidbody.velocity;
             if (velocity.x + velocity.z < limitSpeed)
             {
-                player.rigidbody.AddForce(moveDir);
+                player.Rigidbody.AddForce(moveDir);
             }                       
         }
 
