@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class HealthOld : MonoBehaviour
 {
     public delegate void VoidDelegate();
 

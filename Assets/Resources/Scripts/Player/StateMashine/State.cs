@@ -8,6 +8,7 @@ namespace stateMachinePlayer
     {
         protected Player player;
         protected StateMachine stateMachine; 
+        
         public State(StateMachine stateMachine, Player player)
         {
             this.stateMachine = stateMachine;

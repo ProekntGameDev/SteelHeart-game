@@ -31,7 +31,7 @@ public class PlayerCoinHolder : MonoBehaviour
         }
         else
         {
-            Debug.LogError("скрипт PlayerRespawnBehaviour не найден");
+            Debug.LogError("СЃРєСЂРёРїС‚ PlayerRespawnBehaviour РЅРµ РЅР°Р№РґРµРЅ");
         }
         OnChange?.Invoke();
     }

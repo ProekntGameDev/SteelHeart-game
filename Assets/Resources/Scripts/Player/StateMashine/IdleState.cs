@@ -14,12 +14,12 @@ namespace stateMachinePlayer
 
         public override void Enter()
         {
-            Debug.Log("Я в состоянии покоя!");            
+            Debug.Log("РЇ РІ СЃРѕСЃС‚РѕСЏРЅРёРё РїРѕРєРѕСЏ!");            
         }
 
         public override void Exit()
         {
-            Debug.Log("Я вышел из состояния покоя!");
+            Debug.Log("РЇ РІС‹С€РµР» РёР· СЃРѕСЃС‚РѕСЏРЅРёСЏ РїРѕРєРѕСЏ!");
         }
 
         public override void Update()

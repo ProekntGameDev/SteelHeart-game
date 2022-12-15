@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(HealthOld))]
 public class PlayerRespawn : MonoBehaviour
 {
     public int amountOfCoinsForAdditionalLife = 100;
@@ -8,12 +8,12 @@ public class PlayerRespawn : MonoBehaviour
     private int _additionalLives = 1;
     public LevelData levelParameters;
 
-    private Health _health;
+    private HealthOld _health;
 
 
     private void Awake()
     {
-        _health = GetComponent<Health>();
+        _health = GetComponent<HealthOld>();
     }
 
     private void Start()

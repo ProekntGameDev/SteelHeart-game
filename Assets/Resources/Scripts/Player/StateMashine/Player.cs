@@ -6,20 +6,18 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private GroundChecker _groundChecker;
 
-    private Rigidbody _rigidbody;
-    private Animator _animator;
-    private CapsuleCollider _collider;
-
     public bool OnGround => _groundChecker.IsGrounded;
 
-    public Rigidbody Rigidbody => _rigidbody;
-    public Animator Animator => _animator;
-    public CapsuleCollider Collider => _collider;
+    public Rigidbody Rigidbody { get; private set; }
+    public Animator Animator { get; private set; }
+    public CapsuleCollider Collider { get; private set; }
+    public Health Health { get; private set; }
 
-    public void Start()
+    public void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
-        _collider = GetComponent<CapsuleCollider>();
+        Health = new Health();
+        Rigidbody = GetComponent<Rigidbody>();
+        Animator = GetComponent<Animator>();
+        Collider = GetComponent<CapsuleCollider>();
     }
 }

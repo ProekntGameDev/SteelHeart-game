@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    public void ReloadScene() //перезапуск сцены (после смерти)
+    public void ReloadScene() //РїРµСЂРµР·Р°РїСѓСЃРє СЃС†РµРЅС‹ (РїРѕСЃР»Рµ СЃРјРµСЂС‚Рё)
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

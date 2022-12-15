@@ -14,12 +14,12 @@ namespace stateMachinePlayer
 
         public override void Enter()
         {
-            Debug.Log("Я в состоянии сижу!");            
+            Debug.Log("РЇ РІ СЃРѕСЃС‚РѕСЏРЅРёРё СЃРёР¶Сѓ!");            
         }
 
         public override void Exit()
         {
-            Debug.Log("Я вышел из состояния сижу!");
+            Debug.Log("РЇ РІС‹С€РµР» РёР· СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃРёР¶Сѓ!");
             player.Animator.SetBool("isCrouching", false);
         }
         public override void Update()
