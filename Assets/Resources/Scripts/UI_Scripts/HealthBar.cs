@@ -1,23 +1,26 @@
+using System;
+using System.Globalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Color = UnityEngine.Color;
 
-[RequireComponent(typeof(Image))]
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Player player;
-    private Image _image;
+    [SerializeField] private Player _player;
+    [SerializeField] private Image _image;
+    [SerializeField] private TMP_Text _text;
 
     private void Awake()
     {
-        _image = GetComponent<Image>();
-        player.Health.OnHealthChanged.AddListener(OnHealthChanged);
+        _player.Health.OnHealthChanged.AddListener(OnHealthChanged);
     }
 
     private void OnHealthChanged(float newValue)
     {
-        var value = newValue / player.Health.MaxValue;
-        // _image.color = new Color(255 - 255 * value, 255 * value, 0, 255); // color change to redder with decreased health. Has bugs
+        var value = newValue / _player.Health.MaxValue;
         _image.fillAmount = value;
+
+        var presents = Math.Round(value, 3) * 100;
+        _text.text = presents.ToString(CultureInfo.CurrentCulture) + "%";
     }
 }

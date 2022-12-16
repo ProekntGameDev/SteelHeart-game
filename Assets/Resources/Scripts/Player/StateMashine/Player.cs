@@ -1,3 +1,4 @@
+using System;
 using GroundCheck;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     public void Awake()
     {
         Health = new Health();
+        
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
         Collider = GetComponent<CapsuleCollider>();

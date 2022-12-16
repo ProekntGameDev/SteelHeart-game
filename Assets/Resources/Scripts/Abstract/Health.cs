@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class Health
@@ -21,9 +22,19 @@ public class Health
         get => _healthValue;
         set
         {
-            ThrIfNotBetween0AndMaxValue(value);
+            if (value < 0)
+            {
+                Debug.LogWarning("health has dropped below zero. Health is changed to 0");
+                value = 0;
+            }
+            else if (value > MaxValue)
+            {
+                Debug.LogWarning(
+                    $"health has increased MaxValue ({MaxValue}). the health was lowered to MaxValue ({MaxValue})");
+                value = MaxValue;
+            }
 
-            OnHealthChanged.Invoke(value);
+            OnHealthChanged?.Invoke(value);
             _healthValue = value;
         }
     }
@@ -41,12 +52,6 @@ public class Health
         HealthValue -= value;
     }
 
-
-    private void ThrIfNotBetween0AndMaxValue(float value)
-    {
-        if (value > MaxValue || value < 0)
-            throw new ArgumentOutOfRangeException(nameof(value));
-    }
 
     private static void ThrIfLt0(float value)
     {
