@@ -52,6 +52,16 @@ public class Health
         HealthValue -= value;
     }
 
+    public void Kill()
+    {
+        HealthValue = 0;
+    }
+
+    public void Resurrect()
+    {
+        HealthValue = MaxValue;
+    }
+
 
     private static void ThrIfLt0(float value)
     {

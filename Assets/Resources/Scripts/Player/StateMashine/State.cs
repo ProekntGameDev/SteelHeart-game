@@ -6,10 +6,10 @@ namespace stateMachinePlayer
 {
     public abstract class State
     {
-        protected Player player;
-        protected StateMachine stateMachine; 
-        
-        public State(StateMachine stateMachine, Player player)
+        protected readonly Player player;
+        protected readonly StateMachine stateMachine;
+
+        protected State(StateMachine stateMachine, Player player)
         {
             this.stateMachine = stateMachine;
             this.player = player;

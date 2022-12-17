@@ -18,15 +18,15 @@ namespace stateMachinePlayer
         {            
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                stateMachine.ChangeState(new SprintState(stateMachine, player, 1000, 10, 10));
+                currentStateMachine.ChangeState(new SprintState(currentStateMachine, currentPlayer, 1000, 10, 10));
             }
             else if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                stateMachine.ChangeState(new SitState(stateMachine, player, 100, 6, 1));
+                currentStateMachine.ChangeState(new SitState(currentStateMachine, currentPlayer, 100, 6, 1));
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
-                stateMachine.ChangeState(new JumpState(stateMachine, player));
+                currentStateMachine.ChangeState(new JumpState(currentStateMachine, currentPlayer));
             }
         }
                 

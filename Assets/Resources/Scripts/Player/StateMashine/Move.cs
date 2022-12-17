@@ -1,22 +1,20 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace stateMachinePlayer
 {
     public abstract class Move : State
     {
-        protected Player player;
-        protected StateMachine stateMachine;
-        protected float speed;
-        protected float rotationSpeed;
-        protected float limitSpeed;
+        protected readonly Player currentPlayer;
+        protected readonly StateMachine currentStateMachine;
+        private readonly float speed;
+        private readonly float rotationSpeed;
+        private readonly float limitSpeed;
+        private static readonly int _speed = Animator.StringToHash("speed");
 
-        public Move(StateMachine stateMachine, Player player, float speed, float rotationSpeed, float limitSpeed) : base (stateMachine, player) 
+        protected Move(StateMachine stateMachine, Player player, float speed, float rotationSpeed, float limitSpeed) : base (stateMachine, player) 
         {
-            this.stateMachine = stateMachine;
-            this.player = player;
+            currentStateMachine = stateMachine;
+            currentPlayer = player;
             this.speed = speed;
             this.rotationSpeed = rotationSpeed;
             this.limitSpeed = limitSpeed;
@@ -34,27 +32,27 @@ namespace stateMachinePlayer
         {
         }
 
-        public override sealed void FixedUpdate()
+        public sealed override void FixedUpdate()
         {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
             Vector3 directionVector = new Vector3(h, 0, v);
             if (directionVector.magnitude > Mathf.Abs(0.1f))
-                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(directionVector), Time.deltaTime * rotationSpeed);
+                currentPlayer.transform.rotation = Quaternion.Lerp(currentPlayer.transform.rotation, Quaternion.LookRotation(directionVector), Time.deltaTime * rotationSpeed);
 
             NewAnimate();
 
-            player.Animator.SetFloat("speed", Vector3.ClampMagnitude(directionVector, 1).magnitude);           
+            currentPlayer.Animator.SetFloat(_speed, Vector3.ClampMagnitude(directionVector, 1).magnitude);           
 
             Vector3 moveDir = directionVector * speed;
             moveDir.y = 0;
 
 
-            var velocity = player.Rigidbody.velocity;
+            var velocity = currentPlayer.Rigidbody.velocity;
             if (velocity.x + velocity.z < limitSpeed)
             {
-                player.Rigidbody.AddForce(moveDir);
+                currentPlayer.Rigidbody.AddForce(moveDir);
             }                       
         }
 

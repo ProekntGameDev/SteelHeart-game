@@ -10,7 +10,7 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Image _image;
     [SerializeField] private TMP_Text _text;
 
-    private void Awake()
+    private void Start()
     {
         _player.Health.OnHealthChanged.AddListener(OnHealthChanged);
     }

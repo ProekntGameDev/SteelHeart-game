@@ -1,4 +1,3 @@
-using System;
 using GroundCheck;
 using UnityEngine;
 
@@ -11,15 +10,14 @@ public class Player : MonoBehaviour
 
     public Rigidbody Rigidbody { get; private set; }
     public Animator Animator { get; private set; }
-    public CapsuleCollider Collider { get; private set; }
     public Health Health { get; private set; }
 
     public void Awake()
     {
         Health = new Health();
-        
+
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-        Collider = GetComponent<CapsuleCollider>();
+        GetComponent<CapsuleCollider>();
     }
 }
