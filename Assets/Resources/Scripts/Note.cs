@@ -9,7 +9,7 @@ public class Note : MonoBehaviour, ITriggerableMonoBehaviour
     private void Awake()
     {
         if (data == null)
-            Debug.LogError($"Заметка {gameObject.name} не имеет данных");
+            Debug.LogError($"Р—Р°РјРµС‚РєР° {gameObject.name} РЅРµ РёРјРµРµС‚ РґР°РЅРЅС‹С…");
     }
 
     public void Trigger(Transform obj)
@@ -19,8 +19,8 @@ public class Note : MonoBehaviour, ITriggerableMonoBehaviour
         if (StaticGameData.AddNote(data))
             Debug.Log("Note: " + data.title + "\n" + "Text: " + data.text);
         else
-            Debug.LogError("Эта заметка уже была добавлена! " +
-                "Проверь, чтобы не было дубликатов (если только это не было сделано специально)");
+            Debug.LogError("Р­С‚Р° Р·Р°РјРµС‚РєР° СѓР¶Рµ Р±С‹Р»Р° РґРѕР±Р°РІР»РµРЅР°! " +
+                "РџСЂРѕРІРµСЂСЊ, С‡С‚РѕР±С‹ РЅРµ Р±С‹Р»Рѕ РґСѓР±Р»РёРєР°С‚РѕРІ (РµСЃР»Рё С‚РѕР»СЊРєРѕ СЌС‚Рѕ РЅРµ Р±С‹Р»Рѕ СЃРґРµР»Р°РЅРѕ СЃРїРµС†РёР°Р»СЊРЅРѕ)");
         gameObject.SetActive(false);
     }
 }

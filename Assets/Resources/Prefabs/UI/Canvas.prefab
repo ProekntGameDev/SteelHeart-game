@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4870674b281668428e06051a794399a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AlphaLevel: 1
+  _alphaLevel: 1
 --- !u!1 &1182294956
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,7 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4870674b281668428e06051a794399a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AlphaLevel: 1
+  _alphaLevel: 1
 --- !u!1 &1659570526
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4870674b281668428e06051a794399a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AlphaLevel: 1
+  _alphaLevel: 1
 --- !u!1 &1740039411
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +925,7 @@ GameObject:
   - component: {fileID: 1677809186657904065}
   - component: {fileID: 1677809186657904095}
   - component: {fileID: 1677809186657904094}
+  - component: {fileID: 1705652330}
   m_Layer: 5
   m_Name: Hp
   m_TagString: Untagged
@@ -951,7 +952,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 30, y: -30}
-  m_SizeDelta: {x: 983, y: 89}
+  m_SizeDelta: {x: 1000, y: 89}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1677809186657904095
 CanvasRenderer:
@@ -974,14 +975,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.2295356, g: 0.8018868, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8b4a369657c60754f98996bfc6f325dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ceb783d8e575f094281bc539089193c9, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -991,6 +992,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1705652330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677809186657904064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65ee8b062ef35d448c78122f6419062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _image: {fileID: 1677809186657904094}
+  _text: {fileID: 6403952174732664}
 --- !u!1 &1732303129638194582
 GameObject:
   m_ObjectHideFlags: 0

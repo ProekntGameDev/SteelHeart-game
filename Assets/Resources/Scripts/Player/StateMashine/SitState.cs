@@ -14,13 +14,13 @@ namespace stateMachinePlayer
 
         public override void Enter()
         {
-            Debug.Log("ß â ñîñòîÿíèè ñèæó!");            
+            Debug.Log("Ð¯ Ð² ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ð¸ ÑÐ¸Ð¶Ñƒ!");            
         }
 
         public override void Exit()
         {
-            Debug.Log("ß âûøåë èç ñîñòîÿíèÿ ñèæó!");
-            player.Animator.SetBool("isCrouching", false);
+            Debug.Log("Ð¯ Ð²Ñ‹ÑˆÐµÐ» Ð¸Ð· ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ñ ÑÐ¸Ð¶Ñƒ!");
+            currentPlayer.Animator.SetBool("isCrouching", false);
         }
         public override void Update()
         {
@@ -28,23 +28,23 @@ namespace stateMachinePlayer
             {
                 if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.0f || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.0f)
                 {
-                    stateMachine.ChangeState(new RunState(stateMachine, player, 200, 10, 2));
+                    currentStateMachine.ChangeState(new RunState(currentStateMachine, currentPlayer, 200, 10, 2));
                 }
             }            
             else if (Input.GetKey(KeyCode.LeftShift))
             {
-                stateMachine.ChangeState(new SprintState(stateMachine, player, 1000, 10, 10));
+                currentStateMachine.ChangeState(new SprintState(currentStateMachine, currentPlayer, 1000, 10, 10));
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
-                stateMachine.ChangeState(new JumpState(stateMachine, player));
+                currentStateMachine.ChangeState(new JumpState(currentStateMachine, currentPlayer));
             }           
 
         }
 
         protected override void NewAnimate()
         {
-            player.Animator.SetBool("isCrouching", true);
+            currentPlayer.Animator.SetBool("isCrouching", true);
         }
     }
 }

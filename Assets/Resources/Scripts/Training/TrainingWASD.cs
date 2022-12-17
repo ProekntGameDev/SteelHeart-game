@@ -1,27 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TrainingWASD : MonoBehaviour
 {
     [SerializeField] private GameObject _buttonWASD;
+    private bool _buttonWasdWasDestroyed;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
+        if (!_buttonWasdWasDestroyed && other.CompareTag("Player")) 
             _buttonWASD.SetActive(true);
-            
-        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            Destroy(_buttonWASD);        }
-    }
+        if (_buttonWasdWasDestroyed || !other.CompareTag("Player")) return;
 
-    
+        Destroy(_buttonWASD);
+        _buttonWasdWasDestroyed = true;
+    }
 }

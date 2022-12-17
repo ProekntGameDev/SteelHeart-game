@@ -7,7 +7,7 @@ public class MedKit : MonoBehaviour, ITriggerableMonoBehaviour
 
     public void Trigger(Transform obj)
     {
-        var health = obj.GetComponent<Health>();
+        var health = obj.GetComponent<HealthOld>();
         if (health == null) return;
 
         if (health.IsFull == false)

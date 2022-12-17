@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour, ITriggerableMonoBehaviour
         if (blockAblility != null)
             if (blockAblility.IsBlocking) return;
 
-        var health = obj.GetComponent<Health>();
+        var health = obj.GetComponent<HealthOld>();
         if (health == null) return;
 
         health.Damage(_damage);

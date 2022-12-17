@@ -7,7 +7,7 @@ public class PlayerHealthBar : MonoBehaviour
     public Image image;
     public TextMeshProUGUI healthPercent;
 
-    private Health _playerHealth;
+    private HealthOld _playerHealth;
 
     private void OnEnable()
     {
@@ -22,7 +22,7 @@ public class PlayerHealthBar : MonoBehaviour
     private void Awake()
     {
         var playerController = FindObjectOfType<PlayerCN>();
-        _playerHealth = playerController.GetComponent<Health>();        
+        _playerHealth = playerController.GetComponent<HealthOld>();        
     }
 
     private void Fill()

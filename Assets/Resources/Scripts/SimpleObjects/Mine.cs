@@ -25,7 +25,7 @@ public class Mine : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
         foreach (var collider in colliders)
         {
-            var health = collider.GetComponent<Health>();
+            var health = collider.GetComponent<HealthOld>();
             if (health != null) health.Damage(damage);
         }
         gameObject.SetActive(false);
