@@ -10,18 +10,8 @@ namespace stateMachinePlayer
         public IdleState(StateMachine stateMachine, Player player) : base(stateMachine, player)
         {
 
-        }                
-
-        public override void Enter()
-        {
-            Debug.Log("Я в состоянии покоя!");            
-        }
-
-        public override void Exit()
-        {
-            Debug.Log("Я вышел из состояния покоя!");
-        }
-
+        }              
+                
         public override void Update()
         {
             if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.0f || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.0f)

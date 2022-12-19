@@ -20,6 +20,7 @@ public class TrainingShift : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Destroy(_buttonShift);
+            Destroy(this);
         }
     }
 }
