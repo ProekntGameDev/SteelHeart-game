@@ -14,8 +14,9 @@ public class TrainingWASD : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-
-        Destroy(_buttonWASD); 
-        Destroy(this);
+        
+            Destroy(_buttonWASD);
+            Destroy(this.gameObject);
+               
     }
 }

@@ -23,8 +23,7 @@ public class SpaceTrainingStart : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            Time.timeScale = 1;
-            Destroy(this);            
+            Time.timeScale = 1;                       
         }
     }
 }
