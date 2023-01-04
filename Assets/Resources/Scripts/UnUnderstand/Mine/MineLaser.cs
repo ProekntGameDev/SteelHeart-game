@@ -48,7 +48,10 @@ public class MineLaser : MonoBehaviour
                 if (rigidbody != null)
                 {
                     rigidbody.AddExplosionForce(100f, transform.position, explosionRadius);
-                    SceneManager.LoadScene(2);
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        hit.collider.GetComponent<Player>().Health.Kill();
+                    }
                 }
             }
 
