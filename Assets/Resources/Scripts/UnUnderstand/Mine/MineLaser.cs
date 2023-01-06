@@ -8,6 +8,10 @@ public class MineLaser : MonoBehaviour
 {
     //public GameObject explosionPrefab; // Префаб эффекта взрыва
     [SerializeField] public float explosionRadius = 5f; // Радиус взрыва
+    public LayerMask layerMask;
+    public GameObject endPoint1;
+    public GameObject endPoint2;
+
 
     // Компоненты линии
     LineRenderer line;
@@ -19,42 +23,28 @@ public class MineLaser : MonoBehaviour
     }
 
     public void Update(){
-        // Определяем начальную и конечную точку линии
-        Vector3 startPoint = transform.position;
-        Vector3 endPoint = transform.forward * 50f; // Линия идет вперед от точки спауна
+        
 
         // Отрисовываем линию
-        line.SetPosition(0, startPoint);
-        line.SetPosition(1, endPoint);
+        line.SetPosition(0, endPoint1.transform.position);
+        line.SetPosition(1, endPoint2.transform.position);
 
         // Проверяем, есть ли пересечение линии с другими объектами
-        if (Physics.Linecast(startPoint, endPoint, out hit))
+        if (Physics.Linecast(endPoint1.transform.position, endPoint2.transform.position, out hit, layerMask))
         {
-            // Если пересечение обнаружено, взорвем мину
-            Explode();
+            Player player= hit.collider.GetComponent<Player>();
+            if(player != null)
+            {
+                Explode();
+            }
+            
         }
 
          void Explode(){
             // Создаем эффект взрыва в текущей позиции объекта
            // GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
-
-            // Получаем все объекты в радиусе взрыва
-            Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-
-            // Проходимся по всем найденным объектам и наносим им урон
-            foreach (Collider nearbyObject in colliders)
-            {
-                Rigidbody rigidbody = nearbyObject.GetComponent<Rigidbody>();
-                if (rigidbody != null)
-                {
-                    rigidbody.AddExplosionForce(100f, transform.position, explosionRadius);
-                    if (hit.collider.CompareTag("Player"))
-                    {
-                        hit.collider.GetComponent<Player>().Health.Kill();
-                    }
-                }
-            }
-
+                hit.collider.GetComponent<Player>().Health.Kill();
+            
             // Уничтожаем объект
             Destroy(gameObject);
         }
