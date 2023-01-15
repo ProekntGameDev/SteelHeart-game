@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -7,12 +6,10 @@ public class CircularSaw : MonoBehaviour
 {
     [SerializeField] float _baseDamage = 1f;
     [SerializeField] float _damageIncrease = 0.002f;
-    [SerializeField] float _rotationSpeed = 12;
     [SerializeField] LayerMask _ignoredLayers;
 
     bool OnSaw;
     float _playerTimeEnterDamageSourse;
-    Vector3 _rotationDirection;
     IDamagable _target;
 
     public float Damage { get { return _baseDamage + (_damageIncrease * (Time.time - _playerTimeEnterDamageSourse)); } }
@@ -21,10 +18,7 @@ public class CircularSaw : MonoBehaviour
     {
         BoxCollider boxCollider = GetComponent<BoxCollider>();
         boxCollider.isTrigger = true;
-        _rotationDirection = Vector3.forward * _rotationSpeed;
     }
-    private void FixedUpdate() => transform.localRotation *= Quaternion.Euler(_rotationDirection);
-
     private void OnTriggerEnter(Collider other)
     {
         if (_ignoredLayers == (_ignoredLayers | 1 << other.gameObject.layer)) return;

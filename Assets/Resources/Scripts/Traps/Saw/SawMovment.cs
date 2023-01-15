@@ -3,7 +3,8 @@ using UnityEngine;
 public class SawMovment : MonoBehaviour
 {
     [SerializeField] float _sawMovementTime = 3;
-    [SerializeField] float _movementDist = 4;
+    [SerializeField] Transform _ATransform;
+    [SerializeField] Transform _BTransform;
     Vector3 _APos;
     Vector3 _BPos;
 
@@ -11,10 +12,8 @@ public class SawMovment : MonoBehaviour
 
     private void Start()
     {
-        Vector3 dirOnRight = transform.right;
-        dirOnRight.Normalize();
-        _APos = _BPos = transform.localPosition;
-        _BPos -= dirOnRight * _movementDist;
+        _APos = _ATransform.position;
+        _BPos = _BTransform.position;
 
         _startMovingFromPointTime = Time.time;
     }
@@ -25,7 +24,6 @@ public class SawMovment : MonoBehaviour
 
         transform.localPosition = Vector3.Lerp(_APos, _BPos, delta);
 
-        if (delta > 1) _startMovingFromPointTime = Time.time + _sawMovementTime;
-        if (delta < 0) _startMovingFromPointTime = Time.time;
+        if (delta >= 1) _startMovingFromPointTime = Time.time + _sawMovementTime;
     }
 }
