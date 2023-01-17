@@ -4,21 +4,14 @@ using UnityEngine;
 
 public class DestroyObjectAfteraCertainTime : MonoBehaviour
 {    
-    [SerializeField] private float timeAfterDestroy = 1f;
-    private bool destroy = false;    
+    [SerializeField] private float timeAfterDestroy; 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
-        {
-            destroy = true;           
+        {                   
+            StartCoroutine(CountdownToDestruction());
         }
-    }
-    private void Update()
-    {   
-        if(destroy)
-        StartCoroutine(CountdownToDestruction());
-    }
-
+    }    
 
     IEnumerator CountdownToDestruction()
     {
