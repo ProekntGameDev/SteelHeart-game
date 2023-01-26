@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 937140944767585797}
   - component: {fileID: 937140944768912933}
   - component: {fileID: 937140944770010341}
+  - component: {fileID: 8847320293976216727}
   m_Layer: 0
   m_Name: pillow
   m_TagString: Untagged
@@ -81,6 +82,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8847320293976216727
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937140944768012837}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300002, guid: 71362333c1cc4bd44b32a0c95da3c009, type: 3}
 --- !u!1 &937140944768012839
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,6 +107,7 @@ GameObject:
   - component: {fileID: 937140944767585799}
   - component: {fileID: 937140944768912935}
   - component: {fileID: 937140944770010343}
+  - component: {fileID: 2950627751294990167}
   m_Layer: 0
   m_Name: body
   m_TagString: Untagged
@@ -163,6 +179,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2950627751294990167
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937140944768012839}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 71362333c1cc4bd44b32a0c95da3c009, type: 3}
 --- !u!1 &5429578454748143372
 GameObject:
   m_ObjectHideFlags: 0
