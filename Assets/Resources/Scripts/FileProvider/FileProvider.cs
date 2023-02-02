@@ -6,7 +6,9 @@ namespace SteelHeart
 {
     public static class FilePath
     {
-        public const string PATH_NOTES = "Assets/Resources/Scripts/JsonHelper/Notes.json";
+        public const string PATH_NOTES = "Assets/Json/Note/NoteJson.json";
+        public const string PATH_PLAYER = "Assets/Json/Player/PlayerJson.json";
+        public const string PATH_SETTINGS = "Assets/Json/Settings/SettingsJson.json";
     }
     
     public static class FileProvider
@@ -16,6 +18,11 @@ namespace SteelHeart
             var json = File.ReadAllText(path);
             json = json.Replace(oldContent, newContent);
             File.WriteAllText(path, json);
+        }
+
+        public static void SaveInJson(string path, string content)
+        {
+            File.WriteAllText(path, content);
         }
         
         public static void AppendInJson(string path, string content)

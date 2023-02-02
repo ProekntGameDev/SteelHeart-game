@@ -1,15 +1,13 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using UnityEngine;
 
 namespace SteelHeart
 {
     public static class GameData
     {
         public static NoteData Note = new NoteData();
+        public static PlayerData Player = new PlayerData();
+        public static SettingsData Settings = new SettingsData();
 
         public class NoteData
         {
@@ -25,6 +23,30 @@ namespace SteelHeart
             {
                 string json = FileProvider.GetJson(FilePath.PATH_NOTES);
                 CollectedNotes = JsonHelper.DeserializeObject<List<GameMeta.NoteData>>(json);
+            }
+        }
+        
+        public class PlayerData
+        {
+            public GameMeta.PlayerData Meta { get; private set; }
+            public GameMeta.Settings.PlayerSettings Settings { get; private set; }
+
+            public void Initialize()
+            {
+                string json = FileProvider.GetJson(FilePath.PATH_PLAYER);
+                Meta = JsonHelper.DeserializeObject<GameMeta.PlayerData>(json);
+                Settings = GameData.Settings.Meta.PlayerSettingsMeta;
+            }
+        }
+
+        public class SettingsData
+        {
+            public GameMeta.Settings Meta { get; private set; }
+
+            public void Initialize()
+            {
+                string json = FileProvider.GetJson(FilePath.PATH_SETTINGS);
+                Meta = JsonHelper.DeserializeObject<GameMeta.Settings>(json);
             }
         }
     }
