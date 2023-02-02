@@ -1,48 +1,44 @@
 using System;
-using Cinemachine.Editor;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using UnityEngine;
+using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 
 namespace SteelHeart
 {
-    public class JsonPropertyResolver : DefaultContractResolver
+    public static class JsonHelper
     {
-        protected override JsonContract CreateContract(Type objectType)
-        {
-            var contract = base.CreateObjectContract(objectType);
-            contract.ItemRequired = Required.AllowNull;
-            return contract;
-        }
-    }
-    
-    public class JsonHelper
-    {
-        public static T Deserialize<T>(string json)
+        public static T DeserializeObject<T>(string json)
         {
             if (string.IsNullOrEmpty(json))
                 return default;
 
             try
             {
-                var serializeSettings = new JsonSerializerSettings
+                return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
                 {
                     Error = delegate(object sender, ErrorEventArgs args)
                     {
-                        Debug.LogError($"Deserialization entity: {typeof(T).FullName} error: {args.ErrorContext.Error.Message}");
+                        Debug.LogError(
+                            $"Deserialization entity: {typeof(T).FullName} error: {args.ErrorContext.Error.Message}");
                         args.ErrorContext.Handled = true;
                     },
                     MissingMemberHandling = MissingMemberHandling.Error,
-                    ContractResolver = new JsonPropertyResolver(),
-                };
-
-                return JsonConvert.DeserializeObject<T>(json, serializeSettings);
+                });
             }
             catch (JsonSerializationException e)
             {
                 Debug.LogError($"Deserialize error: {e.Message}");
                 return default;
             }
+        }
+
+        public static string SerializeObject(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
         }
     }
 }
