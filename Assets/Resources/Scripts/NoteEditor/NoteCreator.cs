@@ -34,10 +34,11 @@ namespace NoteEditor
 
         private void AddNote()
         {
-            var isSaved = NoteEditorTools.TrySave(_idField.text, _titleField.text, _messageField.text);
+            int.TryParse(_idField.text, out int id);
+            var note = new Note(id, _titleField.text, _messageField.text);
+            var isSaved = NoteEditorTools.TrySave(note);
 
-            if (isSaved)
-                _messageField.text = "SAVE SUCCESSFUL COMPLETE";
+            _messageField.text = isSaved ? "SAVE SUCCESSFUL COMPLETE" : "NOTE DOES NOT SAVED";
         }
         
         private void Close()

@@ -13,6 +13,7 @@ namespace SteelHeart
             {
                 GameData.Settings.Initialize();
                 GameData.Player.Initialize();
+                GameData.Traps.Initialize();
             }
         }
     }

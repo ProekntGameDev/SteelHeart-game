@@ -5,49 +5,64 @@ namespace SteelHeart
 {
     public static class GameData
     {
-        public static NoteData Note = new NoteData();
-        public static PlayerData Player = new PlayerData();
-        public static SettingsData Settings = new SettingsData();
+        public static readonly NoteData Note = new NoteData();
+        public static readonly PlayerData Player = new PlayerData();
+        public static readonly SettingsData Settings = new SettingsData();
+        public static readonly TrapsData Traps = new TrapsData();
 
         public class NoteData
         {
-            public List<GameMeta.NoteData> CollectedNotes = new List<GameMeta.NoteData>();
+            public List<GameMeta.NoteData> Notes = new List<GameMeta.NoteData>();
 
             public GameMeta.NoteData GetNoteById(int id) =>
-                CollectedNotes.FirstOrDefault(n => n.Id == id);
+                Notes.FirstOrDefault(n => n.id == id);
             
             public GameMeta.NoteData GetNoteByTitle(string title) => 
-                CollectedNotes.FirstOrDefault(n => n.Title == title);
+                Notes.FirstOrDefault(n => n.title == title);
 
             public void Initialize()
             {
-                string json = FileProvider.GetJson(FilePath.PATH_NOTES);
-                CollectedNotes = JsonHelper.DeserializeObject<List<GameMeta.NoteData>>(json);
+                Notes = GameMeta.Load<List<GameMeta.NoteData>>(FilePath.PATH_NOTES);
             }
         }
         
         public class PlayerData
         {
-            public GameMeta.PlayerData Meta { get; private set; }
-            public GameMeta.Settings.PlayerSettings Settings { get; private set; }
+            public GameMeta.PlayerMeta Meta { get; private set; }
+            public GameMeta.SettingsMeta.PlayerSettings Settings { get; private set; }
 
             public void Initialize()
             {
-                string json = FileProvider.GetJson(FilePath.PATH_PLAYER);
-                Meta = JsonHelper.DeserializeObject<GameMeta.PlayerData>(json);
-                Settings = GameData.Settings.Meta.PlayerSettingsMeta;
+                Meta = GameMeta.Load<GameMeta.PlayerMeta>(FilePath.PATH_PLAYER);
+                Settings = GameData.Settings.Meta.playerSettingsMeta;
             }
         }
 
         public class SettingsData
         {
-            public GameMeta.Settings Meta { get; private set; }
+            public GameMeta.SettingsMeta Meta { get; private set; }
 
             public void Initialize()
             {
-                string json = FileProvider.GetJson(FilePath.PATH_SETTINGS);
-                Meta = JsonHelper.DeserializeObject<GameMeta.Settings>(json);
+                Meta = GameMeta.Load<GameMeta.SettingsMeta>(FilePath.PATH_SETTINGS);
             }
+        }
+
+        public class TrapsData
+        {
+            public List<GameMeta.Spikes> Spikes { get; private set; }
+            public List<GameMeta.Mine> Mines { get; private set; }
+            public List<GameMeta.ExplosionStretch> ExplosionStretches { get; private set; }
+            public List<GameMeta.SelfDestroyingPlatform> SelfDestroyingPlatforms { get;private set; }
+            public List<GameMeta.Spring> Springs { get; private set; }
+            public List<GameMeta.RoboTrap> RoboTraps { get; private set; }
+            public List<GameMeta.RoboSpider> RoboSpiders { get; private set; }
+            
+            public void Initialize()
+            {
+                Spikes = GameMeta.Load<List<GameMeta.Spikes>>(FilePath.PATH_TRAPS);
+            }
+            
         }
     }
 }

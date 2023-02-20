@@ -40,28 +40,25 @@ namespace NoteEditor
 
         private void Search()
         {
-            _noteData = NoteEditorTools.IsIdValid(_idField.text)
-                ? SteelHeart.GameData.Note.GetNoteById(Convert.ToInt32(_idField.text))
+            _noteData = int.TryParse(_idField.text, out int id)
+                ? SteelHeart.GameData.Note.GetNoteById(id)
                 : NoteEditorTools.IsTitleValid(_titleField.text)
                     ? SteelHeart.GameData.Note.GetNoteByTitle(_titleField.text)
                     : null;
 
             if (_noteData != null)
             {
-                _idField.text = _noteData.Id.ToString();
-                _titleField.text = _noteData.Title;
-                _messageField.text = _noteData.Message;
+                _idField.text = _noteData.id.ToString();
+                _titleField.text = _noteData.title;
+                _messageField.text = _noteData.message;
             }
         }
 
         private void Save()
         {
-            if (NoteEditorTools.IsDataValid(_idField.text, _titleField.text, _messageField.text))
-            {
-                var note = new Note(Convert.ToInt32(_idField.text), _titleField.text, _messageField.text);
-                NoteEditorTools.Redact(_noteData, note);
-                _messageField.text = "SAVE SUCCESSFUL COMPLETE";
-            }
+            int.TryParse(_idField.text, out int id);
+            var note = new Note(id, _titleField.text, _messageField.text);
+            NoteEditorTools.Redact(note);
         }
 
         private void Close()

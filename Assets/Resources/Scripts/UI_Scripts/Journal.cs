@@ -52,7 +52,7 @@ namespace SteelHeart
                 Destroy(noteButton.gameObject);
             }
 
-            foreach (var noteData in GameData.Note.CollectedNotes)
+            foreach (var noteData in GameData.Note.Notes)
             {
                 NoteButton button = Instantiate(noteButtonPrefab);
                 button.transform.parent = notesListPanel.transform;

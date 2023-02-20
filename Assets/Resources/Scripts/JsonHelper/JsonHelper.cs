@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 
@@ -36,9 +31,9 @@ namespace SteelHeart
             }
         }
 
-        public static string SerializeObject(object obj)
+        public static string SerializeObject(object obj, Formatting formatting = Formatting.Indented)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, formatting);
         }
     }
 }
