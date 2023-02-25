@@ -1,16 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace SteelHeart
 {
     public class GameMeta
     {
         [Serializable]
-        public class NoteData
+        public class Note
         {
             public int id;
             public string title;
@@ -19,7 +16,7 @@ namespace SteelHeart
         }
 
         [Serializable]
-        public class PlayerMeta
+        public class Player
         {
             public float walkSpeed;
             public float sprintSpeed;
@@ -33,10 +30,16 @@ namespace SteelHeart
             public float sufficientStamina;
             public float staminaRestorationRate;
             public float maxHealth;
+
+            [NonSerialized] 
+            public List<Upgrade> Upgrades = GameData.Upgrades.Upgrades?.FindAll(u => u.isOpen);
+
+            [NonSerialized] 
+            public List<Note> Notes = GameData.Note.Notes?.FindAll(n => n.isCollected);
         }
 
         [Serializable]
-        public class SettingsMeta
+        public class Settings
         {
             public PlayerSettings playerSettingsMeta = new PlayerSettings();
 
@@ -58,11 +61,17 @@ namespace SteelHeart
                 public KeyCode slowMotionKey = KeyCode.T;
             }
         }
-
+        
+        //Traps
         [Serializable]
-        public class Spikes
+        public class Trap
         {
             public int id;
+        }
+
+        [Serializable]
+        public class Spikes : Trap
+        {
             public float damage;
             public float moveSpeedUp;
             public float moveSpeedDown;
@@ -70,9 +79,8 @@ namespace SteelHeart
         }
 
         [Serializable]
-        public class Mine
+        public class Mine : Trap
         {
-            public int id;
             public float activationRadius;
             public float explosionRadius;
             public float activationDuration;
@@ -85,9 +93,8 @@ namespace SteelHeart
         }
 
         [Serializable]
-        public class ExplosionStretch
+        public class ExplosionStretch : Trap
         {
-            public int id;
             public float laserLength;
             public float explosionRadius;
             public float damage;
@@ -96,25 +103,22 @@ namespace SteelHeart
         }
 
         [Serializable]
-        public class SelfDestroyingPlatform
+        public class SelfDestroyingPlatform : Trap
         {
-            public int id;
             public float destroyingTimeInMs;
         }
 
         [Serializable]
-        public class CircularSaw
+        public class CircularSaw : Trap
         {
-            public int id;
             public float startDamage;
             public float maxDamage;
             public float damageMultiplier;
         }
 
         [Serializable]
-        public class Turret
+        public class Turret : Trap
         {
-            public int id;
             public float shootRadius;
             public float delayPerShoot;
             public float health;
@@ -123,17 +127,15 @@ namespace SteelHeart
         }
 
         [Serializable]
-        public class Spring
+        public class Spring : Trap
         {
-            public int id;
             public float activationDuration;
             public float repulsionDistance;
         }
 
         [Serializable]
-        public class RoboSpider
+        public class RoboSpider : Trap
         {
-            public int id;
             public float damage;
             public float health;
             public float deactivationDuration;
@@ -141,9 +143,8 @@ namespace SteelHeart
         }
 
         [Serializable]
-        public class RoboTrap
+        public class RoboTrap : Trap
         {
-            public int id;
             public float health;
             public float enemyProbability;
             public float currencyProbability;
@@ -152,38 +153,73 @@ namespace SteelHeart
         }
 
         [Serializable]
-        public class GrappleHookUpgrade
+        public class Upgrade
         {
+            public int id;
+            public bool isOpen = false;
+        }
+        
+        //Upgrades
+        [Serializable]
+        public class Jetpack : Upgrade
+        {
+            public int jumpsCount;
+            public float jumpCoolDown;
+            public float jumpHeight;
+        }
+        
+        [Serializable]
+        public class GrappleHook : Upgrade
+        {
+            public float hookHeight;
             public float maxDistance;
             public float displacementSpeed;
         }
+        
+        [Serializable]
+        public class Shield : Upgrade
+        {
+            public float cooldown;
+            public float duration;
+            public float firstStageDuration;
+            public float firstStageBlock;
+            public float secondStageDuration;
+            public float secondStageBlock;
+            public float thirdStageDuration;
+            public float thirdStageBlock;
+        }
 
         [Serializable]
-        public class ShieldUpgrade
+        public class NightVision : Upgrade
         {
-            public float blockStaminaSpend;
-            public float duration;
+            public float spidersBacklightTime;
+            public float springBacklightTime;
+            public float backlightAlpha;
         }
 
-        public static T Load<T>(string path)
+        [Serializable]
+        public class BasicGun : Upgrade
         {
-            var json = FileProvider.GetJson(path);
-            return JsonHelper.DeserializeObject<T>(json);
+            public float damage;
+            public float bulletSpeed;
+            public int maxCapacity;
+            public float shootDelay;
         }
-
-        public static void Save(object obj, string file)
+        
+        [Serializable]
+        public class GrenadeGun : Upgrade
         {
-            var content = JsonHelper.SerializeObject(obj);
-            FileProvider.SaveInJson(file, content);
+            public float explosionRadius;
+            public int maxCapacity;
+            public float bulletSpeed;
+            public float shootDelay;
         }
-
-        public static void Save<T>(T objToSave, string file)
+        
+        [Serializable]
+        public class ShrinkingGun : Upgrade
         {
-            var tempData = Load<List<T>>(file) ?? new List<T>();
-            tempData.Add(objToSave);
-
-            var content = JsonHelper.SerializeObject(tempData);
-            FileProvider.SaveInJson(file, content);
+            public float actionTime;
+            public float cooldown;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace SteelHeart
     public class NoteButton : MonoBehaviour
     {
         public TextMeshProUGUI noteText;
-        public GameMeta.NoteData noteData;
+        public GameMeta.Note noteData;
 
         private Button _button;
         private TextMeshProUGUI _buttonText;

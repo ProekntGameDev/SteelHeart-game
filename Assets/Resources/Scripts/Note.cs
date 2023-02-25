@@ -5,7 +5,7 @@ namespace SteelHeart
 {
     public class Note : MonoBehaviour, ITriggerableMonoBehaviour
     {
-        public GameMeta.NoteData data;
+        public GameMeta.Note data;
 
         private void Awake()
         {

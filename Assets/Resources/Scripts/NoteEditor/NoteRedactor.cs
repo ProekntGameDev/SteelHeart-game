@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +13,7 @@ namespace NoteEditor
         private TMP_InputField _titleField;
         private TMP_InputField _messageField;
 
-        private SteelHeart.GameMeta.NoteData _noteData;
+        private SteelHeart.GameMeta.Note _noteData;
 
         private void Awake()
         {

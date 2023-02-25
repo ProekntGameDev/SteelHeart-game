@@ -9,60 +9,67 @@ namespace SteelHeart
         public static readonly PlayerData Player = new PlayerData();
         public static readonly SettingsData Settings = new SettingsData();
         public static readonly TrapsData Traps = new TrapsData();
+        public static readonly UpgradesData Upgrades = new UpgradesData();
 
         public class NoteData
         {
-            public List<GameMeta.NoteData> Notes = new List<GameMeta.NoteData>();
+            public List<GameMeta.Note> Notes = new List<GameMeta.Note>();
 
-            public GameMeta.NoteData GetNoteById(int id) =>
+            public GameMeta.Note GetNoteById(int id) =>
                 Notes.FirstOrDefault(n => n.id == id);
             
-            public GameMeta.NoteData GetNoteByTitle(string title) => 
+            public GameMeta.Note GetNoteByTitle(string title) => 
                 Notes.FirstOrDefault(n => n.title == title);
 
             public void Initialize()
             {
-                Notes = GameMeta.Load<List<GameMeta.NoteData>>(FilePath.PATH_NOTES);
+                Notes = MetaManager.Load<List<GameMeta.Note>>(FilePath.PATH_NOTES);
             }
         }
         
         public class PlayerData
         {
-            public GameMeta.PlayerMeta Meta { get; private set; }
-            public GameMeta.SettingsMeta.PlayerSettings Settings { get; private set; }
+            public GameMeta.Player Meta { get; private set; }
+            public GameMeta.Settings.PlayerSettings Settings { get; private set; }
 
             public void Initialize()
             {
-                Meta = GameMeta.Load<GameMeta.PlayerMeta>(FilePath.PATH_PLAYER);
+                Meta = MetaManager.Load<GameMeta.Player>(FilePath.PATH_PLAYER);
                 Settings = GameData.Settings.Meta.playerSettingsMeta;
             }
         }
 
         public class SettingsData
         {
-            public GameMeta.SettingsMeta Meta { get; private set; }
+            public GameMeta.Settings Meta { get; private set; }
 
             public void Initialize()
             {
-                Meta = GameMeta.Load<GameMeta.SettingsMeta>(FilePath.PATH_SETTINGS);
+                Meta = MetaManager.Load<GameMeta.Settings>(FilePath.PATH_SETTINGS);
             }
         }
 
         public class TrapsData
         {
-            public List<GameMeta.Spikes> Spikes { get; private set; }
-            public List<GameMeta.Mine> Mines { get; private set; }
-            public List<GameMeta.ExplosionStretch> ExplosionStretches { get; private set; }
-            public List<GameMeta.SelfDestroyingPlatform> SelfDestroyingPlatforms { get;private set; }
-            public List<GameMeta.Spring> Springs { get; private set; }
-            public List<GameMeta.RoboTrap> RoboTraps { get; private set; }
-            public List<GameMeta.RoboSpider> RoboSpiders { get; private set; }
+            public List<GameMeta.Trap> Traps { get; private set; }
+
+            public GameMeta.Trap GetTrapById(int id) =>
+                Traps.FirstOrDefault(t => t.id == id);
             
             public void Initialize()
             {
-                Spikes = GameMeta.Load<List<GameMeta.Spikes>>(FilePath.PATH_TRAPS);
+                Traps = MetaManager.Load<List<GameMeta.Trap>>(FilePath.PATH_TRAP);
             }
-            
+        }
+
+        public class UpgradesData
+        {
+            public List<GameMeta.Upgrade> Upgrades { get; private set; }
+
+            public void Initialize()
+            {
+                Upgrades = MetaManager.Load<List<GameMeta.Upgrade>>(FilePath.PATH_UPGRADES);
+            }
         }
     }
 }

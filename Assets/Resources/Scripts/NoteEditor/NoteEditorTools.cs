@@ -1,4 +1,3 @@
-using System;
 using SteelHeart;
 using UnityEngine;
 
@@ -64,7 +63,7 @@ namespace NoteEditor
 
         private static void Save(Note note)
         {
-            GameMeta.Save(note, FilePath.PATH_NOTES);
+            MetaManager.Save<GameMeta.Note>(note, FilePath.PATH_NOTES);
             GameData.Note.Initialize();
             
         }
