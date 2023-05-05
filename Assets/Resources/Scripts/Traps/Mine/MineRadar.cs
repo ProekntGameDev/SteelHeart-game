@@ -20,7 +20,7 @@ public class MineRadar : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<HealthOld>(out var target))
+        if (other.TryGetComponent<Health>(out var target))
         {
             OnTargetEnter?.Invoke(_timeToExplosion);
             gameObject.SetActive(false);

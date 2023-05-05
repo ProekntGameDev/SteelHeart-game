@@ -1,38 +1,37 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerCoinHolder : MonoBehaviour
 {
-    public delegate void VoidDelegate();
-    public event VoidDelegate OnChange;
+    [HideInInspector] public UnityEvent<int> OnChange;
 
     public int Coins { get; private set; }
-    private PlayerRespawn _respawnBehaviour;
 
+    private PlayerRespawn _respawnBehaviour;
 
     private void Awake()
     {
         _respawnBehaviour = GetComponent<PlayerRespawn>();
     }
 
-    public void AddCoin(int worth)
+    public void Increase(int value)
     {
-        Coins += worth;
+        Coins += value;
 
-        if (_respawnBehaviour != null)
-        {
-            int lifeIncrement = _respawnBehaviour.amountOfCoinsForAdditionalLife;
-            if (Coins > lifeIncrement)
-            {
-                int livesToAdd = Coins / lifeIncrement;
-                _respawnBehaviour.AddLifes(livesToAdd);
+        TryAddAdditionalLifes();
 
-                Coins %= lifeIncrement;
-            }
-        }
-        else
+        OnChange?.Invoke(Coins);
+    }
+
+    private void TryAddAdditionalLifes()
+    {
+        int lifeIncrement = _respawnBehaviour.amountOfCoinsForAdditionalLife;
+        if (Coins > lifeIncrement)
         {
-            Debug.LogError("скрипт PlayerRespawnBehaviour не найден");
+            int livesToAdd = Coins / lifeIncrement;
+            _respawnBehaviour.AddLifes(livesToAdd);
+
+            Coins %= lifeIncrement;
         }
-        OnChange?.Invoke();
     }
 }

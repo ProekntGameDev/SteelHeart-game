@@ -7,27 +7,19 @@ public class PlayerHealthBar : MonoBehaviour
     public Image image;
     public TextMeshProUGUI healthPercent;
 
-    private HealthOld _playerHealth;
-
-    private void OnEnable()
-    {
-        _playerHealth.OnChange += Fill;
-    }
-
-    private void OnDisable()
-    {
-        _playerHealth.OnChange -= Fill;
-    }
+    private Health _playerHealth;
 
     private void Awake()
     {
         var playerController = FindObjectOfType<PlayerCN>();
-        _playerHealth = playerController.GetComponent<HealthOld>();        
+        _playerHealth = playerController.GetComponent<Health>();
+
+        _playerHealth.OnChange.AddListener(UpdateBar);
     }
 
-    private void Fill()
+    private void UpdateBar(float health)
     {
-        float percentage = _playerHealth.Percentage;
+        float percentage = health / _playerHealth.Max;
         image.fillAmount = percentage;
         healthPercent.text = $"{(int)(percentage*100)}%";
     }

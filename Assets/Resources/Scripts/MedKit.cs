@@ -7,10 +7,11 @@ public class MedKit : MonoBehaviour, ITriggerableMonoBehaviour
 
     public void Trigger(Transform obj)
     {
-        var health = obj.GetComponent<HealthOld>();
-        if (health == null) return;
+        var health = obj.GetComponent<Health>();
+        if (health == null) 
+            return;
 
-        if (health.IsFull == false)
+        if (health.Current != health.Max)
         {
             health.Heal(restorationAmount);
             gameObject.SetActive(false);

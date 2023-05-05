@@ -43,17 +43,17 @@ public class PlayerJump : MonoBehaviour
 
         if (_currentJumpTimeout > 0)
         {
-            bool IsOnFloor = _movementController.IsOnFloor;
-            if (IsOnFloor)
-            {
-                _currentJetpackJumps = maxJetpackJumps;
-                Jump();
-            }
-            else if (_currentJetpackJumps > 0)
-            {
-                _currentJetpackJumps--;
-                Jump();
-            }
+            //bool IsOnFloor = _movementController.IsOnFloor;
+            //if (IsOnFloor)
+            //{
+            //    _currentJetpackJumps = maxJetpackJumps;
+            //    Jump();
+            //}
+            //else if (_currentJetpackJumps > 0)
+            //{
+            //    _currentJetpackJumps--;
+            //    Jump();
+            //}
         }
     }
 

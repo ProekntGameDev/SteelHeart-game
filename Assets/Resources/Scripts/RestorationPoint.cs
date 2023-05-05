@@ -5,9 +5,10 @@ public class RestorationPoint : MonoBehaviour, IInteractableMonoBehaviour
 {
     public void Interact(Transform obj)
     {
-        var health = obj.GetComponent<HealthOld>();
-        if (health == null) return;
+        var health = obj.GetComponent<Health>();
+        if (health == null) 
+            return;
 
-        health.FullHeal();
+        health.Heal(health.Max);
     }
 }

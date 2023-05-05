@@ -1,31 +1,23 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using NaughtyAttributes;
 
+[RequireComponent(typeof(TextMeshProUGUI))]
 public class CoinDisplay : MonoBehaviour
 {
-    private TextMeshProUGUI _text;
-    private PlayerCoinHolder _coinHolder;
+    [SerializeField, Required] private PlayerCoinHolder _coinHolder;
 
+    private TextMeshProUGUI _text;
 
     private void Awake()
     {
         _text = GetComponent<TextMeshProUGUI>();
-        _coinHolder = FindObjectOfType<PlayerCoinHolder>();
+
+        _coinHolder.OnChange.AddListener(UpdateCoins);
     }
 
-    private void OnEnable()
+    private void UpdateCoins(int value)
     {
-        _coinHolder.OnChange += UpdateCoins;
-    }
-
-    private void OnDisable()
-    {
-        _coinHolder.OnChange -= UpdateCoins;
-    }
-
-    private void UpdateCoins()
-    {
-        _text.text = _coinHolder.Coins.ToString();
+        _text.text = value.ToString();
     }
 }
