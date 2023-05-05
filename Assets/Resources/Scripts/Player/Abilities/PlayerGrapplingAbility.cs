@@ -44,38 +44,38 @@ public class PlayerGrapplingAbility : MonoBehaviour
 
     private void Update()
     {
-        bool isOnFloor = _movementController.IsOnFloor;
-        if (Input.GetKey(grappleKey) && isHookUse_Allow && isOnFloor == false)
-        {
-            float minDistance = float.MaxValue;
-            Collider[] colliders = Physics.OverlapSphere(transform.position, hook_grab_distance_max);
-            foreach (var collider in colliders)
+        //bool isOnFloor = _movementController.IsOnFloor;
+        //if (Input.GetKey(grappleKey) && isHookUse_Allow && isOnFloor == false)
+        //{
+        //    float minDistance = float.MaxValue;
+        //    Collider[] colliders = Physics.OverlapSphere(transform.position, hook_grab_distance_max);
+        //    foreach (var collider in colliders)
 
-                if (collider.transform.tag == "hook_mount_point")
-                {
-                    float distance = Vector3.Distance(transform.position, collider.transform.position);
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance; selectedMountPoint = collider;
-                    }
-                }
-        }
+        //        if (collider.transform.tag == "hook_mount_point")
+        //        {
+        //            float distance = Vector3.Distance(transform.position, collider.transform.position);
+        //            if (distance < minDistance)
+        //            {
+        //                minDistance = distance; selectedMountPoint = collider;
+        //            }
+        //        }
+        //}
 
-        if (selectedMountPoint != null || isMounting)
-        {
-            Grapple(selectedMountPoint);
-            _movementController.isWalkingAllowed = false;
-            if (_shootingAbility != null)
-                _shootingAbility.enabled = false;
-        }
-        if (isMounting && Input.GetKey(ungrappleKey))
-        {
-            selectedMountPoint = null;
-            Ungrapple();
-            _movementController.isWalkingAllowed = true;
-            if (_shootingAbility != null)
-                _shootingAbility.enabled = true;
-        }
+        //if (selectedMountPoint != null || isMounting)
+        //{
+        //    Grapple(selectedMountPoint);
+        //    _movementController.isWalkingAllowed = false;
+        //    if (_shootingAbility != null)
+        //        _shootingAbility.enabled = false;
+        //}
+        //if (isMounting && Input.GetKey(ungrappleKey))
+        //{
+        //    selectedMountPoint = null;
+        //    Ungrapple();
+        //    _movementController.isWalkingAllowed = true;
+        //    if (_shootingAbility != null)
+        //        _shootingAbility.enabled = true;
+        //}
     }
 
     public void Grapple(Collider collider)

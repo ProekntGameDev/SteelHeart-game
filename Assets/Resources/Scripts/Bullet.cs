@@ -3,8 +3,8 @@ using Interfaces;
 
 public class Bullet : MonoBehaviour, ITriggerableMonoBehaviour
 {
-    [SerializeField] private float _damage;
-    [SerializeField] private float _lifetime;
+    [SerializeField, Min(0)] private float _damage;
+    [SerializeField, Min(0)] private float _lifetime;
 
     private float _currentLifetime;
 
@@ -15,10 +15,11 @@ public class Bullet : MonoBehaviour, ITriggerableMonoBehaviour
         if (blockAblility != null)
             if (blockAblility.IsBlocking) return;
 
-        var health = obj.GetComponent<HealthOld>();
-        if (health == null) return;
+        var health = obj.GetComponent<Health>();
+        if (health == null) 
+            return;
 
-        health.Damage(_damage);
+        health.TakeDamage(_damage);
         gameObject.SetActive(false);
     }
 

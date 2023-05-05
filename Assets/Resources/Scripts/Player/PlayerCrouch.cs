@@ -23,7 +23,7 @@ public class PlayerCrouch : MonoBehaviour
     private void Update()
     {
         IsCrouchButtonPressed = Input.GetKey(crouchButton);
-        _isOnFloor = _movementController.IsOnFloor;
+        //_isOnFloor = _movementController.IsOnFloor;
     }
 
     private void FixedUpdate()
