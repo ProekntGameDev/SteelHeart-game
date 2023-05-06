@@ -8,27 +8,28 @@ public class Bouncer : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        var rigidbody = collision.gameObject.GetComponent<Rigidbody>();
-        if (rigidbody == null) return;
+        //TODO: врн щрн гю усимъ?
+        //var rigidbody = collision.gameObject.GetComponent<Rigidbody>();
+        //if (rigidbody == null) return;
 
-        var jumpController = collision.gameObject.GetComponent<PlayerJump>();
-        if (jumpController == null) return;
+        //var jumpController = collision.gameObject.GetComponent<PlayerJump>();
+        //if (jumpController == null) return;
 
-        float verticalVelocity = Mathf.Abs(jumpController.PreviousVelocityY);
+        //float verticalVelocity = Mathf.Abs(jumpController.PreviousVelocityY);
 
-        if (jumpController.IsJumpButtonPressed)
-        {
-            verticalVelocity *= acceleration;
-            if (verticalVelocity > maxVelocity) verticalVelocity = maxVelocity;
-        }
-        else
-        {
-            verticalVelocity *= decay;
-        }
-        
-        float x = rigidbody.velocity.x;
-        float y = verticalVelocity;
-        float z = rigidbody.velocity.z;
-        rigidbody.velocity = new Vector3(x, y, z);        
+        //if (jumpController.IsJumpButtonPressed)
+        //{
+        //    verticalVelocity *= acceleration;
+        //    if (verticalVelocity > maxVelocity) verticalVelocity = maxVelocity;
+        //}
+        //else
+        //{
+        //    verticalVelocity *= decay;
+        //}
+
+        //float x = rigidbody.velocity.x;
+        //float y = verticalVelocity;
+        //float z = rigidbody.velocity.z;
+        //rigidbody.velocity = new Vector3(x, y, z);
     }
 }
