@@ -60,4 +60,14 @@ public class PlayerMovement : MonoBehaviour
     {
         transform.localRotation = Quaternion.LookRotation(forward, Vector3.up);
     }
+
+    private void OnEnable()
+    {
+        CharacterController.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        CharacterController.enabled = false;
+    }
 }
