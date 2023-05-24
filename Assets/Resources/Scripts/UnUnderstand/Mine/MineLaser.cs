@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class MineLaser : MonoBehaviour
 {
-    //public GameObject explosionPrefab;
-    [SerializeField] private float explosionRadius = 5f;
+
+    //public GameObject explosionPrefab; // ������ ������� ������
+    [SerializeField] public float explosionRadius = 5f; // ������ ������
+    public LayerMask layerMask;
+    public GameObject endPoint1;
+    public GameObject endPoint2;
+
 
     private LineRenderer line;
     private RaycastHit hit;
@@ -13,33 +18,33 @@ public class MineLaser : MonoBehaviour
         line = GetComponent<LineRenderer>();
     }
 
-    public void Update()
-    {
-        Vector3 startPoint = transform.position;
-        Vector3 endPoint = transform.forward * 50f;
 
-        line.SetPosition(0, startPoint);
-        line.SetPosition(1, endPoint);
+    public void Update(){
+        
 
-        if (Physics.Linecast(startPoint, endPoint, out hit))
-            Explode();
-    }
+        // ������������ �����
+        line.SetPosition(0, endPoint1.transform.position);
+        line.SetPosition(1, endPoint2.transform.position);
 
-    void Explode()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-
-        foreach (Collider nearbyObject in colliders)
+        // ���������, ���� �� ����������� ����� � ������� ���������
+        if (Physics.Linecast(endPoint1.transform.position, endPoint2.transform.position, out hit, layerMask))
         {
-            Rigidbody rigidbody = nearbyObject.GetComponent<Rigidbody>();
-            if (rigidbody != null)
+            Player player= hit.collider.GetComponent<Player>();
+            if(player != null)
             {
-                rigidbody.AddExplosionForce(100f, transform.position, explosionRadius);
-                if (hit.collider.TryGetComponent(out Player player))
-                {
-                    player.Health.TakeDamage(player.Health.Max);
-                }
+                Explode();
             }
+            
+        }
+
+         void Explode(){
+            // ������� ������ ������ � ������� ������� �������
+           // GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
+                hit.collider.GetComponent<Player>().Health.Kill();
+            
+            // ���������� ������
+            Destroy(gameObject);
+
         }
 
         Destroy(gameObject);
