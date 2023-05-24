@@ -20,8 +20,8 @@ public class Ladder : MonoBehaviour
 
         _isBeingClimbed = true;
 
-        _upKey = _player.climbUpwardsKey;
-        _downKey = _player.climbDownwardsKey;
+        //_upKey = _player.climbUpwardsKey;
+        //_downKey = _player.climbDownwardsKey;
 
         _playerRB = _player.GetComponent<Rigidbody>();
         _playerRB.useGravity = false;

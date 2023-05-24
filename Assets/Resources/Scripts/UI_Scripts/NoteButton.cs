@@ -2,36 +2,39 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class NoteButton : MonoBehaviour
+namespace SteelHeart
 {
-    public TextMeshProUGUI noteText;
-    public NoteData noteData;
-
-    private Button _button;
-    private TextMeshProUGUI _buttonText;
-
-
-    private void Awake()
+    [RequireComponent(typeof(Button))]
+    public class NoteButton : MonoBehaviour
     {
-        _buttonText = GetComponentInChildren<TextMeshProUGUI>();
-        _button = GetComponent<Button>();
-    }
+        public TextMeshProUGUI noteText;
+        public GameMeta.Note noteData;
 
-    private void Start()
-    {
-        _button.onClick.AddListener(OpenNote);
-    }
+        private Button _button;
+        private TextMeshProUGUI _buttonText;
 
-    public void SetText()
-    {
-        _buttonText.text = noteData.title;
-    }
 
-    public void OpenNote()
-    {
-        noteText.text = noteData.text;
-        noteText.transform.parent.gameObject.SetActive(true);
-        transform.parent.gameObject.SetActive(false);
+        private void Awake()
+        {
+            _buttonText = GetComponentInChildren<TextMeshProUGUI>();
+            _button = GetComponent<Button>();
+        }
+
+        private void Start()
+        {
+            _button.onClick.AddListener(OpenNote);
+        }
+
+        public void SetText()
+        {
+            // _buttonText.text = noteData.title;
+        }
+
+        public void OpenNote()
+        {
+            // noteText.text = noteData.text;
+            noteText.transform.parent.gameObject.SetActive(true);
+            transform.parent.gameObject.SetActive(false);
+        }
     }
 }

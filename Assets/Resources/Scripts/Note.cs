@@ -1,26 +1,28 @@
 using UnityEngine;
 using Interfaces;
 
-public class Note : MonoBehaviour, ITriggerableMonoBehaviour
+namespace SteelHeart
 {
-    public NoteData data;
-
-
-    private void Awake()
+    public class Note : MonoBehaviour, ITriggerableMonoBehaviour
     {
-        if (data == null)
-            Debug.LogError($"Заметка {gameObject.name} не имеет данных");
-    }
+        public GameMeta.Note data;
 
-    public void Trigger(Transform obj)
-    {
-        if (obj.GetComponent<PlayerMovement>() == null) return;
+        private void Awake()
+        {
+            if (data == null)
+                Debug.LogError($"Заметка {gameObject.name} не имеет данных");
+        }
 
-        if (StaticGameData.AddNote(data))
-            Debug.Log("Note: " + data.title + "\n" + "Text: " + data.text);
-        else
-            Debug.LogError("Эта заметка уже была добавлена! " +
-                "Проверь, чтобы не было дубликатов (если только это не было сделано специально)");
-        gameObject.SetActive(false);
+        public void Trigger(Transform obj)
+        {
+            // if (obj.GetComponent<PlayerMovement>() == null) return;
+            //
+            // if (GameData.Note.AddNote(data))
+            //     Debug.Log("Note: " + data.title + "\n" + "Text: " + data.text);
+            // else
+            //     Debug.LogError("Эта заметка уже была добавлена! " +
+            //                    "Проверь, чтобы не было дубликатов (если только это не было сделано специально)");
+            gameObject.SetActive(false);
+        }
     }
 }

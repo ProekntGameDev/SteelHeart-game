@@ -31,7 +31,7 @@ public class Elevator : MonoBehaviour, IInteractableMonoBehaviour
             {
                 direction *= -1;
                 isActive = false;
-                movementComponent.isWalkingAllowed = true;
+                //movementComponent.isWalkingAllowed = true;
             }
         }
     }
@@ -39,10 +39,10 @@ public class Elevator : MonoBehaviour, IInteractableMonoBehaviour
     {
         player = obj;
         movementComponent = obj.GetComponent<PlayerMovement>();
-        if (movementComponent.IsOnFloor)
-        {
-            movementComponent.isWalkingAllowed = false;
-            isActive = true;
-        }
+        //if (movementComponent.IsOnFloor)
+        //{
+        //    movementComponent.isWalkingAllowed = false;
+        //    isActive = true;
+        //}
     }
 }

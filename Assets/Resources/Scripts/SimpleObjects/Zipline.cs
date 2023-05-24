@@ -10,11 +10,6 @@ public class Zipline : MonoBehaviour, IInteractableMonoBehaviour
     public Transform point1;
     public Transform point2;
 
-    private PlayerMovement _playerMovement;
-    private PlayerJump _playerJump;
-    private PlayerCrouch _playerCrouch;
-    private Rigidbody _rigidbody;
-
     private Vector3 _point1;
     private Vector3 _point2;
 
@@ -29,42 +24,26 @@ public class Zipline : MonoBehaviour, IInteractableMonoBehaviour
         collider1.isTrigger = true;
         collider2.isTrigger = true;
 
-        collider1.center = getRelativePosition(collider1.transform, _point1);
-        collider2.center = getRelativePosition(collider2.transform, _point2);  
+        collider1.center = GetRelativePosition(collider1.transform, _point1);
+        collider2.center = GetRelativePosition(collider2.transform, _point2);  
     }
 
     public void Interact(Transform obj)
     {
-        _playerMovement = obj.GetComponent<PlayerMovement>();
-        if (_playerMovement == null) return;
-
-        _playerJump = obj.GetComponent<PlayerJump>();
-        if (_playerJump == null) return;
-
-        _playerCrouch = obj.GetComponent<PlayerCrouch>();
-        if (_playerCrouch == null) return;
-
-        _rigidbody = obj.GetComponent<Rigidbody>();
-
-        _playerMovement.enabled = false;
-        _playerJump.enabled = false;
-        _playerCrouch.enabled = false;
-
-        StartCoroutine(MoveCoroutine());
+        if (obj.TryGetComponent(out PlayerMovement playerMovement))
+            StartCoroutine(MoveCoroutine(playerMovement));
     }
 
-    private IEnumerator MoveCoroutine()
+    private IEnumerator MoveCoroutine(PlayerMovement playerMovement)
     {
-        _playerMovement.enabled = false;
-        _playerJump.enabled = false;
-        _playerCrouch.enabled = false;
+        playerMovement.enabled = false;
 
         float time = 0;
         float timeDelta = speed / Vector3.Distance(_point1, _point2);
         Vector3 startPosition;
         Vector3 endPosition;
 
-        if (Vector3.Distance(_playerMovement.transform.position, _point1) < Vector3.Distance(_playerMovement.transform.position, _point2))
+        if (Vector3.Distance(playerMovement.transform.position, _point1) < Vector3.Distance(playerMovement.transform.position, _point2))
         {
             startPosition = _point1;
             endPosition = _point2;
@@ -75,27 +54,19 @@ public class Zipline : MonoBehaviour, IInteractableMonoBehaviour
             endPosition = _point1;
         }
 
-        Vector3 playerOffset =_playerMovement.transform.position - startPosition;
+        Vector3 playerOffset = playerMovement.transform.position - startPosition;
 
         while (time <= 1)
         {
-            _playerMovement.transform.position = Vector3.Lerp(startPosition, endPosition, time) + playerOffset;
+            playerMovement.transform.position = Vector3.Lerp(startPosition, endPosition, time) + playerOffset;
             time += timeDelta * Time.deltaTime;
             yield return null;
         }
 
-        _playerMovement.enabled = true;
-        _playerJump.enabled = true;
-        _playerCrouch.enabled = true;
-
-        if (_rigidbody != null)
-        {
-            var velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
-            _rigidbody.velocity = velocity;
-        }
+        playerMovement.enabled = true;
     }
 
-    private Vector3 getRelativePosition(Transform origin, Vector3 position)
+    private Vector3 GetRelativePosition(Transform origin, Vector3 position)
     {
         Vector3 distance = position - origin.position;
         Vector3 relativePosition = Vector3.zero;

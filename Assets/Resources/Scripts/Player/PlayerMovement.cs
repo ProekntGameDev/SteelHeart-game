@@ -1,73 +1,73 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Stamina))]
+[RequireComponent(typeof(AdvancedCharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public float walkSpeed = 250;
-    public float sprintSpeed = 500;
-    public float sprintStaminaSpend = 2f;
-    public float floorCheckRayLength = 1.05f;
-    [Space]
-    public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode climbUpwardsKey = KeyCode.W;
-    public KeyCode climbDownwardsKey = KeyCode.S;
+    public float Speed { get; private set; }
+    public AdvancedCharacterController CharacterController { get; private set; }
 
-    public bool IsOnFloor { get; private set; } = false;
+    public float RunSpeed => _runSpeed;
 
-    [HideInInspector] public bool isWalkingAllowed;
+    [SerializeField] private float _walkSpeed = 3;
+    [SerializeField] private float _runSpeed = 5;
+    [SerializeField] private float _crouchSpeed = 2;
+    [SerializeField] private float _jumpHeight = 10;
+    [SerializeField] private float _speedSmoothTime = 0.1f;
 
-    private float _horizontalAxis;
-    private Rigidbody _rigidbody;
-    private Stamina _stamina;
-
-    private bool _isSprinting = false;
-    private bool _isSprintKeyPressed;
-
+    private float _speedUpdateVelocity;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _stamina = GetComponent<Stamina>();
-        isWalkingAllowed = true;
+        CharacterController = GetComponent<AdvancedCharacterController>();
     }
+
     private void Update()
     {
-        _horizontalAxis = Input.GetAxis("Horizontal");
-        _isSprintKeyPressed = Input.GetKey(sprintKey);
+        if (CharacterController.LastInput.jump && CharacterController.IsGrounded)
+        {
+            Jump();
+        }
     }
 
     private void FixedUpdate()
     {
-        IsOnFloor = CheckFloor();
-        _isSprinting = (_isSprintKeyPressed && _stamina.IsSufficient) || _isSprinting;
+        Vector3 direction = CharacterController.LastInput.axis.y * Vector3.back + CharacterController.LastInput.axis.x * Vector3.right;
+        direction.Normalize();
 
-        if (isWalkingAllowed && _isSprinting == false)
+
+        if (direction.sqrMagnitude != 0)
         {
-            Walk(walkSpeed);
-        }
-        else if (_isSprintKeyPressed && _isSprinting && _stamina.Current > 0)
-        {
-            Walk(sprintSpeed);
-            _stamina.DecayFixedTime(sprintStaminaSpend);
+            SetSpeed(CharacterController.LastInput.isCrouching ? _crouchSpeed : (CharacterController.LastInput.isRunning ? _runSpeed : _walkSpeed));
+            Rotate(direction);
         }
         else
-        {
-            _isSprinting = false;
-            _stamina.RestoreFixedTime();
-        }        
+            SetSpeed(0);
+
+        CharacterController.Move(direction * Speed * Time.deltaTime);
     }
 
-    private void Walk(float speed)
+    private void Jump()
     {
-        Vector3 velocity = Vector3.right * speed * _horizontalAxis * Time.fixedDeltaTime;
-        //_rigidbody.AddForce(velocity, ForceMode.VelocityChange);
-        velocity.y = _rigidbody.velocity.y;
-        _rigidbody.velocity = velocity;
+        CharacterController.AddYVelocity(_jumpHeight);
     }
 
-    private bool CheckFloor()
+    private void SetSpeed(float value)
     {
-        return Physics.Raycast(transform.position + Vector3.up, Vector3.down, floorCheckRayLength);
+        Speed = Mathf.SmoothDamp(Speed, value, ref _speedUpdateVelocity, _speedSmoothTime);
+    }
+
+    private void Rotate(Vector3 forward)
+    {
+        transform.localRotation = Quaternion.LookRotation(forward, Vector3.up);
+    }
+
+    private void OnEnable()
+    {
+        CharacterController.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        CharacterController.enabled = false;
     }
 }

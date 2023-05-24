@@ -1,35 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 public class MineLaser : MonoBehaviour
 {
-    //public GameObject explosionPrefab; // Префаб эффекта взрыва
-    [SerializeField] public float explosionRadius = 5f; // Радиус взрыва
+
+    //public GameObject explosionPrefab; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] public float explosionRadius = 5f; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     public LayerMask layerMask;
     public GameObject endPoint1;
     public GameObject endPoint2;
 
 
-    // Компоненты линии
-    LineRenderer line;
-    RaycastHit hit;
+    private LineRenderer line;
+    private RaycastHit hit;
 
     public void Start(){
-        // Получаем компонент LineRenderer
         line = GetComponent<LineRenderer>();
     }
+
 
     public void Update(){
         
 
-        // Отрисовываем линию
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         line.SetPosition(0, endPoint1.transform.position);
         line.SetPosition(1, endPoint2.transform.position);
 
-        // Проверяем, есть ли пересечение линии с другими объектами
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (Physics.Linecast(endPoint1.transform.position, endPoint2.transform.position, out hit, layerMask))
         {
             Player player= hit.collider.GetComponent<Player>();
@@ -41,12 +38,15 @@ public class MineLaser : MonoBehaviour
         }
 
          void Explode(){
-            // Создаем эффект взрыва в текущей позиции объекта
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
            // GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
                 hit.collider.GetComponent<Player>().Health.Kill();
             
-            // Уничтожаем объект
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Destroy(gameObject);
+
         }
+
+        Destroy(gameObject);
     }
 }

@@ -12,12 +12,12 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
-        _player.Health.OnHealthChanged.AddListener(OnHealthChanged);
+        _player.Health.OnChange.AddListener(OnHealthChanged);
     }
 
     private void OnHealthChanged(float newValue)
     {
-        var value = newValue / _player.Health.MaxValue;
+        var value = newValue / _player.Health.Max;
         _image.fillAmount = value;
 
         var presents = Math.Round(value, 3) * 100;
