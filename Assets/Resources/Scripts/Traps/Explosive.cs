@@ -8,7 +8,7 @@ public class Explosive : MonoBehaviour
     public float boom_range;
 
     private SphereCollider _collider;
-    public List<EnemyController> enemy_storage = new List<EnemyController>();
+    //public List<EnemyController> enemy_storage = new List<EnemyController>();
 
     private void Start()
     {
@@ -22,13 +22,13 @@ public class Explosive : MonoBehaviour
             bool inRange = Vector3.Distance(FindObjectOfType<PlayerMovement>().transform.position, transform.position) < boom_range;
             //if (inRange) FindObjectOfType<PlayerController>().health -= damage;
 
-            foreach (EnemyController enemy in enemy_storage) enemy.health -= damage;
+            //foreach (EnemyController enemy in enemy_storage) enemy.health -= damage;
 
             gameObject.SetActive(false);
         }
     }
 
-    public void DamageSubscribe(EnemyController sender)
+    /*public void DamageSubscribe(EnemyController sender)
     {
         enemy_storage.Add(sender);
     }
@@ -37,4 +37,5 @@ public class Explosive : MonoBehaviour
         if (enemy_storage.Contains(sender))
             enemy_storage.Remove(sender);
     }
+    */
 }
