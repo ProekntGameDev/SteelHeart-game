@@ -15,7 +15,7 @@ namespace NaughtyAttributes.Editor
                 Debug.LogError("The target object is null. Check for missing scripts.");
                 yield break;
             }
-
+            
             List<Type> types = GetSelfAndBaseTypes(target);
 
             for (int i = types.Count - 1; i >= 0; i--)
