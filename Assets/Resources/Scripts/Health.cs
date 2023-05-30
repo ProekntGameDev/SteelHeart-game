@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -42,10 +41,5 @@ public class Health : MonoBehaviour, IDamagable
     private void Awake()
     {
         _currentHealth = _maximumHealth;
-    }
-
-    public void Kill()
-    {
-        
     }
 }
