@@ -27,6 +27,13 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
         }
+        //Maintaining a position before jumping or falling
+        if(CharacterController.IsGrounded)
+        {
+            PlayerPrefs.SetFloat("PosPlayerY",transform.position.y);
+            PlayerPrefs.SetFloat("PosPlayerX",transform.position.x);
+            PlayerPrefs.SetFloat("PosPlayerZ",transform.position.z);
+        }        
     }
 
     private void FixedUpdate()
