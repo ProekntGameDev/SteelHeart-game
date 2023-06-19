@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class JumpPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
 {
-    public bool IsActive { get; private set; }
-    public IPlayerBehaviourData PlayerData { get; private set; }
+    public bool IsActive { get; private set; } //activity behavior
+    public IPlayerBehaviourData PlayerData { get; private set; } //player data
 
-    [SerializeField] private PlayerMove _playerMove;
+    [SerializeField] private PlayerMove _playerMove; //player movement
 
-    [SerializeField] private float _jumpForce;
-    
-    private const float Gravity = -9.81f;//The acceleration with which it slows down
+    [SerializeField] private float _jumpForce = 12f; //jump power
 
-    private float _jumpSpeed;//Speed with he fly
+    private const float Gravity = -9.81f;//the acceleration with which it slows down
+
+    private float _jumpSpeed;//speed with he fly
 
     private void Awake()
     {
-        PlayerData = GetComponent<IPlayerBehaviourData>();
+        PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
     }
 
     public void EnterBehaviour()
@@ -25,7 +25,7 @@ public class JumpPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
     }
     public void UpdateBehaviour()
     {
-        Jump();
+        Jump(); //player jump
     }
     public void ExitBehaviour()
     {

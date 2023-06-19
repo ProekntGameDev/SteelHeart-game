@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class RunPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
 {
-    public bool IsActive { get; private set; }
-    public IPlayerBehaviourData PlayerData { get; private set; }
+    public bool IsActive { get; private set; } //activity behavior
+    public IPlayerBehaviourData PlayerData { get; private set; } //player data
 
-    [SerializeField] private PlayerMove _playerMove;
+    [SerializeField] private PlayerMove _playerMove; //player movement
 
     private void Awake()
     {
-        PlayerData = GetComponent<IPlayerBehaviourData>();
+        PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
     }
 
     public void EnterBehaviour()
@@ -18,7 +18,7 @@ public class RunPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
     }
     public void UpdateBehaviour()
     {
-        Run();
+        Run(); //player run
     }
     public void ExitBehaviour()
     {

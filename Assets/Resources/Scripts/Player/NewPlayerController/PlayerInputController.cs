@@ -5,16 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(IControllable))]
 public class PlayerInputController : MonoBehaviour
 {
-    private IControllable _controllable;
+    private IControllable _controllable; //managed object
 
     private void Awake()
     {
-        _controllable = GetComponent<IControllable>();
+        _controllable = GetComponent<IControllable>(); //receiving IControllable
     }
 
     private void Update()
     {
-        _controllable.Move(Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"), Input.GetKey(KeyCode.LeftShift));
-        if (Input.GetKeyDown(KeyCode.Space)) _controllable.Jump();
+        _controllable.Move(Input.GetAxis("Horizontal"), -Input.GetAxis("Vertical"), Input.GetKey(KeyCode.LeftShift)); //motion input
+        if (Input.GetKeyDown(KeyCode.Space)) _controllable.Jump(); //jump activation
     }
 }
