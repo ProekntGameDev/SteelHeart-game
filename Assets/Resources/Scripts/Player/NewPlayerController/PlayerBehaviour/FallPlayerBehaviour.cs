@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class FallPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
 {
-    public bool IsActive { get; private set; }
-    public IPlayerBehaviourData PlayerData { get; private set; }
+    public bool IsActive { get; private set; } //activity behavior
+    public IPlayerBehaviourData PlayerData { get; private set; } //player data
 
-    [SerializeField] private PlayerMove _playerMove;
+    [SerializeField] private PlayerMove _playerMove; //player movement
 
-    [SerializeField] private float _gravity;
+    [SerializeField] private float _gravity; //gravity
 
 
     private void Awake()
     {
-        PlayerData = GetComponent<IPlayerBehaviourData>();
+        PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
     }
 
     public void EnterBehaviour()
@@ -21,7 +21,7 @@ public class FallPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
     }
     public void UpdateBehaviour()
     {
-        Fall();
+        Fall(); //player fall
     }
     public void ExitBehaviour()
     {

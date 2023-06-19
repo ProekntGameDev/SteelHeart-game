@@ -3,7 +3,7 @@ using UnityEngine;
 public interface IPlayerBehaviourData
 {
     CharacterController CharacterController { get; }
-    Transform PositionPlayer { get; }
+    Transform TransformPlayer { get; }
     float X { get; }
     float Z { get; }
     float SpeedPlayer { get; }
