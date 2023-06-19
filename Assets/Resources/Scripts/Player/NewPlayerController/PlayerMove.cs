@@ -29,6 +29,6 @@ public class PlayerMove : MonoBehaviour
 
     private void Rotate(Vector3 forward, IPlayerBehaviourData playerData)
     {
-        playerData.PositionPlayer.localRotation = Quaternion.LookRotation(forward, Vector3.up);
+        playerData.TransformPlayer.localRotation = Quaternion.LookRotation(forward, Vector3.up);
     }
 }
