@@ -1,53 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckIsGrounded : MonoBehaviour
+namespace NewPlayerController
 {
-    public bool IsGrounded { get; set; }
-
-    [Header("CheckIsGraunded")]
-    [SerializeField] private Transform _groundRay;
-    [SerializeField] private float _groundRayLength = 0.2f;
-    [SerializeField] private CharacterController _characterController;
-
-    private float _yVelocity;
-    private const float Gravity = -9.81f;
-
-    private void Update()
+    public class CheckIsGrounded : MonoBehaviour
     {
-        ApplyGravity();
-        IsGrounded &= CheckGrounded();
-    }
+        public bool IsGrounded { get; set; }
 
-    private bool CheckGrounded()
-    {
-        if (Physics.Raycast(new Ray(_groundRay.position, Vector3.down), out RaycastHit raycastHit, _groundRayLength))
-            if (Vector3.Angle(Vector3.up, raycastHit.normal) <= _characterController.slopeLimit)
-                if (_yVelocity < _groundRayLength)
-                    return true;
+        [Header("CheckIsGraunded")]
+        [SerializeField] private Transform _groundRay;
+        [SerializeField] private float _groundRayLength = 0.2f;
+        [SerializeField] private CharacterController _characterController;
 
-        return false;
-    }
+        private float _yVelocity;
+        private const float Gravity = -9.81f;
 
-    private void ApplyGravity()
-    {
-        if (IsGrounded == false)
+        private void Update()
         {
-            _yVelocity = Mathf.Max(Gravity * Time.deltaTime + _yVelocity, Gravity * Time.deltaTime);
-            _yVelocity = Mathf.Max(Gravity, _yVelocity);
+            ApplyGravity();
+            IsGrounded &= CheckGrounded();
         }
-        else
-            _yVelocity = Mathf.Max(Gravity * Time.deltaTime * Time.deltaTime, _yVelocity - Gravity * Time.deltaTime * Time.deltaTime);
 
-    }
+        private bool CheckGrounded()
+        {
+            if (Physics.Raycast(new Ray(_groundRay.position, Vector3.down), out RaycastHit raycastHit, _groundRayLength))
+                if (Vector3.Angle(Vector3.up, raycastHit.normal) <= _characterController.slopeLimit)
+                    if (_yVelocity < _groundRayLength)
+                        return true;
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (Vector3.Angle(Vector3.up, hit.normal) > _characterController.slopeLimit)
-            return;
+            return false;
+        }
 
-        IsGrounded = true;
-        _yVelocity = Gravity * Time.deltaTime * Time.deltaTime;
+        private void ApplyGravity()
+        {
+            if (IsGrounded == false)
+            {
+                _yVelocity = Mathf.Max(Gravity * Time.deltaTime + _yVelocity, Gravity * Time.deltaTime);
+                _yVelocity = Mathf.Max(Gravity, _yVelocity);
+            }
+            else
+                _yVelocity = Mathf.Max(Gravity * Time.deltaTime * Time.deltaTime, _yVelocity - Gravity * Time.deltaTime * Time.deltaTime);
+
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (Vector3.Angle(Vector3.up, hit.normal) > _characterController.slopeLimit)
+                return;
+
+            IsGrounded = true;
+            _yVelocity = Gravity * Time.deltaTime * Time.deltaTime;
+        }
     }
 }
+

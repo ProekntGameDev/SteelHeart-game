@@ -1,11 +1,15 @@
 using UnityEngine;
 
-public interface IPlayerBehaviourData
+namespace NewPlayerController
 {
-    CharacterController CharacterController { get; }
-    Transform TransformPlayer { get; }
-    float X { get; }
-    float Z { get; }
-    float SpeedPlayer { get; }
-    IPlayerAnimator PlayerAnimator { get; }
+    public interface IPlayerBehaviourData
+    {
+        CharacterController CharacterController { get; }
+        Transform TransformPlayer { get; }
+        float X { get; }
+        float Z { get; }
+        float SpeedPlayer { get; set; }
+        IPlayerAnimator PlayerAnimator { get; }
+        PlayerMovement PlayerMovement { get; }
+    }
 }

@@ -1,25 +1,29 @@
 using UnityEngine;
 
-public class IdlePlayerBehaviour : MonoBehaviour, IPlayerBehaviour
+namespace NewPlayerController
 {
-    public bool IsActive { get; private set; } //activity behavior
-    public IPlayerBehaviourData PlayerData { get; private set; } //player data
+    public class IdlePlayerBehaviour : MonoBehaviour, IPlayerBehaviour
+    {
+        public bool IsActive { get; private set; } //activity behavior
+        public IPlayerBehaviourData PlayerData { get; private set; } //player data
 
-    private void Awake()
-    {
-        PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
-    }
+        private void Awake()
+        {
+            PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
+        }
 
-    public void EnterBehaviour()
-    {
-        IsActive = true;
-    }
-    public void UpdateBehaviour()
-    {
+        public void EnterBehaviour()
+        {
+            IsActive = true;
+            PlayerData.SpeedPlayer = 0f; //set the speed
+        }
+        public void UpdateBehaviour()
+        {
 
-    }
-    public void ExitBehaviour()
-    {
-        IsActive = false;
+        }
+        public void ExitBehaviour()
+        {
+            IsActive = false;
+        }
     }
 }

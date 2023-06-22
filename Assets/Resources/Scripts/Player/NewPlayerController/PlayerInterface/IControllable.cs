@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public interface IControllable
+namespace NewPlayerController
 {
-    void Move(float x, float z, bool isShift);
-    void Jump();
+    public interface IControllable
+    {
+        void Move(float x, float z, bool isShift);
+        void Jump();
+        void HalfSquat();
+    }
 }
