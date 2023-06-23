@@ -1,36 +1,37 @@
 using UnityEngine;
 
-public class FallPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
+namespace NewPlayerController
 {
-    public bool IsActive { get; private set; } //activity behavior
-    public IPlayerBehaviourData PlayerData { get; private set; } //player data
-
-    [SerializeField] private PlayerMove _playerMove; //player movement
-
-    [SerializeField] private float _gravity; //gravity
-
-
-    private void Awake()
+    public class FallPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
     {
-        PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
-    }
+        public bool IsActive { get; private set; } //activity behavior
+        public IPlayerBehaviourData PlayerData { get; private set; } //player data
 
-    public void EnterBehaviour()
-    {
-        IsActive = true;
-    }
-    public void UpdateBehaviour()
-    {
-        Fall(); //player fall
-    }
-    public void ExitBehaviour()
-    {
-        IsActive = false;
-    }
+        [SerializeField] private float _gravity; //gravity
 
-    private void Fall()
-    {
-        if (_playerMove != null)
-            _playerMove.MovePlayer(PlayerData.Z, PlayerData.X, PlayerData.SpeedPlayer, PlayerData, _gravity);
+        private void Awake()
+        {
+            PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
+        }
+
+        public void EnterBehaviour()
+        {
+            IsActive = true;
+        }
+        public void UpdateBehaviour()
+        {
+            Fall(); //player fall
+        }
+        public void ExitBehaviour()
+        {
+            IsActive = false;
+        }
+
+        private void Fall()
+        {
+            if (PlayerData != null && PlayerData.PlayerMovement != null)
+                PlayerData.PlayerMovement.MovePlayer(PlayerData.Z, PlayerData.X, PlayerData.SpeedPlayer, PlayerData, _gravity);
+        }
     }
 }
+

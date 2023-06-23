@@ -1,9 +1,12 @@
-public interface IPlayerBehaviour
+namespace NewPlayerController
 {
-    bool IsActive { get; }
-    IPlayerBehaviourData PlayerData { get; }
+    public interface IPlayerBehaviour
+    {
+        bool IsActive { get; }
+        IPlayerBehaviourData PlayerData { get; }
 
-    void EnterBehaviour();
-    void UpdateBehaviour();
-    void ExitBehaviour();
+        void EnterBehaviour();
+        void UpdateBehaviour();
+        void ExitBehaviour();
+    }
 }
