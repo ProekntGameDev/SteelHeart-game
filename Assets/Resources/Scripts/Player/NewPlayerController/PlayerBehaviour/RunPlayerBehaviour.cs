@@ -2,36 +2,50 @@ using UnityEngine;
 
 namespace NewPlayerController
 {
-    public class RunPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
+    public class RunPlayerBehaviour : IPlayerBehaviour
     {
-        public bool IsActive { get; private set; } //activity behavior
         public IPlayerBehaviourData PlayerData { get; private set; } //player data
 
-        [SerializeField] private float _runSpeed = 6f; //running speed
+        private PlayerBehaviourController _playerBehaviourController;
 
-        private void Awake()
+        private float _runSpeed = 6f; //running speed
+
+        public RunPlayerBehaviour(IPlayerBehaviourData playerData, PlayerBehaviourController playerBehaviourController, float runSpeed)
         {
-            PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
+            PlayerData = playerData;
+            _playerBehaviourController = playerBehaviourController;
+            _runSpeed = runSpeed;
         }
 
         public void EnterBehaviour()
         {
-            IsActive = true;
-            PlayerData.SpeedPlayer = _runSpeed; //set the speed
+            if (PlayerData != null && PlayerData.SpeedPlayer != null) PlayerData.SpeedPlayer.SetSpeed(_runSpeed); //set the speed
         }
+
         public void UpdateBehaviour()
         {
             Run(); //player run
+            CheckIsGrounded();
         }
-        public void ExitBehaviour()
+
+        public void ExitBehaviour() { }
+
+        public void SetNewBehaviour<T>() where T : IPlayerBehaviour
         {
-            IsActive = false;
+            if (typeof(T) == typeof(WalkPlayerBehaviour) || typeof(T) == typeof(JumpPlayerBehaviour) || typeof(T) == typeof(HalfSquatPlayerBehaviour))
+                _playerBehaviourController.SetBehaviour<T>();
         }
 
         private void Run()
         {
             if (PlayerData != null && PlayerData.PlayerMovement != null)
-                PlayerData.PlayerMovement.MovePlayer(PlayerData.Z, PlayerData.X, PlayerData.SpeedPlayer, PlayerData, 0);
+                PlayerData.PlayerMovement.MovePlayer(PlayerData.Z, PlayerData.X, PlayerData.SpeedPlayer.Speed, PlayerData, 0);
+        }
+
+        private void CheckIsGrounded()
+        {
+            if (PlayerData != null && !PlayerData.IsGrounded)
+                _playerBehaviourController.SetBehaviour<FallPlayerBehaviour>();
         }
     }
 }

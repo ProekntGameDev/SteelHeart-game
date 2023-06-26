@@ -7,5 +7,6 @@ namespace NewPlayerController
         void Move(float x, float z, bool isShift);
         void Jump();
         void HalfSquat();
+        void RiseUp();
     }
 }

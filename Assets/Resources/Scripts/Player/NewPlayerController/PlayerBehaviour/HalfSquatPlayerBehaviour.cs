@@ -2,12 +2,13 @@ using UnityEngine;
 
 namespace NewPlayerController
 {
-    public class HalfSquatPlayerBehaviour : MonoBehaviour, IPlayerBehaviour
+    public class HalfSquatPlayerBehaviour : IPlayerBehaviour
     {
-        public bool IsActive { get; private set; } //activity behavior
         public IPlayerBehaviourData PlayerData { get; private set; } //player data
 
-        [SerializeField] private float _halfSquatSpeed = 2f; //speed in a half-squat
+        private PlayerBehaviourController _playerBehaviourController;
+
+        private float _halfSquatSpeed = 2f; //speed in a half-squat
 
         private float _heightPlayer; //player height in CharacterController
         private Vector3 _playerCenter; //player center in CharacterController
@@ -15,19 +16,26 @@ namespace NewPlayerController
         private float _currentHeight = 1.3f; //current player height in CharacterController
         private Vector3 _currentCenter = new Vector3(0, 0.7f, 0); //current player center in CharacterController
 
-        private void Awake()
+        public HalfSquatPlayerBehaviour(IPlayerBehaviourData playerData, PlayerBehaviourController playerBehaviourController, float halfSquatSpeed)
         {
-            PlayerData = GetComponent<IPlayerBehaviourData>(); //receiving IPlayerBehaviourData
+            PlayerData = playerData;
+            _playerBehaviourController = playerBehaviourController;
+            _halfSquatSpeed = halfSquatSpeed;
         }
 
         public void EnterBehaviour()
         {
-            IsActive = true;
-            PlayerData.SpeedPlayer = _halfSquatSpeed; //set the speed
-            _heightPlayer = PlayerData.CharacterController.height; //get player height
-            _playerCenter = PlayerData.CharacterController.center; //get player center
-            PlayerData.CharacterController.height = _currentHeight; //set current player height
-            PlayerData.CharacterController.center = _currentCenter; //set current player center
+            if(PlayerData != null)
+            {
+                if (PlayerData.SpeedPlayer != null) PlayerData.SpeedPlayer.SetSpeed(_halfSquatSpeed); //set the speed
+                if (PlayerData.CharacterController != null)
+                {
+                    _heightPlayer = PlayerData.CharacterController.height; //get player height
+                    _playerCenter = PlayerData.CharacterController.center; //get player center
+                    PlayerData.CharacterController.height = _currentHeight; //set current player height
+                    PlayerData.CharacterController.center = _currentCenter; //set current player center
+                }
+            }
         }
         public void UpdateBehaviour()
         {
@@ -35,15 +43,23 @@ namespace NewPlayerController
         }
         public void ExitBehaviour()
         {
-            PlayerData.CharacterController.height = _heightPlayer; //set player height
-            PlayerData.CharacterController.center = _playerCenter; //set player center
-            IsActive = false;
+            if (PlayerData != null && PlayerData.CharacterController != null)
+            {
+                PlayerData.CharacterController.height = _heightPlayer; //set player height
+                PlayerData.CharacterController.center = _playerCenter; //set player center
+            }
+        }
+
+        public void SetNewBehaviour<T>() where T : IPlayerBehaviour
+        {
+            if (typeof(T) == typeof(HalfSquatPlayerBehaviour))
+                _playerBehaviourController.SetBehaviour<IdlePlayerBehaviour>();
         }
 
         private void WalkHalfSquat()
         {
             if (PlayerData != null && PlayerData.PlayerMovement != null)
-                PlayerData.PlayerMovement.MovePlayer(PlayerData.Z, PlayerData.X, PlayerData.SpeedPlayer, PlayerData, 0);
+                PlayerData.PlayerMovement.MovePlayer(PlayerData.Z, PlayerData.X, PlayerData.SpeedPlayer.Speed, PlayerData, 0);
         }
     }
 }

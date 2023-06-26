@@ -4,6 +4,21 @@ namespace NewPlayerController
 {
     public class PlayerMovement : MonoBehaviour
     {
+        public Vector3 LerpPlayer(Vector3 player, Vector3 target, float speed)
+        {
+            return Vector3.Lerp(player, target, speed);
+        }
+
+        public void MoveYPlayer(IPlayerBehaviourData playerData, float y, float speed)
+        {
+            Vector3 direction = y * Vector3.up;
+            direction.Normalize();
+
+            direction *= speed * Time.deltaTime;
+
+            playerData.CharacterController.Move(direction);
+        }
+
         public void MovePlayer(float z, float x, float speed, IPlayerBehaviourData playerData, float y)
         {
             Vector3 direction = z * Vector3.back + x * Vector3.right;

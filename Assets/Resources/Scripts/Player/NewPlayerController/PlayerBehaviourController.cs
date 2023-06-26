@@ -1,50 +1,30 @@
-using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 namespace NewPlayerController
 {
-    [RequireComponent(typeof(WalkPlayerBehaviour))]
-    [RequireComponent(typeof(RunPlayerBehaviour))]
-    [RequireComponent(typeof(JumpPlayerBehaviour))]
-    [RequireComponent(typeof(FallPlayerBehaviour))]
-    [RequireComponent(typeof(IdlePlayerBehaviour))]
-    [RequireComponent(typeof(HalfSquatPlayerBehaviour))]
-    public class PlayerBehaviourController : MonoBehaviour
+    public class PlayerBehaviourController
     {
         public IPlayerBehaviour CurrentPlayerBehaviour => _currentPlayerBehaviour;
 
         private Dictionary<Type, IPlayerBehaviour> _playerBehaviours = new Dictionary<Type, IPlayerBehaviour>(); //dictionary of behaviors
         private IPlayerBehaviour _currentPlayerBehaviour; //current player behavior
 
-        [SerializeField] private EnumPlayerBehaviour _playerBehaviour = EnumPlayerBehaviour.Idle; //enum of player behaviors
+        private PlayerController _playerController;
 
-        private void Start()
+        public PlayerBehaviourController(PlayerController playerController)
         {
+            _playerController = playerController;
             InitPlayerBehaviours(); //init player behaviors
             SetPlayerBehaviourByDefault(); //set basic behavior
         }
 
-        private void Update()
+        public void SetBehaviour<T>() where T : IPlayerBehaviour
         {
-            if (_currentPlayerBehaviour != null) _currentPlayerBehaviour.UpdateBehaviour(); //update of current behavior
-        }
-
-        private void InitPlayerBehaviours()
-        {
-            _playerBehaviours[typeof(WalkPlayerBehaviour)] = GetComponent<WalkPlayerBehaviour>();
-            _playerBehaviours[typeof(RunPlayerBehaviour)] = GetComponent<RunPlayerBehaviour>();
-            _playerBehaviours[typeof(JumpPlayerBehaviour)] = GetComponent<JumpPlayerBehaviour>();
-            _playerBehaviours[typeof(FallPlayerBehaviour)] = GetComponent<FallPlayerBehaviour>();
-            _playerBehaviours[typeof(IdlePlayerBehaviour)] = GetComponent<IdlePlayerBehaviour>();
-            _playerBehaviours[typeof(HalfSquatPlayerBehaviour)] = GetComponent<HalfSquatPlayerBehaviour>();
-        }
-
-        private IPlayerBehaviour GetPlayerBehaviour<T>() where T : IPlayerBehaviour
-        {
-            var type = typeof(T);
-            return _playerBehaviours[type];
+            IPlayerBehaviour behaviour = GetPlayerBehaviour<T>();
+            if (behaviour != _currentPlayerBehaviour) SetCurrentPlayerBehaviour(behaviour);
         }
 
         private void SetCurrentPlayerBehaviour(IPlayerBehaviour newPlayerBehaviour)
@@ -54,57 +34,27 @@ namespace NewPlayerController
             _currentPlayerBehaviour.EnterBehaviour(); //entering the new current behavior
         }
 
+        private void InitPlayerBehaviours()
+        {
+            _playerBehaviours[typeof(WalkPlayerBehaviour)] = new WalkPlayerBehaviour(_playerController, this, _playerController.WalkSpeed);
+            _playerBehaviours[typeof(RunPlayerBehaviour)] = new RunPlayerBehaviour(_playerController, this, _playerController.RunSpeed);
+            _playerBehaviours[typeof(JumpPlayerBehaviour)] = new JumpPlayerBehaviour(_playerController, this, _playerController.JumpForce);
+            _playerBehaviours[typeof(FallPlayerBehaviour)] = new FallPlayerBehaviour(_playerController, this, _playerController.Gravity);
+            _playerBehaviours[typeof(IdlePlayerBehaviour)] = new IdlePlayerBehaviour(_playerController, this);
+            _playerBehaviours[typeof(HalfSquatPlayerBehaviour)] = new HalfSquatPlayerBehaviour(_playerController, this, _playerController.HalfSquatSpeed);
+            _playerBehaviours[typeof(RisePlayerBehaviour)] = new RisePlayerBehaviour(_playerController, this, _playerController.RiseSpeed);
+        }
+
+        private IPlayerBehaviour GetPlayerBehaviour<T>() where T : IPlayerBehaviour
+        {
+            var type = typeof(T);
+            return _playerBehaviours[type];
+        }
+
         private void SetPlayerBehaviourByDefault()
         {
-            SetIdlePlayerBehaviour(); //setting behavior Idle
-        }
-
-        public void SetWalkPlayerBehaviour()
-        {
-            IPlayerBehaviour behaviour = GetPlayerBehaviour<WalkPlayerBehaviour>(); //pulling out of the dictionary behavior Walk
-            if (behaviour != _currentPlayerBehaviour) SetCurrentPlayerBehaviour(behaviour); //
-
-            _playerBehaviour = EnumPlayerBehaviour.Walk;
-        }
-
-        public void SetRunPlayerBehaviour()
-        {
-            IPlayerBehaviour behaviour = GetPlayerBehaviour<RunPlayerBehaviour>(); //pulling out of the dictionary behavior Run
-            if (behaviour != _currentPlayerBehaviour) SetCurrentPlayerBehaviour(behaviour); //setting a new current behavior
-
-            _playerBehaviour = EnumPlayerBehaviour.Run;
-        }
-
-        public void SetJumpPlayerBehaviour()
-        {
-            IPlayerBehaviour behaviour = GetPlayerBehaviour<JumpPlayerBehaviour>(); //pulling out of the dictionary behavior Jump
-            if (behaviour != _currentPlayerBehaviour) SetCurrentPlayerBehaviour(behaviour); //setting a new current behavior
-
-            _playerBehaviour = EnumPlayerBehaviour.Jump;
-        }
-
-        public void SetFallPlayerBehaviour()
-        {
-            IPlayerBehaviour behaviour = GetPlayerBehaviour<FallPlayerBehaviour>(); //pulling out of the dictionary behavior Fall
-            if (behaviour != _currentPlayerBehaviour) SetCurrentPlayerBehaviour(behaviour); //setting a new current behavior
-
-            _playerBehaviour = EnumPlayerBehaviour.Fall;
-        }
-
-        public void SetIdlePlayerBehaviour()
-        {
             IPlayerBehaviour behaviour = GetPlayerBehaviour<IdlePlayerBehaviour>(); //pulling out of the dictionary behavior Idle
-            if (behaviour != _currentPlayerBehaviour) SetCurrentPlayerBehaviour(behaviour); //setting a new current behavior
-
-            _playerBehaviour = EnumPlayerBehaviour.Idle;
-        }
-
-        public void SetHalfSquatPlayerBehaviour()
-        {
-            IPlayerBehaviour behaviour = GetPlayerBehaviour<HalfSquatPlayerBehaviour>(); //pulling out of the dictionary behavior HalfSquat
-            if (behaviour != _currentPlayerBehaviour) SetCurrentPlayerBehaviour(behaviour); //setting a new current behavior
-
-            _playerBehaviour = EnumPlayerBehaviour.HalfSquat;
+            SetCurrentPlayerBehaviour(behaviour); //setting behavior Idle
         }
     }
 }
