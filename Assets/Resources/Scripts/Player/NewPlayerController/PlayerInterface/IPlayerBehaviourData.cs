@@ -8,8 +8,9 @@ namespace NewPlayerController
         Transform TransformPlayer { get; }
         float X { get; }
         float Z { get; }
-        float SpeedPlayer { get; set; }
+        PlayerSpeed SpeedPlayer { get; }
         IPlayerAnimator PlayerAnimator { get; }
         PlayerMovement PlayerMovement { get; }
+        bool IsGrounded { get; }
     }
 }

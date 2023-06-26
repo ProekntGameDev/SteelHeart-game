@@ -9,14 +9,20 @@ namespace NewPlayerController
         public Transform TransformPlayer => _transformPlayer;
         public float X { get; private set; }
         public float Z { get; private set; }
-        public float SpeedPlayer { get; set;}
+        public PlayerSpeed SpeedPlayer { get; private set; } = new PlayerSpeed();
         public IPlayerAnimator PlayerAnimator { get; private set; }
         public PlayerMovement PlayerMovement => _playerMovement;
+        public bool IsGrounded => _checkIsGrounded.IsGrounded;
 
-        public IPlayerBehaviour PlayerBehaviour => _playerBehaviourController.CurrentPlayerBehaviour; //current player behavior
+        public IPlayerBehaviour PlayerBehaviour => _playerBehaviourController?.CurrentPlayerBehaviour; //current player behavior
 
-        [Header("PlayerBehaviourController")]
-        [SerializeField] private PlayerBehaviourController _playerBehaviourController; //managing player behaviors
+        [Header("PlayerBehaviourSettings")]
+        public float WalkSpeed = 3f;
+        public float RunSpeed = 6f;
+        public float HalfSquatSpeed = 2f;
+        public float RiseSpeed = 3f;
+        public float Gravity = 0f;
+        public float JumpForce = 12f;
 
         [Header("PlayerData")]
         [SerializeField] private CharacterController _characterController; //player CharacterController
@@ -26,56 +32,34 @@ namespace NewPlayerController
         [Header("CheckIsGraunded")]
         [SerializeField] private CheckIsGrounded _checkIsGrounded; //check is grounded
 
+        [SerializeField] private string _currentBehaviour;
+
+        private PlayerBehaviourController _playerBehaviourController; //managing player behaviors
+
         private void Awake()
         {
+            _playerBehaviourController = new PlayerBehaviourController(this);
             PlayerAnimator = GetComponent<IPlayerAnimator>(); //receiving IPlayerAnimator
         }
 
         private void Update()
         {
-            if (PlayerBehaviour is JumpPlayerBehaviour && !PlayerBehaviour.IsActive) //if the jump is over
-                _playerBehaviourController.SetFallPlayerBehaviour(); //transition to behavior Fall
-            else if (PlayerBehaviour is FallPlayerBehaviour && _checkIsGrounded != null && _checkIsGrounded.IsGrounded) //if the player landed
-                _playerBehaviourController.SetIdlePlayerBehaviour(); //transition to behavior Idle
-            else if (PlayerBehaviour is IdlePlayerBehaviour || PlayerBehaviour is RunPlayerBehaviour || PlayerBehaviour is WalkPlayerBehaviour || PlayerBehaviour is HalfSquatPlayerBehaviour) //if the player does not jump
-                if (_checkIsGrounded != null && !_checkIsGrounded.IsGrounded) _playerBehaviourController.SetFallPlayerBehaviour(); //if not on earth then transition to behavior Fall
+            PlayerBehaviour.UpdateBehaviour();
+            _currentBehaviour = $"{PlayerBehaviour.GetType()}";
         }
 
         public void Move(float x, float z, bool isShift)
         {
             X = x;
             Z = z;
-            if (PlayerBehaviour is IdlePlayerBehaviour || PlayerBehaviour is RunPlayerBehaviour || PlayerBehaviour is WalkPlayerBehaviour) //if the player does not jump and does not fall
-            {
-                if (_checkIsGrounded != null && _checkIsGrounded.IsGrounded) //if the player is standing on the ground
-                {
-                    if (X != 0 || Z != 0) //if the player moves
-                    {
-                        if (isShift) _playerBehaviourController.SetRunPlayerBehaviour(); //transition to behavior Run
-                        else _playerBehaviourController.SetWalkPlayerBehaviour(); //transition to behavior Walk
-                    }
-                    else _playerBehaviourController.SetIdlePlayerBehaviour(); //transition to behavior Idle
-                }
-            }
+            if (isShift) PlayerBehaviour.SetNewBehaviour<RunPlayerBehaviour>();
+            else PlayerBehaviour.SetNewBehaviour<WalkPlayerBehaviour>();
         }
 
-        public void Jump()
-        {
-            if (PlayerBehaviour is HalfSquatPlayerBehaviour) return; //if the player is in a half-squat state 
+        public void Jump() => PlayerBehaviour.SetNewBehaviour<JumpPlayerBehaviour>();
 
-            if (_checkIsGrounded != null && _checkIsGrounded.IsGrounded) //if the player is standing on the ground
-                _playerBehaviourController.SetJumpPlayerBehaviour(); //transition to behavior Jump
-        }
+        public void HalfSquat() => PlayerBehaviour.SetNewBehaviour<HalfSquatPlayerBehaviour>();
 
-        public void HalfSquat()
-        {
-            if (_checkIsGrounded != null && _checkIsGrounded.IsGrounded) //if the player is standing on the ground
-            {
-                if (PlayerBehaviour is HalfSquatPlayerBehaviour) //if the player is in a half-squat state 
-                    _playerBehaviourController.SetIdlePlayerBehaviour(); //transition to behavior Idle
-                else
-                    _playerBehaviourController.SetHalfSquatPlayerBehaviour(); //transition to behavior HalfSquart
-            }
-        }
+        public void RiseUp() => PlayerBehaviour.SetNewBehaviour<RisePlayerBehaviour>();
     }
 }
