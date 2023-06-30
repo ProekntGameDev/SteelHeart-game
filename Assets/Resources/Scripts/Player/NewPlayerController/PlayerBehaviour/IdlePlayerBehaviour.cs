@@ -21,6 +21,7 @@ namespace NewPlayerController
         public void UpdateBehaviour()
         {
             CheckPlayerWalk();
+            CheckIsGrounded();
         }
         public void ExitBehaviour() { }
 
@@ -34,6 +35,12 @@ namespace NewPlayerController
         {
             if (PlayerData.X != 0 || PlayerData.Z != 0) //if the player moves
                 _playerBehaviourController.SetBehaviour<WalkPlayerBehaviour>();
+        }
+
+        private void CheckIsGrounded()
+        {
+            if (PlayerData != null && !PlayerData.IsGrounded)
+                _playerBehaviourController.SetBehaviour<FallPlayerBehaviour>();
         }
     }
 }
