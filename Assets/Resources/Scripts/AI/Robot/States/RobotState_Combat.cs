@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,16 +13,15 @@ namespace AI
         private float _maxDistance;
         private Player _player;
         private StateMachine _stateMachine;
-        private RobotAttack_Area _areaAttack;
-        private RobotAttack_Hammer _hammerAttack;
 
-        public RobotState_Combat(Player player, NavMeshAgent navMeshAgent, float maxDistance, Dictionary<Type, RobotAttackProperties> properties)
+        public RobotState_Combat(Player player, NavMeshAgent navMeshAgent, float maxDistance, List<IRobotAttack> attacks)
         {
             _navMeshAgent = navMeshAgent;
             _player = player;
             _maxDistance = maxDistance;
+            _attacks = attacks;
 
-            InitStateMachine(properties);
+            InitStateMachine();
 
             SetupTransitions();  
         }
@@ -78,25 +75,24 @@ namespace AI
             return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
         }
 
-        private void InitStateMachine(Dictionary<Type, RobotAttackProperties> properties)
+        private void InitStateMachine()
         {
             _stateMachine = new StateMachine();
 
             Health playerHealth = _player.GetComponent<Health>();
 
-            _areaAttack = new RobotAttack_Area(_navMeshAgent, properties[typeof(RobotAttack_Area)]);
-            _hammerAttack = new RobotAttack_Hammer(playerHealth, _navMeshAgent, properties[typeof(RobotAttack_Hammer)]);
-
-            _attacks = new List<IRobotAttack> 
-            { 
-                _areaAttack, _hammerAttack
-            };
+            foreach (var attack in _attacks)
+            {
+                attack.Init(_navMeshAgent, playerHealth);
+            }
         }
 
         private void SetupTransitions()
         {
-            _stateMachine.AddTransition(_hammerAttack, null, () => _hammerAttack.IsDone());
-            _stateMachine.AddTransition(_areaAttack, null, () => _areaAttack.IsDone());
+            foreach (var attack in _attacks)
+            {
+                _stateMachine.AddTransition(attack, null, () => attack.IsDone());
+            }
         }
     }
 }

@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.AI;
 
 namespace AI
 {
     public interface IRobotAttack : IState
     {
         RobotAttackProperties AttackProperties { get; }
+
+        void Init(NavMeshAgent navMeshAgent, Health health);
 
         bool IsDone();
     }

@@ -22,8 +22,7 @@ namespace AI
         [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
-        [SerializeField, BoxGroup("Combat")] private RobotAttackProperties _firstAttackProperties;
-        [SerializeField, BoxGroup("Combat")] private RobotAttackProperties _secondAttackProperties;
+        [SerializeField, SOInheritedFrom(typeof(IRobotAttack)), BoxGroup("Combat")] private List<ScriptableObject> _robotAttacks = new List<ScriptableObject>(); // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
 
         private StateMachine _stateMachine;
         private RobotState_Delay _delayState;
@@ -53,13 +52,9 @@ namespace AI
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
             _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, 2, 8);
 
-            Dictionary<Type, RobotAttackProperties> attackProperties = new Dictionary<Type, RobotAttackProperties> 
-            {
-                { typeof(RobotAttack_Area), _firstAttackProperties },
-                { typeof(RobotAttack_Hammer), _secondAttackProperties },
-            };
+            List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
-            _combatState = new RobotState_Combat(_player, _navMeshAgent, _maxCombatDistance, attackProperties);
+            _combatState = new RobotState_Combat(_player, _navMeshAgent, _maxCombatDistance, attacks);
         }
 
         private void SetupTransitions()
@@ -75,9 +70,6 @@ namespace AI
 
             _stateMachine.AddTransition(_combatState, _delayState, () => _combatState.IsDone());
             _stateMachine.AddTransition(_combatState, _chaseState, () => _combatState.IsLostPlayer());
-
-
-            _stateMachine.AddAnyTransition(_combatState, () => _chaseState.IsLostPlayer());
         }
 
         private void OnDrawGizmosSelected()

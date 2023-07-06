@@ -47,13 +47,7 @@ public class AdvancedCharacterController : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (IsGrounded == false)
-        {
-            _yVelocity = Mathf.Max(_gravity * Time.deltaTime + _yVelocity, _gravity * Time.deltaTime);
-            _yVelocity = Mathf.Max(_gravity, _yVelocity);
-        }
-        else
-            _yVelocity = Mathf.Max(_gravity * Time.deltaTime * Time.deltaTime, _yVelocity - _gravity * Time.deltaTime * Time.deltaTime);
+        _yVelocity -= _gravity * Time.deltaTime;
 
         _characterController.Move(new Vector3(0, _yVelocity * Time.deltaTime, 0));
     }

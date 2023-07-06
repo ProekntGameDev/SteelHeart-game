@@ -3,21 +3,22 @@ using UnityEngine.AI;
 
 namespace AI
 {
-    public class RobotAttack_Hammer : IRobotAttack
+    [CreateAssetMenu(menuName = "Scriptable Objects/Robot/Attacks/Hammer Attack")]
+    public class RobotAttack_Hammer : ScriptableObject, IRobotAttack
     {
         public RobotAttackProperties AttackProperties => _attackProperties;
 
+        [SerializeField] private RobotAttackProperties _attackProperties;
+
         private Health _health;
         private NavMeshAgent _navMeshAgent;
-        private RobotAttackProperties _attackProperties;
 
         private float _endTime;
 
-        public RobotAttack_Hammer(Health health, NavMeshAgent navMeshAgent, RobotAttackProperties robotAttackProperties)
+        public void Init(NavMeshAgent navMeshAgent, Health health)
         {
             _health = health;
             _navMeshAgent = navMeshAgent;
-            _attackProperties = robotAttackProperties;
         }
 
         public void OnEnter()
