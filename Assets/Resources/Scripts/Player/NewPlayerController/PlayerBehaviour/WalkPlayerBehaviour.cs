@@ -26,6 +26,7 @@ namespace NewPlayerController
         {
             Walk(); //player walk
             CheckIsGrounded();
+            CheckPlayerIdle();
         }
 
         public void ExitBehaviour() { }
@@ -46,6 +47,12 @@ namespace NewPlayerController
         {
             if (PlayerData != null && !PlayerData.IsGrounded)
                 _playerBehaviourController.SetBehaviour<FallPlayerBehaviour>();
+        }
+
+        private void CheckPlayerIdle()
+        {
+            if (PlayerData.X == 0 && PlayerData.Z == 0) //if the player idle
+                _playerBehaviourController.SetBehaviour<IdlePlayerBehaviour>();
         }
     }
 }
