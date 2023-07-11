@@ -29,6 +29,6 @@ public class RobotHealthBar : MonoBehaviour
         float healthPercent = newValue / _health.Max;
 
         _healthBarImage.fillAmount = healthPercent;
-        _healthBarText.text = $"{Mathf.CeilToInt(healthPercent * 100)}%";
+        _healthBarText.text = $"{(int)(healthPercent * 100)}%";
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-using Object = System.Object;
 
 // Note:
 // Finite state machine realization from https://game.courses/bots-ai-statemachines/ (I'm too lazy to make it myself)
