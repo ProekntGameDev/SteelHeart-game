@@ -63,7 +63,7 @@ public partial class InertialCharacterController : MonoBehaviour
         //How close the current speed to max velocity is (1 = not moving, 0 = at/over max speed)
         float max = Mathf.Max(0f, 1 - (currentVelocity.magnitude / maxVelocity));
 
-        //How perpendicular the input to the current velocity is (0 = 90°)
+        //How perpendicular the input to the current velocity is (0 = 90Â°)
         float velocityDot = Vector3.Dot(currentVelocity, alignedInputVelocity);
 
         //Scale the input to the max speed

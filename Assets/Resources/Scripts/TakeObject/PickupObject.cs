@@ -1,34 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PickupObject : MonoBehaviour, IPickupable
 {
-    
-    public GameObject pickedUpObject;
-     public bool isPickedUp;
+    public bool isPickedUp;
+    private BoxCollider _collider;
+    private Rigidbody _rb;
 
-    // Реализация метода Pickup интерфейса IPickupable
-    public void Pickup()
+    private void Start()
     {
-        // Объект взят
-        isPickedUp = true;
-        // Отключаем коллайдер, чтобы объект не мешался
-        pickedUpObject.GetComponent<Collider>().enabled = false;
-        // Отключаем физику, чтобы объект можно было перемещать вручную
-        pickedUpObject.GetComponent<Rigidbody>().isKinematic = true;
+        _collider = GetComponent<BoxCollider>();
+        _rb = GetComponent<Rigidbody>();
     }
 
-    // Реализация метода Drop интерфейса IPickupable
-    public void Drop()
+    // Pickup method realization from interface IPickupable
+    public void Pickup()
     {
-        if (isPickedUp)
-        {
-            // Включаем коллайдер и физику
-            pickedUpObject.GetComponent<Collider>().enabled = true;
-            pickedUpObject.GetComponent<Rigidbody>().isKinematic = false;
-            // Добавляем силу впереди игрока
-            pickedUpObject.GetComponent<Rigidbody>().AddForce(transform.up * 10);
-        }
+        // Check
+        if (isPickedUp) return;
+        
+        isPickedUp = true;
+        // Turn off collider and physics
+        _collider.isTrigger = true;
+        _rb.isKinematic = true;
+    }
+
+    // Drop method realization from interface IPickupable
+    public void Drop(Vector3 direction)
+    {
+        // Check
+        if (!isPickedUp) return;
+        
+        // Object released
+        isPickedUp = false;
+        // Turn on collider and physics
+        _collider.isTrigger = false;
+        _rb.isKinematic = false;
+        
+        _rb.AddForce(direction * 3f, ForceMode.Impulse);
+    }
+    // Deliver method realization from interface IPickupable
+    public void Deliver()
+    {
+        if (!isPickedUp) return;
+        // Card disappears
+        Destroy(gameObject);
     }
 }
