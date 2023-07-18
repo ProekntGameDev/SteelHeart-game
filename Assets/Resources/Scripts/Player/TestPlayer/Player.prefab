@@ -5551,11 +5551,11 @@ MonoBehaviour:
   _maxCrouchVelocity: 4
   _maxWalkVelocity: 6
   _maxRunVelocity: 10
-  _maxAirVelocity: 100
-  _groundAcceleration: 150
-  _airAcceleration: 10
+  _maxAirVelocity: 70
+  _groundAcceleration: 140
+  _airAcceleration: 8.88
   _jumpType:
-    _initalJumpForce: 2.5
+    _initalJumpForce: 1.68
     _gravityRise:
       serializedVersion: 2
       m_Curve:
@@ -9751,10 +9751,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8a188a600fa334291427e1b0e79f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemHolder: {fileID: 3064512737987622605}
-  _dropForce: {x: 0, y: 1, z: 3}
-  _minPullDistance: 0.2
-  _pullSpeed: 3
+  _itemHolder: {fileID: 0}
+  _dropForce: {x: 0, y: 0, z: 0}
+  _minPullDistance: 0
+  _pullSpeed: 0
 --- !u!135 &4180564024444255841
 SphereCollider:
   m_ObjectHideFlags: 0
