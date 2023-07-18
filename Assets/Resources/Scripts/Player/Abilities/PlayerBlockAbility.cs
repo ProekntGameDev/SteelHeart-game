@@ -19,7 +19,7 @@ public class PlayerBlockAbility : MonoBehaviour
 
     private void Update()
     {
-        IsBlocking = Input.GetKey(blockKey) && _stamina.IsSufficient;
+        IsBlocking = Input.GetKey(blockKey) && _stamina.Current >= _blockStaminaSpend * Time.deltaTime;
     }
 
     private void FixedUpdate()

@@ -1,23 +1,17 @@
+using System;
 using UnityEngine;
 
 public class Stamina : MonoBehaviour
 {
-    public delegate void VoidDelegate();
-    public event VoidDelegate OnChange;
+    public event Action OnChange;
+
+    public float Maximum => _maximum;
+    public float Current => _current;
 
     [SerializeField] private float _maximum = 10;
-    [Tooltip("Minimal amount to perform action")]
-    [SerializeField] private float _sufficient = 5f;
     [SerializeField] private float _restorationRate = 1f;
     
     private float _current;
-
-    public float Maximum { get { return _maximum; } }
-    public float Current { get { return _current; } }
-    public float Percentage { get { return _current / _maximum; } }
-
-    public bool IsSufficient => _current > _sufficient;
-
 
     private void Start()
     {

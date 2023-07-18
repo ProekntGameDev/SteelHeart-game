@@ -5,15 +5,15 @@ using NaughtyAttributes;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class CoinDisplay : MonoBehaviour
 {
-    [SerializeField, Required] private PlayerCoinHolder _coinHolder;
+    [SerializeField, Required] private Player _player;
 
     private TextMeshProUGUI _text;
 
-    private void Awake()
+    private void Start()
     {
         _text = GetComponent<TextMeshProUGUI>();
 
-        _coinHolder.OnChange.AddListener(UpdateCoins);
+        _player.CoinHolder.OnChange.AddListener(UpdateCoins);
     }
 
     private void UpdateCoins(int value)

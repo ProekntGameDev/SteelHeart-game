@@ -5,7 +5,8 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField, Required] private AttackPoint _attackPoint;
     [SerializeField] private float _damage;
-    [SerializeField] private float _speed;
+    [SerializeField] private float _delay;
+    [SerializeField] private float _cooldown;
     [SerializeField] private float _staminaCost;
 
     private IdleCombatState _idleState;
@@ -41,7 +42,7 @@ public class PlayerCombat : MonoBehaviour
     private void SetupStates()
     {
         _idleState = new IdleCombatState();
-        _attackState = new AttackCombatState(_attackPoint, _speed, _damage);
+        _attackState = new AttackCombatState(_attackPoint, _delay, _cooldown, _damage);
     }
 
     private void SetupTransitions()

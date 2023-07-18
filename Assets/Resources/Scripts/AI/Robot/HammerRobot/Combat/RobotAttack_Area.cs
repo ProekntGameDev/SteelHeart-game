@@ -11,12 +11,14 @@ namespace AI
         [SerializeField] private RobotAttackProperties _attackProperties;
 
         private NavMeshAgent _navMeshAgent;
+        private Health _playerHealth;
 
         private float _endTime;
 
-        public void Init(NavMeshAgent navMeshAgent, Health health)
+        public void Init(NavMeshAgent navMeshAgent, Health playerHealth)
         {
             _navMeshAgent = navMeshAgent;
+            _playerHealth = playerHealth;
         }
 
         public void OnEnter()
@@ -38,6 +40,6 @@ namespace AI
         public void Tick()
         { }
 
-        public bool IsDone() => _endTime <= Time.time;
+        public bool IsDone() => _endTime <= Time.time || _playerHealth.Current == 0;
     }
 }

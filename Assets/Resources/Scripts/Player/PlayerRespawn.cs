@@ -1,54 +1,51 @@
 using UnityEngine;
+using NaughtyAttributes;
 
-[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(Player))]
 public class PlayerRespawn : MonoBehaviour
 {
-    public int amountOfCoinsForAdditionalLife = 100;
+    [SerializeField, Required] private LevelData _levelParameters;
 
-    private int _additionalLives = 1;
-    public LevelData levelParameters;
-
-    private Health _health;
-
-
-    private void Awake()
-    {
-        _health = GetComponent<Health>();
-    }
+    private Player _player;
+    private int _extraLives;
 
     private void Start()
     {
-        levelParameters.respawnCheckpoint = transform.position;
-        _health.OnDeath.AddListener(Die);
+        _player = GetComponent<Player>();
+
+        _levelParameters.respawnCheckpoint = transform.position;
+        _player.Health.OnDeath.AddListener(Die);
     }
 
-    public void Die()
+    private void Die()
     {
-        if (_additionalLives > 0)
+        _player.Movement.enabled = false;
+
+        // Temp logic. UI for that doesn't exist for now
+        if (_extraLives > 0)
         {
-            _additionalLives -= 1;
+            _extraLives -= 1;
             Respawn();
+            return;
         }
-        else
-        {
-            Debug.Log("Death!");
-            foreach (var component in GetComponents<MonoBehaviour>())
-            {
-                component.enabled = false;
-            }
-        }
+
+        foreach (var component in _player.GetComponents<MonoBehaviour>())
+            component.enabled = false;
     }
 
     public void Respawn()
     {
         Debug.Log("Respawn!");
-        //player's transform is _health.transform;
-        _health.transform.position = levelParameters.respawnCheckpoint;
-        _health.Heal(_health.Max);
+
+        _player.transform.position = _levelParameters.respawnCheckpoint;
+
+        _player.Health.Heal(_player.Health.Max);
+
+        _player.Movement.enabled = true;
     }
 
     public void AddLifes(int amount)
     {
-        _additionalLives += amount;
+        _extraLives += amount;
     }
 }
