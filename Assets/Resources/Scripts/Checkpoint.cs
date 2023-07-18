@@ -8,7 +8,7 @@ public class Checkpoint : MonoBehaviour, IInteractableMonoBehaviour
         var _respawnBehaviour = obj.GetComponent<PlayerRespawn>();
         if (_respawnBehaviour == null) return;
 
-        var levelParameters = _respawnBehaviour.levelParameters;
-        levelParameters.respawnCheckpoint = transform.position;
+        //var levelParameters = _respawnBehaviour.levelParameters;
+        //levelParameters.respawnCheckpoint = transform.position;
     }
 }

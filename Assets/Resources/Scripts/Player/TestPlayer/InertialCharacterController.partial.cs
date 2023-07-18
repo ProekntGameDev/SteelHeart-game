@@ -47,6 +47,13 @@ public partial class InertialCharacterController
             return;
 
         _verticalVelocity = 0;
+
+        Vector3 fullVelocity = new Vector3(CurrentVelocity.x, _verticalVelocity, CurrentVelocity.z);
+
+        Vector3 velocity = Vector3.ProjectOnPlane(fullVelocity, hit.normal);
+
+        _currentVelocity = new Vector3(velocity.x, 0, velocity.z);
+        _verticalVelocity = velocity.y;
     }
 
     public class CharacterControllerInput

@@ -74,4 +74,14 @@ public partial class InertialCharacterController : MonoBehaviour
 
         _currentVelocity += correctVelocity;
     }
+
+    private void OnEnable()
+    {
+        _characterController.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        _characterController.enabled = false;
+    }
 }

@@ -2,7 +2,9 @@ using UnityEngine;
 
 public interface IPickupable
 {
-    void Pickup();
+    bool IsPickedUp { get; }
+
+    Transform Pickup();
     void Drop(Vector3 direction);
     void Deliver();
 }

@@ -67,7 +67,7 @@ namespace AI
 
         public bool IsDone()
         {
-            return false;
+            return _player.Health.Current == 0;
         }
 
         public bool IsLostPlayer()
@@ -79,7 +79,7 @@ namespace AI
         {
             _stateMachine = new StateMachine();
 
-            Health playerHealth = _player.GetComponent<Health>();
+            Health playerHealth = _player.Health;
 
             foreach (var attack in _attacks)
             {

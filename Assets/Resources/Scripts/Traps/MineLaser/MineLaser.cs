@@ -39,8 +39,9 @@ public class MineLaser : MonoBehaviour
 
          void Explode(){
             // ������� ������ ������ � ������� ������� �������
-           // GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
-                hit.collider.GetComponent<Player>().Health.Kill();
+            // GameObject explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
+            Health playerHealth = hit.collider.GetComponent<Player>().Health;
+            playerHealth.TakeDamage(playerHealth.Current);
             
             // ���������� ������
             Destroy(gameObject);

@@ -43,9 +43,4 @@ public class Health : MonoBehaviour, IDamagable
     {
         _currentHealth = _maximumHealth;
     }
-
-    public void Kill()
-    {
-
-    }
 }

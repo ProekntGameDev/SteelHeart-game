@@ -6,7 +6,7 @@ namespace AI
     {
         RobotAttackProperties AttackProperties { get; }
 
-        void Init(NavMeshAgent navMeshAgent, Health health);
+        void Init(NavMeshAgent navMeshAgent, Health playerHealth);
 
         bool IsDone();
     }

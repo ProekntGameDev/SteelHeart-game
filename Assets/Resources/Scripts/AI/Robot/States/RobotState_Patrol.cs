@@ -40,7 +40,7 @@ namespace AI
 
         public bool IsDone()
         {
-            return _navMeshAgent.remainingDistance == 0;
+            return _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance;
         }
     }
 }
