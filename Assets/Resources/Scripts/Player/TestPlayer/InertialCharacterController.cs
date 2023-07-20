@@ -33,6 +33,13 @@ public partial class InertialCharacterController : MonoBehaviour
         return _characterController.Move(_currentVelocity * Time.fixedDeltaTime);
     }
 
+    public void SetPosition(Vector3 newPosition)
+    {
+        _characterController.enabled = false;
+        transform.position = newPosition;
+        _characterController.enabled = true;
+    }
+
     public void Rotate(Vector3 forward)
     {
         if (forward.sqrMagnitude == 0)

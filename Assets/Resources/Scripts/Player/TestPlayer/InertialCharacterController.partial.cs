@@ -46,6 +46,10 @@ public partial class InertialCharacterController
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        Vector3 velocityProjection = Vector3.ProjectOnPlane(_currentVelocity, hit.normal);
+        velocityProjection.y = 0;
+        _currentVelocity = velocityProjection;
+
         if (Vector3.Angle(Vector3.down, hit.normal) > _characterController.slopeLimit)
             return;
 
