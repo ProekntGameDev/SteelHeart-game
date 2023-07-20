@@ -7,7 +7,7 @@ public class Coin : MonoBehaviour, ITriggerableMonoBehaviour
 
     public void Trigger(Transform obj)
     {
-        var _coinHolder = obj.GetComponent<CoinHolder>();
+        var _coinHolder = obj.GetComponent<GearsHolder>();
         if (_coinHolder == null) return;
 
         _coinHolder.Increase(worth);

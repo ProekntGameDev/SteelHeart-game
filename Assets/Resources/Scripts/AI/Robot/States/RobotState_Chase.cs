@@ -14,6 +14,8 @@ namespace AI
         private float _minDistance;
         private float _maxDistance;
 
+        private float _baseStoppingDistance;
+
         public RobotState_Chase(RobotVision robotVision, NavMeshAgent navMeshAgent, float speed, float minDistance, float maxDistance)
         {
             _robotVision = robotVision;
@@ -24,13 +26,15 @@ namespace AI
         public void OnEnter()
         {
             _navMeshAgent.speed = _speed;
+
+            _baseStoppingDistance = _navMeshAgent.stoppingDistance;
             _navMeshAgent.stoppingDistance = _minDistance;
         }
 
         public void OnExit()
         {
+            _navMeshAgent.stoppingDistance = _baseStoppingDistance;
             _player = null;
-            _navMeshAgent.stoppingDistance = 0;
         }
 
         public void Tick()

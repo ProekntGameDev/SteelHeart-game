@@ -33,17 +33,6 @@ public partial class InertialCharacterController : MonoBehaviour
         return _characterController.Move(_currentVelocity * Time.fixedDeltaTime);
     }
 
-    public void ApplyGravity()
-    {
-        if (_verticalVelocity <= 0)
-            _verticalVelocity += _gravity * Time.fixedDeltaTime;
-
-        _characterController.Move(new Vector3(0, _verticalVelocity * Time.fixedDeltaTime, 0));
-
-        if (IsGrounded && _verticalVelocity < 0)
-            _verticalVelocity = 0f;
-    }
-
     public void Rotate(Vector3 forward)
     {
         if (forward.sqrMagnitude == 0)
@@ -73,15 +62,5 @@ public partial class InertialCharacterController : MonoBehaviour
         Vector3 correctVelocity = Vector3.Lerp(alignedInputVelocity, modifiedVelocity, velocityDot);
 
         _currentVelocity += correctVelocity;
-    }
-
-    private void OnEnable()
-    {
-        _characterController.enabled = true;
-    }
-
-    private void OnDisable()
-    {
-        _characterController.enabled = false;
     }
 }

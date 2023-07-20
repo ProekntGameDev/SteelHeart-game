@@ -7,7 +7,6 @@ public class AttackCombatState : IState
     private float _damage;
     private float _delay;
     private float _cooldown;
-    private float _timestamp;
 
     private IEnumerator _attackCoroutine;
 
@@ -37,9 +36,7 @@ public class AttackCombatState : IState
     {
         yield return new WaitForSeconds(_delay);
 
-        Collider[] colliders = Physics.OverlapSphere(_attackPoint.transform.position, _attackPoint.Radius);
-
-        foreach (var collider in colliders)
+        foreach (var collider in _attackPoint.GetColliders())
         {
             if (collider.TryGetComponent(out IDamagable damagable) && collider.TryGetComponent(out Player player) == false)
             {
