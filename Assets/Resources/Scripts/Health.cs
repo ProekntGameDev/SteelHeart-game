@@ -16,8 +16,11 @@ public class Health : MonoBehaviour, IDamagable
     
     public void Heal(float value)
     {
+        if (enabled == false)
+            return;
+
         if (value < 0)
-            throw new System.ArgumentOutOfRangeException(nameof(value));
+            throw new ArgumentOutOfRangeException(nameof(value));
 
         if (_currentHealth == _maximumHealth) 
             return;
@@ -29,8 +32,11 @@ public class Health : MonoBehaviour, IDamagable
 
     public void TakeDamage(float damage)
     {
+        if (enabled == false)
+            return;
+
         if (damage < 0)
-            throw new System.ArgumentOutOfRangeException(nameof(damage));
+            throw new ArgumentOutOfRangeException(nameof(damage));
 
         _currentHealth = Mathf.Max(_currentHealth - damage, 0);
         if (_currentHealth <= 0)

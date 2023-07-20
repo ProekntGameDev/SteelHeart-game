@@ -23,7 +23,7 @@ public class JumpState : IState
 
         _characterController.VerticalVelocity = Mathf.Sqrt(_jumpType.InitalJumpForce * -2 * _characterController.Gravity);
 
-        _characterController.LastInput.WishJump = false;
+        _characterController.WishJump = false;
     }
 
     public void OnExit()
@@ -42,7 +42,7 @@ public class JumpState : IState
         _characterController.VerticalVelocity += gravity * Time.fixedDeltaTime;
 
         Vector3 input = _characterController.LastInput.input;
-        Vector3 wishDirection = input.x * Vector3.right + input.z * Vector3.back;
+        Vector3 wishDirection = input.x * Vector3.right + input.z * Vector3.forward;
         wishDirection.Normalize();
 
         if(_characterController.IsGrounded == false)

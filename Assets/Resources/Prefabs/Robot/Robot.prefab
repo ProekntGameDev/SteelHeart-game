@@ -1270,6 +1270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _navMeshAgent: {fileID: 3937459016884770106}
   _player: {fileID: 2281101296991554125, guid: 1f364fad4f1a4c44cac23940e0a17a99, type: 3}
+  _robotHealth: {fileID: 3937459016884770107}
   _robotVision:
     _eyeTransform: {fileID: 3937459016016217390}
     _maxDistance: 10
@@ -1279,6 +1280,8 @@ MonoBehaviour:
   - {fileID: 0}
   _patrolSpeed: 3
   _chaseSpeed: 5.5
+  _chaseMinDistance: 2
+  _chaseMaxDistance: 8
   _maxCombatDistance: 5
   _robotAttacks:
   - {fileID: 11400000, guid: f2f55c63a34b6b348bf173b375a68a35, type: 2}
@@ -1335,12 +1338,12 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 480
-  m_StoppingDistance: 0
+  m_AngularSpeed: 960
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 2.4
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

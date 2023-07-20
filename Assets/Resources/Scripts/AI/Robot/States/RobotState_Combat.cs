@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Random = UnityEngine.Random;
+using System.Linq;
 
 namespace AI
 {
@@ -12,12 +12,14 @@ namespace AI
 
         private float _maxDistance;
         private Player _player;
+        private Health _robotHealth;
         private StateMachine _stateMachine;
 
-        public RobotState_Combat(Player player, NavMeshAgent navMeshAgent, float maxDistance, List<IRobotAttack> attacks)
+        public RobotState_Combat(Player player, Health robotHealth, NavMeshAgent navMeshAgent, float maxDistance, List<IRobotAttack> attacks)
         {
             _navMeshAgent = navMeshAgent;
             _player = player;
+            _robotHealth = robotHealth;
             _maxDistance = maxDistance;
             _attacks = attacks;
 
@@ -39,24 +41,13 @@ namespace AI
             if (_stateMachine.HasState)
                 return;
 
-            float distance = Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position);
+            float distanceToPlayer = Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position);
+            float playerSpeed = _player.Movement.CharacterController.CurrentVelocity.magnitude;
 
-            IRobotAttack bestAttack = null;
-
-            foreach (var e in _attacks)
-            {
-                if (bestAttack == null)
-                {
-                    if (e.AttackProperties.MaxDistance < distance)
-                        continue;
-
-                    bestAttack = e;
-                    continue;
-                }
-
-                if (e.AttackProperties.MaxDistance < bestAttack.AttackProperties.MaxDistance)
-                    bestAttack = e;
-            }
+            IRobotAttack bestAttack = _attacks.Where(x => x.AttackProperties.MaxDistance > distanceToPlayer)
+                .Where(x => playerSpeed <= (1 / x.AttackProperties.Speed))
+                .OrderByDescending(x => x.AttackProperties.Damage)
+                .FirstOrDefault();
 
             if (bestAttack == null)
                 _navMeshAgent.destination = _player.transform.position;
@@ -79,11 +70,9 @@ namespace AI
         {
             _stateMachine = new StateMachine();
 
-            Health playerHealth = _player.Health;
-
             foreach (var attack in _attacks)
             {
-                attack.Init(_navMeshAgent, playerHealth);
+                attack.Init(_navMeshAgent, _player, _robotHealth);
             }
         }
 

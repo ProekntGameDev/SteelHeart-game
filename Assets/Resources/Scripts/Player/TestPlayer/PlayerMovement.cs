@@ -66,17 +66,17 @@ public class PlayerMovement : MonoBehaviour
         _stateMachine.AddTransition(_idleState, _walkState, () => CharacterController.LastInput.input.sqrMagnitude != 0);
         _stateMachine.AddTransition(_walkState, _idleState, () => CharacterController.LastInput.input.sqrMagnitude == 0);
 
-        _stateMachine.AddTransition(_walkState, _crouchState, () => CharacterController.LastInput.isCrouching);
-        _stateMachine.AddTransition(_walkState, _runState, () => CharacterController.LastInput.isRunning);
+        _stateMachine.AddTransition(_walkState, _crouchState, () => CharacterController.LastInput.IsCrouching);
+        _stateMachine.AddTransition(_walkState, _runState, () => CharacterController.LastInput.IsRunning);
 
-        _stateMachine.AddTransition(_crouchState, _walkState, () => CharacterController.LastInput.isCrouching == false);
+        _stateMachine.AddTransition(_crouchState, _walkState, () => CharacterController.LastInput.IsCrouching == false);
 
-        _stateMachine.AddTransition(_runState, _walkState, () => CharacterController.LastInput.isRunning == false);
+        _stateMachine.AddTransition(_runState, _walkState, () => CharacterController.LastInput.IsRunning == false);
 
         // Jump and air movement
 
         _stateMachine.AddAnyTransition(_airMoveState, () => CharacterController.IsGrounded == false && _jumpState.IsDone());
-        _stateMachine.AddAnyTransition(_jumpState, () => CharacterController.IsGrounded && CharacterController.LastInput.WishJump);
+        _stateMachine.AddAnyTransition(_jumpState, () => CharacterController.IsGrounded && CharacterController.WishJump);
 
         _stateMachine.AddTransition(_jumpState, _idleState, () => CharacterController.IsGrounded);
         _stateMachine.AddTransition(_airMoveState, _idleState, () => CharacterController.IsGrounded);

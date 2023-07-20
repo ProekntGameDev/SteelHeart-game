@@ -62,7 +62,7 @@ public class EditorHint : MonoBehaviour
         while (alpha < 1f && alpha > 0f)
         {
             alpha = SetColor(color1, color2, CheckAlpha(alpha + delta)); //getting alpha
-            yield return new WaitForSeconds(0.001f); //delay
+            yield return new WaitForEndOfFrame(); //delay
         }
         if (delta < 0f) DisableHint(); //turning off the hint panel
         if (_coroutineEnableAndDisablePanel != null) StopCoroutine(_coroutineEnableAndDisablePanel);

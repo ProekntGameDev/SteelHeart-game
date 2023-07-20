@@ -11,14 +11,16 @@ namespace AI
         [SerializeField] private RobotAttackProperties _attackProperties;
 
         private NavMeshAgent _navMeshAgent;
-        private Health _playerHealth;
+        private Player _player;
+        private Health _robotHealth;
 
         private float _endTime;
 
-        public void Init(NavMeshAgent navMeshAgent, Health playerHealth)
+        public void Init(NavMeshAgent navMeshAgent, Player player, Health robotHealth)
         {
             _navMeshAgent = navMeshAgent;
-            _playerHealth = playerHealth;
+            _player = player;
+            _robotHealth = robotHealth;
         }
 
         public void OnEnter()
@@ -32,7 +34,8 @@ namespace AI
 
             foreach (var collider in colliders)
                 if (collider.TryGetComponent(out IDamagable damagable))
-                    damagable.TakeDamage(_attackProperties.Damage);
+                    if(collider.TryGetComponent(out Health health) && health != _robotHealth)
+                        damagable.TakeDamage(_attackProperties.Damage);
 
             _endTime = 0;
         }
@@ -40,6 +43,6 @@ namespace AI
         public void Tick()
         { }
 
-        public bool IsDone() => _endTime <= Time.time || _playerHealth.Current == 0;
+        public bool IsDone() => _endTime <= Time.time || _player.Health.Current == 0;
     }
 }

@@ -24,7 +24,7 @@ public class MoveState : IState
     public void Tick()
     {
         Vector3 input = _characterController.LastInput.input;
-        Vector3 wishDirection = input.x * Vector3.right + input.z * Vector3.back;
+        Vector3 wishDirection = input.x * Vector3.right + input.z * Vector3.forward;
 
         _characterController.GroundMove(wishDirection.normalized, _acceleration, _maxSpeed);
         _characterController.Rotate(wishDirection.normalized);

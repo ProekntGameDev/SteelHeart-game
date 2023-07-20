@@ -10,6 +10,7 @@ namespace AI
     {
         [Required, SerializeField] private NavMeshAgent _navMeshAgent;
         [Required, SerializeField] private Player _player;
+        [Required, SerializeField] private Health _robotHealth;
 
         [SerializeField] private RobotVision _robotVision;
 
@@ -20,6 +21,8 @@ namespace AI
         [SerializeField, BoxGroup("Patrolling")] private float _patrolSpeed;
 
         [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
+        [SerializeField, BoxGroup("Chasing")] private float _chaseMinDistance;
+        [SerializeField, BoxGroup("Chasing")] private float _chaseMaxDistance;
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
         [SerializeField, SOInheritedFrom(typeof(IRobotAttack)), BoxGroup("Combat")] private List<ScriptableObject> _robotAttacks = new List<ScriptableObject>(); // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
@@ -50,11 +53,11 @@ namespace AI
         {
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
-            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, 2, 8);
+            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _chaseMinDistance, _chaseMaxDistance);
 
             List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
-            _combatState = new RobotState_Combat(_player, _navMeshAgent, _maxCombatDistance, attacks);
+            _combatState = new RobotState_Combat(_player, _robotHealth, _navMeshAgent, _maxCombatDistance, attacks);
         }
 
         private void SetupTransitions()

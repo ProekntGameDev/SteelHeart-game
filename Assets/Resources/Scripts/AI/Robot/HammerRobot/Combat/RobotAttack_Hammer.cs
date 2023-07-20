@@ -10,14 +10,14 @@ namespace AI
 
         [SerializeField] private RobotAttackProperties _attackProperties;
 
-        private Health _playerHealth;
+        private Player _player;
         private NavMeshAgent _navMeshAgent;
 
         private float _endTime;
 
-        public void Init(NavMeshAgent navMeshAgent, Health playerHealth)
+        public void Init(NavMeshAgent navMeshAgent, Player player, Health robotHealth)
         {
-            _playerHealth = playerHealth;
+            _player = player;
             _navMeshAgent = navMeshAgent;
         }
 
@@ -28,8 +28,8 @@ namespace AI
 
         public void OnExit()
         {
-            if (Vector3.Distance(_navMeshAgent.transform.position, _playerHealth.transform.position) < _attackProperties.MaxDistance)
-                _playerHealth.TakeDamage(_attackProperties.Damage);
+            if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _attackProperties.MaxDistance)
+                _player.Health.TakeDamage(_attackProperties.Damage);
 
             _endTime = 0;
         }
@@ -37,6 +37,6 @@ namespace AI
         public void Tick()
         { }
 
-        public bool IsDone() => _endTime <= Time.time || _playerHealth.Current == 0;
+        public bool IsDone() => _endTime <= Time.time || _player.Health.Current == 0;
     }
 }
