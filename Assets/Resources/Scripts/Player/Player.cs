@@ -10,13 +10,13 @@ public class Player : MonoBehaviour
     public PlayerCombat Combat => _playerCombat;
     public PlayerInput Input => _playerInput;
     public PlayerRespawn Respawn => _playerRespawn;
-    public GearsHolder CoinHolder => _coinHolder;
+    public GearsHolder GearsHolder => _gearsHolder;
 
     [SerializeField, Required] private Stamina _stamina;
     [SerializeField, Required] private PlayerMovement _playerMovement;
     [SerializeField, Required] private PlayerCombat _playerCombat;
     [SerializeField, Required] private PlayerInput _playerInput;
-    [SerializeField, Required] private GearsHolder _coinHolder;
+    [SerializeField, Required] private GearsHolder _gearsHolder;
 
     private Health _health;
     private PlayerRespawn _playerRespawn;
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
         _stamina.enabled = true;
         _playerMovement.enabled = true;
         _playerInput.enabled = true;
-        _coinHolder.enabled = true;
+        _gearsHolder.enabled = true;
         _playerCombat.enabled = true;
     }
 
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
         _stamina.enabled = false;
         _playerMovement.enabled = false;
         _playerInput.enabled = false;
-        _coinHolder.enabled = false;
+        _gearsHolder.enabled = false;
         _playerCombat.enabled = false;
     }
 }
