@@ -21,7 +21,7 @@ public class AirMoveState : IState
 
     public void Tick()
     {
-        Vector3 input = _characterController.LastInput.input;
+        Vector3 input = _characterController.LastInput.Axis;
         Vector3 wishDirection = input.x * Vector3.right + input.z * Vector3.forward;
 
         _characterController.AirMove(wishDirection.normalized, _acceleration, _maxSpeed);

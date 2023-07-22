@@ -13,17 +13,17 @@ public class MoveState : IState
         _acceleration = acceleration;
     }
 
-    public void OnEnter()
+    public virtual void OnEnter()
     {
     }
 
-    public void OnExit()
+    public virtual void OnExit()
     {
     }
 
     public void Tick()
     {
-        Vector3 input = _characterController.LastInput.input;
+        Vector3 input = _characterController.LastInput.Axis;
         Vector3 wishDirection = input.x * Vector3.right + input.z * Vector3.forward;
 
         _characterController.GroundMove(wishDirection.normalized, _acceleration, _maxSpeed);

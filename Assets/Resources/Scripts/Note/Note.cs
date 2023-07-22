@@ -1,28 +1,18 @@
 using UnityEngine;
-using Interfaces;
 
-namespace SteelHeart
+public class Note : MonoBehaviour
 {
-    public class Note : MonoBehaviour, ITriggerableMonoBehaviour
+    [SerializeField] private NoteData _data;
+
+    private void Awake()
     {
-        public GameMeta.Note data;
+        if (_data == null)
+            throw new System.NullReferenceException(nameof(_data));
+    }
 
-        private void Awake()
-        {
-            if (data == null)
-                Debug.LogError($"Заметка {gameObject.name} не имеет данных");
-        }
-
-        public void Trigger(Transform obj)
-        {
-            // if (obj.GetComponent<PlayerMovement>() == null) return;
-            //
-            // if (GameData.Note.AddNote(data))
-            //     Debug.Log("Note: " + data.title + "\n" + "Text: " + data.text);
-            // else
-            //     Debug.LogError("Эта заметка уже была добавлена! " +
-            //                    "Проверь, чтобы не было дубликатов (если только это не было сделано специально)");
-            gameObject.SetActive(false);
-        }
+    public NoteData Collect()
+    {
+        Destroy(gameObject);
+        return _data;
     }
 }

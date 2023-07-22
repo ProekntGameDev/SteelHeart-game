@@ -41,7 +41,7 @@ public class JumpState : IState
         float gravity = _jumpType.GravityRise.Evaluate(Mathf.Min(Time.time - _timestamp, 1)) * _characterController.Gravity;
         _characterController.VerticalVelocity += gravity * Time.fixedDeltaTime;
 
-        Vector3 input = _characterController.LastInput.input;
+        Vector3 input = _characterController.LastInput.Axis;
         Vector3 wishDirection = input.x * Vector3.right + input.z * Vector3.forward;
         wishDirection.Normalize();
 
