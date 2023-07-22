@@ -2,6 +2,8 @@ using UnityEngine;
 
 public partial class InertialCharacterController : MonoBehaviour
 {
+    public float Height => _characterController.height;
+
     [SerializeField] private float _friction = 0.2f;
 
     public CollisionFlags GroundMove(Vector3 wishDirection, float accelerate, float maxVelocity)
@@ -38,6 +40,13 @@ public partial class InertialCharacterController : MonoBehaviour
         _characterController.enabled = false;
         transform.position = newPosition;
         _characterController.enabled = true;
+    }
+
+    public void SetHeight(float height)
+    {
+        float oldHeight = _characterController.height;
+        _characterController.height = height;
+        _characterController.center += new Vector3(0, (height - oldHeight) / 2, 0);
     }
 
     public void Rotate(Vector3 forward)

@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _maxAirVelocity = 100;
     [SerializeField] private float _groundAcceleration = 150;
     [SerializeField] private float _airAcceleration = 1500;
+    [SerializeField] private float _crouchHeight = 1.6f;
     [SerializeField] private JumpType _jumpType;
 
     private StateMachine _stateMachine;
@@ -18,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private IdleState _idleState;
     private MoveState _walkState;
     private MoveState _runState;
-    private MoveState _crouchState;
+    private CrouchMoveState _crouchState;
     private AirMoveState _airMoveState;
     private JumpState _jumpState;
 
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         _idleState = new IdleState(CharacterController, _maxWalkVelocity);
         _walkState = new MoveState(CharacterController, _groundAcceleration, _maxWalkVelocity);
         _runState = new MoveState(CharacterController, _groundAcceleration, _maxRunVelocity);
-        _crouchState = new MoveState(CharacterController, _groundAcceleration, _maxCrouchVelocity);
+        _crouchState = new CrouchMoveState(CharacterController, _crouchHeight, _groundAcceleration, _maxCrouchVelocity);
         _airMoveState = new AirMoveState(CharacterController, _airAcceleration, _maxAirVelocity);
         _jumpState = new JumpState(CharacterController, _airAcceleration, _maxAirVelocity, _jumpType);
     }
@@ -63,8 +64,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Base movement
 
-        _stateMachine.AddTransition(_idleState, _walkState, () => CharacterController.LastInput.input.sqrMagnitude != 0);
-        _stateMachine.AddTransition(_walkState, _idleState, () => CharacterController.LastInput.input.sqrMagnitude == 0);
+        _stateMachine.AddTransition(_idleState, _walkState, () => CharacterController.LastInput.Axis.sqrMagnitude != 0);
+        _stateMachine.AddTransition(_walkState, _idleState, () => CharacterController.LastInput.Axis.sqrMagnitude == 0);
 
         _stateMachine.AddTransition(_walkState, _crouchState, () => CharacterController.LastInput.IsCrouching);
         _stateMachine.AddTransition(_walkState, _runState, () => CharacterController.LastInput.IsRunning);
