@@ -21,7 +21,10 @@ namespace AI
         [SerializeField, BoxGroup("Patrolling")]
         private float _patrolSpeed;
 
-        [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
+        [SerializeField, BoxGroup("Chasing")] 
+        private float _chaseSpeed;
+        private float _minDistance;
+        private float _maxDistance;
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
 
@@ -55,7 +58,7 @@ namespace AI
         {
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
-            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, 2, 8);
+            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minDistance, _maxDistance);
 
             List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
