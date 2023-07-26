@@ -19,6 +19,8 @@ namespace AI
             _robotVision = robotVision;
             _navMeshAgent = navMeshAgent;
             _speed = speed;
+            _minDistance = minDistance;
+            _maxDistance = maxDistance;
         }
 
         public void OnEnter()
