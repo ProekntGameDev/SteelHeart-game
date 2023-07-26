@@ -38,7 +38,20 @@ namespace AI
         public void Tick()
         {
             if (_robotVision.IsVisible(out _player))
+            {
+                // bool outOfRange = _navMeshAgent.remainingDistance > _navMeshAgent.stoppingDistance;
+                // if (!outOfRange)
+                // {
+                //     _navMeshAgent.isStopped = true;
+                // }
+                // else
+                // {
+                //     _navMeshAgent.isStopped = false;
+                //     _navMeshAgent.destination = _player.transform.position;
+                // }
                 _navMeshAgent.destination = _player.transform.position;
+            }
+                
         }
 
         public bool IsLostPlayer()

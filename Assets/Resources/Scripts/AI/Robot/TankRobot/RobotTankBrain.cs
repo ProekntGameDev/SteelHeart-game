@@ -12,19 +12,14 @@ namespace AI
 
         [SerializeField] private RobotVision _robotVision;
 
-        [BoxGroup("Idle")] [SerializeField, MinMaxSlider(0.0f, 15.0f)]
-        private Vector2 _idleDelayRange;
+        [BoxGroup("Idle")] [SerializeField, MinMaxSlider(0.0f, 15.0f)] private Vector2 _idleDelayRange;
 
-        [SerializeField, BoxGroup("Patrolling")]
-        private Transform[] _patrolPoints;
+        [SerializeField, BoxGroup("Patrolling")] private Transform[] _patrolPoints;
+        [SerializeField, BoxGroup("Patrolling")] private float _patrolSpeed;
 
-        [SerializeField, BoxGroup("Patrolling")]
-        private float _patrolSpeed;
-
-        [SerializeField, BoxGroup("Chasing")] 
-        private float _chaseSpeed;
-        private float _minDistance;
-        private float _maxDistance;
+        [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
+        [SerializeField, BoxGroup("Chasing")] private float _minChaseDistance;
+        [SerializeField, BoxGroup("Chasing")] private float _maxChaseDistance;
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
 
@@ -58,7 +53,7 @@ namespace AI
         {
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
-            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minDistance, _maxDistance);
+            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minChaseDistance, _maxChaseDistance);
 
             List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
