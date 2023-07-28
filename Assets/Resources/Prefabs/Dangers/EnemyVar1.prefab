@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2333456655435580888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8502666552060758280}
+  m_Layer: 0
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8502666552060758280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333456655435580888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4771157895557866230}
+  m_RootOrder: 27
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &856540907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,12 +47,14 @@ MonoBehaviour:
   _robotVision:
     _eyeTransform: {fileID: 4771157895557866230}
     _maxDistance: 10
-  _idleDelayRange: {x: 8, y: 10}
+  _idleDelayRange: {x: 3, y: 6}
   _patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
-  _patrolSpeed: 3
-  _chaseSpeed: 5
+  _patrolSpeed: 1
+  _chaseSpeed: 3
+  _minChaseDistance: 5
+  _maxChaseDistance: 8
   _maxCombatDistance: 0
   _robotAttacks: []
 --- !u!114 &856540908
