@@ -1,20 +1,29 @@
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(InertialCharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    [HideInInspector] public UnityEvent OnJump;
+    [HideInInspector] public UnityEvent OnEnterLadder;
+    [HideInInspector] public UnityEvent OnExitLadder;
+
     public InertialCharacterController CharacterController { get; private set; }
 
-    [SerializeField] private float _maxCrouchVelocity = 4;
-    [SerializeField] private float _maxWalkVelocity = 6;
-    [SerializeField] private float _maxRunVelocity = 10;
-    [SerializeField] private float _maxAirVelocity = 100;
-    [SerializeField] private float _groundAcceleration = 150;
-    [SerializeField] private float _airAcceleration = 1500;
+    [SerializeField, Required] private Player _player;
+    [SerializeField, Foldout("Max Velocities")] private float _maxCrouchVelocity = 4;
+    [SerializeField, Foldout("Max Velocities")] private float _maxWalkVelocity = 6;
+    [SerializeField, Foldout("Max Velocities")] private float _maxRunVelocity = 10;
+    [SerializeField, Foldout("Max Velocities")] private float _maxAirVelocity = 100;
+    [SerializeField, Foldout("Accelerations")] private float _groundAcceleration = 150;
+    [SerializeField, Foldout("Accelerations")] private float _airAcceleration = 1500;
     [SerializeField] private float _crouchHeight = 1.6f;
+    [SerializeField] private float _ladderMoveSpeed = 2f;
+    [SerializeField] private OverlapSphere _ladderTrigger;
     [SerializeField] private JumpType _jumpType;
 
-    private StateMachine _stateMachine;
+    private AnimatableStateMachine _stateMachine;
 
     private IdleState _idleState;
     private MoveState _walkState;
@@ -22,11 +31,15 @@ public class PlayerMovement : MonoBehaviour
     private CrouchMoveState _crouchState;
     private AirMoveState _airMoveState;
     private JumpState _jumpState;
+    private LadderMoveState _ladderMoveState;
 
     private void Awake()
     {
         CharacterController = GetComponent<InertialCharacterController>();
+    }
 
+    private void Start()
+    {
         InitStateMachine();
     }
 
@@ -40,9 +53,24 @@ public class PlayerMovement : MonoBehaviour
     }
 #endif
 
+    private void FixedUpdate()
+    {
+        CharacterController.ApplyGravity();
+
+        _stateMachine.Tick();
+    }
+
     private void InitStateMachine()
     {
-        _stateMachine = new StateMachine();
+        if (_stateMachine != null)
+        {
+            _player.Input.Player.Jump.performed -= (context) => OnPerformedJumpState();
+            _player.Input.Player.Interact.performed -= (context) => OnInteractPerformed();
+
+            _stateMachine.Clear();
+        }
+        else
+            _stateMachine = new AnimatableStateMachine();
 
         SetupStates();
         SetupTransitions();
@@ -58,36 +86,73 @@ public class PlayerMovement : MonoBehaviour
         _crouchState = new CrouchMoveState(CharacterController, _crouchHeight, _groundAcceleration, _maxCrouchVelocity);
         _airMoveState = new AirMoveState(CharacterController, _airAcceleration, _maxAirVelocity);
         _jumpState = new JumpState(CharacterController, _airAcceleration, _maxAirVelocity, _jumpType);
+        _ladderMoveState = new LadderMoveState(CharacterController, _ladderMoveSpeed);
     }
 
     private void SetupTransitions()
     {
         // Base movement
 
-        _stateMachine.AddTransition(_idleState, _walkState, () => CharacterController.LastInput.Axis.sqrMagnitude != 0);
-        _stateMachine.AddTransition(_walkState, _idleState, () => CharacterController.LastInput.Axis.sqrMagnitude == 0);
+        _stateMachine.AddTransition(_idleState, _walkState, () => CharacterController.ReadInputAxis().sqrMagnitude != 0);
+        _stateMachine.AddTransition(_walkState, _idleState, () => CharacterController.ReadInputAxis().sqrMagnitude == 0);
 
-        _stateMachine.AddTransition(_walkState, _crouchState, () => CharacterController.LastInput.IsCrouching);
-        _stateMachine.AddTransition(_walkState, _runState, () => CharacterController.LastInput.IsRunning);
+        _stateMachine.AddTransition(_walkState, _crouchState, () => _player.Input.Player.Crouch.ReadValue<float>() > 0);
+        _stateMachine.AddTransition(_crouchState, _walkState, () => _player.Input.Player.Crouch.ReadValue<float>() <= 0);
 
-        _stateMachine.AddTransition(_crouchState, _walkState, () => CharacterController.LastInput.IsCrouching == false);
-
-        _stateMachine.AddTransition(_runState, _walkState, () => CharacterController.LastInput.IsRunning == false);
+        _stateMachine.AddTransition(_walkState, _runState, () => _player.Input.Player.Run.ReadValue<float>() > 0);
+        _stateMachine.AddTransition(_runState, _walkState, () => _player.Input.Player.Run.ReadValue<float>() <= 0);
 
         // Jump and air movement
 
-        _stateMachine.AddAnyTransition(_airMoveState, () => CharacterController.IsGrounded == false && _jumpState.IsDone());
-        _stateMachine.AddAnyTransition(_jumpState, () => CharacterController.IsGrounded && CharacterController.WishJump);
+        _stateMachine.AddAnyTransition(_airMoveState, () => CharacterController.IsGrounded == false && _jumpState.IsDone() && _stateMachine.IsInState(_ladderMoveState) == false);
+
+        _player.Input.Player.Jump.performed += (context) => OnPerformedJumpState();
 
         _stateMachine.AddTransition(_jumpState, _idleState, () => CharacterController.IsGrounded);
+
         _stateMachine.AddTransition(_airMoveState, _idleState, () => CharacterController.IsGrounded);
+        _stateMachine.AddTransition(_idleState, _airMoveState, () => CharacterController.IsGrounded == false);
+
+        // Ladder
+
+        _player.Input.Player.Interact.performed += (context) => OnInteractPerformed();
     }
 
-    private void FixedUpdate()
+    private void OnInteractPerformed()
     {
-        CharacterController.ApplyGravity();
+        foreach (var collider in _ladderTrigger.GetColliders())
+            if (collider.TryGetComponent(out Ladder ladder))
+                InteractWithLadder(ladder);
+    }
 
-        _stateMachine.Tick();    
+    private void InteractWithLadder(Ladder ladder)
+    {
+        if (_stateMachine.IsInState(_ladderMoveState))
+        {
+            _stateMachine.SetState(_idleState);
+            OnExitLadder?.Invoke();
+            return;
+        }
+
+        _ladderMoveState.Init(ladder);
+        _stateMachine.SetState(_ladderMoveState);
+        OnEnterLadder?.Invoke();
+    }
+
+    private void OnPerformedJumpState()
+    {
+        if (_stateMachine.IsInState(_ladderMoveState))
+        {
+            _stateMachine.SetState(_idleState);
+            OnExitLadder?.Invoke();
+            return;
+        }
+
+        if ((CharacterController.IsGrounded) && _stateMachine.IsInState(_jumpState) == false)
+        {
+            _stateMachine.SetState(_jumpState);
+            OnJump?.Invoke();
+        }
     }
 
     private void OnEnable()

@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using System.Collections;
+using NaughtyAttributes;
 
 namespace QTE
 {
@@ -10,7 +10,7 @@ namespace QTE
 
         public bool IsWin { get; private set; } = false;
 
-        [SerializeField] private KeyCode _button = KeyCode.E;
+        [SerializeField, Required] private Player _player;
 
         private bool _isUse = false;
 
@@ -30,14 +30,14 @@ namespace QTE
         {
             if (!_isUse)
             {
-                if (Input.GetKeyDown(_button) && other.gameObject.TryGetComponent(out QTEObject qte))
+                if (_player.Input.Player.Interact.ReadValue<float>() > 0 && other.gameObject.TryGetComponent(out QTEObject qte))
                 {
                     _qTEObject = qte;
 
                     if (_qTEObject.IsActive)
                     {
                         _isUse = true;
-                        QTELogic.OnStartQTE?.Invoke(_qTEObject.Rollback, _qTEObject.Forclick, _qTEObject.StartingValue);
+                        QTELogic.OnStartQTE?.Invoke(_qTEObject);
                     }
                 }
             }

@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class AttackCombatState : IState
 {
-    private AttackPoint _attackPoint;
+    private OverlapSphere _attackPoint;
     private float _damage;
     private float _delay;
     private float _cooldown;
 
     private IEnumerator _attackCoroutine;
 
-    public AttackCombatState(AttackPoint attackPoint, float delay, float cooldown, float damage)
+    public AttackCombatState(OverlapSphere attackPoint, float delay, float cooldown, float damage)
     {
         _attackPoint = attackPoint;
         _delay = delay;

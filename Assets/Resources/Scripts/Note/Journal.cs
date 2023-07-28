@@ -10,7 +10,7 @@ public class Journal : MonoBehaviour
 
     public IReadOnlyList<NoteData> Notes => _notes;
 
-    [SerializeField, Required] private PlayerInput _playerInput;
+    [SerializeField, Required] private Player _player;
 
     private SphereCollider _pickupRange;
     private List<NoteData> _notes = new List<NoteData>();
@@ -29,12 +29,6 @@ public class Journal : MonoBehaviour
         OnNoteAdded?.Invoke(noteData);
     }
 
-    private void Update()
-    {
-        if (_playerInput.Interact)
-            OverlapTrigger();
-    }
-
     private void OverlapTrigger()
     {
         Collider[] colliders = Physics.OverlapSphere(_pickupRange.transform.position + _pickupRange.center, _pickupRange.radius,
@@ -45,5 +39,18 @@ public class Journal : MonoBehaviour
             if (other.TryGetComponent(out Note note))
                 AddNote(note.Collect());
         }
+    }
+
+    private void OnEnable()
+    {
+        _player.Input.Player.Interact.performed += (c) => OverlapTrigger();
+    }
+
+    private void OnDisable()
+    {
+        if (_player.Input == null)
+            return;
+
+        _player.Input.Player.Interact.performed -= (c) => OverlapTrigger();
     }
 }

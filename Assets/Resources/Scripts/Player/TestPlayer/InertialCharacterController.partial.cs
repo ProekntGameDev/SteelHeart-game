@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
@@ -5,13 +6,14 @@ public partial class InertialCharacterController
 {
     public Vector3 CurrentVelocity { get { return _currentVelocity; } set { _currentVelocity = value; } }
     public float VerticalVelocity { get { return _verticalVelocity; } set { _verticalVelocity = value; } }
-    public bool WishJump { get; set; }
+    public bool VerticalMove { get; set; } = true;
+    public bool UseGravity { get; set; } = true;
 
-    public PlayerInput LastInput { get; private set; }
     public bool IsGrounded { get; private set; }
 
     public float Gravity => _gravity;
 
+    [SerializeField, Required] private Player _player;
     [SerializeField] private float _gravity = -9.81f;
 
     private CharacterController _characterController;
@@ -20,7 +22,10 @@ public partial class InertialCharacterController
 
     public void ApplyGravity()
     {
-        if (_verticalVelocity <= 0)
+        if (VerticalMove == false)
+            return;
+
+        if(UseGravity)
             _verticalVelocity += _gravity * Time.fixedDeltaTime;
 
         _characterController.Move(new Vector3(0, _verticalVelocity * Time.fixedDeltaTime, 0));
@@ -35,13 +40,6 @@ public partial class InertialCharacterController
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-
-        LastInput = GetComponent<PlayerInput>();
-    }
-
-    private void Update()
-    {
-        WishJump |= LastInput.IsJump && IsGrounded;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -50,10 +48,8 @@ public partial class InertialCharacterController
         velocityProjection.y = 0;
         _currentVelocity = velocityProjection;
 
-        if (Vector3.Angle(Vector3.down, hit.normal) > _characterController.slopeLimit)
-            return;
-
-        _verticalVelocity = 0;
+        if (Vector3.Angle(Vector3.down, hit.normal) <= _characterController.slopeLimit)
+            _verticalVelocity = Mathf.Min(_verticalVelocity, 0);
     }
 
     private void OnEnable()

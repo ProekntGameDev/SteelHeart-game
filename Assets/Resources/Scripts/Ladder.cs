@@ -2,53 +2,21 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour
 {
-    public float upwardsSpeed = 1;
-    public float downwardsSpeed = 1.5f;
+    public Vector3 JumpOffForce => transform.TransformDirection(_jumpOffForce);
 
-    protected KeyCode _upKey;
-    protected KeyCode _downKey;
-    protected Rigidbody _playerRB;
-
-    private PlayerMovement _player;
-    private bool _isBeingClimbed = false;
+    [SerializeField] private Vector3 _jumpOffForce;
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnDrawGizmos()
     {
-        _player = other.GetComponent<PlayerMovement>();
-        if (_player == null) return;
-
-        _isBeingClimbed = true;
-
-        //_upKey = _player.climbUpwardsKey;
-        //_downKey = _player.climbDownwardsKey;
-
-        _playerRB = _player.GetComponent<Rigidbody>();
-        _playerRB.useGravity = false;
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position, transform.forward * 2);
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnDrawGizmosSelected()
     {
-        var playerMovement = other.GetComponent<PlayerMovement>();
-        if (playerMovement == null) return;
+        Gizmos.color = Color.yellow;
 
-        _isBeingClimbed = false;
-
-        _playerRB.useGravity = true;
-    }
-
-    private void FixedUpdate()
-    {
-        if (_isBeingClimbed == false || _player == null) return;
-
-        Climb();
-    }
-
-    protected virtual void Climb()
-    {
-        if (Input.GetKey(_upKey))
-            _player.transform.position += gameObject.transform.up * upwardsSpeed * Time.fixedDeltaTime;
-        if (Input.GetKey(_downKey))
-            _player.transform.position += gameObject.transform.up * -downwardsSpeed * Time.fixedDeltaTime;
+        Gizmos.DrawRay(transform.position, JumpOffForce);
     }
 }

@@ -42,6 +42,8 @@ namespace AI
             SetupTransitions();
 
             _stateMachine.SetState(_patrolState);
+
+            _robotHealth.OnDeath.AddListener(() => Destroy(gameObject));
         }
 
         private void Update()

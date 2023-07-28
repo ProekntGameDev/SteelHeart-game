@@ -15,14 +15,16 @@ public class Player : MonoBehaviour
     [SerializeField, Required] private Stamina _stamina;
     [SerializeField, Required] private PlayerMovement _playerMovement;
     [SerializeField, Required] private PlayerCombat _playerCombat;
-    [SerializeField, Required] private PlayerInput _playerInput;
     [SerializeField, Required] private GearsHolder _gearsHolder;
 
+    private PlayerInput _playerInput;
     private Health _health;
     private PlayerRespawn _playerRespawn;
 
     private void Awake()
     {
+        _playerInput = new PlayerInput();
+
         _health = GetComponent<Health>();
         _playerRespawn = GetComponent<PlayerRespawn>();
     }
@@ -32,18 +34,23 @@ public class Player : MonoBehaviour
         _health.enabled = true;
         _stamina.enabled = true;
         _playerMovement.enabled = true;
-        _playerInput.enabled = true;
         _gearsHolder.enabled = true;
         _playerCombat.enabled = true;
+
+        _playerInput.Enable();
     }
 
     private void OnDisable()
     {
+        if (_playerInput == null)
+            return;
+
         _health.enabled = false;
         _stamina.enabled = false;
         _playerMovement.enabled = false;
-        _playerInput.enabled = false;
         _gearsHolder.enabled = false;
         _playerCombat.enabled = false;
+
+        _playerInput.Disable();
     }
 }

@@ -22,7 +22,7 @@ public partial class InertialCharacterController : MonoBehaviour
 
         Accelerate(wishDirection, accelerate, maxVelocity);
 
-        return _characterController.Move(_currentVelocity * Time.fixedDeltaTime);
+        return Move(_currentVelocity * Time.fixedDeltaTime);
     }
 
     public CollisionFlags AirMove(Vector3 wishDirection, float accelerate, float maxVelocity)
@@ -32,8 +32,10 @@ public partial class InertialCharacterController : MonoBehaviour
 
         Accelerate(wishDirection, accelerate, maxVelocity);
 
-        return _characterController.Move(_currentVelocity * Time.fixedDeltaTime);
+        return Move(_currentVelocity * Time.fixedDeltaTime);
     }
+
+    public CollisionFlags Move(Vector3 motion) => _characterController.Move(motion);
 
     public void SetPosition(Vector3 newPosition)
     {
@@ -56,6 +58,8 @@ public partial class InertialCharacterController : MonoBehaviour
 
         transform.localRotation = Quaternion.LookRotation(forward, Vector3.up);
     }
+
+    public Vector2 ReadInputAxis() => _player.Input.Player.Axis.ReadValue<Vector2>();
 
     private void Accelerate(Vector3 accelerateDirection, float accelerate, float maxVelocity)
     {
