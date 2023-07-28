@@ -15,6 +15,7 @@ namespace Features.Buttons.Ersatz
 
         private void CheckInteractions()
         {
+            Debug.Log(gameObject.name);
             if (!Input.GetKeyDown(KeyCode.E))
                 return;
 

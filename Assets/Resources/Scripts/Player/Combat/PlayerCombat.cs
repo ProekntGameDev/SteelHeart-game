@@ -1,9 +1,11 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [SerializeField, Required] private AttackPoint _attackPoint;
+    [SerializeField, Required] private Player _player;
+    [SerializeField, Required] private OverlapSphere _attackPoint;
     [SerializeField] private float _damage;
     [SerializeField] private float _delay;
     [SerializeField] private float _cooldown;
@@ -14,7 +16,7 @@ public class PlayerCombat : MonoBehaviour
 
     private StateMachine _stateMachine;
 
-    private void Awake()
+    private void Start()
     {
         InitStateMachine();
     }
@@ -47,8 +49,15 @@ public class PlayerCombat : MonoBehaviour
 
     private void SetupTransitions()
     {
-        _stateMachine.AddTransition(_idleState, _attackState, () => Input.GetMouseButtonDown(0));
+        _player.Input.Player.Fire.performed += (context) => OnFirePerformed(context);
+
         _stateMachine.AddTransition(_attackState, _idleState, () => _attackState.IsDone());
+    }
+
+    private void OnFirePerformed(InputAction.CallbackContext context)
+    { 
+        if(context.phase == InputActionPhase.Performed && _stateMachine.IsInState(_attackState) == false)
+            _stateMachine.SetState(_attackState);
     }
 
     private void Update()

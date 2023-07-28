@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class ItemHolder : MonoBehaviour
 {
+    [SerializeField] private Player _player;
     [SerializeField] private Transform _itemHolder;
     [SerializeField] private float _dropSpeed;
     [SerializeField] private float _minPullDistance;
@@ -15,19 +16,8 @@ public class ItemHolder : MonoBehaviour
     private void Start()
     {
         _pickupRange = GetComponent<SphereCollider>();
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OverlapTrigger();
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            TryDrop();
-        }
+        OnEnable();
     }
 
     private bool TryPickUp(Pickupable item)
@@ -89,5 +79,23 @@ public class ItemHolder : MonoBehaviour
                     if (receiver.IsReceived == false)
                         receiver.TryReceive(_currentItem);
         }
+    }
+
+    private void OnEnable()
+    {
+        if (_player.Input == null)
+            return;
+
+        _player.Input.Player.Interact.performed += (c) => OverlapTrigger();
+        _player.Input.Player.Drop.performed += (c) => TryDrop();
+    }
+
+    private void OnDisable()
+    {
+        if (_player.Input == null)
+            return;
+
+        _player.Input.Player.Interact.performed -= (c) => OverlapTrigger();
+        _player.Input.Player.Drop.performed -= (c) => TryDrop();
     }
 }

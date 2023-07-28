@@ -1,15 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using System;
-using UnityEngine.Events;
 
 namespace QTE
 {
     public class QTELogic : MonoBehaviour
     {
-        public static Action<float, float, float> OnStartQTE;
+        public static Action<QTEObject> OnStartQTE;
 
-        [SerializeField] private KeyCode _buttonClick = KeyCode.Tab;
+        [SerializeField] private Player _player;
         [SerializeField] private QTEBar _qTEBar;
 
         private float _qTERollback;
@@ -24,18 +23,15 @@ namespace QTE
 
         private void OnEnable() => OnStartQTE += StartQTE;
 
-        private void StartQTE(float rollback, float forclick, float startValue)
+        private void StartQTE(QTEObject qTEObject)
         {
-            _qTERollback = rollback;
-            _qTEForclick = forclick;
-            _qTEStartingValue = startValue;
+            _qTERollback = qTEObject.Rollback;
+            _qTEForclick = qTEObject.Forclick;
+            _qTEStartingValue = qTEObject.StartingValue;
 
             StartRollbackQTE();
-        }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(_buttonClick)) ForclickQTE();
+            _player.Input.Player.QTE.performed += (context) => ForclickQTE();
         }
 
         private void ForclickQTE()
@@ -45,7 +41,8 @@ namespace QTE
 
         private void StartRollbackQTE()
         {
-            if (_coroutineRollbackQTEBar != null) StopCoroutine(_coroutineRollbackQTEBar);
+            if (_coroutineRollbackQTEBar != null) 
+                StopCoroutine(_coroutineRollbackQTEBar);
 
             _qTEBar.SetActiveQTEPanel(true);
             _coroutineRollbackQTEBar = StartCoroutine(RollbackQTEBar(_qTEBar, _qTERollback, _qTEStartingValue));
@@ -57,16 +54,18 @@ namespace QTE
             while (_currentValueQTEBar > MinQTEBar && _currentValueQTEBar < MaxQTEBar)
             {
                 qte.FillAmountQTEBar = _currentValueQTEBar;
-                _currentValueQTEBar = Mathf.Clamp(_currentValueQTEBar - rollback, 0f, 1f);
-                yield return new WaitForSeconds(0.01f);
+                _currentValueQTEBar = Mathf.Clamp(_currentValueQTEBar - (rollback * Time.deltaTime), 0f, 1f);
+                qte.FillAmountQTEBar = _currentValueQTEBar;
+                yield return new WaitForEndOfFrame();
             }
-            qte.FillAmountQTEBar = _currentValueQTEBar;
             yield return new WaitForSeconds(0.1f);
 
             QTEDetect.OnFinishActiveQTE?.Invoke(_currentValueQTEBar >= MaxQTEBar);
 
             qte.SetActiveQTEPanel(false);
-            if (_coroutineRollbackQTEBar != null) StopCoroutine(_coroutineRollbackQTEBar);
+
+            _player.Input.Player.QTE.performed -= (context) => ForclickQTE();
+            _coroutineRollbackQTEBar = null;
         }
 
         private void OnDisable() => OnStartQTE -= StartQTE;

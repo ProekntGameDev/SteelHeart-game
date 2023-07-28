@@ -1,30 +1,17 @@
 using UnityEngine;
 
-public class AirMoveState : IState
+public class AirMoveState : MoveState
 {
     private InertialCharacterController _characterController;
-    private float _maxSpeed;
-    private float _acceleration;
 
-    public AirMoveState(InertialCharacterController characterController, float acceleration, float maxSpeed)
+    public AirMoveState(InertialCharacterController characterController, float acceleration, float maxSpeed) : base (characterController, acceleration, maxSpeed)
     {
         _characterController = characterController;
-        _maxSpeed = maxSpeed;
-        _acceleration = acceleration;
     }
 
-    public void OnEnter()
-    { }
-
-    public void OnExit()
-    { }
-
-    public void Tick()
+    protected override void Move(Vector3 wishDirection, float acceleration, float maxSpeed)
     {
-        Vector3 input = _characterController.LastInput.Axis;
-        Vector3 wishDirection = input.x * Vector3.right + input.z * Vector3.forward;
-
-        _characterController.AirMove(wishDirection.normalized, _acceleration, _maxSpeed);
-        _characterController.Rotate(wishDirection.normalized);
+        _characterController.AirMove(wishDirection, acceleration, maxSpeed);
+        _characterController.Rotate(wishDirection);
     }
 }
