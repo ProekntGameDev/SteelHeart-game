@@ -69,7 +69,6 @@ GameObject:
   - component: {fileID: 7314393718967250924}
   - component: {fileID: 7314393718967250931}
   - component: {fileID: 7314393718967250930}
-  - component: {fileID: 7314393718967250925}
   m_Layer: 0
   m_Name: ButtonMesh
   m_TagString: Untagged
@@ -140,19 +139,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7314393718967250925
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7314393718967250927}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7314393719173952160
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,6 +786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationTriggerName: OnPress
+  _animator: {fileID: 7314393720603272603}
 --- !u!1 &7314393720723916552
 GameObject:
   m_ObjectHideFlags: 0
