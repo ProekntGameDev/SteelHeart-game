@@ -68,10 +68,10 @@ namespace Features.Lift.Editor
 
             Gizmos.color = _gigmosColor;
 
-            Vector3 tipsCenter = (_upTip.transform.position + _downTip.transform.position) / 2;
+            Vector3 tipsCenter = (_upTip.transform.localPosition + _downTip.transform.localPosition) / 2;
             float midleY = tipsCenter.y;
 
-            float gizmosHeight = (_upTip.transform.position - _downTip.transform.position).magnitude;
+            float gizmosHeight = (_upTip.transform.localPosition - _downTip.transform.localPosition).magnitude;
 
             Gizmos.DrawWireCube(midleY * Vector3.up,
                                 new Vector3(_gizmosRect.x, gizmosHeight, _gizmosRect.y));

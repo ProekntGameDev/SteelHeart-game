@@ -1,20 +1,22 @@
 ﻿using UnityEngine;
+using NaughtyAttributes;
 
 namespace Features.Buttons
 {
     [RequireComponent(typeof(Animator))]
     public class SimpleAnimatedButton : AbstractActivatedSource
     {
-        [SerializeField] private string _animationTriggerName = "OnPress";
+        [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animationTriggerName = "OnPress";
+        [SerializeField, Required] private Animator _animator;
 
-        private Animator _animator;
         private int _animationTriggerHash;
 
         private bool _pressed = false;
 
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
+            if(_animator == null)
+                _animator = GetComponent<Animator>();
             _animationTriggerHash = Animator.StringToHash(_animationTriggerName);
         }
 
