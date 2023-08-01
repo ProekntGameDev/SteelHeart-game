@@ -11,61 +11,26 @@ namespace QTE
         [SerializeField] private Player _player;
         [SerializeField] private QTEBar _qTEBar;
 
-        private float _qTERollback;
-        private float _qTEForclick;
-        private float _qTEStartingValue;
-
-        private Coroutine _coroutineRollbackQTEBar;
-        private float _currentValueQTEBar = 1f;
-
-        private const float MinQTEBar = 0f;
-        private const float MaxQTEBar = 1f;
-
         private void OnEnable() => OnStartQTE += StartQTE;
 
         private void StartQTE(QTEObject qTEObject)
         {
-            _qTERollback = qTEObject.Rollback;
-            _qTEForclick = qTEObject.Forclick;
-            _qTEStartingValue = qTEObject.StartingValue;
-
-            StartRollbackQTE();
-
-            _player.Input.Player.QTE.performed += (context) => ForclickQTE();
-        }
-
-        private void ForclickQTE()
-        {
-            _currentValueQTEBar = Mathf.Clamp(_currentValueQTEBar + _qTEForclick, 0f, 1f);
-        }
-
-        private void StartRollbackQTE()
-        {
-            if (_coroutineRollbackQTEBar != null) 
-                StopCoroutine(_coroutineRollbackQTEBar);
+            qTEObject.StartQTE();
 
             _qTEBar.SetActiveQTEPanel(true);
-            _coroutineRollbackQTEBar = StartCoroutine(RollbackQTEBar(_qTEBar, _qTERollback, _qTEStartingValue));
+
+            _player.Input.Player.QTE.performed += (context) => qTEObject.ForclickQTE();
+            QTEDetect.OnFinishActiveQTE += (result) => EndQTE(qTEObject);
+            qTEObject.OnProgressChanged.AddListener((newValue) => _qTEBar.FillAmountQTEBar = newValue);
         }
 
-        private IEnumerator RollbackQTEBar(QTEBar qte, float rollback, float startingValue)
+        private void EndQTE(QTEObject qTEObject)
         {
-            _currentValueQTEBar = startingValue;
-            while (_currentValueQTEBar > MinQTEBar && _currentValueQTEBar < MaxQTEBar)
-            {
-                qte.FillAmountQTEBar = _currentValueQTEBar;
-                _currentValueQTEBar = Mathf.Clamp(_currentValueQTEBar - (rollback * Time.deltaTime), 0f, 1f);
-                qte.FillAmountQTEBar = _currentValueQTEBar;
-                yield return new WaitForEndOfFrame();
-            }
-            yield return new WaitForSeconds(0.1f);
+            _player.Input.Player.QTE.performed -= (context) => qTEObject.ForclickQTE();
+            QTEDetect.OnFinishActiveQTE -= (result) => EndQTE(qTEObject);
+            qTEObject.OnProgressChanged.RemoveListener((newValue) => _qTEBar.FillAmountQTEBar = newValue);
 
-            QTEDetect.OnFinishActiveQTE?.Invoke(_currentValueQTEBar >= MaxQTEBar);
-
-            qte.SetActiveQTEPanel(false);
-
-            _player.Input.Player.QTE.performed -= (context) => ForclickQTE();
-            _coroutineRollbackQTEBar = null;
+            _qTEBar.SetActiveQTEPanel(false);
         }
 
         private void OnDisable() => OnStartQTE -= StartQTE;
