@@ -14,6 +14,8 @@ namespace AI
         private float _minDistance;
         private float _maxDistance;
 
+
+        private float _stopDistance;
         public RobotState_Chase(RobotVision robotVision, NavMeshAgent navMeshAgent, float speed, float minDistance, float maxDistance)
         {
             _robotVision = robotVision;
@@ -26,29 +28,22 @@ namespace AI
         public void OnEnter()
         {
             _navMeshAgent.speed = _speed;
+
+            _stopDistance = _navMeshAgent.stoppingDistance;
+            
             _navMeshAgent.stoppingDistance = _minDistance;
         }
 
         public void OnExit()
         {
             _player = null;
-            _navMeshAgent.stoppingDistance = 0;
+            _navMeshAgent.stoppingDistance = _stopDistance;
         }
 
         public void Tick()
         {
             if (_robotVision.IsVisible(out _player))
             {
-                // bool outOfRange = _navMeshAgent.remainingDistance > _navMeshAgent.stoppingDistance;
-                // if (!outOfRange)
-                // {
-                //     _navMeshAgent.isStopped = true;
-                // }
-                // else
-                // {
-                //     _navMeshAgent.isStopped = false;
-                //     _navMeshAgent.destination = _player.transform.position;
-                // }
                 _navMeshAgent.destination = _player.transform.position;
             }
                 

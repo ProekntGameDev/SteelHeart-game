@@ -7,11 +7,11 @@ namespace AI
     {
         public float Damage => _damage;
         public float Speed => _speed;
-        public float AttackDelay => _attackDelay;
+        public float MaxDistance => _maxDistance;
 
         [SerializeField] private float _damage;
         [SerializeField] private float _speed;
-        [SerializeField] private float _attackDelay;
+        [SerializeField] private float _maxDistance;
     }
 }
 

@@ -30,6 +30,25 @@ Transform:
   m_Father: {fileID: 4771157895557866230}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1349613692187249448
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295492637866244172}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0d2dd6f23efaa344994c2fc6051a238, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &856540907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +135,26 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3534200059955196095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295492637866244172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a67c318b61804748b1e4e08c8ee49a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _navMeshAgent: {fileID: 856540909}
+  _agentLinkMover: {fileID: 856540908}
+  _animator: {fileID: 1349613692187249448}
+  _maxWalkSpeed: 5
+  _animatorRobotSpeed: Speed
+  _animatorStartJump: 
+  _animatorEndJump: 
+  _animatorAttack: 
 --- !u!1001 &5024952507701101853
 PrefabInstance:
   m_ObjectHideFlags: 0

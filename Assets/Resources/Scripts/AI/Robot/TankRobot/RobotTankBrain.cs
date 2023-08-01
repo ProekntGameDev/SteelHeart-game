@@ -53,7 +53,7 @@ namespace AI
         {
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
-            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minChaseDistance, _maxChaseDistance);
+            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, 5, 10);
 
             List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
