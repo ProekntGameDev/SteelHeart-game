@@ -34,7 +34,6 @@ public partial class InertialCharacterController
 
         if (IsGrounded && _verticalVelocity < 0)
             _verticalVelocity = 0f;
-
     }
 
     private void Awake()

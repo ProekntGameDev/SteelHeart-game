@@ -23,7 +23,7 @@ namespace QTE
             _isUse = false;
             IsWin = isUse;
 
-            _qTEObject.SetIsActive(!IsWin);
+            _qTEObject.IsActive = !IsWin;
         }
 
         private void OnTriggerStay(Collider other)
