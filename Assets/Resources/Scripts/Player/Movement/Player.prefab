@@ -206,8 +206,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3396466631485936006}
   - component: {fileID: 6476704096970386530}
-  - component: {fileID: 4912351680297615615}
   - component: {fileID: 8429915455842906286}
+  - component: {fileID: 7876614554443098836}
   m_Layer: 7
   m_Name: Item Holder
   m_TagString: Untagged
@@ -246,19 +246,6 @@ MonoBehaviour:
   _dropSpeed: 3
   _minPullDistance: 0.1
   _pullSpeed: 9
---- !u!135 &4912351680297615615
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 791407808661331223}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 3
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8429915455842906286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +262,21 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _player: {fileID: 2281101296991554125}
+--- !u!114 &7876614554443098836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791407808661331223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7ae1f77d1a54542b587f87a18102b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 3
+  _triggerInteraction: 1
+  _gizmosColor: {r: 0.45882356, g: 0.77647066, b: 0.4901961, a: 1}
 --- !u!1 &1012498039598348397
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,7 +1023,7 @@ CharacterController:
   m_Height: 2.4
   m_Radius: 0.42
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.19, z: 0}

@@ -35,7 +35,6 @@ namespace NaughtyAttributes.Editor
                 DrawDefaultPropertyAndHelpBox(rect, property, InvalidAnimatorControllerWarningMessage, MessageType.Warning);
                 return;
             }
-
             int parametersCount = animatorController.parameters.Length;
             List<AnimatorControllerParameter> animatorParameters = new List<AnimatorControllerParameter>(parametersCount);
             for (int i = 0; i < parametersCount; i++)

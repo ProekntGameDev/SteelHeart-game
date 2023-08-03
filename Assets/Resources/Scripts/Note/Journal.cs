@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using NaughtyAttributes;
 
-[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(OverlapSphere))]
 public class Journal : MonoBehaviour
 {
     public UnityEvent<NoteData> OnNoteAdded;
@@ -12,12 +12,12 @@ public class Journal : MonoBehaviour
 
     [SerializeField, Required] private Player _player;
 
-    private SphereCollider _pickupRange;
+    private OverlapSphere _pickupRange;
     private List<NoteData> _notes = new List<NoteData>();
 
     private void Start()
     {
-        _pickupRange = GetComponent<SphereCollider>();
+        _pickupRange = GetComponent<OverlapSphere>();
     }
 
     public void AddNote(NoteData noteData)
@@ -31,10 +31,7 @@ public class Journal : MonoBehaviour
 
     private void OverlapTrigger()
     {
-        Collider[] colliders = Physics.OverlapSphere(_pickupRange.transform.position + _pickupRange.center, _pickupRange.radius,
-            Physics.AllLayers, QueryTriggerInteraction.Ignore);
-
-        foreach (var other in colliders)
+        foreach (var other in _pickupRange.GetColliders())
         {
             if (other.TryGetComponent(out Note note))
                 AddNote(note.Collect());
@@ -48,9 +45,6 @@ public class Journal : MonoBehaviour
 
     private void OnDisable()
     {
-        if (_player.Input == null)
-            return;
-
         _player.Input.Player.Interact.performed -= (c) => OverlapTrigger();
     }
 }
