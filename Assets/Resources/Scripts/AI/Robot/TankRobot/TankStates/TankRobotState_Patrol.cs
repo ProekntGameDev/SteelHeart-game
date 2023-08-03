@@ -6,14 +6,16 @@ namespace AI
     public class TankRobotState_Patrol : IState
     {
         private float _speed;
+        private float _stoppingDistance;
         private NavMeshAgent _navMeshAgent;
         private Transform[] _points;
 
         private int _targetPointIndex;
 
-        public TankRobotState_Patrol(float speed, NavMeshAgent navMeshAgent, Transform[] points)
+        public TankRobotState_Patrol(float speed, float stoppingDistance, NavMeshAgent navMeshAgent, Transform[] points)
         {
             _speed = speed;
+            _stoppingDistance = stoppingDistance;
             _navMeshAgent = navMeshAgent;
             _points = points;
         }
@@ -21,7 +23,8 @@ namespace AI
         public void OnEnter()
         {
             _navMeshAgent.speed = _speed;
-
+            _navMeshAgent.stoppingDistance = _stoppingDistance;
+            
             _targetPointIndex++;
 
             if (_targetPointIndex >= _points.Length)

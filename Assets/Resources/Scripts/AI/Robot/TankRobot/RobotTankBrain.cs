@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AI;
@@ -28,11 +29,13 @@ namespace AI
         // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
         
         private StateMachine _stateMachine;
-        private TankRobotState_Idle _delayState;
+        private TankRobotState_Idle _idleState;
         private TankRobotState_Patrol _patrolState;
         private TankRobotState_Chase _chaseState;
         private TankRobotState_Combat _combatState;
-        
+
+
+        private const float ZeroDistance = 0f;
         private void Awake()
         {
             _stateMachine = new StateMachine();
@@ -51,9 +54,9 @@ namespace AI
 
         private void SetupStates()
         {
-            _delayState = new TankRobotState_Idle(_idleDelayRange);
-            _patrolState = new TankRobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
-            _chaseState = new TankRobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, 5, 10);
+            _idleState = new TankRobotState_Idle(_idleDelayRange, _navMeshAgent, ZeroDistance);
+            _patrolState = new TankRobotState_Patrol(_patrolSpeed, ZeroDistance,_navMeshAgent, _patrolPoints);
+            _chaseState = new TankRobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minChaseDistance, _maxChaseDistance);
 
             List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
@@ -62,16 +65,16 @@ namespace AI
 
         private void SetupTransitions()
         {
-            _stateMachine.AddTransition(_patrolState, _delayState, () => _patrolState.IsDone());
-            _stateMachine.AddTransition(_delayState, _patrolState, () => _delayState.IsDone());
+            _stateMachine.AddTransition(_patrolState, _idleState, () => _patrolState.IsDone());
+            _stateMachine.AddTransition(_idleState, _patrolState, () => _idleState.IsDone());
 
-            _stateMachine.AddTransition(_delayState, _chaseState, () => _robotVision.IsVisible());
+            _stateMachine.AddTransition(_idleState, _chaseState, () => _robotVision.IsVisible());
             _stateMachine.AddTransition(_patrolState, _chaseState, () => _robotVision.IsVisible());
 
             _stateMachine.AddTransition(_chaseState, _combatState, () => _chaseState.IsDone());
-            _stateMachine.AddTransition(_chaseState, _delayState, () => _chaseState.IsLostPlayer());
+            _stateMachine.AddTransition(_chaseState, _idleState, () => _chaseState.IsLostPlayer());
 
-            _stateMachine.AddTransition(_combatState, _delayState, () => _combatState.IsDone());
+            _stateMachine.AddTransition(_combatState, _idleState, () => _combatState.IsDone());
             _stateMachine.AddTransition(_combatState, _chaseState, () => _combatState.IsLostPlayer());
         }
 

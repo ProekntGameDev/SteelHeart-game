@@ -13,6 +13,8 @@ namespace AI
         private Player _player;
         private StateMachine _stateMachine;
 
+
+        private const float InterpolationRatio = 0.3f;
         public TankRobotState_Combat(Player player, NavMeshAgent navMeshAgent, float maxDistance, List<IRobotAttack> attacks)
         {
             _navMeshAgent = navMeshAgent;
@@ -26,15 +28,18 @@ namespace AI
         }
 
         public void OnEnter()
-        { }
+        {
+            
+        }
 
         public void OnExit()
         { }
 
         public void Tick()
         {
+            LookAtTarget();
+            
             _stateMachine.Tick();
-
             if (_stateMachine.HasState)
                 return;
 
@@ -92,6 +97,15 @@ namespace AI
             {
                 _stateMachine.AddTransition(attack, null, () => attack.IsDone());
             }
+        }
+
+        private void LookAtTarget()
+        {
+            Vector3 lookPosition = _player.transform.position - _navMeshAgent.transform.position;
+            lookPosition.y = 0f;
+            Quaternion rotation = Quaternion.LookRotation(lookPosition);
+            
+            _navMeshAgent.transform.rotation = Quaternion.Slerp(_navMeshAgent.transform.rotation, rotation, InterpolationRatio);
         }
     }
 }
