@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using System;
 
@@ -20,14 +19,14 @@ namespace QTE
             _qTEBar.SetActiveQTEPanel(true);
 
             _player.Input.Player.QTE.performed += (context) => qTEObject.ForclickQTE();
-            QTEDetect.OnFinishActiveQTE += (result) => EndQTE(qTEObject);
+            qTEObject.OnEnd.AddListener((result) => EndQTE(qTEObject));
             qTEObject.OnProgressChanged.AddListener((newValue) => _qTEBar.FillAmountQTEBar = newValue);
         }
 
         private void EndQTE(QTEObject qTEObject)
         {
             _player.Input.Player.QTE.performed -= (context) => qTEObject.ForclickQTE();
-            QTEDetect.OnFinishActiveQTE -= (result) => EndQTE(qTEObject);
+            qTEObject.OnEnd.RemoveListener((result) => EndQTE(qTEObject));
             qTEObject.OnProgressChanged.RemoveListener((newValue) => _qTEBar.FillAmountQTEBar = newValue);
 
             _qTEBar.SetActiveQTEPanel(false);

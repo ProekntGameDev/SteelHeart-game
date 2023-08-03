@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(OverlapSphere))]
 public class ItemHolder : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -11,13 +11,11 @@ public class ItemHolder : MonoBehaviour
     [SerializeField] private float _pullSpeed;
 
     private Pickupable _currentItem;
-    private SphereCollider _pickupRange;
+    private OverlapSphere _pickupRange;
 
     private void Start()
     {
-        _pickupRange = GetComponent<SphereCollider>();
-
-        OnEnable();
+        _pickupRange = GetComponent<OverlapSphere>();
     }
 
     private bool TryPickUp(Pickupable item)
@@ -66,10 +64,7 @@ public class ItemHolder : MonoBehaviour
 
     private void OverlapTrigger()
     {
-        Collider[] colliders = Physics.OverlapSphere(_pickupRange.transform.position + _pickupRange.center, _pickupRange.radius, 
-            Physics.AllLayers, QueryTriggerInteraction.Ignore);
-
-        foreach (var other in colliders)
+        foreach (var other in _pickupRange.GetColliders())
         {
             if (other.TryGetComponent(out Pickupable pickupable))
                 if (TryPickUp(pickupable))
@@ -83,18 +78,12 @@ public class ItemHolder : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_player.Input == null)
-            return;
-
         _player.Input.Player.Interact.performed += (c) => OverlapTrigger();
         _player.Input.Player.Drop.performed += (c) => TryDrop();
     }
 
     private void OnDisable()
     {
-        if (_player.Input == null)
-            return;
-
         _player.Input.Player.Interact.performed -= (c) => OverlapTrigger();
         _player.Input.Player.Drop.performed -= (c) => TryDrop();
     }

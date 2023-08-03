@@ -4,11 +4,19 @@ using NaughtyAttributes;
 [RequireComponent(typeof(Health), typeof(PlayerRespawn))]
 public class Player : MonoBehaviour
 {
+    public PlayerInput Input { 
+        get {
+            if (_playerInput == null)
+                _playerInput = new PlayerInput();
+
+            return _playerInput;
+        } 
+    }
+
     public Health Health => _health;
     public Stamina Stamina => _stamina;
     public PlayerMovement Movement => _playerMovement;
     public PlayerCombat Combat => _playerCombat;
-    public PlayerInput Input => _playerInput;
     public PlayerRespawn Respawn => _playerRespawn;
     public GearsHolder GearsHolder => _gearsHolder;
 
@@ -23,8 +31,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _playerInput = new PlayerInput();
-
         _health = GetComponent<Health>();
         _playerRespawn = GetComponent<PlayerRespawn>();
     }
@@ -37,20 +43,17 @@ public class Player : MonoBehaviour
         _gearsHolder.enabled = true;
         _playerCombat.enabled = true;
 
-        _playerInput.Enable();
+        Input.Enable();
     }
 
     private void OnDisable()
     {
-        if (_playerInput == null)
-            return;
-
         _health.enabled = false;
         _stamina.enabled = false;
         _playerMovement.enabled = false;
         _gearsHolder.enabled = false;
         _playerCombat.enabled = false;
 
-        _playerInput.Disable();
+        Input.Disable();
     }
 }

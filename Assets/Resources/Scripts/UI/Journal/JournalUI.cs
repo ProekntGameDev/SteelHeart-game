@@ -14,8 +14,6 @@ public class JournalUI : MonoBehaviour
     private void Start()
     {
         _journal.OnNoteAdded.AddListener(AddNoteUI);
-
-        _player.Input.Player.Journal.performed += (c) => _panel.SetActive(!_panel.activeInHierarchy);
     }
 
     private void AddNoteUI(NoteData noteData)
@@ -28,17 +26,11 @@ public class JournalUI : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_player.Input == null)
-            return;
-
         _player.Input.Player.Journal.performed += (c) => _panel.SetActive(!_panel.activeInHierarchy);
     }
 
     private void OnDisable()
     {
-        if (_player.Input == null)
-            return;
-
         _player.Input.Player.Journal.performed -= (c) => _panel.SetActive(!_panel.activeInHierarchy);
     }
 }

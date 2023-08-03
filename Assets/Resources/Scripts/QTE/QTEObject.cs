@@ -9,7 +9,9 @@ namespace QTE
         private const float MinQTE = 0f;
         private const float MaxQTE = 1f;
 
-        public UnityEvent<float> OnProgressChanged;
+        [HideInInspector] public UnityEvent<float> OnProgressChanged;
+        public UnityEvent OnStart;
+        public UnityEvent<bool> OnEnd;
 
         public bool IsActive { get; set; } = true;
 
@@ -30,6 +32,7 @@ namespace QTE
                 throw new System.InvalidOperationException();
 
             StartRollbackQTE();
+            OnStart?.Invoke();
         }
 
         public void ForclickQTE()
@@ -53,8 +56,11 @@ namespace QTE
             }
             yield return new WaitForSeconds(0.1f);
 
-            QTEDetect.OnFinishActiveQTE?.Invoke(_currentValue >= MaxQTE);
+            bool qteResult = _currentValue >= MaxQTE;
+
+            IsActive = !qteResult;
             _coroutineRollbackQTE = null;
+            OnEnd?.Invoke(qteResult);
         }
     }
 }
