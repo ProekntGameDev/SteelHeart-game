@@ -28,10 +28,10 @@ namespace AI
         // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
         
         private StateMachine _stateMachine;
-        private RobotState_Delay _delayState;
-        private RobotState_Patrol _patrolState;
-        private RobotState_Chase _chaseState;
-        private RobotState_Combat _combatState;
+        private TankRobotState_Idle _delayState;
+        private TankRobotState_Patrol _patrolState;
+        private TankRobotState_Chase _chaseState;
+        private TankRobotState_Combat _combatState;
         
         private void Awake()
         {
@@ -51,13 +51,13 @@ namespace AI
 
         private void SetupStates()
         {
-            _delayState = new RobotState_Delay(_idleDelayRange);
-            _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
-            _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, 5, 10);
+            _delayState = new TankRobotState_Idle(_idleDelayRange);
+            _patrolState = new TankRobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
+            _chaseState = new TankRobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, 5, 10);
 
             List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
-            _combatState = new RobotState_Combat(_player, _navMeshAgent, _maxCombatDistance, attacks);
+            _combatState = new TankRobotState_Combat(_player, _navMeshAgent, _maxCombatDistance, attacks);
         }
 
         private void SetupTransitions()
