@@ -20,8 +20,11 @@ namespace AI
 
         [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
         [SerializeField, BoxGroup("Chasing")] private float _minChaseDistance;
-        [SerializeField, BoxGroup("Chasing")] private float _maxChaseDistance;
+        //[SerializeField, BoxGroup("Chasing")] private float _maxChaseDistance;
 
+        [SerializeField, BoxGroup("Escape")] private float _escapeDisatnce;
+        [SerializeField, BoxGroup("Escape")] private float _escapeSpeed;
+        
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
 
         [SerializeField, SOInheritedFrom(typeof(IRobotAttack)), BoxGroup("Combat")]
@@ -33,7 +36,7 @@ namespace AI
         private TankRobotState_Patrol _patrolState;
         private TankRobotState_Chase _chaseState;
         private TankRobotState_Combat _combatState;
-
+        private TankRobotState_Escape _escapeState;
 
         private const float ZeroDistance = 0f;
         private void Awake()
@@ -56,8 +59,10 @@ namespace AI
         {
             _idleState = new TankRobotState_Idle(_idleDelayRange, _navMeshAgent, ZeroDistance);
             _patrolState = new TankRobotState_Patrol(_patrolSpeed, ZeroDistance,_navMeshAgent, _patrolPoints);
-            _chaseState = new TankRobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minChaseDistance, _maxChaseDistance);
-
+            _chaseState = new TankRobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minChaseDistance, _maxCombatDistance);
+            _escapeState = new TankRobotState_Escape
+                (_escapeSpeed, _escapeDisatnce, ZeroDistance, _navMeshAgent, _player);
+            
             List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
             _combatState = new TankRobotState_Combat(_player, _navMeshAgent, _maxCombatDistance, attacks);
@@ -73,9 +78,12 @@ namespace AI
 
             _stateMachine.AddTransition(_chaseState, _combatState, () => _chaseState.IsDone());
             _stateMachine.AddTransition(_chaseState, _idleState, () => _chaseState.IsLostPlayer());
-
+            
             _stateMachine.AddTransition(_combatState, _idleState, () => _combatState.IsDone());
             _stateMachine.AddTransition(_combatState, _chaseState, () => _combatState.IsLostPlayer());
+            _stateMachine.AddTransition(_combatState, _escapeState, () => _escapeState.IsPlayerClose());
+            
+            _stateMachine.AddTransition(_escapeState, _patrolState, () => _escapeState.IsPlayerFar());
         }
 
         private void OnDrawGizmosSelected()
