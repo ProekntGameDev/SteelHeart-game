@@ -40,7 +40,6 @@ public class AttackCombatState : IState
         {
             if (collider.TryGetComponent(out IDamagable damagable) && collider.TryGetComponent(out Player player) == false)
             {
-                Debug.Log($"Damage to {collider.name}");
                 damagable.TakeDamage(_damage);
             }
         }
