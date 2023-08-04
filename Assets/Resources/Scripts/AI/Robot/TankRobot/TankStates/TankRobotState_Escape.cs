@@ -5,6 +5,8 @@ namespace AI
 {
     public class TankRobotState_Escape : IState
     {
+        private const float EscapeMultiplier = 2f;
+        
         private float _speed;
         private float _escapingDistance;
         private float _stoppingDistance;
@@ -43,7 +45,7 @@ namespace AI
         
         public bool IsPlayerFar()
         {
-            return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _escapingDistance * 2;
+            return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _escapingDistance * EscapeMultiplier;
         }
     }
 }

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace AI
 {
+    // ----------------------------------------
+    // YOU NEED TO ADD *NAVMESH SURFACE COMPONENT* ON THE ROOM WHERE THIS ROBOT WILL BE LOCATED
+    // ----------------------------------------
     public class RobotTankBrain : MonoBehaviour
     {
         [Required, SerializeField] private NavMeshAgent _navMeshAgent;
@@ -20,7 +23,6 @@ namespace AI
 
         [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
         [SerializeField, BoxGroup("Chasing")] private float _minChaseDistance;
-        //[SerializeField, BoxGroup("Chasing")] private float _maxChaseDistance;
 
         [SerializeField, BoxGroup("Escape")] private float _escapeDisatnce;
         [SerializeField, BoxGroup("Escape")] private float _escapeSpeed;
