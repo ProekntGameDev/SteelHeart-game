@@ -4,48 +4,53 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 
-public class PlayerRepository : Repository
+namespace SaveSystem
 {
-    public override bool IsChange { get; set; }
-
-    public float HealthPlayer;
-    public int GearsPlayer;
-    public float[] PositionPlayer = new float[3];
-
-    private const string Key = "PlayerSave";
-
-    public override void Load()
+    public class PlayerRepository : Repository
     {
-        GetValuesPlayerData(SaveService.LoadData<PlayerData>(Key));
+        public override bool IsChange { get; set; }
+
+        public float HealthPlayer;
+        public int GearsPlayer;
+        public float[] PositionPlayer = new float[3];
+
+        private const string Key = "PlayerSave";
+
+        public override void Load()
+        {
+            GetValuesPlayerData(SaveService.LoadData<PlayerData>(Key));
+        }
+
+        public override void Save()
+        {
+            if (IsChange)
+                SaveService.SaveData<PlayerData>(Key, SetValuesPlayerData());
+        }
+
+        private PlayerData SetValuesPlayerData()
+        {
+            PlayerData playerdata = new PlayerData();
+            playerdata.HealthPlayer = HealthPlayer;
+            playerdata.GearsPlayer = GearsPlayer;
+            playerdata.PositionPlayer = PositionPlayer;
+
+            return playerdata;
+        }
+
+        private void GetValuesPlayerData(PlayerData playerData)
+        {
+            HealthPlayer = playerData.HealthPlayer;
+            GearsPlayer = playerData.GearsPlayer;
+            PositionPlayer = playerData.PositionPlayer;
+        }
     }
 
-    public override void Save()
+    [Serializable]
+    public class PlayerData
     {
-        SaveService.SaveData<PlayerData>(Key, SetValuesPlayerData());
+        public float HealthPlayer;
+        public int GearsPlayer;
+        public float[] PositionPlayer = new float[3];
     }
 
-    private PlayerData SetValuesPlayerData()
-    {
-        PlayerData playerdata = new PlayerData();
-        playerdata.HealthPlayer = HealthPlayer;
-        playerdata.GearsPlayer = GearsPlayer;
-        playerdata.PositionPlayer = PositionPlayer;
-
-        return playerdata;
-    }
-
-    private void GetValuesPlayerData(PlayerData playerData)
-    {
-        HealthPlayer = playerData.HealthPlayer;
-        GearsPlayer = playerData.GearsPlayer;
-        PositionPlayer = playerData.PositionPlayer;
-    }
-}
-
-[Serializable]
-public class PlayerData
-{
-    public float HealthPlayer;
-    public int GearsPlayer;
-    public float[] PositionPlayer = new float[3];
 }

@@ -13,6 +13,7 @@ namespace SaveSystem
 
         public void ChangeHealthPlayer(float value)
         {
+            Repository.IsChange = true;
             float health = Data.HealthPlayer + value;
             if (health < 0f) health = 0f;
             else if (health > 1f) health = 1f;
@@ -28,6 +29,7 @@ namespace SaveSystem
 
         public void ChangeGearsPlayer(int value)
         {
+            Repository.IsChange = true;
             int gears = Data.GearsPlayer + value;
             if (gears < 0) gears = 0;
             Data.GearsPlayer = gears;
@@ -42,6 +44,7 @@ namespace SaveSystem
 
         public void SetPositionPlayer(Vector3 position)
         {
+            Repository.IsChange = true;
             for (int i = 0; i < Data.PositionPlayer.Length; i++)
                 Data.PositionPlayer[i] = position[i];
         }
