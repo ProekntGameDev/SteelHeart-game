@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class SceneManager : MonoBehaviour
 {
-    public UnityEvent<AsyncOperation> OnLoadScene;
+    public UnityEvent<SceneLoadOperation> OnLoadScene;
 
     private List<string> _scenes = new List<string>();
 
@@ -39,7 +39,7 @@ public class SceneManager : MonoBehaviour
     private void AsyncLoadScene(string name)
     {
         AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(name);
-        OnLoadScene.Invoke(asyncOperation);
+        OnLoadScene.Invoke(new SceneLoadOperation(asyncOperation, name));
     }
 
     private void Awake()
@@ -48,5 +48,17 @@ public class SceneManager : MonoBehaviour
 
         for (int i = 0; i < sceneCount; i++)
             _scenes.Add(Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i)));
+    }
+}
+
+public class SceneLoadOperation
+{
+    public readonly string Name;
+    public readonly AsyncOperation Operation;
+
+    public SceneLoadOperation(AsyncOperation operation, string name)
+    {
+        Name = name;
+        Operation = operation;
     }
 }
