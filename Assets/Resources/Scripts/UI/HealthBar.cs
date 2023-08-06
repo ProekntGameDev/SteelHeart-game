@@ -3,12 +3,14 @@ using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Player _player;
     [SerializeField] private Image _image;
     [SerializeField] private TMP_Text _text;
+
+    [Inject] private Player _player;
 
     private void Start()
     {

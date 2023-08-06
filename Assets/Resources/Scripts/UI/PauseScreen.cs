@@ -1,17 +1,19 @@
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class PauseScreen : MonoBehaviour
 {
-    [SerializeField, Required] private Player _player;
-    [SerializeField, Required] private SceneManager _sceneManager;
     [SerializeField, Required] private GameObject _pausePanel;
     [SerializeField, Required] private Button _continueButton;
     [SerializeField, Required] private Button _saveButton;
     [SerializeField, Required] private Button _loadButton;
     [SerializeField, Required] private Button _settingsButton;
     [SerializeField, Required] private Button _mainMenuButton;
+
+    [Inject] private Player _player;
+    [Inject] private SceneManager _sceneManager;
 
     private void Start()
     {

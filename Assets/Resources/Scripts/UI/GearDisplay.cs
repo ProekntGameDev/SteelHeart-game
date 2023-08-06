@@ -1,11 +1,11 @@
 using UnityEngine;
 using TMPro;
-using NaughtyAttributes;
+using Zenject;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class GearDisplay : MonoBehaviour
 {
-    [SerializeField, Required] private Player _player;
+    [Inject] private Player _player;
 
     private TextMeshProUGUI _text;
 

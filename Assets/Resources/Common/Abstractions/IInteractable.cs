@@ -1,7 +1,4 @@
-﻿namespace Common.Abstractions
+﻿public interface IInteractable
 {
-    public interface IInteractable
-    {
-        void Interact();
-    }
+    void Interact();
 }

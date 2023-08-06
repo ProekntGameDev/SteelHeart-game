@@ -45,8 +45,15 @@ public class Health : MonoBehaviour, IDamagable
         OnChange?.Invoke(_currentHealth);
     }
 
+    public void Load(PlayerSaveData data)
+    {
+        _currentHealth = data.Health;
+        OnChange?.Invoke(_currentHealth);
+    }
+
     private void Awake()
     {
-        _currentHealth = _maximumHealth;
+        if(_currentHealth == 0)
+            _currentHealth = _maximumHealth;
     }
 }

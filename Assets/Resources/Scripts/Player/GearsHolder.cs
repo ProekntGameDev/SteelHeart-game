@@ -26,4 +26,10 @@ public class GearsHolder : MonoBehaviour
 
         OnChange?.Invoke(Gears);
     }
+
+    public void Load(PlayerSaveData data)
+    {
+        Gears = data.Gears;
+        OnChange?.Invoke(Gears);
+    }
 }

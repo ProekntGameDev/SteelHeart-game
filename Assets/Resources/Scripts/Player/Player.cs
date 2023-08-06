@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
         } 
     }
 
+    public Journal Journal => _journal;
     public Health Health => _health;
     public Stamina Stamina => _stamina;
     public PlayerMovement Movement => _playerMovement;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
     public PlayerRespawn Respawn => _playerRespawn;
     public GearsHolder GearsHolder => _gearsHolder;
 
+    [SerializeField, Required] private Journal _journal;
     [SerializeField, Required] private Stamina _stamina;
     [SerializeField, Required] private PlayerMovement _playerMovement;
     [SerializeField, Required] private PlayerCombat _playerCombat;
@@ -28,6 +30,17 @@ public class Player : MonoBehaviour
     private PlayerInput _playerInput;
     private Health _health;
     private PlayerRespawn _playerRespawn;
+
+    public void Load(PlayerSaveData data)
+    {
+        _playerMovement.enabled = false;
+        transform.position = data.Position;
+        _playerMovement.enabled = true;
+
+        _health.Load(data);
+        _stamina.Load(data);
+        _gearsHolder.Load(data);
+    }
 
     private void Awake()
     {

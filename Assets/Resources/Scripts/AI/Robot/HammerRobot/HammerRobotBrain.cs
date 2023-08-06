@@ -2,14 +2,13 @@ using NaughtyAttributes;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AI;
-using System;
+using Zenject;
 
 namespace AI
 {
     public class HammerRobotBrain : MonoBehaviour
     {
         [Required, SerializeField] private NavMeshAgent _navMeshAgent;
-        [Required, SerializeField] private Player _player;
         [Required, SerializeField] private Health _robotHealth;
 
         [SerializeField] private RobotVision _robotVision;
@@ -26,6 +25,8 @@ namespace AI
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
         [SerializeField, SOInheritedFrom(typeof(IRobotAttack)), BoxGroup("Combat")] private List<ScriptableObject> _robotAttacks = new List<ScriptableObject>(); // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
+
+        [Inject] private Player _player;
 
         private StateMachine _stateMachine;
         private RobotState_Delay _delayState;

@@ -1,4 +1,3 @@
-using Common.Abstractions;
 using UnityEngine;
 
 [RequireComponent(typeof(OverlapSphere))]

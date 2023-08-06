@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public partial class InertialCharacterController
@@ -13,8 +14,9 @@ public partial class InertialCharacterController
 
     public float Gravity => _gravity;
 
-    [SerializeField, Required] private Player _player;
     [SerializeField] private float _gravity = -9.81f;
+
+    [Inject] private Player _player;
 
     private CharacterController _characterController;
     private float _verticalVelocity;

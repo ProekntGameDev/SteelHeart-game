@@ -1,11 +1,11 @@
 using UnityEngine;
-using NaughtyAttributes;
+using Zenject;
 
 namespace QTE
 {
     public class QTEDetect : MonoBehaviour
     {
-        [SerializeField, Required] private Player _player;
+        [Inject] private Player _player;
 
         private bool _isUse = false;
 

@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 namespace QTE
 {
@@ -11,7 +12,6 @@ namespace QTE
         [SerializeField, AnimatorState(nameof(_playerAnimator), nameof(_qteLayer))] private string _pushState;
         [SerializeField, AnimatorParam(nameof(_playerAnimator), AnimatorControllerParameterType.Float)] private string _pushSpeed;
         [SerializeField, AnimatorParam(nameof(_playerAnimator), AnimatorControllerParameterType.Trigger)] private string _onEndQte;
-        [SerializeField, Required] private Player _player;
 
         [Header("Train")]
         [SerializeField, Required] private Transform _playerStartPoint;
@@ -19,6 +19,8 @@ namespace QTE
         [SerializeField, Required] private Transform _startPoint;
         [SerializeField, Required] private Transform _endPoint;
         [SerializeField] private float _smoothTime;
+
+        [Inject] private Player _player;
 
         private Vector3 _currentVelocity;
         private Vector3 _targetPosition;
