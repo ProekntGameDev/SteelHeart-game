@@ -1,15 +1,17 @@
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [SerializeField, Required] private Player _player;
     [SerializeField, Required] private OverlapSphere _attackPoint;
     [SerializeField] private float _damage;
     [SerializeField] private float _delay;
     [SerializeField] private float _cooldown;
     [SerializeField] private float _staminaCost;
+
+    [Inject] private Player _player;
 
     private IdleCombatState _idleState;
     private AttackCombatState _attackState;

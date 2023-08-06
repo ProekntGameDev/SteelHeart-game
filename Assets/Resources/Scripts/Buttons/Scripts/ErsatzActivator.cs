@@ -1,5 +1,4 @@
-﻿using Common.Abstractions;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Features.Buttons.Ersatz
 {

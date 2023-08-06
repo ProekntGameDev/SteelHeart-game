@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Zenject;
 
 namespace QTE
 {
@@ -7,8 +8,9 @@ namespace QTE
     {
         public static Action<QTEObject> OnStartQTE;
 
-        [SerializeField] private Player _player;
         [SerializeField] private QTEBar _qTEBar;
+
+        [Inject] private Player _player;
 
         private void OnEnable() => OnStartQTE += StartQTE;
 

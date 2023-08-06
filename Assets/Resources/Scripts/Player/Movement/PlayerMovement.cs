@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 [RequireComponent(typeof(InertialCharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -11,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
 
     public InertialCharacterController CharacterController { get; private set; }
 
-    [SerializeField, Required] private Player _player;
     [SerializeField, Foldout("Max Velocities")] private float _maxCrouchVelocity = 4;
     [SerializeField, Foldout("Max Velocities")] private float _maxWalkVelocity = 6;
     [SerializeField, Foldout("Max Velocities")] private float _maxRunVelocity = 10;
@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _ladderMoveSpeed = 2f;
     [SerializeField] private OverlapSphere _ladderTrigger;
     [SerializeField] private JumpType _jumpType;
+
+    [Inject] private Player _player;
 
     private AnimatableStateMachine _stateMachine;
 
@@ -36,11 +38,6 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         CharacterController = GetComponent<InertialCharacterController>();
-    }
-
-    private void Start()
-    {
-        InitStateMachine();
     }
 
 #if UNITY_EDITOR
@@ -157,11 +154,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        InitStateMachine();
+
         CharacterController.enabled = true;
     }
 
     private void OnDisable()
     {
+        CharacterController.CurrentVelocity = Vector3.zero;
+        CharacterController.VerticalVelocity = 0;
+
         CharacterController.enabled = false;
     }
 }

@@ -15,7 +15,8 @@ public class Stamina : MonoBehaviour
 
     private void Start()
     {
-        _current = _maximum;
+        if(_current == 0)
+            _current = _maximum;
     }
 
     public void DecayFixedTime(float amount)
@@ -31,6 +32,12 @@ public class Stamina : MonoBehaviour
 
         _current += _restorationRate * Time.fixedDeltaTime;
         if (_current > _maximum) _current = _maximum;
+        OnChange?.Invoke();
+    }
+
+    public void Load(PlayerSaveData data)
+    {
+        _current = data.Stamina;
         OnChange?.Invoke();
     }
 }

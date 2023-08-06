@@ -1,19 +1,20 @@
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class JournalUI : MonoBehaviour
 {
-    [SerializeField, Required] private Player _player;
-    [SerializeField, Required] private Journal _journal;
     [SerializeField, Required] private GameObject _panel;
     [SerializeField, Required] private Transform _scrollViewContent;
     [SerializeField, Required] private JournalNoteUI _textNotePrefab;
     [SerializeField, Required] private JournalNoteUI _audioNotePrefab;
     [SerializeField, Required] private JournalContent _content;
 
+    [Inject] private Player _player;
+
     private void Start()
     {
-        _journal.OnNoteAdded.AddListener(AddNoteUI);
+        _player.Journal.OnNoteAdded.AddListener(AddNoteUI);
     }
 
     private void AddNoteUI(NoteData noteData)
