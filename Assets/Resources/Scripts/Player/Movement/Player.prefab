@@ -1039,7 +1039,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aaf2e7dcc1d362498240defda0c8aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 8695164828143955588}
   _journal: {fileID: 8429915455842906286}
   _stamina: {fileID: 6807784453718124853}
   _playerMovement: {fileID: 3462377426396143072}
@@ -1077,7 +1076,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _friction: 8
-  _player: {fileID: 2281101296991554125}
   _gravity: -9.81
 --- !u!114 &3462377426396143072
 MonoBehaviour:
@@ -1100,7 +1098,6 @@ MonoBehaviour:
   OnExitLadder:
     m_PersistentCalls:
       m_Calls: []
-  _player: {fileID: 2281101296991554125}
   _maxCrouchVelocity: 4
   _maxWalkVelocity: 6
   _maxRunVelocity: 10
@@ -1149,7 +1146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ae369c918990641b7baaee72b6c4f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 2281101296991554125}
   _attackPoint: {fileID: 9048045667223021902}
   _damage: 35
   _delay: 0.2
@@ -1196,7 +1192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 921f43bf3e53b1e408ec91131dc9a3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 2281101296991554125}
 --- !u!1 &3678931754806807625
 GameObject:
   m_ObjectHideFlags: 0
