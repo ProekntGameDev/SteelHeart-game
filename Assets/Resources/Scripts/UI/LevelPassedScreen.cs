@@ -17,7 +17,7 @@ public class LevelPassedScreen : MonoBehaviour
     {
         _levelEndTrigger.OnInteract.AddListener(OnTriggerReached);
 
-        _continueButton.onClick.AddListener(_sceneManager.LoadNext);
+        _continueButton.onClick.AddListener(() => _sceneManager.LoadNext());
         _restartButton.onClick.AddListener(_sceneManager.ReloadCurrent);
         _mainMenuButton.onClick.AddListener(_sceneManager.LoadMenu);
     }

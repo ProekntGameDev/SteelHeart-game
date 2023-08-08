@@ -31,17 +31,6 @@ public class Player : MonoBehaviour
     private Health _health;
     private PlayerRespawn _playerRespawn;
 
-    public void Load(PlayerSaveData data)
-    {
-        _playerMovement.enabled = false;
-        transform.position = data.Position;
-        _playerMovement.enabled = true;
-
-        _health.Load(data);
-        _stamina.Load(data);
-        _gearsHolder.Load(data);
-    }
-
     private void Awake()
     {
         _health = GetComponent<Health>();

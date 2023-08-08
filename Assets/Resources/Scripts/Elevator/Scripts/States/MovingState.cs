@@ -4,9 +4,10 @@ namespace Features.Lift
 {
     public class MovingState : BaseHierarchicalState
     {
+        public bool IsMoveUp { get; private set; }
+
         private float _elapsed;
         private float _timeToEndPoint;
-        private bool _isMoveUp;
 
         public MovingState(Lift lift,
                            Transform upPoint,
@@ -36,7 +37,7 @@ namespace Features.Lift
 
         protected override void OnExit()
         {
-            if (_isMoveUp)
+            if (IsMoveUp)
                 _platform.position = _upPoint.position;
             else
                 _platform.position = _downPoint.position;
@@ -52,10 +53,10 @@ namespace Features.Lift
         private void CheckDirection()
         {
             if (Ctx.DownLevel)
-                _isMoveUp = true;
+                IsMoveUp = true;
 
             if (Ctx.UpLevel)
-                _isMoveUp = false;
+                IsMoveUp = false;
         }
 
         private void Move()
@@ -65,7 +66,7 @@ namespace Features.Lift
             float elapsedPercentage = _elapsed / _timeToEndPoint;
             elapsedPercentage = Mathf.SmoothStep(0, 1, elapsedPercentage);
 
-            if (_isMoveUp)
+            if (IsMoveUp)
                 _platform.position = Vector3.Lerp(_downPoint.position, _upPoint.position, elapsedPercentage);
             else
                 _platform.position = Vector3.Lerp(_upPoint.position, _downPoint.position, elapsedPercentage);

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MoveState : IState
 {
-    private InertialCharacterController _characterController;
+    protected InertialCharacterController _characterController { get; private set; }
     private float _maxSpeed;
     private float _acceleration;
 

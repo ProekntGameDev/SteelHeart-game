@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         _crouchState = new CrouchMoveState(CharacterController, _crouchHeight, _groundAcceleration, _maxCrouchVelocity);
         _airMoveState = new AirMoveState(CharacterController, _airAcceleration, _maxAirVelocity);
         _jumpState = new JumpState(CharacterController, _airAcceleration, _maxAirVelocity, _jumpType);
-        _ladderMoveState = new LadderMoveState(CharacterController, _ladderMoveSpeed);
+        _ladderMoveState = new LadderMoveState(CharacterController, _ladderTrigger.transform, _ladderMoveSpeed);
     }
 
     private void SetupTransitions()
@@ -113,6 +113,8 @@ public class PlayerMovement : MonoBehaviour
         // Ladder
 
         _player.Input.Player.Interact.performed += (context) => OnInteractPerformed();
+
+        _stateMachine.AddTransition(_ladderMoveState, _idleState, () => _ladderMoveState.IsOnLadder() == false);
     }
 
     private void OnInteractPerformed()

@@ -583,12 +583,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 409123856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f028c244d93bf745aa81c627d4565a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 64031296bc8331c43926fdc7066da271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnLoadScene:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,7 +975,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 409123858}
-        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
         m_MethodName: LoadNext
         m_Mode: 1
         m_Arguments:
@@ -1356,7 +1353,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 409123858}
-        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:

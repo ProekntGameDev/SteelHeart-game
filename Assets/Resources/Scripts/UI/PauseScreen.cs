@@ -18,7 +18,7 @@ public class PauseScreen : MonoBehaviour
     private void Start()
     {
         _continueButton.onClick.AddListener(Disable);
-        _mainMenuButton.onClick.AddListener(_sceneManager.LoadMenu);
+        _mainMenuButton.onClick.AddListener(LoadMenu);
     }
 
     private void OnEnable()
@@ -45,5 +45,13 @@ public class PauseScreen : MonoBehaviour
 
         _player.Input.Player.Enable();
         Time.timeScale = 1;
+    }
+
+    private void LoadMenu()
+    {
+        _player.Input.Player.Enable();
+        Time.timeScale = 1;
+
+        _sceneManager.LoadMenu();
     }
 }

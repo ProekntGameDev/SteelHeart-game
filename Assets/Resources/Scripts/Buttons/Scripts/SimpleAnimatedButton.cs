@@ -4,12 +4,10 @@ using NaughtyAttributes;
 namespace Features.Buttons
 {
     [RequireComponent(typeof(Animator))]
-    public class SimpleAnimatedButton : AbstractActivatedSource
+    public class SimpleAnimatedButton : InteractableTrigger
     {
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animationTriggerName = "OnPress";
         [SerializeField, Required] private Animator _animator;
-
-        private int _animationTriggerHash;
 
         private bool _pressed = false;
 
@@ -17,27 +15,22 @@ namespace Features.Buttons
         {
             if(_animator == null)
                 _animator = GetComponent<Animator>();
-            _animationTriggerHash = Animator.StringToHash(_animationTriggerName);
+
+            OnInteract.AddListener(TryInteract);
         }
 
-        protected override bool TryInteract()
+        private void TryInteract()
         {
             if (_pressed)
-                return false;
+                return;
 
             _pressed = true;
-            PlayAnimation();
-            return true;
+            _animator.SetTrigger(_animationTriggerName);
         }
 
         private void OnAnimationComplete()
         {
             _pressed = false;
-        }
-
-        private void PlayAnimation()
-        {
-            _animator.SetTrigger(_animationTriggerHash);
         }
     }
 }
