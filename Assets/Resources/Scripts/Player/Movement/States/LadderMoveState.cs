@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class LadderMoveState : MoveState
 {
-    private InertialCharacterController _characterController;
+    private Transform _playerLadderTrigger;
     private Ladder _ladder;
+    private Collider _ladderCollider;
     private float _speed;
 
-    public LadderMoveState(InertialCharacterController characterController, float speed) : base(characterController, 0, 0)
+    public LadderMoveState(InertialCharacterController characterController, Transform playerLadderTrigger, float speed) : base(characterController, 0, 0)
     {
-        _characterController = characterController;
         _speed = speed;
+        _playerLadderTrigger = playerLadderTrigger;
     }
 
     public override void OnEnter()
@@ -26,6 +27,7 @@ public class LadderMoveState : MoveState
     public void Init(Ladder ladder)
     {
         _ladder = ladder;
+        _ladderCollider = _ladder.GetComponent<Collider>();
     }
 
     public override void OnExit()
@@ -35,6 +37,17 @@ public class LadderMoveState : MoveState
 
         _characterController.VerticalMove = true;
         _ladder = null;
+    }
+
+    public bool IsOnLadder()
+    {
+        if (_ladder == null)
+            return false;
+
+        float ladderBottom = _ladderCollider.bounds.min.y;
+        float ladderTop = _ladderCollider.bounds.max.y;
+
+        return _playerLadderTrigger.position.y < ladderTop && _playerLadderTrigger.position.y > ladderBottom;
     }
 
     protected override void Move(Vector3 wishDirection, float acceleration, float maxSpeed)

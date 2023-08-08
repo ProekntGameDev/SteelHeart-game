@@ -1,12 +1,10 @@
 public class CrouchMoveState : MoveState
 {
-    private InertialCharacterController _characterController;
     private float _standHeight;
     private float _crouchHeight;
 
     public CrouchMoveState(InertialCharacterController characterController, float crouchHeight, float acceleration, float maxSpeed) : base(characterController, acceleration, maxSpeed)
     {
-        _characterController = characterController;
         _crouchHeight = crouchHeight;
     }
 

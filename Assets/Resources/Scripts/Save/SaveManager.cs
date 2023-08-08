@@ -5,16 +5,9 @@ public class SaveManager : MonoBehaviour
 {
     private UnitySaver _saver;
 
-    public PlayerSaveData Load(string name)
-    {
-        return _saver.Load<PlayerSaveData>(name);
-    }
+    public void Save(PlayerSaveData data, string name = "save") => _saver.Save(data, name);
 
-    public void Save(string name, Player player)
-    {
-        PlayerSaveData playerSaveData = new PlayerSaveData(player);
-        _saver.Save(playerSaveData, name);
-    }
+    public PlayerSaveData Load(string name = "save") => _saver.Load<PlayerSaveData>(name);
 
     public SaveData<PlayerSaveData>[] GetSaves() => _saver.GetSaves<PlayerSaveData>();
 

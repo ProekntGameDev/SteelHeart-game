@@ -5,21 +5,21 @@ using UnityEngine.Events;
 
 public class SceneManager : MonoBehaviour
 {
-    public UnityEvent<SceneLoadOperation> OnLoadScene;
+    public UnityEvent<SceneLoad> OnLoadScene;
 
     private List<string> _scenes = new List<string>();
 
     public void ReloadCurrent()
     {
-        AsyncLoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        AsyncLoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, true);
     }
 
     public void LoadMenu()
     {
-        AsyncLoadScene(_scenes[0]);
+        AsyncLoadScene(_scenes[0], true);
     }
 
-    public void LoadNext()
+    public AsyncOperation LoadNext(bool callback = true)
     {
         int currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
 
@@ -28,7 +28,7 @@ public class SceneManager : MonoBehaviour
         if (currentScene < _scenes.Count - 1)
             nextScene = currentScene + 1;
 
-        AsyncLoadScene(_scenes[nextScene]);
+        return AsyncLoadScene(_scenes[nextScene], callback);
     }
 
     public void Quit()
@@ -36,10 +36,14 @@ public class SceneManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void AsyncLoadScene(string name)
+    private AsyncOperation AsyncLoadScene(string name, bool callback)
     {
         AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(name);
-        OnLoadScene.Invoke(new SceneLoadOperation(asyncOperation, name));
+
+        if(callback)
+            OnLoadScene.Invoke(new SceneLoad(asyncOperation, name));
+
+        return asyncOperation;
     }
 
     private void Awake()
@@ -51,12 +55,12 @@ public class SceneManager : MonoBehaviour
     }
 }
 
-public class SceneLoadOperation
+public class SceneLoad
 {
     public readonly string Name;
     public readonly AsyncOperation Operation;
 
-    public SceneLoadOperation(AsyncOperation operation, string name)
+    public SceneLoad(AsyncOperation operation, string name)
     {
         Name = name;
         Operation = operation;

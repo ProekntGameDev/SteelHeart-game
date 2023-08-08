@@ -8,14 +8,20 @@ namespace Features.Lift
     {
         private enum StartPosition { Down, Up }
 
+        public bool HasCallToUp { get; set; }
+        public bool HasCallToDown { get; set; }
+
+        public float Speed => _speed;
+        public float MinOpenedTime => _minOpenedTime;
+
         [SerializeField] private float _speed = 1f;
         [SerializeField] private float _minOpenedTime = 2f;
 
         [SerializeField] private StartPosition _startPosition = StartPosition.Down;
 
-        [SerializeField] private AbstractActivatedSource _callToDownButton;
-        [SerializeField] private AbstractActivatedSource _callToUpButton;
-        [SerializeField] private AbstractActivatedSource _moveButton;
+        [SerializeField] private InteractableTrigger _callToDownButton;
+        [SerializeField] private InteractableTrigger _callToUpButton;
+        [SerializeField] private InteractableTrigger _moveButton;
 
         [SerializeField] private Transform _upPoint;
         [SerializeField] private Transform _downPoint;
@@ -32,12 +38,6 @@ namespace Features.Lift
             set => _currentState = value;
         }
 
-        public bool HasCallToUp { get; set; }
-        public bool HasCallToDown { get; set; }
-
-        public float Speed => _speed;
-        public float MinOpenedTime => _minOpenedTime;
-
         private void Awake()
         {
             if (_startPosition == StartPosition.Down)
@@ -52,13 +52,13 @@ namespace Features.Lift
             _currentState.EnterState();
 
             if (_callToUpButton != null)
-                _callToUpButton.Activated += OnCallToUp;
+                _callToUpButton.OnInteract.AddListener(OnCallToUp);
 
             if (_callToDownButton != null)
-                _callToDownButton.Activated += OnCallToDown;
+                _callToDownButton.OnInteract.AddListener(OnCallToDown);
 
             if (_moveButton != null)
-                _moveButton.Activated += OnCallMove;
+                _moveButton.OnInteract.AddListener(OnCallMove);
         }
 
         private void OnCallMove()

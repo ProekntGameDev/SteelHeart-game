@@ -357,7 +357,6 @@ GameObject:
   - component: {fileID: 7314393720321597910}
   - component: {fileID: 7314393720321597908}
   - component: {fileID: 7314393720321597909}
-  - component: {fileID: 7314393720321597911}
   m_Layer: 0
   m_Name: Lift
   m_TagString: Untagged
@@ -422,23 +421,6 @@ MonoBehaviour:
   _upPoint: {fileID: 7314393720848886528}
   _downPoint: {fileID: 7314393720595310460}
   _platform: {fileID: 7314393719820504100}
---- !u!114 &7314393720321597911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7314393720321597905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 448b0f282983b414f9937cc1d39bda17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _upTip: {fileID: 7314393720848886529}
-  _downTip: {fileID: 7314393720595310461}
-  _platform: {fileID: 7314393719820504101}
-  _gigmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _gizmosRect: {x: 4.21, y: 5.04}
 --- !u!1 &7314393720431581169
 GameObject:
   m_ObjectHideFlags: 0
