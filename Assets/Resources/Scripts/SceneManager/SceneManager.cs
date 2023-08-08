@@ -53,6 +53,7 @@ public class SceneManager : MonoBehaviour
         for (int i = 0; i < sceneCount; i++)
             _scenes.Add(Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i)));
     }
+<<<<<<< Updated upstream
 }
 
 public class SceneLoad
@@ -66,3 +67,6 @@ public class SceneLoad
         Operation = operation;
     }
 }
+=======
+}
+>>>>>>> Stashed changes
