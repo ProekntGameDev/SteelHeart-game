@@ -114,7 +114,8 @@ public class PlayerMovement : MonoBehaviour
 
         _player.Input.Player.Interact.performed += (context) => OnInteractPerformed();
 
-        _stateMachine.AddTransition(_ladderMoveState, _idleState, () => _ladderMoveState.IsOnLadder() == false);
+        _stateMachine.AddTransition(_ladderMoveState, _idleState, () => _ladderMoveState.IsOnLadder() == false && CharacterController.IsGrounded);
+        _stateMachine.AddTransition(_ladderMoveState, _airMoveState, () => _ladderMoveState.IsOnLadder() == false && CharacterController.IsGrounded == false);
     }
 
     private void OnInteractPerformed()
