@@ -27,7 +27,6 @@ public class SceneLoadScreen : MonoBehaviour
             return;
 
         _loadSceneScreen.gameObject.SetActive(true);
-
         StartCoroutine(LoadingScreen(sceneLoad));
     }
 
