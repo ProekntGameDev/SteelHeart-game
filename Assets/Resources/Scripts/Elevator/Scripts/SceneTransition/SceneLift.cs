@@ -81,17 +81,12 @@ public class SceneLift : MonoBehaviour
 
         operation.allowSceneActivation = true;
 
-        OnSceneLoaded();
-    }
-
-    private void OnSceneLoaded()
-    {
         _saveManager.Save(GetSaveData());
     }
 
     private PlayerSaveData GetSaveData()
     {
         PlayerMovementData movementData = new PlayerMovementData(_player, _player.transform.position - _platform.position, _mainCamera);
-        return new PlayerSaveData(_player, movementData);
+        return new PlayerSaveData(_player, _sceneManager.NextScene(), movementData);
     }
 }

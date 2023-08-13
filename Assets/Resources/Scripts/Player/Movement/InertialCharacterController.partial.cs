@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using UnityEngine;
 using Zenject;
 
@@ -18,6 +17,7 @@ public partial class InertialCharacterController
 
     [Inject] private Player _player;
 
+    private ControllerColliderHit _ground;
     private CharacterController _characterController;
     private float _verticalVelocity;
     private Vector3 _currentVelocity;

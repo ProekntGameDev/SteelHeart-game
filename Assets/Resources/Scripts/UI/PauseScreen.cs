@@ -7,7 +7,6 @@ public class PauseScreen : MonoBehaviour
 {
     [SerializeField, Required] private GameObject _pausePanel;
     [SerializeField, Required] private Button _continueButton;
-    [SerializeField, Required] private Button _saveButton;
     [SerializeField, Required] private Button _loadButton;
     [SerializeField, Required] private Button _settingsButton;
     [SerializeField, Required] private Button _mainMenuButton;
@@ -19,6 +18,7 @@ public class PauseScreen : MonoBehaviour
     {
         _continueButton.onClick.AddListener(Disable);
         _mainMenuButton.onClick.AddListener(LoadMenu);
+        _loadButton.onClick.AddListener(Load);
     }
 
     private void OnEnable()
@@ -54,4 +54,13 @@ public class PauseScreen : MonoBehaviour
 
         _sceneManager.LoadMenu();
     }
+
+    private void Load()
+    {
+        _player.Input.Player.Enable();
+        Time.timeScale = 1;
+
+        _sceneManager.ReloadCurrent();
+    }
+
 }
