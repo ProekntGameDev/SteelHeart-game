@@ -67,11 +67,12 @@ public class ItemHolder : MonoBehaviour
         foreach (var other in _pickupRange.GetColliders())
         {
             if (other.TryGetComponent(out Pickupable pickupable))
+            {
                 if (TryPickUp(pickupable))
                     pickupable.Pickup();
-
-                else if (other.TryGetComponent(out ItemReceiver receiver) && _currentItem != null)
-                    if (receiver.IsReceived == false)
+            }
+            else if (other.TryGetComponent(out ItemReceiver receiver) && _currentItem != null)
+                if  (receiver.IsReceived == false)
                         receiver.TryReceive(_currentItem);
         }
     }
