@@ -12,7 +12,6 @@ public class SceneLoadScreen : MonoBehaviour
     [SerializeField] private float _fadeTime;
     [SerializeField] private TextMeshProUGUI _sceneName;
     [SerializeField] private TextMeshProUGUI _progress;
-    [SerializeField, Scene] private List<string> _scenesTransition;
 
     [Inject] private SceneManager _sceneManager;
 
@@ -23,9 +22,6 @@ public class SceneLoadScreen : MonoBehaviour
 
     private void Load(SceneLoad sceneLoad)
     {
-        if (_scenesTransition.Contains(sceneLoad.Name) == false)
-            return;
-
         _loadSceneScreen.gameObject.SetActive(true);
         StartCoroutine(LoadingScreen(sceneLoad));
     }

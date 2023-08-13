@@ -8,8 +8,6 @@ namespace Features.Lift
         public UnityEvent OnEnter;
         public UnityEvent OnExit;
 
-        [SerializeField] private Lift _lift;
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Player player) == false)

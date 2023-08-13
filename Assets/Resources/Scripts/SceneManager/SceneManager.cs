@@ -2,12 +2,17 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 public class SceneManager : MonoBehaviour
 {
     public UnityEvent<SceneLoad> OnLoadScene;
 
+    [Inject] private SaveManager _saveManager;
+
     private List<string> _scenes = new List<string>();
+
+    public string NextScene() => _scenes[GetNextSceneIndex()];
 
     public void ReloadCurrent()
     {
@@ -21,14 +26,13 @@ public class SceneManager : MonoBehaviour
 
     public AsyncOperation LoadNext(bool callback = true)
     {
-        int currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+        return AsyncLoadScene(NextScene(), callback);
+    }
 
-        int nextScene = 0;
-
-        if (currentScene < _scenes.Count - 1)
-            nextScene = currentScene + 1;
-
-        return AsyncLoadScene(_scenes[nextScene], callback);
+    public void LoadFromSave()
+    {
+        PlayerSaveData playerSaveData = _saveManager.Load();
+        AsyncLoadScene(playerSaveData.Scene, true);
     }
 
     public void Quit()
@@ -52,6 +56,18 @@ public class SceneManager : MonoBehaviour
 
         for (int i = 0; i < sceneCount; i++)
             _scenes.Add(Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i)));
+    }
+
+    private int GetNextSceneIndex()
+    {
+        int currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+
+        int nextScene = 0;
+
+        if (currentScene < _scenes.Count - 1)
+            nextScene = currentScene + 1;
+
+        return nextScene;
     }
 }
 

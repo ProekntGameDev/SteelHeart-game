@@ -1,5 +1,5 @@
-using UnityEngine;
 using NaughtyAttributes;
+using UnityEngine;
 using Zenject;
 
 public class PlayerDataLoader : MonoBehaviour
@@ -8,23 +8,22 @@ public class PlayerDataLoader : MonoBehaviour
     [SerializeField, ShowIf(nameof(_loadAdditionalData))] private Camera _mainCamera;
     [SerializeField, ShowIf(nameof(_loadAdditionalData))] private Transform _relativeObject;
 
-    [Inject] private Player _player;
     [Inject] private SaveManager _saveManager;
 
-    private void Awake()
-    {
-        Load();
-    }
-
-    private void Load()
+    public void Load(Player player)
     {
         PlayerSaveData playerSaveData = _saveManager.Load();
 
-        playerSaveData.Load(_player);
+#if UNITY_EDITOR
+        if (playerSaveData.Scene != UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
+            return;
+#endif
+
+        playerSaveData.Load(player);
 
         if (_loadAdditionalData == false)
             return;
 
-        playerSaveData.AdditionalData.Load(_player, _relativeObject.position, _mainCamera);
+        playerSaveData.AdditionalData.Load(player, _relativeObject.position, _mainCamera);
     }
 }

@@ -4,13 +4,15 @@ using UnityEngine;
 [Serializable]
 public class PlayerSaveData
 {
+    public string Scene { get; private set; }
     public float Health { get; private set; }
     public float Stamina { get; private set; }
     public int Gears { get; private set; }
     public PlayerMovementData AdditionalData { get; private set; }
 
-    public PlayerSaveData(Player player, PlayerMovementData additionalData = null)
+    public PlayerSaveData(Player player, string scene, PlayerMovementData additionalData = null)
     {
+        Scene = scene;
         Health = player.Health.Current;
         Stamina = player.Stamina.Current;
         Gears = player.GearsHolder.Gears;
