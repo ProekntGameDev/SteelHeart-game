@@ -1162,7 +1162,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh109290
+  m_Name: pb_Mesh258974
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2196,7 +2196,7 @@ Transform:
   - {fileID: 1191968483}
   - {fileID: 378128458}
   m_Father: {fileID: 7314393720119066462}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &2071046517
 GameObject:
@@ -2600,23 +2600,8 @@ Transform:
   - {fileID: 7314393718918154794}
   - {fileID: 1691733973}
   m_Father: {fileID: 7314393720119066462}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7314393719483486893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7314393719483486895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33c60da917d15d4d9043588e6646912, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _wireframe: 1
-  _gizmosColor: {r: 1, g: 1, b: 0, a: 1}
-  _gizmosRect: {x: 3.42, y: 0.1, z: 4.15}
 --- !u!1 &7314393719483486895
 GameObject:
   m_ObjectHideFlags: 0
@@ -2626,7 +2611,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7314393719483486892}
-  - component: {fileID: 7314393719483486893}
   m_Layer: 0
   m_Name: LiftPlatformPoint
   m_TagString: Untagged
@@ -2791,7 +2775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b93655a7cd0d514429f5684315ab070a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 25
   _minOpenedTime: 3
   _timeToEndAcceleration: 1
   _animator: {fileID: 7314393720119066460}
@@ -2828,62 +2812,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7314393720119066457}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.024911, y: 1, z: 0.19}
+  m_LocalPosition: {x: 20.27491, y: 1, z: 0.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7314393720648709512}
-  - {fileID: 7314393720931547636}
   - {fileID: 1963209877}
   - {fileID: 7314393719483486892}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &7314393720648709512
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7314393720648709515}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1000, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7314393720119066462}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7314393720648709513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7314393720648709515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33c60da917d15d4d9043588e6646912, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _wireframe: 0
-  _gizmosColor: {r: 0, g: 0, b: 1, a: 1}
-  _gizmosRect: {x: 0.5, y: 0.5, z: 0.5}
---- !u!1 &7314393720648709515
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7314393720648709512}
-  - component: {fileID: 7314393720648709513}
-  m_Layer: 0
-  m_Name: LiftUpPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &7314393720790342016
 GameObject:
   m_ObjectHideFlags: 0
@@ -2979,52 +2915,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!4 &7314393720931547636
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7314393720931547639}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7314393720119066462}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7314393720931547637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7314393720931547639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33c60da917d15d4d9043588e6646912, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _wireframe: 0
-  _gizmosColor: {r: 0, g: 0, b: 1, a: 1}
-  _gizmosRect: {x: 0.5, y: 0.5, z: 0.5}
---- !u!1 &7314393720931547639
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7314393720931547636}
-  - component: {fileID: 7314393720931547637}
-  m_Layer: 0
-  m_Name: LiftDownPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!114 &7314393720939445010
 MonoBehaviour:
   m_ObjectHideFlags: 0

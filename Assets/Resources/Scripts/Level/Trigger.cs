@@ -1,23 +1,23 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Collider))]
-public class Trigger : MonoBehaviour
+public class Trigger : BaseTrigger
 {
-    public UnityEvent OnInteract;
+    public UnityEvent OnExit;
 
-    [SerializeField] protected bool _oneUse;
-
-    protected virtual void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+        if (other.TryGetComponent(out Player player) == false)
+            return;
+
         Interact();
     }
 
-    protected void Interact()
+    private void OnTriggerExit(Collider other)
     {
-        OnInteract?.Invoke();
+        if (other.TryGetComponent(out Player player) == false)
+            return;
 
-        if (_oneUse)
-            Destroy(this);
+        OnExit?.Invoke();
     }
 }
