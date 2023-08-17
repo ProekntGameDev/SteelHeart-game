@@ -84,6 +84,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d7f7fb49eb4e14099d008e91a6285a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _navMeshAgent: {fileID: 459189093845946170}
+  _player: {fileID: 0}
+  _robotVision:
+    _eyeTransform: {fileID: 3197812305032001400}
+    _maxDistance: 10
+  _idleDelayRange: {x: 5, y: 8}
+  _patrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  _patrolSpeed: 2
+  _chaseSpeed: 4
+  _minChaseDistance: 5
+  _escapeDisatnce: 3
+  _escapeSpeed: 4
+  _maxCombatDistance: 10
+  _robotAttack: {fileID: 0}
 --- !u!195 &459189093845946170
 NavMeshAgent:
   m_ObjectHideFlags: 0

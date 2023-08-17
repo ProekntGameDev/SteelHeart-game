@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 
 namespace AI
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/TankRobot/Attacks/Shoot Attack")]
-    public class TankRobotAttack_Hammer : ScriptableObject, IRobotAttack
+    public class TankRobotAttack_Shoot : ScriptableObject, ITankRobotAttack
     {
         public RobotAttackProperties AttackProperties => _attackProperties;
 
@@ -21,21 +22,22 @@ namespace AI
             _navMeshAgent = navMeshAgent;
         }
 
-        public void OnEnter()
-        {
-            _endTime = Time.time + (1 / _attackProperties.Speed);
-        }
-
-        public void OnExit()
-        {
-            if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _attackProperties.MaxDistance)
-                _player.Health.TakeDamage(_attackProperties.Damage);
-
-            _endTime = 0;
-        }
-
-        public void Tick()
-        { }
+        
+        // public void OnEnter()
+        // {
+        //     _endTime = Time.time + (1 / _attackProperties.Speed);
+        // }
+        //
+        // public void OnExit()
+        // {
+        //     if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _attackProperties.MaxDistance)
+        //         _player.Health.TakeDamage(_attackProperties.Damage);
+        //
+        //     _endTime = 0;
+        // }
+        //
+        // public void Tick()
+        // { }
 
         public bool IsDone() => _endTime <= Time.time || _player.Health.Current == 0;
     }
