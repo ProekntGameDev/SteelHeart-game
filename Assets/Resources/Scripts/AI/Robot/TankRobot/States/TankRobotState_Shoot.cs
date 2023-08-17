@@ -12,10 +12,11 @@ namespace AI
         private float _maxDistance;
         private Player _player;
 
-
+        private float distance;
         private float _endTime;
         private const float InterpolationRatio = 0.3f;
-        public TankRobotState_Shoot(Player player, NavMeshAgent navMeshAgent, float maxDistance, ITankRobotAttack attack)
+        public TankRobotState_Shoot
+            (Player player, NavMeshAgent navMeshAgent, float maxDistance, ITankRobotAttack attack)
         {
             _navMeshAgent = navMeshAgent;
             _player = player;
@@ -30,7 +31,8 @@ namespace AI
 
         public void OnExit()
         {
-            if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _attack.AttackProperties.MaxDistance)
+            distance = Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position);
+            if (distance < _attack.AttackProperties.MaxDistance && distance > _attack.AttackProperties.MinDistance)
                 _player.Health.TakeDamage(_attack.AttackProperties.Damage);
             
             _endTime = 0;

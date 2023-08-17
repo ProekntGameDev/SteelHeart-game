@@ -3,6 +3,8 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
+using Zenject;
 
 namespace AI
 {
@@ -12,7 +14,7 @@ namespace AI
     public class RobotTankBrain : MonoBehaviour
     {
         [Required, SerializeField] private NavMeshAgent _navMeshAgent;
-        [Required, SerializeField] private Player _player;
+        [Required, SerializeField] private Health _robotHealth;
 
         [SerializeField] private RobotVision _robotVision;
 
@@ -24,13 +26,11 @@ namespace AI
         [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
         [SerializeField, BoxGroup("Chasing")] private float _minChaseDistance;
 
-        [SerializeField, BoxGroup("Escape")] private float _escapeDisatnce;
+        [SerializeField, BoxGroup("Escape")] private float _escapeDistance;
         [SerializeField, BoxGroup("Escape")] private float _escapeSpeed;
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
-
-        [SerializeField, SOInheritedFrom(typeof(ITankRobotAttack)), BoxGroup("Combat")]
-        private ScriptableObject _robotAttack; 
+        [SerializeField, BoxGroup("Combat")] private ScriptableObject _robotAttack;
         // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
 
         private StateMachine _stateMachine;
@@ -40,6 +40,8 @@ namespace AI
         private TankRobotState_Shoot _shootState;
         private TankRobotState_Escape _escapeState;
 
+        [Inject] private Player _player;
+        
         private const float ZeroDistance = 0f;
         private void Awake()
         {
@@ -63,11 +65,10 @@ namespace AI
             _patrolState = new RobotState_Patrol(_patrolSpeed,_navMeshAgent, _patrolPoints);
             _chaseState = new TankRobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minChaseDistance, _maxCombatDistance);
             _escapeState = new TankRobotState_Escape
-                (_escapeSpeed, _escapeDisatnce, ZeroDistance, _navMeshAgent, _player);
+                (_escapeSpeed, _escapeDistance, ZeroDistance, _navMeshAgent, _player);
 
-            //List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
-            
-            //_combatState = new TankRobotState_Combat(_player, _navMeshAgent, _maxCombatDistance, attacks);
+            _shootState = new TankRobotState_Shoot
+                (_player, _navMeshAgent, _maxCombatDistance, _robotAttack as ITankRobotAttack);
         }
 
         private void SetupTransitions()

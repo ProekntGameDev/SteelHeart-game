@@ -10,8 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5657708436143720653}
   - component: {fileID: 1204869460068215833}
+  - component: {fileID: 7905948143306809802}
   - component: {fileID: 522694860570892721}
   - component: {fileID: 459189093845946170}
+  - component: {fileID: 5832861505826167757}
+  - component: {fileID: 5025651418009326686}
   m_Layer: 0
   m_Name: TankRobot
   m_TagString: Untagged
@@ -72,6 +75,25 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7905948143306809802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508284966404175256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea4c3b1e921b344ca01627f1d133151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnChange:
+    m_PersistentCalls:
+      m_Calls: []
+  _maximumHealth: 100
 --- !u!114 &522694860570892721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _navMeshAgent: {fileID: 459189093845946170}
-  _player: {fileID: 0}
+  _robotHealth: {fileID: 7905948143306809802}
   _robotVision:
     _eyeTransform: {fileID: 3197812305032001400}
     _maxDistance: 10
@@ -93,13 +115,13 @@ MonoBehaviour:
   _patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
-  _patrolSpeed: 2
-  _chaseSpeed: 4
-  _minChaseDistance: 5
-  _escapeDisatnce: 3
-  _escapeSpeed: 4
-  _maxCombatDistance: 10
-  _robotAttack: {fileID: 0}
+  _patrolSpeed: 3
+  _chaseSpeed: 5
+  _minChaseDistance: 8
+  _escapeDistance: 4
+  _escapeSpeed: 5
+  _maxCombatDistance: 15
+  _robotAttack: {fileID: 11400000, guid: 939da06bd6f2eca48b7dfa19bdd6501b, type: 2}
 --- !u!195 &459189093845946170
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -122,6 +144,33 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!65 &5832861505826167757
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508284966404175256}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 0.82, z: 3.13}
+  m_Center: {x: 0, y: 0.55, z: 0.17}
+--- !u!136 &5025651418009326686
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508284966404175256}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.65
+  m_Height: 2.3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.9, z: 0.11}
 --- !u!1 &2791308945445412196
 GameObject:
   m_ObjectHideFlags: 0
