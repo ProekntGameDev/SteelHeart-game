@@ -118,10 +118,14 @@ MonoBehaviour:
   _patrolSpeed: 3
   _chaseSpeed: 5
   _minChaseDistance: 8
-  _escapeDistance: 4
+  _escapeDistance: 5
   _escapeSpeed: 5
   _maxCombatDistance: 15
-  _robotAttack: {fileID: 11400000, guid: 939da06bd6f2eca48b7dfa19bdd6501b, type: 2}
+  _attackProperties:
+    _minDistance: 6
+    _maxDistance: 15
+    _damage: 20
+    _speed: 0.7
 --- !u!195 &459189093845946170
 NavMeshAgent:
   m_ObjectHideFlags: 0

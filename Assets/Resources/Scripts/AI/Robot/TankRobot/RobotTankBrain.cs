@@ -30,7 +30,8 @@ namespace AI
         [SerializeField, BoxGroup("Escape")] private float _escapeSpeed;
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
-        [SerializeField, BoxGroup("Combat")] private ScriptableObject _robotAttack;
+        [SerializeField, BoxGroup("Combat")] private AttackProperties _attackProperties;
+        //[SerializeField, BoxGroup("Combat")] private ScriptableObject _robotAttack;
         // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
 
         private StateMachine _stateMachine;
@@ -68,7 +69,7 @@ namespace AI
                 (_escapeSpeed, _escapeDistance, ZeroDistance, _navMeshAgent, _player);
 
             _shootState = new TankRobotState_Shoot
-                (_player, _navMeshAgent, _maxCombatDistance, _robotAttack as ITankRobotAttack);
+                (_player, _navMeshAgent, _maxCombatDistance, _attackProperties);
         }
 
         private void SetupTransitions()
@@ -93,5 +94,19 @@ namespace AI
         {
             _robotVision.OnGizmos();
         }
+    }
+
+    [Serializable]
+    public struct AttackProperties
+    {
+        public float MinDistance => _minDistance;
+        public float MaxDistance => _maxDistance;
+        public float Damage => _damage;
+        public float Speed => _speed;
+
+        [SerializeField] private float _minDistance;
+        [SerializeField] private float _maxDistance;
+        [SerializeField] private float _damage;
+        [SerializeField] private float _speed;
     }
 }
