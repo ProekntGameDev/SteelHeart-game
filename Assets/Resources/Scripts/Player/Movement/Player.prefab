@@ -1019,10 +1019,10 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2.4
+  m_Height: 2.5
   m_Radius: 0.42
   m_SlopeLimit: 45
-  m_StepOffset: 0.5
+  m_StepOffset: 0.6
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.19, z: 0}
@@ -1097,14 +1097,14 @@ MonoBehaviour:
   OnExitLadder:
     m_PersistentCalls:
       m_Calls: []
-  _maxCrouchVelocity: 4
+  _maxCrouchVelocity: 5
   _maxWalkVelocity: 6
   _maxRunVelocity: 10
-  _maxAirVelocity: 12
+  _maxAirVelocity: 13
   _groundAcceleration: 140
   _airAcceleration: 8.88
-  _crouchHeight: 1.6
-  _ladderMoveSpeed: 2
+  _crouchHeight: 1.25
+  _ladderMoveSpeed: 3
   _ladderTrigger: {fileID: 2812509236763883375}
   _jumpType:
     _initalJumpForce: 1.68
@@ -1146,10 +1146,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackPoint: {fileID: 9048045667223021902}
-  _damage: 35
-  _delay: 0.2
-  _cooldown: 0.5
-  _staminaCost: 10
+  _damage: 40
+  _delay: 0.1
+  _cooldown: 0.2
+  _staminaCost: 14
 --- !u!208 &839975683607114930
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1328,7 +1328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7ae1f77d1a54542b587f87a18102b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 1.5
+  _radius: 1.8
   _triggerInteraction: 2
   _gizmosColor: {r: 0, g: 0.36795473, b: 1, a: 1}
 --- !u!1 &4317988459691949133
@@ -2584,8 +2584,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d0e2709bbd70e48a12a7556c8a2922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maximum: 10
-  _restorationRate: 1
+  _maximum: 50
+  _restorationRate: 1.5
 --- !u!114 &6384890687973125165
 MonoBehaviour:
   m_ObjectHideFlags: 0
