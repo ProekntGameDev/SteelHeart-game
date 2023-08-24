@@ -76,6 +76,36 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &706246197369467707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5948823338686041005}
+  m_Layer: 0
+  m_Name: Shoot Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5948823338686041005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706246197369467707}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 2.26, z: 1.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5657708436143720653}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2508284966404175256
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,7 +115,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5657708436143720653}
-  - component: {fileID: 1204869460068215833}
   - component: {fileID: 7905948143306809802}
   - component: {fileID: 522694860570892721}
   - component: {fileID: 459189093845946170}
@@ -111,47 +140,11 @@ Transform:
   m_Children:
   - {fileID: 3694993121767395031}
   - {fileID: 3197812305032001400}
+  - {fileID: 5948823338686041005}
   - {fileID: 4608538963737218688}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &1204869460068215833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2508284966404175256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 773b4708cc7211b448e0df2221b9e108, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Method: 3
-  m_Curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &7905948143306809802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +180,7 @@ MonoBehaviour:
   _robotHealth: {fileID: 7905948143306809802}
   _robotVision:
     _eyeTransform: {fileID: 3197812305032001400}
-    _maxDistance: 10
+    _maxDistance: 15
   _idleDelayRange: {x: 5, y: 8}
   _patrolPoints:
   - {fileID: 0}
@@ -199,10 +192,11 @@ MonoBehaviour:
   _escapeSpeed: 5
   _maxCombatDistance: 15
   _attackProperties:
-    _minDistance: 6
-    _maxDistance: 15
+    _projectile: {fileID: 20555866342353005, guid: ec78a42412033d84792e9a7a23a490dd, type: 3}
+    _shootPoint: {fileID: 5948823338686041005}
     _damage: 20
-    _speed: 0.7
+    _attackSpeed: 0.7
+    _aimSpeed: 180
 --- !u!195 &459189093845946170
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -211,8 +205,8 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2508284966404175256}
   m_Enabled: 1
-  m_AgentTypeID: -1372625422
-  m_Radius: 0.5
+  m_AgentTypeID: 0
+  m_Radius: 0.65
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -221,8 +215,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
+  m_Height: 3
+  m_BaseOffset: -0.15
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!65 &5832861505826167757
@@ -468,7 +462,7 @@ RectTransform:
   m_Children:
   - {fileID: 2940422792371666240}
   m_Father: {fileID: 5657708436143720653}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

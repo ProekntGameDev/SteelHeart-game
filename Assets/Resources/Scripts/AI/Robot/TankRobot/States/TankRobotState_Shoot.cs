@@ -12,9 +12,8 @@ namespace AI
         private float _maxDistance;
         private Player _player;
 
-        private float distance;
         private float _endTime;
-        private const float InterpolationRatio = 0.3f;
+
         public TankRobotState_Shoot
             (Player player, NavMeshAgent navMeshAgent, float maxDistance, AttackProperties attackProperties)
         {
@@ -27,16 +26,23 @@ namespace AI
         public void OnEnter()
         {
             _endTime = Time.time + (1 / _attackProperties.Speed);
+            _navMeshAgent.updateRotation = false;
         }
 
         public void OnExit()
         {
-            distance = Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position);
-
-            if (distance < _attackProperties.MaxDistance && distance > _attackProperties.MinDistance)
-                _player.Health.TakeDamage(_attackProperties.Damage);
-            
             _endTime = 0;
+            _navMeshAgent.updateRotation = true;
+
+            if (_endTime > Time.time)
+                return;
+
+            Vector3 playerPosition = _player.transform.position + (_player.Movement.CharacterController.Height / 2 * Vector3.up);
+            Ray ray = new Ray(_attackProperties.ShootPoint.position, (playerPosition - _attackProperties.ShootPoint.position).normalized);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, _maxDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+                if (hit.collider.TryGetComponent(out Player player))
+                    Shoot(ray.direction);
         }
 
         public void Tick()
@@ -46,7 +52,7 @@ namespace AI
 
         public bool IsDone()
         {
-            return _player.Health.Current == 0 || _endTime < Time.time;
+            return _player.Health.Current == 0 || _endTime <= Time.time;
         }
 
         public bool IsLostPlayer()
@@ -60,7 +66,16 @@ namespace AI
             lookPosition.y = 0f;
             Quaternion rotation = Quaternion.LookRotation(lookPosition);
 
-            _navMeshAgent.transform.rotation = Quaternion.Slerp(_navMeshAgent.transform.rotation, rotation, InterpolationRatio);
+            _navMeshAgent.transform.rotation = Quaternion.RotateTowards(_navMeshAgent.transform.rotation, rotation, _attackProperties.AimSpeed * Time.deltaTime);
+        }
+
+        private void Shoot(Vector3 direction)
+        {
+            Projectile projectile = GameObject.Instantiate(_attackProperties.Projectile, _navMeshAgent.transform);
+            projectile.transform.forward = direction;
+            projectile.transform.position = _attackProperties.ShootPoint.position;
+
+            projectile.Init(direction, _attackProperties.Damage);
         }
     }
 }
