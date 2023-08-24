@@ -6,9 +6,6 @@ using Zenject;
 
 namespace AI
 {
-    // ----------------------------------------
-    // YOU NEED TO ADD *NAVMESH SURFACE COMPONENT* ON THE ROOM WHERE THIS ROBOT WILL BE LOCATED
-    // ----------------------------------------
     public class RobotTankBrain : MonoBehaviour
     {
         [Required, SerializeField] private NavMeshAgent _navMeshAgent;
@@ -99,14 +96,16 @@ namespace AI
     [Serializable]
     public struct AttackProperties
     {
-        public float MinDistance => _minDistance;
-        public float MaxDistance => _maxDistance;
+        public Projectile Projectile => _projectile;
+        public Transform ShootPoint => _shootPoint;
+        public float AimSpeed => _aimSpeed;
         public float Damage => _damage;
-        public float Speed => _speed;
+        public float Speed => _attackSpeed;
 
-        [SerializeField] private float _minDistance;
-        [SerializeField] private float _maxDistance;
+        [SerializeField] private Projectile _projectile;
+        [SerializeField] private Transform _shootPoint;
         [SerializeField] private float _damage;
-        [SerializeField] private float _speed;
+        [SerializeField] private float _attackSpeed;
+        [SerializeField, Tooltip("deg/sec")] private float _aimSpeed;
     }
 }
