@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(OverlapSphere))]
 public class ItemHolder : MonoBehaviour
@@ -30,7 +31,7 @@ public class ItemHolder : MonoBehaviour
         return true;
     }
 
-    private void TryDrop()
+    private void TryDrop(InputAction.CallbackContext context)
     {
         if (_currentItem == null || _currentItem.IsPickedUp == false)
             return;
@@ -62,7 +63,7 @@ public class ItemHolder : MonoBehaviour
         _currentItem = item;
     }
 
-    private void OverlapTrigger()
+    private void OverlapTrigger(InputAction.CallbackContext context)
     {
         foreach (var other in _pickupRange.GetColliders())
         {
@@ -79,13 +80,13 @@ public class ItemHolder : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.Input.Player.Interact.performed += (c) => OverlapTrigger();
-        _player.Input.Player.Drop.performed += (c) => TryDrop();
+        _player.Input.Player.Interact.performed += OverlapTrigger;
+        _player.Input.Player.Drop.performed += TryDrop;
     }
 
     private void OnDisable()
     {
-        _player.Input.Player.Interact.performed -= (c) => OverlapTrigger();
-        _player.Input.Player.Drop.performed -= (c) => TryDrop();
+        _player.Input.Player.Interact.performed -= OverlapTrigger;
+        _player.Input.Player.Drop.performed -= TryDrop;
     }
 }

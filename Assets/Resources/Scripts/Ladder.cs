@@ -6,7 +6,6 @@ public class Ladder : MonoBehaviour
 
     [SerializeField] private Vector3 _jumpOffForce;
 
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

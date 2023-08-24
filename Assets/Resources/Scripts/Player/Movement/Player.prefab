@@ -196,6 +196,7 @@ MonoBehaviour:
   _playerSpeed: speed
   _isGrounded: isGrounded
   _jump: jump
+  _attack: attack
 --- !u!1 &791407808661331223
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,7 +976,7 @@ GameObject:
   - component: {fileID: 3462377426396143089}
   - component: {fileID: 8667510622959938111}
   - component: {fileID: 2281101296991554125}
-  - component: {fileID: 4605735374654838779}
+  - component: {fileID: 8687656215703528967}
   - component: {fileID: 3462377426396143073}
   - component: {fileID: 3462377426396143072}
   - component: {fileID: 3462377426396143074}
@@ -1043,7 +1044,7 @@ MonoBehaviour:
   _playerMovement: {fileID: 3462377426396143072}
   _playerCombat: {fileID: 3462377426396143074}
   _gearsHolder: {fileID: 6384890687973125165}
---- !u!114 &4605735374654838779
+--- !u!114 &8687656215703528967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1052,7 +1053,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3462377426396143079}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cea4c3b1e921b344ca01627f1d133151, type: 3}
+  m_Script: {fileID: 11500000, guid: 1167e6a418e62c74287a99a13625e021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OnDeath:
@@ -1145,6 +1146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ae369c918990641b7baaee72b6c4f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
   _attackPoint: {fileID: 9048045667223021902}
   _damage: 40
   _delay: 0.1

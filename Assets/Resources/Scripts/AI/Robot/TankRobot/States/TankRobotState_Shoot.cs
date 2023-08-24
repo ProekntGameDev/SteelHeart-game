@@ -32,6 +32,7 @@ namespace AI
         public void OnExit()
         {
             distance = Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position);
+
             if (distance < _attackProperties.MaxDistance && distance > _attackProperties.MinDistance)
                 _player.Health.TakeDamage(_attackProperties.Damage);
             

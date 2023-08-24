@@ -2,8 +2,6 @@ using System;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace AI
@@ -53,6 +51,8 @@ namespace AI
             SetupTransitions();
 
             _stateMachine.SetState(_patrolState);
+
+            _robotHealth.OnDeath.AddListener(() => Destroy(gameObject));
         }
 
         private void Update()
