@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using Zenject;
 
 [RequireComponent(typeof(InertialCharacterController))]
@@ -61,8 +62,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_stateMachine != null)
         {
-            _player.Input.Player.Jump.performed -= (context) => OnPerformedJumpState();
-            _player.Input.Player.Interact.performed -= (context) => OnInteractPerformed();
+            _player.Input.Player.Jump.performed -= OnPerformedJumpState;
+            _player.Input.Player.Interact.performed -= OnInteractPerformed;
 
             _stateMachine.Clear();
         }
@@ -103,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
 
         _stateMachine.AddAnyTransition(_airMoveState, () => CharacterController.IsGrounded == false && _jumpState.IsDone() && _stateMachine.IsInState(_ladderMoveState) == false);
 
-        _player.Input.Player.Jump.performed += (context) => OnPerformedJumpState();
+        _player.Input.Player.Jump.performed += OnPerformedJumpState;
 
         _stateMachine.AddTransition(_jumpState, _idleState, () => CharacterController.IsGrounded);
 
@@ -112,13 +113,13 @@ public class PlayerMovement : MonoBehaviour
 
         // Ladder
 
-        _player.Input.Player.Interact.performed += (context) => OnInteractPerformed();
+        _player.Input.Player.Interact.performed += OnInteractPerformed;
 
         _stateMachine.AddTransition(_ladderMoveState, _idleState, () => _ladderMoveState.IsOnLadder() == false && CharacterController.IsGrounded);
         _stateMachine.AddTransition(_ladderMoveState, _airMoveState, () => _ladderMoveState.IsOnLadder() == false && CharacterController.IsGrounded == false);
     }
 
-    private void OnInteractPerformed()
+    private void OnInteractPerformed(InputAction.CallbackContext context)
     {
         foreach (var collider in _ladderTrigger.GetColliders())
             if (collider.TryGetComponent(out Ladder ladder))
@@ -139,8 +140,11 @@ public class PlayerMovement : MonoBehaviour
         OnEnterLadder?.Invoke();
     }
 
-    private void OnPerformedJumpState()
+    private void OnPerformedJumpState(InputAction.CallbackContext context)
     {
+        if (enabled == false)
+            return;
+
         if (_stateMachine.IsInState(_ladderMoveState))
         {
             _stateMachine.SetState(_idleState);

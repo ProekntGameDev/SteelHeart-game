@@ -22,7 +22,10 @@ public partial class InertialCharacterController : MonoBehaviour
 
         Accelerate(wishDirection, accelerate, maxVelocity);
 
-        return Move(_currentVelocity * Time.fixedDeltaTime);
+        //Slope movement
+        Vector3 slopeMovement = _currentVelocity.magnitude * Vector3.down * (GetSlopeAngle() / 45);
+
+        return Move((_currentVelocity + slopeMovement) * Time.fixedDeltaTime);
     }
 
     public CollisionFlags AirMove(Vector3 wishDirection, float accelerate, float maxVelocity)

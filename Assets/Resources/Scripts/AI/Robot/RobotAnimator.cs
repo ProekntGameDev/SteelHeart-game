@@ -6,6 +6,7 @@ namespace AI
 {
     public class RobotAnimator : MonoBehaviour
     {
+        [SerializeField, Required] private HammerRobotBrain _robotBrain;
         [SerializeField, Required] private NavMeshAgent _navMeshAgent;
         [SerializeField, Required] private AgentLinkMover _agentLinkMover;
         [SerializeField, Required] private Animator _animator;
@@ -15,7 +16,14 @@ namespace AI
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] private string _animatorRobotSpeed;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorStartJump;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorEndJump;
-        [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] private string _animatorAttack;
+        [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] private string _animatorAttackIndex;
+        [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorAttack;
+
+        private void Start()
+        {
+            _robotBrain.OnAttack.AddListener((index) => _animator.SetTrigger(_animatorAttack));
+            _robotBrain.OnAttack.AddListener((index) => _animator.SetFloat(_animatorAttackIndex, index));
+        }
 
         private void OnEnable()
         {

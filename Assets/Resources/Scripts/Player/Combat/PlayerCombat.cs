@@ -1,10 +1,13 @@
-using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Zenject;
+using NaughtyAttributes;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [HideInInspector] public UnityEvent OnAttack;
+
     [SerializeField, Required] private OverlapSphere _attackPoint;
     [SerializeField] private float _damage;
     [SerializeField] private float _delay;
@@ -57,9 +60,12 @@ public class PlayerCombat : MonoBehaviour
     }
 
     private void OnFirePerformed(InputAction.CallbackContext context)
-    { 
-        if(context.phase == InputActionPhase.Performed && _stateMachine.IsInState(_attackState) == false)
+    {
+        if (context.phase == InputActionPhase.Performed && _stateMachine.IsInState(_attackState) == false)
+        {
             _stateMachine.SetState(_attackState);
+            OnAttack?.Invoke();
+        }
     }
 
     private void Update()

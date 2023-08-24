@@ -3,11 +3,14 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using Zenject;
+using UnityEngine.Events;
 
 namespace AI
 {
     public class HammerRobotBrain : MonoBehaviour
     {
+        [HideInInspector] public UnityEvent<int> OnAttack;
+
         [Required, SerializeField] private NavMeshAgent _navMeshAgent;
         [Required, SerializeField] private Health _robotHealth;
 
@@ -60,7 +63,9 @@ namespace AI
 
             List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
 
-            _combatState = new RobotState_Combat(_player, _robotHealth, _navMeshAgent, _maxCombatDistance, attacks);
+            _combatState = new RobotState_Combat(_player, this, _maxCombatDistance, attacks);
+
+            _combatState.OnPerformAttack += (index) => OnAttack?.Invoke(index);
         }
 
         private void SetupTransitions()

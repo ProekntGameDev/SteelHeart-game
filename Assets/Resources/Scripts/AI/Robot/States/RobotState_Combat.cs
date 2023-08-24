@@ -2,11 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
+using System;
 
 namespace AI
 {
     public class RobotState_Combat : IState
     {
+        public event Action<int> OnPerformAttack;
+        public IReadOnlyList<IRobotAttack> Attacks => _attacks;
+
         private NavMeshAgent _navMeshAgent;
         private List<IRobotAttack> _attacks;
 
@@ -15,11 +19,11 @@ namespace AI
         private Health _robotHealth;
         private StateMachine _stateMachine;
 
-        public RobotState_Combat(Player player, Health robotHealth, NavMeshAgent navMeshAgent, float maxDistance, List<IRobotAttack> attacks)
+        public RobotState_Combat(Player player, HammerRobotBrain robotTankBrain, float maxDistance, List<IRobotAttack> attacks)
         {
-            _navMeshAgent = navMeshAgent;
+            _navMeshAgent = robotTankBrain.GetComponent<NavMeshAgent>();
             _player = player;
-            _robotHealth = robotHealth;
+            _robotHealth = robotTankBrain.GetComponent<Health>();
             _maxDistance = maxDistance;
             _attacks = attacks;
 
@@ -52,7 +56,10 @@ namespace AI
             if (bestAttack == null)
                 _navMeshAgent.destination = _player.transform.position;
             else
+            {
                 _stateMachine.SetState(bestAttack);
+                OnPerformAttack?.Invoke(_attacks.IndexOf(bestAttack));
+            }
 
         }
 

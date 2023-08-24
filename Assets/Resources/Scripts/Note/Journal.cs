@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using NaughtyAttributes;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(OverlapSphere))]
 public class Journal : MonoBehaviour
@@ -29,7 +30,7 @@ public class Journal : MonoBehaviour
         OnNoteAdded?.Invoke(noteData);
     }
 
-    private void OverlapTrigger()
+    private void OverlapTrigger(InputAction.CallbackContext context)
     {
         foreach (var other in _pickupRange.GetColliders())
         {
@@ -40,11 +41,11 @@ public class Journal : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.Input.Player.Interact.performed += (c) => OverlapTrigger();
+        _player.Input.Player.Interact.performed += OverlapTrigger;
     }
 
     private void OnDisable()
     {
-        _player.Input.Player.Interact.performed -= (c) => OverlapTrigger();
+        _player.Input.Player.Interact.performed -= OverlapTrigger;
     }
 }

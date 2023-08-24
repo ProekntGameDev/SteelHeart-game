@@ -24,6 +24,9 @@ public partial class InertialCharacterController
 
     public void ApplyGravity()
     {
+        if (_characterController.isGrounded == false)
+            _ground = null;
+
         if (VerticalMove == false)
             return;
 
@@ -36,6 +39,7 @@ public partial class InertialCharacterController
 
         if (IsGrounded && _verticalVelocity < 0)
             _verticalVelocity = 0f;
+
     }
 
     private void Awake()
@@ -45,13 +49,14 @@ public partial class InertialCharacterController
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Vector3 velocityProjection = Vector3.ProjectOnPlane(_currentVelocity, hit.normal);
-        velocityProjection.y = 0;
-        _currentVelocity = velocityProjection;
-
         if (Vector3.Angle(Vector3.down, hit.normal) <= _characterController.slopeLimit)
             _verticalVelocity = Mathf.Min(_verticalVelocity, 0);
+
+        if (Vector3.Angle(Vector3.up, hit.normal) <= _characterController.slopeLimit)
+            _ground = hit;
     }
+
+    private float GetSlopeAngle() => _ground != null ? Vector3.Angle(Vector3.up, _ground.normal) : 0;
 
     private void OnEnable()
     {
