@@ -112,7 +112,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1019935323805367534, guid: e04dd0af174bc6b4f9b18090aaf17519, type: 3}
+  - {fileID: 2100000, guid: e265f2b8e25d5474dad50e6ef0b1f615, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -865,6 +865,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326270a487db81044b08d4d63b533f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
   _navMeshAgent: {fileID: 3937459016884770106}
   _robotHealth: {fileID: 3937459016884770107}
   _robotVision:
