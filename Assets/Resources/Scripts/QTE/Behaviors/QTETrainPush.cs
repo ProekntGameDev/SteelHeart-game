@@ -30,6 +30,7 @@ namespace QTE
 
         public override void OnStart()
         {
+            _player.Combat.enabled = false;
             _player.Movement.enabled = false;
             _player.transform.position = _playerStartPoint.position;
 
@@ -78,6 +79,7 @@ namespace QTE
 
             if (Vector3.Distance(_player.transform.position, _playerStartPoint.position) < 0.1f || HasPlayerReachedEndPoint())
             {
+                _player.Combat.enabled = true;
                 _player.Movement.enabled = true;
 
                 _isDone = true;

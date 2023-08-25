@@ -31,7 +31,6 @@ namespace AI
 
         public void OnExit()
         {
-            _endTime = 0;
             _navMeshAgent.updateRotation = true;
 
             if (_endTime > Time.time)
