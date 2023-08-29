@@ -1,5 +1,7 @@
 public class CrouchMoveState : MoveState
 {
+    public float StandHeight => _standHeight;
+
     private float _standHeight;
     private float _crouchHeight;
 
@@ -19,4 +21,6 @@ public class CrouchMoveState : MoveState
         _characterController.SetHeight(_standHeight);
         _standHeight = 0;
     }
+
+    public bool CanExit() => _characterController.CanSetHeight(_standHeight);
 }

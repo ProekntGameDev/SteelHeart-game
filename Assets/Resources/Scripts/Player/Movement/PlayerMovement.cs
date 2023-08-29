@@ -20,8 +20,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Foldout("Accelerations")] private float _groundAcceleration = 150;
     [SerializeField, Foldout("Accelerations")] private float _airAcceleration = 1500;
     [SerializeField] private float _crouchHeight = 1.6f;
-    [SerializeField] private float _ladderMoveSpeed = 2f;
-    [SerializeField] private OverlapSphere _ladderTrigger;
+    [SerializeField, Foldout("Ladder")] private float _ladderMoveSpeed = 2f;
+    [SerializeField, Foldout("Ladder")] private OverlapSphere _ladderTrigger;
     [SerializeField] private JumpType _jumpType;
 
     [Inject] private Player _player;
@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     private AirMoveState _airMoveState;
     private JumpState _jumpState;
     private LadderMoveState _ladderMoveState;
+
+    public bool IsInCrouch() => _stateMachine.IsInState(_crouchState);
 
     private void Awake()
     {
@@ -94,8 +96,9 @@ public class PlayerMovement : MonoBehaviour
         _stateMachine.AddTransition(_idleState, _walkState, () => CharacterController.ReadInputAxis().sqrMagnitude != 0);
         _stateMachine.AddTransition(_walkState, _idleState, () => CharacterController.ReadInputAxis().sqrMagnitude == 0);
 
+        _stateMachine.AddTransition(_idleState, _crouchState, () => _player.Input.Player.Crouch.ReadValue<float>() > 0);
         _stateMachine.AddTransition(_walkState, _crouchState, () => _player.Input.Player.Crouch.ReadValue<float>() > 0);
-        _stateMachine.AddTransition(_crouchState, _walkState, () => _player.Input.Player.Crouch.ReadValue<float>() <= 0);
+        _stateMachine.AddTransition(_crouchState, _walkState, () => _player.Input.Player.Crouch.ReadValue<float>() <= 0 && CanStandUp());
 
         _stateMachine.AddTransition(_walkState, _runState, () => _player.Input.Player.Run.ReadValue<float>() > 0);
         _stateMachine.AddTransition(_runState, _walkState, () => _player.Input.Player.Run.ReadValue<float>() <= 0);
@@ -158,6 +161,8 @@ public class PlayerMovement : MonoBehaviour
             OnJump?.Invoke();
         }
     }
+
+    private bool CanStandUp() => CharacterController.CanSetHeight(_crouchState.StandHeight);
 
     private void OnEnable()
     {

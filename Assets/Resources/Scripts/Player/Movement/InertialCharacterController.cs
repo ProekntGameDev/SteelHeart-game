@@ -47,6 +47,24 @@ public partial class InertialCharacterController : MonoBehaviour
         _characterController.enabled = true;
     }
 
+    public bool CanSetHeight(float height)
+    {
+        float heightDifference = (height - _characterController.height) * 1.25f;
+
+        if (heightDifference <= 0)
+            return true;
+
+        Vector3 origin = new Vector3(transform.position.x, _characterController.bounds.max.y, transform.position.z);
+        Ray ray = new Ray(origin, Vector3.up);
+
+        Debug.DrawLine(ray.origin, ray.origin + ray.direction * heightDifference, Color.red, 15f);
+
+        if (Physics.Raycast(ray, heightDifference, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+            return false;
+
+        return true;
+    }
+
     public void SetHeight(float height)
     {
         float oldHeight = _characterController.height;
