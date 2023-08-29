@@ -35,14 +35,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Journal"",
-                    ""type"": ""Button"",
-                    ""id"": ""93c21832-5da1-472d-bd7c-c8d2fc59a46e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""1aba44e1-74bb-4202-b1e3-bc50f720f6f0"",
@@ -89,14 +81,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""03e45f92-e58b-4e68-b176-d26abd579842"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -119,17 +103,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Mouse & Keyboard"",
                     ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ec6679a5-5b4f-406a-ade2-2600795f0774"",
-                    ""path"": ""<Keyboard>/j"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse & Keyboard"",
-                    ""action"": ""Journal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -242,15 +215,50 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""QTE"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Player UI"",
+            ""id"": ""7360f19b-d35a-49da-8e38-1ed39d4658ff"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""750776a4-0a6d-4cbb-81b4-46dfd7794b8d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 },
                 {
+                    ""name"": ""Journal"",
+                    ""type"": ""Button"",
+                    ""id"": ""c91941f6-8cde-4992-b506-653ae482ef0f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""2505c98e-e51d-458f-a3eb-873d58100afe"",
+                    ""id"": ""3c9908af-1121-4f68-b84c-22103b382530"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93ef9492-7566-4c11-b83a-182e2f74f372"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""Journal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -786,14 +794,16 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_Journal = m_Player.FindAction("Journal", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Axis = m_Player.FindAction("Axis", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_QTE = m_Player.FindAction("QTE", throwIfNotFound: true);
-        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        // Player UI
+        m_PlayerUI = asset.FindActionMap("Player UI", throwIfNotFound: true);
+        m_PlayerUI_Pause = m_PlayerUI.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerUI_Journal = m_PlayerUI.FindAction("Journal", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -857,28 +867,24 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_Journal;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Axis;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_QTE;
-    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
         public PlayerActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputAction @Journal => m_Wrapper.m_Player_Journal;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @Axis => m_Wrapper.m_Player_Axis;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Drop => m_Wrapper.m_Player_Drop;
         public InputAction @QTE => m_Wrapper.m_Player_QTE;
-        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -894,9 +900,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Journal.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJournal;
-                @Journal.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJournal;
-                @Journal.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJournal;
                 @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
@@ -915,9 +918,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @QTE.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQTE;
                 @QTE.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQTE;
                 @QTE.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQTE;
-                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -928,9 +928,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
-                @Journal.started += instance.OnJournal;
-                @Journal.performed += instance.OnJournal;
-                @Journal.canceled += instance.OnJournal;
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
@@ -949,13 +946,51 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @QTE.started += instance.OnQTE;
                 @QTE.performed += instance.OnQTE;
                 @QTE.canceled += instance.OnQTE;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Player UI
+    private readonly InputActionMap m_PlayerUI;
+    private IPlayerUIActions m_PlayerUIActionsCallbackInterface;
+    private readonly InputAction m_PlayerUI_Pause;
+    private readonly InputAction m_PlayerUI_Journal;
+    public struct PlayerUIActions
+    {
+        private @PlayerInput m_Wrapper;
+        public PlayerUIActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_PlayerUI_Pause;
+        public InputAction @Journal => m_Wrapper.m_PlayerUI_Journal;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerUI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerUIActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerUIActions instance)
+        {
+            if (m_Wrapper.m_PlayerUIActionsCallbackInterface != null)
+            {
+                @Pause.started -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnPause;
+                @Journal.started -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJournal;
+                @Journal.performed -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJournal;
+                @Journal.canceled -= m_Wrapper.m_PlayerUIActionsCallbackInterface.OnJournal;
+            }
+            m_Wrapper.m_PlayerUIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Journal.started += instance.OnJournal;
+                @Journal.performed += instance.OnJournal;
+                @Journal.canceled += instance.OnJournal;
+            }
+        }
+    }
+    public PlayerUIActions @PlayerUI => new PlayerUIActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -1074,14 +1109,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     {
         void OnRun(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnJournal(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnAxis(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
         void OnQTE(InputAction.CallbackContext context);
+    }
+    public interface IPlayerUIActions
+    {
         void OnPause(InputAction.CallbackContext context);
+        void OnJournal(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

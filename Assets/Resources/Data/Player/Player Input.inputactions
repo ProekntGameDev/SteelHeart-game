@@ -22,14 +22,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Journal",
-                    "type": "Button",
-                    "id": "93c21832-5da1-472d-bd7c-c8d2fc59a46e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Crouch",
                     "type": "Button",
                     "id": "1aba44e1-74bb-4202-b1e3-bc50f720f6f0",
@@ -76,14 +68,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "03e45f92-e58b-4e68-b176-d26abd579842",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -106,17 +90,6 @@
                     "processors": "",
                     "groups": "Mouse & Keyboard",
                     "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ec6679a5-5b4f-406a-ade2-2600795f0774",
-                    "path": "<Keyboard>/j",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mouse & Keyboard",
-                    "action": "Journal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -229,15 +202,50 @@
                     "action": "QTE",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Player UI",
+            "id": "7360f19b-d35a-49da-8e38-1ed39d4658ff",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "750776a4-0a6d-4cbb-81b4-46dfd7794b8d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 },
                 {
+                    "name": "Journal",
+                    "type": "Button",
+                    "id": "c91941f6-8cde-4992-b506-653ae482ef0f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "2505c98e-e51d-458f-a3eb-873d58100afe",
+                    "id": "3c9908af-1121-4f68-b84c-22103b382530",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93ef9492-7566-4c11-b83a-182e2f74f372",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse & Keyboard",
+                    "action": "Journal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

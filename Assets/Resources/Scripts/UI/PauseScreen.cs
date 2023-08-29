@@ -1,18 +1,19 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Zenject;
 
-public class PauseScreen : MonoBehaviour
+public class PauseScreen : BaseMenu
 {
-    [SerializeField, Required] private GameObject _pausePanel;
     [SerializeField, Required] private Button _continueButton;
     [SerializeField, Required] private Button _loadButton;
     [SerializeField, Required] private Button _settingsButton;
     [SerializeField, Required] private Button _mainMenuButton;
 
-    [Inject] private Player _player;
     [Inject] private SceneManager _sceneManager;
+
+    protected override InputAction _menuButton => _player.Input.PlayerUI.Pause;
 
     private void Start()
     {
@@ -21,29 +22,15 @@ public class PauseScreen : MonoBehaviour
         _loadButton.onClick.AddListener(Load);
     }
 
-    private void OnEnable()
+    protected override void Enable()
     {
-        _player.Input.Player.Pause.performed += (context) => Enable();
-    }
-
-    private void OnDisable()
-    {
-        _player.Input.Player.Pause.performed -= (context) => Enable();
-    }
-
-    private void Enable()
-    {
-        _pausePanel.SetActive(true);
-
-        _player.Input.Player.Disable();
+        base.Enable();
         Time.timeScale = 0;
     }
 
-    private void Disable()
+    protected override void Disable()
     {
-        _pausePanel.SetActive(false);
-
-        _player.Input.Player.Enable();
+        base.Disable();
         Time.timeScale = 1;
     }
 
@@ -63,4 +50,7 @@ public class PauseScreen : MonoBehaviour
         _sceneManager.ReloadCurrent();
     }
 
+    protected override void EscapePerformed(InputAction.CallbackContext context)
+    {
+    }
 }
