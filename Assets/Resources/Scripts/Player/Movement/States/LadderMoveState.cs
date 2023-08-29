@@ -32,8 +32,13 @@ public class LadderMoveState : MoveState
 
     public override void OnExit()
     {
-        _characterController.CurrentVelocity = new Vector3(_ladder.JumpOffForce.x, 0, _ladder.JumpOffForce.z);
-        _characterController.VerticalVelocity = _ladder.JumpOffForce.y;
+        if (_playerLadderTrigger.position.y < _ladderCollider.bounds.max.y + _characterController.Height / 2)
+        {
+            _characterController.CurrentVelocity = new Vector3(_ladder.JumpOffForce.x, 0, _ladder.JumpOffForce.z);
+            _characterController.VerticalVelocity = _ladder.JumpOffForce.y;
+        }
+        else
+            _characterController.CurrentVelocity = _ladder.transform.forward * _speed * -1;
 
         _characterController.VerticalMove = true;
         _ladder = null;
@@ -45,16 +50,41 @@ public class LadderMoveState : MoveState
             return false;
 
         float ladderBottom = _ladderCollider.bounds.min.y;
-        float ladderTop = _ladderCollider.bounds.max.y;
+        float ladderTop = _ladderCollider.bounds.max.y + _characterController.Height / 2;
 
         return _playerLadderTrigger.position.y < ladderTop && _playerLadderTrigger.position.y > ladderBottom;
     }
 
+    public bool IsClimbOnLadder()
+    {
+        if (_ladder == null)
+            return false;
+
+        float ladderTop = _ladderCollider.bounds.max.y;
+
+        return _characterController.transform.position.y + _characterController.Height > ladderTop;
+    }
+
     protected override void Move(Vector3 wishDirection, float acceleration, float maxSpeed)
     {
+        if (IsClimbOnLadder())
+        {
+            ClimbOnLadder();
+            return;
+        }
+
         wishDirection.z = Mathf.Round(wishDirection.z);
 
         Vector3 moveDirection = _ladder.transform.up * _speed * wishDirection.z;
+
+        _characterController.Move(moveDirection * Time.fixedDeltaTime);
+
+        _characterController.Rotate(_ladder.transform.forward * -1);
+    }
+
+    private void ClimbOnLadder()
+    {
+        Vector3 moveDirection = (_ladder.transform.up + _ladder.transform.forward * -1) * _speed;
 
         _characterController.Move(moveDirection * Time.fixedDeltaTime);
 

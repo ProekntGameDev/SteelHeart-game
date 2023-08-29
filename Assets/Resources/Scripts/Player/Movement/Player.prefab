@@ -194,6 +194,7 @@ MonoBehaviour:
   _player: {fileID: 2281101296991554125}
   _animator: {fileID: 8695164828143955588}
   _playerSpeed: speed
+  _crouch: crouching
   _isGrounded: isGrounded
   _jump: jump
   _attack: attack
@@ -457,7 +458,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2303413871728862105}
   m_LocalRotation: {x: 0, y: 0.004974182, z: 0, w: 0.99998766}
-  m_LocalPosition: {x: 0, y: 1.4, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3462377426396143089}
@@ -1020,13 +1021,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2.5
+  m_Height: 2
   m_Radius: 0.42
   m_SlopeLimit: 45
   m_StepOffset: 0.6
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.19, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &2281101296991554125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1104,7 +1105,7 @@ MonoBehaviour:
   _maxAirVelocity: 13
   _groundAcceleration: 140
   _airAcceleration: 8.88
-  _crouchHeight: 0.3
+  _crouchHeight: 1.5
   _ladderMoveSpeed: 3
   _ladderTrigger: {fileID: 2812509236763883375}
   _jumpType:
