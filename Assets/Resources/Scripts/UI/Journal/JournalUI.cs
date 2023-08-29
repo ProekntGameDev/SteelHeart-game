@@ -1,16 +1,16 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
-public class JournalUI : MonoBehaviour
+public class JournalUI : BaseMenu
 {
-    [SerializeField, Required] private GameObject _panel;
+    protected override InputAction _menuButton => _player.Input.PlayerUI.Journal;
+
     [SerializeField, Required] private Transform _scrollViewContent;
     [SerializeField, Required] private JournalNoteUI _textNotePrefab;
     [SerializeField, Required] private JournalNoteUI _audioNotePrefab;
     [SerializeField, Required] private JournalContent _content;
-
-    [Inject] private Player _player;
 
     private void Start()
     {
@@ -25,13 +25,11 @@ public class JournalUI : MonoBehaviour
         journalNoteUI.Init(_content, noteData);
     }
 
-    private void OnEnable()
+    protected override void EscapePerformed(InputAction.CallbackContext context)
     {
-        _player.Input.Player.Journal.performed += (c) => _panel.SetActive(!_panel.activeInHierarchy);
-    }
+        if (_panel.activeInHierarchy == false)
+            return;
 
-    private void OnDisable()
-    {
-        _player.Input.Player.Journal.performed -= (c) => _panel.SetActive(!_panel.activeInHierarchy);
+        Disable();
     }
 }
