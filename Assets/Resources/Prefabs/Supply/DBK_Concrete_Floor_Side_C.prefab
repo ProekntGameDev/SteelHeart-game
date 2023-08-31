@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!65 &8375258490632642131
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575739772923912915}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5428483, y: 0.200003, z: 3.0000033}
+  m_Center: {x: -0.7714261, y: 0.10000107, z: 1.5000005}
+--- !u!65 &1309406593759653451
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575739772923912913}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.187264, y: 0.24426301, z: 2.9854283}
+  m_Center: {x: -1.154424, y: 0.11514223, z: 1.496347}
+--- !u!1001 &8575739772923815027
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 100000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_Name
+      value: DBK_Concrete_Floor_Side_C
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 27.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000021855694
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+--- !u!1 &8575739772923912915 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+  m_PrefabInstance: {fileID: 8575739772923815027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8575739772923912913 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: 6246bd5088077d34d98f682a5533dd4d, type: 3}
+  m_PrefabInstance: {fileID: 8575739772923815027}
+  m_PrefabAsset: {fileID: 0}
