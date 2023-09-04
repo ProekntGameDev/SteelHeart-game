@@ -61,11 +61,14 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnFirePerformed(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed && _stateMachine.IsInState(_attackState) == false)
-        {
-            _stateMachine.SetState(_attackState);
-            OnAttack?.Invoke();
-        }
+        if (context.phase != InputActionPhase.Performed && _stateMachine.IsInState(_attackState) == false)
+            return;
+
+        if (_player.Movement.Ladder != null)
+            return;
+
+        _stateMachine.SetState(_attackState);
+        OnAttack?.Invoke();
     }
 
     private void Update()

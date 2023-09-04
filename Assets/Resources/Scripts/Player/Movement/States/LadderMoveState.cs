@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class LadderMoveState : MoveState
 {
+    public Ladder Ladder => _ladder;
+
     private Transform _playerLadderTrigger;
     private Ladder _ladder;
     private Collider _ladderCollider;
@@ -76,6 +78,7 @@ public class LadderMoveState : MoveState
         wishDirection.z = Mathf.Round(wishDirection.z);
 
         Vector3 moveDirection = _ladder.transform.up * _speed * wishDirection.z;
+        moveDirection += _ladder.GetCenterOffset(_characterController.transform.position);
 
         _characterController.Move(moveDirection * Time.fixedDeltaTime);
 
