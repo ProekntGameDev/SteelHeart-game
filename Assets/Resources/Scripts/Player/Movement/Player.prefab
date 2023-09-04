@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 271920106960057639}
   - component: {fileID: 8695164828143955588}
   - component: {fileID: 1466284900461271083}
+  - component: {fileID: 4347601879426279282}
   m_Layer: 0
   m_Name: Model
   m_TagString: Player
@@ -169,7 +170,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616392030093029277}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 3e2c6184b7681bc4c80d42fee7d3e183, type: 3}
   m_Controller: {fileID: 9100000, guid: 533d2ff9f86601c459a22569461cf61d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -191,13 +192,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e4490c4f67ef0446b35c9729dfb9f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 2281101296991554125}
   _animator: {fileID: 8695164828143955588}
   _playerSpeed: speed
   _crouch: crouching
   _isGrounded: isGrounded
+  _isOnLadder: isOnLadder
   _jump: jump
   _attack: attack
+--- !u!114 &4347601879426279282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616392030093029277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c42dc57c933265448838f6fadd02e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ikSmoothTime: 0.05
+  _ikMaxSpeed: 10
+  _ladderTrigger: {fileID: 926256878916507851}
+  _rightHandOffest: {x: -0.575, y: 0.5, z: 0.15}
+  _rightHandRotation: {x: 0, y: 0, z: -90}
+  _leftHandOffest: {x: 0.575, y: 0.5, z: 0.15}
+  _leftHandRotation: {x: 0, y: 0, z: 90}
+  _rightFootOffest: {x: -0.3, y: -0.8, z: 0.3}
+  _leftFootOffest: {x: 0.3, y: -0.8, z: 0.3}
 --- !u!1 &791407808661331223
 GameObject:
   m_ObjectHideFlags: 0

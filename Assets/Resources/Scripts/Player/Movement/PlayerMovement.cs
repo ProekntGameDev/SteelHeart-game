@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public UnityEvent OnEnterLadder;
     [HideInInspector] public UnityEvent OnExitLadder;
 
+
+    public bool IsInCrouch => _stateMachine.IsInState(_crouchState);
+    public Ladder Ladder => _stateMachine.IsInState(_ladderMoveState) ? _ladderMoveState.Ladder : null;
+
     public InertialCharacterController CharacterController { get; private set; }
 
     [SerializeField, Foldout("Max Velocities")] private float _maxCrouchVelocity = 4;
@@ -35,8 +39,6 @@ public class PlayerMovement : MonoBehaviour
     private AirMoveState _airMoveState;
     private JumpState _jumpState;
     private LadderMoveState _ladderMoveState;
-
-    public bool IsInCrouch() => _stateMachine.IsInState(_crouchState);
 
     private void Awake()
     {

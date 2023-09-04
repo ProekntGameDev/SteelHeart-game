@@ -1,16 +1,20 @@
 using UnityEngine;
 using NaughtyAttributes;
+using Zenject;
 
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private Player _player;
     [SerializeField] private Animator _animator;
 
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] string _playerSpeed;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] string _crouch;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Bool)] string _isGrounded;
+    [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Bool)] string _isOnLadder;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] string _jump;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] string _attack;
+
+    [Inject] private Player _player;
 
     private void Start()
     {
@@ -21,7 +25,8 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Update()
     {
-        _animator.SetFloat(_crouch, _player.Movement.IsInCrouch() ? 1 : 0);
+        _animator.SetFloat(_crouch, _player.Movement.IsInCrouch ? 1 : 0);
+        _animator.SetBool(_isOnLadder, _player.Movement.Ladder);
         _animator.SetFloat(_playerSpeed, _player.Movement.CharacterController.CurrentVelocity.magnitude);
         _animator.SetBool(_isGrounded, _player.Movement.CharacterController.IsGrounded);
     }

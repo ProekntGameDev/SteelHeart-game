@@ -739,6 +739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpOffForce: {x: 0, y: 3, z: 4}
+  _ladderStepDistance: 0.5
 --- !u!65 &750722500010662922
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -750,8 +751,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 5.7, z: 0.2}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 0.1, y: 5.75, z: 0.2}
+  m_Center: {x: 0, y: 0.55, z: 0}
 --- !u!95 &1679853083993819819
 Animator:
   serializedVersion: 3
@@ -1055,7 +1056,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 11.5, z: 2.25}
+  m_Size: {x: 0.2, y: 6.44, z: 2.25}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7239615798418507910
 GameObject:
