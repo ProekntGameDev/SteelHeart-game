@@ -1121,37 +1121,55 @@ MonoBehaviour:
   OnExitLadder:
     m_PersistentCalls:
       m_Calls: []
-  _maxCrouchVelocity: 5
+  _maxCrouchVelocity: 4
   _maxWalkVelocity: 6
-  _maxRunVelocity: 10
-  _maxAirVelocity: 13
-  _groundAcceleration: 140
-  _airAcceleration: 8.88
+  _maxRunVelocity: 16
+  _maxAirVelocity: 16
+  _groundAcceleration: 150
+  _airAcceleration: 9
   _crouchHeight: 1.5
-  _ladderMoveSpeed: 3
+  _ladderMoveSpeed: 4.5
   _ladderTrigger: {fileID: 2812509236763883375}
   _jumpType:
-    _initalJumpForce: 1.68
+    _initalJumpForce: 1.76
     _gravityRise:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: -0.006092628
-        outSlope: -0.006092628
-        tangentMode: 0
+        inSlope: 0.04339316
+        outSlope: 0.04339316
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.19354838
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 1.5011787
-        inSlope: 0.93716896
-        outSlope: 0.93716896
+        time: 0.34106922
+        value: 1.0148001
+        inSlope: 0.019495348
+        outSlope: 0.019495348
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.05913979
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.63342327
+        value: 1.0098418
+        inSlope: -0.026394697
+        outSlope: -0.026394697
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: -0.026847858
+        outSlope: -0.026847858
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -1173,9 +1191,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _attackPoint: {fileID: 9048045667223021902}
-  _damage: 40
+  _damage: 25
   _delay: 0.1
-  _cooldown: 0.2
+  _cooldown: 0.25
   _staminaCost: 14
 --- !u!208 &839975683607114930
 NavMeshObstacle:
