@@ -60,6 +60,11 @@ public class PlayerMovement : MonoBehaviour
         CharacterController.ApplyGravity();
 
         _stateMachine.Tick();
+
+        if (_stateMachine.IsInState(_airMoveState) == false)
+            return;
+
+        LadderCheck();
     }
 
     private void InitStateMachine()
@@ -124,7 +129,9 @@ public class PlayerMovement : MonoBehaviour
         _stateMachine.AddTransition(_ladderMoveState, _airMoveState, () => _ladderMoveState.IsOnLadder() == false && CharacterController.IsGrounded == false);
     }
 
-    private void OnInteractPerformed(InputAction.CallbackContext context)
+    private void OnInteractPerformed(InputAction.CallbackContext context) => LadderCheck();
+
+    private void LadderCheck()
     {
         foreach (var collider in _ladderTrigger.GetColliders())
             if (collider.TryGetComponent(out Ladder ladder))
@@ -134,11 +141,7 @@ public class PlayerMovement : MonoBehaviour
     private void InteractWithLadder(Ladder ladder)
     {
         if (_stateMachine.IsInState(_ladderMoveState))
-        {
-            _stateMachine.SetState(_idleState);
-            OnExitLadder?.Invoke();
             return;
-        }
 
         _ladderMoveState.Init(ladder);
         _stateMachine.SetState(_ladderMoveState);
@@ -150,6 +153,9 @@ public class PlayerMovement : MonoBehaviour
         if (enabled == false)
             return;
 
+        if (_stateMachine.IsInState(_crouchState) == true)
+            return;
+
         if (_stateMachine.IsInState(_ladderMoveState))
         {
             _stateMachine.SetState(_idleState);
@@ -157,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if ((CharacterController.IsGrounded) && _stateMachine.IsInState(_jumpState) == false)
+        if (CharacterController.IsGrounded && _stateMachine.IsInState(_jumpState) == false)
         {
             _stateMachine.SetState(_jumpState);
             OnJump?.Invoke();

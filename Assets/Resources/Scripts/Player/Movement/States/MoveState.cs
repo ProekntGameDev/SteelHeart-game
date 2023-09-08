@@ -24,7 +24,11 @@ public class MoveState : IState
     public void Tick()
     {
         Vector3 input = _characterController.ReadInputAxis();
-        Vector3 wishDirection = input.x * Vector3.right + input.y * Vector3.forward;
+
+        Vector3 forward = _characterController.Forward.normalized;
+        Vector3 right = Vector3.Cross(Vector3.up, forward);
+
+        Vector3 wishDirection = input.x * right + input.y * forward;
 
         wishDirection.Normalize();
 
