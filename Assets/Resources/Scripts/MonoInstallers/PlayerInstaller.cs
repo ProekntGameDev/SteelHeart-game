@@ -7,6 +7,8 @@ public class PlayerInstaller : MonoInstaller
 {
     [SerializeField, Required] private Player _player;
 
+    private PlayerDataLoader _playerDataLoader;
+
     public override void InstallBindings()
     {
         Container.Bind<Player>().FromInstance(_player).AsSingle();
@@ -14,8 +16,12 @@ public class PlayerInstaller : MonoInstaller
 
     private void Awake()
     {
-        PlayerDataLoader playerDataLoader = GetComponent<PlayerDataLoader>();
+        _playerDataLoader = GetComponent<PlayerDataLoader>();
+    }
 
-        playerDataLoader.Load(_player);
+    public override void Start()
+    {
+        base.Start();
+        _playerDataLoader.Load(_player);
     }
 }
