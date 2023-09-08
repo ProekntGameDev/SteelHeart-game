@@ -12,7 +12,7 @@ public class HealthBar : MonoBehaviour
 
     [Inject] private Player _player;
 
-    private void Start()
+    private void Awake()
     {
         _player.Health.OnChange.AddListener(OnHealthChanged);
     }
