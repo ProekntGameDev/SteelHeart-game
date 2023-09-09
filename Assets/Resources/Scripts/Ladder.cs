@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Ladder : Interactable
+public class Ladder : MonoBehaviour
 {
     public Vector3 JumpOffForce => transform.TransformDirection(_jumpOffForce);
 
