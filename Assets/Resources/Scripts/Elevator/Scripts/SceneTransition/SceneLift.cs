@@ -17,8 +17,8 @@ public class SceneLift : MonoBehaviour
     [SerializeField, Required] private Camera _mainCamera;
     [SerializeField, Required] private Transform _platform;
 
-    [SerializeField] private InteractableTrigger _openLiftButton;
-    [SerializeField] private InteractableTrigger _moveButton;
+    [SerializeField] private Interactable _openLiftButton;
+    [SerializeField] private Interactable _moveButton;
 
     [Inject] private Player _player;
     [Inject] private SaveManager _saveManager;

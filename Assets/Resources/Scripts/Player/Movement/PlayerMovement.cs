@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public UnityEvent OnEnterLadder;
     [HideInInspector] public UnityEvent OnExitLadder;
 
-
     public bool IsInCrouch => _stateMachine.IsInState(_crouchState);
     public Ladder Ladder => _stateMachine.IsInState(_ladderMoveState) ? _ladderMoveState.Ladder : null;
 
@@ -140,10 +139,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void InteractWithLadder(Ladder ladder)
     {
-        if (_stateMachine.IsInState(_ladderMoveState))
+        if (_stateMachine.IsInState(_ladderMoveState) || _player.Interactor.SelectedInteractable != ladder)
             return;
 
-        _ladderMoveState.Init(ladder);
+        if (Vector3.Dot(CharacterController.CurrentVelocity.normalized, -ladder.transform.forward) < 0.5f)
+            return;
+
+        Vector3 ladderDirection = transform.position - ladder.transform.position;
+        ladderDirection.Normalize();
+
+        float angle = Vector3.Angle(ladderDirection, ladder.transform.forward);
+        if (angle > 90)
+            return;
+
+        _ladderMoveState.SetLadder(ladder);
+
+        if (_ladderMoveState.IsClimbOnLadder())
+        {
+            _ladderMoveState.ResetLadder();
+            return;
+        }
+
         _stateMachine.SetState(_ladderMoveState);
         OnEnterLadder?.Invoke();
     }

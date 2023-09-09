@@ -19,9 +19,9 @@ namespace Features.Lift
 
         [SerializeField] private StartPosition _startPosition = StartPosition.Down;
 
-        [SerializeField] private InteractableTrigger _callToDownButton;
-        [SerializeField] private InteractableTrigger _callToUpButton;
-        [SerializeField] private InteractableTrigger _moveButton;
+        [SerializeField] private Interactable _callToDownButton;
+        [SerializeField] private Interactable _callToUpButton;
+        [SerializeField] private Interactable _moveButton;
 
         [SerializeField] private Transform _upPoint;
         [SerializeField] private Transform _downPoint;

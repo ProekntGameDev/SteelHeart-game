@@ -18946,6 +18946,7 @@ GameObject:
   - component: {fileID: 3232155934530602070}
   - component: {fileID: 8519816487573012082}
   - component: {fileID: 8481342057468050772}
+  - component: {fileID: 4770224568765104926}
   m_Layer: 0
   m_Name: Cube (15)
   m_TagString: Untagged
@@ -19051,6 +19052,34 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _minCardLevel: 0
+--- !u!114 &4770224568765104926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3797224291240472238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaacd9156b1e648408e88b7ea0983d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4196520101264574271}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Trigger
+          m_BoolArgument: 0
+        m_CallState: 2
+  _outlineLayer: 8
 --- !u!1 &3915998535437980170
 GameObject:
   m_ObjectHideFlags: 0
@@ -86621,6 +86650,11 @@ PrefabInstance:
 --- !u!4 &1892445294282857536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3976204862516122068, guid: ca6cc3a7ad313324a87fe9d3de084c21, type: 3}
+  m_PrefabInstance: {fileID: 3273274387559779732}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4196520101264574271 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1679853083993819819, guid: ca6cc3a7ad313324a87fe9d3de084c21, type: 3}
   m_PrefabInstance: {fileID: 3273274387559779732}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5207128959028313661

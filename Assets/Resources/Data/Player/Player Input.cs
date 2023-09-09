@@ -81,6 +81,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Mouse"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""4fd3165b-8276-4e0f-a2ba-420dbed2f0a4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -213,6 +221,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""QTE"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34a4aa42-34d1-4590-9cf3-86aae974d433"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -800,6 +819,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_QTE = m_Player.FindAction("QTE", throwIfNotFound: true);
+        m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
         // Player UI
         m_PlayerUI = asset.FindActionMap("Player UI", throwIfNotFound: true);
         m_PlayerUI_Pause = m_PlayerUI.FindAction("Pause", throwIfNotFound: true);
@@ -873,6 +893,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_QTE;
+    private readonly InputAction m_Player_Mouse;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -885,6 +906,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Drop => m_Wrapper.m_Player_Drop;
         public InputAction @QTE => m_Wrapper.m_Player_QTE;
+        public InputAction @Mouse => m_Wrapper.m_Player_Mouse;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -918,6 +940,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @QTE.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQTE;
                 @QTE.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQTE;
                 @QTE.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQTE;
+                @Mouse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
+                @Mouse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
+                @Mouse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -946,6 +971,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @QTE.started += instance.OnQTE;
                 @QTE.performed += instance.OnQTE;
                 @QTE.canceled += instance.OnQTE;
+                @Mouse.started += instance.OnMouse;
+                @Mouse.performed += instance.OnMouse;
+                @Mouse.canceled += instance.OnMouse;
             }
         }
     }
@@ -1115,6 +1143,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
         void OnQTE(InputAction.CallbackContext context);
+        void OnMouse(InputAction.CallbackContext context);
     }
     public interface IPlayerUIActions
     {

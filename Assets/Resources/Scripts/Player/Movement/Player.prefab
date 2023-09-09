@@ -945,6 +945,7 @@ MonoBehaviour:
   _journal: {fileID: 8429915455842906286}
   _stamina: {fileID: 6807784453718124853}
   _playerMovement: {fileID: 3462377426396143072}
+  _playerInteractor: {fileID: 820165559128873030}
   _playerCombat: {fileID: 3462377426396143074}
   _gearsHolder: {fileID: 6384890687973125165}
 --- !u!114 &8687656215703528967
@@ -1425,7 +1426,7 @@ GameObject:
   m_Component:
   - component: {fileID: 942647840972198580}
   - component: {fileID: 820165559128873030}
-  - component: {fileID: 6401099977547849039}
+  - component: {fileID: 6619713536847144354}
   m_Layer: 0
   m_Name: Interactor
   m_TagString: Untagged
@@ -1459,8 +1460,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc8a48ff6e190f8438537b81aa135a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 2281101296991554125}
---- !u!114 &6401099977547849039
+  _changeSelectionAngle: 25
+  _changeSelectionMagnitude: 0.005
+  _changeSelectionDelay: 0.5
+--- !u!114 &6619713536847144354
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1472,9 +1475,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7ae1f77d1a54542b587f87a18102b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 1.8
+  _radius: 5
   _triggerInteraction: 2
-  _gizmosColor: {r: 0, g: 0.36795473, b: 1, a: 1}
+  _gizmosColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!1 &4070987441141032884
 GameObject:
   m_ObjectHideFlags: 0

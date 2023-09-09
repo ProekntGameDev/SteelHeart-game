@@ -27,12 +27,14 @@ public class Player : MonoBehaviour
     public Journal Journal => _journal;
     public Stamina Stamina => _stamina;
     public PlayerMovement Movement => _playerMovement;
+    public PlayerInteractor Interactor => _playerInteractor;
     public PlayerCombat Combat => _playerCombat;
     public GearsHolder GearsHolder => _gearsHolder;
 
     [SerializeField, Required] private Journal _journal;
     [SerializeField, Required] private Stamina _stamina;
     [SerializeField, Required] private PlayerMovement _playerMovement;
+    [SerializeField, Required] private PlayerInteractor _playerInteractor;
     [SerializeField, Required] private PlayerCombat _playerCombat;
     [SerializeField, Required] private GearsHolder _gearsHolder;
 
