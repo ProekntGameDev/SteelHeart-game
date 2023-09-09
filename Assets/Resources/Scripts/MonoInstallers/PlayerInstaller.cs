@@ -6,12 +6,14 @@ using Zenject;
 public class PlayerInstaller : MonoInstaller
 {
     [SerializeField, Required] private Player _player;
+    [SerializeField, Required] private Camera _mainCamera;
 
     private PlayerDataLoader _playerDataLoader;
 
     public override void InstallBindings()
     {
         Container.Bind<Player>().FromInstance(_player).AsSingle();
+        Container.Bind<Camera>().FromInstance(_mainCamera).AsSingle();
     }
 
     private void Awake()

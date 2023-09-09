@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
-public abstract class Pickupable : MonoBehaviour
+public abstract class Pickupable : Interactable
 {
     public bool IsPickedUp { get; protected set; }
 
