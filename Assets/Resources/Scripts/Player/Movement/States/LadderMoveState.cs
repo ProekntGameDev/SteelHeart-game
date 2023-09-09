@@ -24,8 +24,6 @@ public class LadderMoveState : MoveState
         _characterController.VerticalVelocity = 0;
 
         _characterController.VerticalMove = false;
-
-        _ladder.CanInteract = false;
     }
 
     public void SetLadder(Ladder ladder)
@@ -51,7 +49,6 @@ public class LadderMoveState : MoveState
             _characterController.CurrentVelocity = _ladder.transform.forward * _speed * -1;
 
         _characterController.VerticalMove = true;
-        _ladder.CanInteract = true;
 
         ResetLadder();
     }

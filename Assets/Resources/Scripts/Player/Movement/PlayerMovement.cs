@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void InteractWithLadder(Ladder ladder)
     {
-        if (_stateMachine.IsInState(_ladderMoveState) || _player.Interactor.SelectedInteractable != ladder)
+        if (_stateMachine.IsInState(_ladderMoveState))
             return;
 
         if (Vector3.Dot(CharacterController.CurrentVelocity.normalized, -ladder.transform.forward) < 0.5f)
