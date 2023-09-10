@@ -12,8 +12,6 @@ namespace QTE
 
         [Inject] private Player _player;
 
-        private void OnEnable() => OnStartQTE += StartQTE;
-
         private void StartQTE(QTEObject qTEObject)
         {
             qTEObject.StartQTE();
@@ -34,6 +32,7 @@ namespace QTE
             _qTEBar.SetActiveQTEPanel(false);
         }
 
+        private void OnEnable() => OnStartQTE += StartQTE;
         private void OnDisable() => OnStartQTE -= StartQTE;
     }
 }

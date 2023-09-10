@@ -1,22 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8739015310037734183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 432189509093683706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaacd9156b1e648408e88b7ea0983d86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  _outlineLayer: 8
-  _setChildrenLayer: 1
 --- !u!1 &1117522768352596672
 GameObject:
   m_ObjectHideFlags: 0
@@ -49,23 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8688266145304099037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2698547718985608681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaacd9156b1e648408e88b7ea0983d86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  _outlineLayer: 8
-  _setChildrenLayer: 0
 --- !u!1 &2761537962369044909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,6 +1944,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4432309520574714008}
+  - component: {fileID: 7277229468872869}
+  - component: {fileID: 4690492651304617885}
   m_Layer: 0
   m_Name: CabinBasement
   m_TagString: Untagged
@@ -1992,7 +1960,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4432309520574714007}
-  m_LocalRotation: {x: -0, y: -0.70710707, z: -0, w: 0.70710653}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.03999996, y: 0.0900023, z: 2.1099997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2001,6 +1969,39 @@ Transform:
   m_Father: {fileID: 4432309521050702033}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!135 &7277229468872869
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4432309520574714007}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4690492651304617885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4432309520574714007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d426f2aae1f57c468af9c4e6891e992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  _outlineLayer: 8
+  _setChildrenLayer: 1
+  _animationTriggerName: OnPress
+  _animator: {fileID: 4432309522125360511}
+  _delay: 2
 --- !u!1 &4432309520683273496
 GameObject:
   m_ObjectHideFlags: 0
@@ -3426,12 +3427,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48691df68a180ae4a9b33ff204ca9bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
+  _speed: 2
   _minOpenedTime: 1
   _startPosition: 0
-  _callToDownButton: {fileID: 2698547718478283164}
-  _callToUpButton: {fileID: 432189510817209743}
-  _moveButton: {fileID: 4432309522125360509}
+  _callToDownButton: {fileID: 7500490904735204882}
+  _callToUpButton: {fileID: 5231846271218899457}
+  _moveButton: {fileID: 4690492651304617885}
   _upPoint: {fileID: 4432309521631271808}
   _downPoint: {fileID: 4432309520395892345}
   _platform: {fileID: 4432309521050702033}
@@ -3791,6 +3792,7 @@ MonoBehaviour:
   _setChildrenLayer: 1
   _animationTriggerName: OnPress
   _animator: {fileID: 4432309522125360511}
+  _delay: 0
 --- !u!1 &4432309522269226434
 GameObject:
   m_ObjectHideFlags: 0
@@ -4137,6 +4139,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 518909737869776093}
     m_Modifications:
+    - target: {fileID: 3180199621978667018, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
+      propertyPath: _delay
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7009400730277057521, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
       propertyPath: m_Name
       value: SimpleButtonPannel
@@ -4207,19 +4213,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
---- !u!1 &2698547718985608681 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7009400730277057521, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
-  m_PrefabInstance: {fileID: 4914920373186002456}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2698547718985608682 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7009400730277057522, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
   m_PrefabInstance: {fileID: 4914920373186002456}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2698547718478283164 stripped
+--- !u!114 &7500490904735204882 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7009400730775863172, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3180199621978667018, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
   m_PrefabInstance: {fileID: 4914920373186002456}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -4305,19 +4306,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
---- !u!1 &432189509093683706 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7009400730277057521, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
-  m_PrefabInstance: {fileID: 7257857297998340619}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &432189509093683705 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7009400730277057522, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
   m_PrefabInstance: {fileID: 7257857297998340619}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &432189510817209743 stripped
+--- !u!114 &5231846271218899457 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7009400730775863172, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3180199621978667018, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
   m_PrefabInstance: {fileID: 7257857297998340619}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
