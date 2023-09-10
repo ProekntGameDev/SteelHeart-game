@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace QTE
 {
-    public class QTEObject : MonoBehaviour
+    public class QTEObject : Interactable
     {
         private const float MinQTE = 0f;
         private const float MaxQTE = 1f;
@@ -47,6 +47,8 @@ namespace QTE
 
         private IEnumerator RollbackQTEBar()
         {
+            CanInteract = false;
+
             _currentValue = _startingValue;
             while (_currentValue > MinQTE && _currentValue < MaxQTE)
             {
@@ -60,6 +62,10 @@ namespace QTE
 
             IsActive = !qteResult;
             _coroutineRollbackQTE = null;
+
+            if (qteResult == false)
+                CanInteract = true;
+
             OnEnd?.Invoke(qteResult);
         }
     }
