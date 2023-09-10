@@ -1,25 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
-using NaughtyAttributes;
 using UnityEngine.InputSystem;
+using Zenject;
 
-[RequireComponent(typeof(OverlapSphere))]
 public class Journal : MonoBehaviour
 {
     public UnityEvent<NoteData> OnNoteAdded;
 
     public IReadOnlyList<NoteData> Notes => _notes;
 
-    [SerializeField, Required] private Player _player;
+    [Inject] private Player _player;
 
-    private OverlapSphere _pickupRange;
     private List<NoteData> _notes = new List<NoteData>();
-
-    private void Start()
-    {
-        _pickupRange = GetComponent<OverlapSphere>();
-    }
 
     public void AddNote(NoteData noteData)
     {
@@ -32,11 +25,9 @@ public class Journal : MonoBehaviour
 
     private void OverlapTrigger(InputAction.CallbackContext context)
     {
-        foreach (var other in _pickupRange.GetColliders())
-        {
-            if (other.TryGetComponent(out Note note))
+        if (_player.Interactor.SelectedInteractable != null)
+            if (_player.Interactor.SelectedInteractable.TryGetComponent(out Note note))
                 AddNote(note.Collect());
-        }
     }
 
     private void OnEnable()
