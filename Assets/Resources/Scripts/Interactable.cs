@@ -8,8 +8,9 @@ public class Interactable : MonoBehaviour
 
     public bool CanInteract { get; set; }
 
-    [SerializeField, Layer] private int _outlineLayer = 8;
-    [SerializeField] private bool _setChildrenLayer;
+    [SerializeField] private bool _outline = true;
+    [SerializeField, Layer, ShowIf(nameof(_outline))] private int _outlineLayer = 8;
+    [SerializeField, ShowIf(nameof(_outline))] private bool _setChildrenLayer;
 
     private int _defaultLayer;
 
@@ -25,6 +26,9 @@ public class Interactable : MonoBehaviour
 
     private void SetLayerRecursive(GameObject gameObject, int index)
     {
+        if (_outline == false)
+            return;
+
         gameObject.layer = index;
 
         if (_setChildrenLayer == false)

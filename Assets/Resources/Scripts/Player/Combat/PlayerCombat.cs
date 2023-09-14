@@ -9,6 +9,7 @@ public class PlayerCombat : MonoBehaviour
     [HideInInspector] public UnityEvent OnAttack;
 
     [SerializeField, Required] private OverlapSphere _attackPoint;
+    [SerializeField, Required] private OverlapSphere _punchAssistant;
     [SerializeField] private float _damage;
     [SerializeField] private float _delay;
     [SerializeField] private float _cooldown;
@@ -49,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
     private void SetupStates()
     {
         _idleState = new IdleCombatState();
-        _attackState = new AttackCombatState(_attackPoint, _delay, _cooldown, _damage);
+        _attackState = new AttackCombatState(_player, _attackPoint, _punchAssistant, _delay, _cooldown, _damage);
     }
 
     private void SetupTransitions()
