@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18539,6 +18539,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _outline: 1
   _outlineLayer: 8
   _setChildrenLayer: 0
 --- !u!1 &543352483
@@ -31193,6 +31194,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _outline: 1
   _outlineLayer: 8
   _setChildrenLayer: 0
 --- !u!1 &1008791010
@@ -33895,6 +33897,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _outline: 1
   _outlineLayer: 8
   _setChildrenLayer: 0
 --- !u!1 &1251864552
@@ -37888,6 +37891,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _outline: 1
   _outlineLayer: 8
   _setChildrenLayer: 0
 --- !u!1001 &1490213833
@@ -38159,6 +38163,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _outline: 1
   _outlineLayer: 8
   _setChildrenLayer: 0
 --- !u!43 &1559284814
@@ -40234,10 +40239,12 @@ MonoBehaviour:
   OnInteract:
     m_PersistentCalls:
       m_Calls: []
+  _outline: 1
   _outlineLayer: 8
   _setChildrenLayer: 0
   _animationTriggerName: OnPress
   _animator: {fileID: 1601978578}
+  _delay: 0
 --- !u!95 &1601978578
 Animator:
   serializedVersion: 3
@@ -60723,7 +60730,6 @@ GameObject:
   - component: {fileID: 3976204861331624791}
   - component: {fileID: 1899453938929336750}
   - component: {fileID: 750722499366968969}
-  - component: {fileID: 4352027472840755694}
   m_Layer: 0
   m_Name: Ladder (2)
   m_TagString: Untagged
@@ -60731,23 +60737,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!114 &4352027472840755694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4352027472840755693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaacd9156b1e648408e88b7ea0983d86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  _outlineLayer: 8
-  _setChildrenLayer: 1
 --- !u!1 &4352027473133118705
 GameObject:
   m_ObjectHideFlags: 0
@@ -60760,7 +60749,6 @@ GameObject:
   - component: {fileID: 1899453939290778802}
   - component: {fileID: 750722499642422165}
   - component: {fileID: 1679853084430886196}
-  - component: {fileID: 4352027473133118706}
   m_Layer: 0
   m_Name: Ladder (1)
   m_TagString: Untagged
@@ -60768,23 +60756,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4352027473133118706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4352027473133118705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaacd9156b1e648408e88b7ea0983d86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  _outlineLayer: 8
-  _setChildrenLayer: 1
 --- !u!1 &4352027473211784142
 GameObject:
   m_ObjectHideFlags: 0
@@ -60796,7 +60767,6 @@ GameObject:
   - component: {fileID: 3976204862025572724}
   - component: {fileID: 1899453939379925901}
   - component: {fileID: 750722499461000362}
-  - component: {fileID: 4352027473211784143}
   m_Layer: 0
   m_Name: Ladder (1)
   m_TagString: Untagged
@@ -60804,23 +60774,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!114 &4352027473211784143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4352027473211784142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaacd9156b1e648408e88b7ea0983d86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  _outlineLayer: 8
-  _setChildrenLayer: 1
 --- !u!1 &4690990830890708137
 GameObject:
   m_ObjectHideFlags: 0

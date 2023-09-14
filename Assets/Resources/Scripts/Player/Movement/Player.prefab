@@ -315,7 +315,6 @@ MonoBehaviour:
   OnNoteAdded:
     m_PersistentCalls:
       m_Calls: []
-  _player: {fileID: 2281101296991554125}
 --- !u!114 &7876614554443098836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1072,6 +1071,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _attackPoint: {fileID: 9048045667223021902}
+  _punchAssistant: {fileID: 7240603257246854986}
   _damage: 25
   _delay: 0.1
   _cooldown: 0.25
@@ -2435,7 +2435,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.00000011920929, y: 1.5, z: 0.7500001}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 539683456012730362}
   m_Father: {fileID: 3462377426396143089}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2485,6 +2486,52 @@ Transform:
   m_Father: {fileID: 3749507030175631387}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9075870416330563054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 539683456012730362}
+  - component: {fileID: 7240603257246854986}
+  m_Layer: 7
+  m_Name: PunchAssistant
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &539683456012730362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9075870416330563054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00000009169947, y: 0, z: -0.769231}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9048045667223021901}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7240603257246854986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9075870416330563054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7ae1f77d1a54542b587f87a18102b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 3
+  _triggerInteraction: 1
+  _gizmosColor: {r: 0.15619439, g: 0.811558, b: 0.8490566, a: 1}
 --- !u!1 &9101974391810727714
 GameObject:
   m_ObjectHideFlags: 0

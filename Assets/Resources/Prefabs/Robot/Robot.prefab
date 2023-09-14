@@ -697,7 +697,6 @@ GameObject:
   - component: {fileID: 3937459016305117297}
   - component: {fileID: 3937459016305117296}
   - component: {fileID: 3937459016305117303}
-  - component: {fileID: 3937459016305117302}
   m_Layer: 0
   m_Name: HP Bar Canvas
   m_TagString: Untagged
@@ -722,7 +721,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3}
+  m_AnchoredPosition: {x: 0, y: 3.3333333}
   m_SizeDelta: {x: 512, y: 512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3937459016305117297
@@ -786,22 +785,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3937459016305117302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3937459016305117300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef80a7bd06b9bb7459f312788e8f7c72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetCamera: {fileID: 0}
-  _health: {fileID: 3937459016884770107}
-  _healthBarImage: {fileID: 3937459017449269789}
-  _healthBarText: {fileID: 3937459017614005652}
 --- !u!1 &3937459016884770110
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +797,7 @@ GameObject:
   - component: {fileID: 3937459016884770105}
   - component: {fileID: 3937459016884770104}
   - component: {fileID: 3937459016884770107}
+  - component: {fileID: 9080294590736142416}
   - component: {fileID: 3937459016884770106}
   - component: {fileID: 3937459016884770244}
   - component: {fileID: 2637806150644830503}
@@ -904,6 +888,28 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _maximumHealth: 100
+--- !u!114 &9080294590736142416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3937459016884770110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef80a7bd06b9bb7459f312788e8f7c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  _outline: 0
+  _outlineLayer: 8
+  _setChildrenLayer: 0
+  _health: {fileID: 3937459016884770107}
+  _healthBarCanvas: {fileID: 3937459016305117297}
+  _healthBarImage: {fileID: 3937459017449269789}
+  _healthBarText: {fileID: 3937459017614005652}
 --- !u!195 &3937459016884770106
 NavMeshAgent:
   m_ObjectHideFlags: 0
