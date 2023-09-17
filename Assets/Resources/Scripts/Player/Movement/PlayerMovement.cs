@@ -111,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Jump and air movement
 
-        _stateMachine.AddAnyTransition(_airMoveState, () => CharacterController.IsGrounded == false && _jumpState.IsDone() && _stateMachine.IsInState(_ladderMoveState) == false);
+        _stateMachine.AddAnyTransition(_airMoveState, () => CanEnterAirState());
 
         _player.Input.Player.Jump.performed += OnPerformedJumpState;
 
@@ -126,6 +126,15 @@ public class PlayerMovement : MonoBehaviour
 
         _stateMachine.AddTransition(_ladderMoveState, _idleState, () => _ladderMoveState.IsOnLadder() == false && CharacterController.IsGrounded);
         _stateMachine.AddTransition(_ladderMoveState, _airMoveState, () => _ladderMoveState.IsOnLadder() == false && CharacterController.IsGrounded == false);
+    }
+
+    private bool CanEnterAirState()
+    {
+        return
+            CharacterController.IsGrounded == false &&
+            _jumpState.IsDone() &&
+            _stateMachine.IsInState(_ladderMoveState) == false &&
+            TryStepOnSlope() == false;
     }
 
     private void OnInteractPerformed(InputAction.CallbackContext context) => LadderCheck();
@@ -166,10 +175,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnPerformedJumpState(InputAction.CallbackContext context)
     {
-        if (enabled == false)
-            return;
-
-        if (_stateMachine.IsInState(_crouchState) == true)
+        if (enabled == false || _stateMachine.IsInState(_crouchState) == true)
             return;
 
         if (_stateMachine.IsInState(_ladderMoveState))
@@ -185,6 +191,31 @@ public class PlayerMovement : MonoBehaviour
             OnJump?.Invoke();
         }
     }
+
+    private bool TryStepOnSlope()
+    {
+        float slopeDelta = GetSlopeUnderPlayer();
+        CharacterController.Move(slopeDelta * Vector3.down, true);
+
+        return slopeDelta > 0;
+    }
+
+    private float GetSlopeUnderPlayer()
+    {
+        Ray ray = new Ray(CharacterController.transform.position, Vector3.down);
+
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, GetSlopeDelta(CharacterController.SlopeLimit)))
+        {
+            float angle = Vector3.Angle(Vector3.up, raycastHit.normal);
+            float slopeDelta = GetSlopeDelta(angle, CharacterController.CurrentVelocity.magnitude);
+            if (slopeDelta >= raycastHit.distance)
+                return slopeDelta + raycastHit.distance;
+        }
+
+        return 0;
+    }
+
+    private float GetSlopeDelta(float slopeAngle, float xDelta = 1) => Mathf.Tan(Mathf.Deg2Rad * slopeAngle) * xDelta;
 
     private bool CanStandUp() => CharacterController.CanSetHeight(_crouchState.StandHeight);
 
