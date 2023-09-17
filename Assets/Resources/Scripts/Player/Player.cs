@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     [SerializeField, Required] private Journal _journal;
     [SerializeField, Required] private Stamina _stamina;
     [SerializeField, Required] private PlayerMovement _playerMovement;
+    [SerializeField, Required] private PlayerAnimator _playerAnimator;
     [SerializeField, Required] private PlayerInteractor _playerInteractor;
     [SerializeField, Required] private PlayerCombat _playerCombat;
     [SerializeField, Required] private GearsHolder _gearsHolder;
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
     {
         _health.enabled = true;
         _stamina.enabled = true;
+        _playerAnimator.enabled = true;
         _playerMovement.enabled = true;
         _gearsHolder.enabled = true;
         _playerCombat.enabled = true;
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour
     {
         _health.enabled = false;
         _stamina.enabled = false;
+        _playerAnimator.enabled = false;
         _playerMovement.enabled = false;
         _gearsHolder.enabled = false;
         _playerCombat.enabled = false;
