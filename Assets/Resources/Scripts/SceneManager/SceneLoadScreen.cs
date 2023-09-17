@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Zenject;
-using NaughtyAttributes;
 
 public class SceneLoadScreen : MonoBehaviour
 {
@@ -13,16 +11,21 @@ public class SceneLoadScreen : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _sceneName;
     [SerializeField] private TextMeshProUGUI _progress;
 
-    [Inject] private SceneManager _sceneManager;
-
-    private void Start() 
+    private void Awake()
     {
-        _sceneManager.OnLoadScene.AddListener(Load);
+        SetAlpha(0);
     }
 
-    private void Load(SceneLoad sceneLoad)
+    public IEnumerator Enable(string sceneName)
     {
-        _loadSceneScreen.gameObject.SetActive(true);
+        _sceneName.text = sceneName;
+        _progress.text = "0%";
+
+        yield return StartCoroutine(FadeIn());
+    }
+
+    public void StartLoad(SceneLoad sceneLoad)
+    {
         StartCoroutine(LoadingScreen(sceneLoad));
     }
 
@@ -30,48 +33,52 @@ public class SceneLoadScreen : MonoBehaviour
     {
         sceneLoad.Operation.allowSceneActivation = false;
 
-        yield return StartCoroutine(FadeIn());
-
-        _sceneName.text = sceneLoad.Name;
-
         while (sceneLoad.Operation.progress < 0.9f)
         {
             _progress.text = $"{Mathf.RoundToInt(sceneLoad.Operation.progress * 100)}%";
             yield return new WaitForEndOfFrame();
         }
 
+        _progress.text = "100%";
         sceneLoad.Operation.allowSceneActivation = true;
-        _progress.text = "";
-        _sceneName.text = "";
+
+        yield return new WaitForSceneLoad(sceneLoad.Operation);
 
         yield return StartCoroutine(FadeOut());
-
-        _loadSceneScreen.gameObject.SetActive(false);
     }
 
     private IEnumerator FadeIn()
     {
-        Color color = new Color(0, 0, 0, 0);
-        _loadSceneScreen.color = color;
-
-        while (_loadSceneScreen.color.a < 1)
-        {
-            color.a = Mathf.Min(color.a + (1 / _fadeTime) * Time.unscaledDeltaTime, 1);
-            _loadSceneScreen.color = color;
-            yield return new WaitForEndOfFrame();
-        }
+        SetAlpha(0);
+        CrossFadeAlpha(1);
+        yield return new WaitForSeconds(_fadeTime);
     }
 
     private IEnumerator FadeOut()
     {
-        Color color = new Color(0, 0, 0, 1);
-        _loadSceneScreen.color = color;
+        SetAlpha(1);
+        CrossFadeAlpha(0);
+        yield return new WaitForSeconds(_fadeTime);
+    }
 
-        while (_loadSceneScreen.color.a > 0)
-        {
-            color.a = Mathf.Max(color.a - (1 / _fadeTime) * Time.unscaledDeltaTime, 0);
-            _loadSceneScreen.color = color;
-            yield return new WaitForEndOfFrame();
-        }
+    private void CrossFadeAlpha(float value)
+    {
+        foreach (Graphic graphic in GetGraphics())
+            graphic.CrossFadeAlpha(value, _fadeTime, false);
+    }
+
+    private void SetAlpha(float value)
+    {
+        foreach (Graphic graphic in GetGraphics())
+            graphic.CrossFadeAlpha(value, 0, true);
+    }
+
+    private IEnumerable<Graphic> GetGraphics()
+    {
+        List<Graphic> result = new List<Graphic>();
+
+        _loadSceneScreen.GetComponentsInChildren(result);
+
+        return result;
     }
 }

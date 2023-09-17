@@ -3,36 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
+using System.Collections;
 
 public class SceneManager : MonoBehaviour
 {
     public UnityEvent<SceneLoad> OnLoadScene;
 
     [Inject] private SaveManager _saveManager;
+    [Inject] private SceneLoadScreen _sceneLoadScreen;
 
+    private Coroutine _sceneLoadCoroutine;
     private List<string> _scenes = new List<string>();
 
     public string NextScene() => _scenes[GetNextSceneIndex()];
 
     public void ReloadCurrent()
     {
-        AsyncLoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, true);
+        StartCoroutine(LoadSceneCoroutine(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name));
     }
 
     public void LoadMenu()
     {
-        AsyncLoadScene(_scenes[0], true);
+        StartCoroutine(LoadSceneCoroutine(_scenes[0]));
     }
 
     public AsyncOperation LoadNext(bool callback = true)
     {
-        return AsyncLoadScene(NextScene(), callback);
+        if (callback == false)
+            return AsyncLoadScene(NextScene());
+        else
+            StartCoroutine(LoadSceneCoroutine(NextScene()));
+
+        return null;
     }
 
     public void LoadFromSave()
     {
         PlayerSaveData playerSaveData = _saveManager.Load();
-        AsyncLoadScene(playerSaveData.Scene, true);
+        StartCoroutine(LoadSceneCoroutine(playerSaveData.Scene));
     }
 
     public void Quit()
@@ -40,14 +48,25 @@ public class SceneManager : MonoBehaviour
         Application.Quit();
     }
 
-    private AsyncOperation AsyncLoadScene(string name, bool callback)
+    private AsyncOperation AsyncLoadScene(string name)
     {
         AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(name);
 
-        if(callback)
-            OnLoadScene.Invoke(new SceneLoad(asyncOperation, name));
+        OnLoadScene.Invoke(new SceneLoad(asyncOperation, name));
 
         return asyncOperation;
+    }
+
+    private IEnumerator LoadSceneCoroutine(string name)
+    {
+        if (_sceneLoadCoroutine != null)
+            yield break;
+
+        yield return StartCoroutine(_sceneLoadScreen.Enable(name));
+
+        AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(name);
+
+        _sceneLoadScreen.StartLoad(new SceneLoad(asyncOperation, name));
     }
 
     private void Awake()

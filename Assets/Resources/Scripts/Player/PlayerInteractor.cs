@@ -46,7 +46,7 @@ public class PlayerInteractor : MonoBehaviour
 
     private void UpdateSelection(IReadOnlyList<Interactable> interactables)
     {
-        if (SelectedInteractable != null && interactables.Contains(SelectedInteractable) == false)
+        if (SelectedInteractable != null && (interactables.Contains(SelectedInteractable) == false || SelectedInteractable.CanInteract == false))
         {
             SetSelected(null);
             return;

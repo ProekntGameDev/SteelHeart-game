@@ -3718,8 +3718,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4432309522125360508}
   - component: {fileID: 4432309522125360511}
-  - component: {fileID: 4432309522125360510}
-  - component: {fileID: 4432309522125360509}
   m_Layer: 0
   m_Name: CallToMoveButton
   m_TagString: Untagged
@@ -3761,40 +3759,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!135 &4432309522125360510
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4432309522125360507}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4432309522125360509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4432309522125360507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d426f2aae1f57c468af9c4e6891e992, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  _outline: 0
-  _outlineLayer: 8
-  _setChildrenLayer: 1
-  _animationTriggerName: OnPress
-  _animator: {fileID: 4432309522125360511}
-  _delay: 0
 --- !u!1 &4432309522269226434
 GameObject:
   m_ObjectHideFlags: 0
@@ -4141,10 +4105,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 518909737869776093}
     m_Modifications:
-    - target: {fileID: 3180199621978667018, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
-      propertyPath: _delay
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7009400730277057521, guid: 626f27721051cb144b7195b5ef51580e, type: 3}
       propertyPath: m_Name
       value: SimpleButtonPannel
