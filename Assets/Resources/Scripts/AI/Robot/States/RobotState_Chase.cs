@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,13 +5,13 @@ namespace AI
 {
     public class RobotState_Chase : IState
     {
-        private RobotVision _robotVision;
-        private NavMeshAgent _navMeshAgent;
-        private Player _player;
-        private float _speed;
-        private float _minDistance;
-        private float _maxDistance;
+        private readonly RobotVision _robotVision;
+        private readonly NavMeshAgent _navMeshAgent;
+        private readonly float _speed;
+        private readonly float _minDistance;
+        private readonly float _maxDistance;
 
+        private Player _player;
         private float _baseStoppingDistance;
 
         public RobotState_Chase(RobotVision robotVision, NavMeshAgent navMeshAgent, float speed, float minDistance, float maxDistance)
@@ -21,6 +19,9 @@ namespace AI
             _robotVision = robotVision;
             _navMeshAgent = navMeshAgent;
             _speed = speed;
+
+            _minDistance = minDistance;
+            _maxDistance = maxDistance;
         }
 
         public void OnEnter()

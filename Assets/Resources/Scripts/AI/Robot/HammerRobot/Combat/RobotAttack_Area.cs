@@ -30,12 +30,15 @@ namespace AI
 
         public void OnExit()
         {
-            Collider[] colliders = Physics.OverlapSphere(_navMeshAgent.transform.position, _attackProperties.MaxDistance);
+            if (IsDone())
+            {
+                Collider[] colliders = Physics.OverlapSphere(_navMeshAgent.transform.position, _attackProperties.MaxDistance);
 
-            foreach (var collider in colliders)
-                if (collider.TryGetComponent(out IDamagable damagable))
-                    if(collider.TryGetComponent(out Health health) && health != _robotHealth)
-                        damagable.TakeDamage(_attackProperties.Damage);
+                foreach (var collider in colliders)
+                    if (collider.TryGetComponent(out IDamagable damagable))
+                        if (collider.TryGetComponent(out Health health) && health != _robotHealth)
+                            damagable.TakeDamage(_attackProperties.Damage);
+            }
 
             _endTime = 0;
         }

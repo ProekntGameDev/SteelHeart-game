@@ -9,14 +9,15 @@ namespace AI
     public class RobotState_Combat : IState
     {
         public event Action<int> OnPerformAttack;
+
         public IReadOnlyList<IRobotAttack> Attacks => _attacks;
 
-        private NavMeshAgent _navMeshAgent;
-        private List<IRobotAttack> _attacks;
+        private readonly NavMeshAgent _navMeshAgent;
+        private readonly List<IRobotAttack> _attacks;
+        private readonly float _maxDistance;
+        private readonly Player _player;
+        private readonly Health _robotHealth;
 
-        private float _maxDistance;
-        private Player _player;
-        private Health _robotHealth;
         private StateMachine _stateMachine;
 
         public RobotState_Combat(Player player, HammerRobotBrain robotTankBrain, float maxDistance, List<IRobotAttack> attacks)
@@ -36,7 +37,12 @@ namespace AI
         { }
 
         public void OnExit()
-        { }
+        {
+            if (_stateMachine.HasState == false)
+                return;
+
+            _stateMachine.SetState(null);
+        }
 
         public void Tick()
         {
