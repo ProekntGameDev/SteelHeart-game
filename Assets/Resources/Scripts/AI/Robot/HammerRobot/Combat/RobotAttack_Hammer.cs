@@ -28,7 +28,7 @@ namespace AI
 
         public void OnExit()
         {
-            if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _attackProperties.MaxDistance)
+            if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _attackProperties.MaxDistance && IsDone())
                 _player.Health.TakeDamage(_attackProperties.Damage);
 
             _endTime = 0;
