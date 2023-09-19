@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ceiling_plaster_worn
-  m_Shader: {fileID: -6465566751694194690, guid: 9a62b1915c8add54d86e343647b9b861,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 9a62b1915c8add54d86e343647b9b861, type: 3}
   m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -206,6 +205,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_189A115F: 0
     - Boolean_379A06A4: 1
@@ -233,49 +244,49 @@ Material:
     - Boolean_E06F73AA: 1
     - Boolean_E6B25EA1: 0
     - Boolean_EDBB8DBC: 0
-    - Vector1_12292E82: 1
-    - Vector1_12A9FF91: 1
+    - Vector1_12292E82: 1.89
+    - Vector1_12A9FF91: 1.08
     - Vector1_1B785420: 0.07
     - Vector1_1BA9CE6B: 1
-    - Vector1_206F73E1: 0.815
+    - Vector1_206F73E1: 0.652
     - Vector1_21CE1D80: 1.99
-    - Vector1_2610B3FF: 1
-    - Vector1_2667875F: 0.299
+    - Vector1_2610B3FF: 3.89
+    - Vector1_2667875F: 0.268
     - Vector1_29CA497B: 0.815
     - Vector1_361079E2: 1
-    - Vector1_3B02743B: 0.1
-    - Vector1_469DA311: 0
-    - Vector1_5E074E11: 0.134
+    - Vector1_3B02743B: 0.068
+    - Vector1_469DA311: -0.392
+    - Vector1_5E074E11: 0.143
     - Vector1_6A8D1E0F: 0.224
-    - Vector1_6C3908F8: 1
+    - Vector1_6C3908F8: 4
     - Vector1_6DF0493A: 0.299
-    - Vector1_6E694D80: 0.237
-    - Vector1_74C50FF8: 1
+    - Vector1_6E694D80: 0.282
+    - Vector1_74C50FF8: 6.25
     - Vector1_773B7F1B: 1
     - Vector1_7A097D62: 1
-    - Vector1_7A798AFB: 0.07
+    - Vector1_7A798AFB: 0.29
     - Vector1_8055C3FF: -0.54
     - Vector1_80AFA6DF: 0.5
     - Vector1_9CFC06F7: 0.1
     - Vector1_9D8E9B59: 2.2
     - Vector1_9E7DCBA4: 0.237
     - Vector1_9FA9BDCD: 0.224
-    - Vector1_9FC0F0A9: 2.2
-    - Vector1_A4402DD9: 1.8
+    - Vector1_9FC0F0A9: 5.08
+    - Vector1_A4402DD9: 5.78
     - Vector1_B1BB88D0: 1
     - Vector1_B8D5AC7A: 0
-    - Vector1_B96C48AA: 1
+    - Vector1_B96C48AA: 5.32
     - Vector1_BACCE9FB: 1.99
     - Vector1_BB4E97C7: 1
-    - Vector1_C0F433FD: 1
-    - Vector1_CAED55EA: 0
+    - Vector1_C0F433FD: 7.27
+    - Vector1_CAED55EA: 0.232
     - Vector1_CE98BD70: 0
-    - Vector1_D04EC3B7: 0.767
+    - Vector1_D04EC3B7: 0.599
     - Vector1_D28406A3: 1
-    - Vector1_D5E4EACA: 0.5
+    - Vector1_D5E4EACA: 0.509
     - Vector1_D8AC6FF: 0.134
     - Vector1_E902C3CF: 0
-    - Vector1_F250A15A: 0
+    - Vector1_F250A15A: 0.216
     - Vector1_F5FD6E61: 1.8
     - Vector1_FDA51CF3: 0.767
     - Vector1_FEEDA934: -0.54
@@ -455,6 +466,7 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!114 &7080440637547816960
 MonoBehaviour:
   m_ObjectHideFlags: 11
