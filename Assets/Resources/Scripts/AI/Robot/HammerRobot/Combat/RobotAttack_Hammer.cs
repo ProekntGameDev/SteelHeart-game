@@ -23,6 +23,7 @@ namespace AI
 
         public void OnEnter()
         {
+            _navMeshAgent.updateRotation = false;
             _startTime = Time.time;
             _willAttack = true;
         }
@@ -41,6 +42,9 @@ namespace AI
                 Attack();
 
             _navMeshAgent.destination = _player.transform.position;
+
+            Vector3 directionToPlayer = (_player.transform.position - _navMeshAgent.transform.position).normalized;
+            _navMeshAgent.transform.forward = Vector3.Slerp(_navMeshAgent.transform.forward, directionToPlayer, _properties.RotationSlerp);
         }
 
         public bool IsDone() => _startTime + _properties.PunchTime + _properties.Delay <= Time.time || _player.Health.Current == 0;
@@ -56,11 +60,13 @@ namespace AI
         [System.Serializable]
         public class Properties
         {
+            public float RotationSlerp => _rotationSlerp;
             public float Damage => _damage;
             public float MaxDistance => _maxDistance;
             public float PunchTime => _punchTime;
             public float Delay => _delay;
 
+            [SerializeField, Range(0, 1)] private float _rotationSlerp;
             [SerializeField] private float _maxDistance;
             [SerializeField] private float _damage;
             [SerializeField] private float _punchTime;
