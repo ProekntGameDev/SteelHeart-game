@@ -33,7 +33,7 @@ namespace AI
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
         [SerializeField, BoxGroup("Combat")] private float _stanDuration;
         [SerializeField, Range(0, 1), BoxGroup("Combat")] private float _stanChance;
-        [SerializeField, SOInheritedFrom(typeof(IRobotAttack)), BoxGroup("Combat")] private List<ScriptableObject> _robotAttacks = new List<ScriptableObject>(); // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
+        [SerializeField, BoxGroup("Combat")] private RobotState_Combat.AttacksProperties _attacksProperties;
 
         [Inject] private Player _player;
 
@@ -72,9 +72,7 @@ namespace AI
             _stanState = new RobotState_Stan(_stanDuration);
             _deathState = new RobotState_Death(gameObject, _destroyDelay);
 
-            List<IRobotAttack> attacks = _robotAttacks.ConvertAll(x => x as IRobotAttack);
-
-            _combatState = new RobotState_Combat(_player, this, _maxCombatDistance, attacks);
+            _combatState = new RobotState_Combat(_player, this, _maxCombatDistance, _attacksProperties);
 
             _combatState.OnPerformAttack += (index) => OnAttack?.Invoke(index);
         }
