@@ -1010,7 +1010,7 @@ MonoBehaviour:
   _navMeshAgent: {fileID: 3937459016884770106}
   _robotHealth: {fileID: 3937459016884770107}
   _animator: {fileID: 951513533981780988}
-  _destroyDelay: 5
+  _destroyDelay: 6
   _robotVision:
     _eyeTransform: {fileID: 3937459016016217390}
     _maxDistance: 10
@@ -1019,24 +1019,24 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _patrolSpeed: 3
-  _chaseSpeed: 5.5
-  _chaseMinDistance: 6
-  _chaseMaxDistance: 14
-  _maxCombatDistance: 10
-  _stanDuration: 1
-  _stanChance: 0.2
+  _chaseSpeed: 4.5
+  _chaseMinDistance: 7
+  _chaseMaxDistance: 13
+  _maxCombatDistance: 7
+  _stanDuration: 2
+  _stanChance: 0.4
   _attacksProperties:
     _targetProperties:
-      _maxDistance: 2
-      _damage: 30
-      _punchTime: 0.65
-      _delay: 0.65
+      _maxDistance: 5
+      _damage: 25
+      _punchTime: 0.3
+      _delay: 0.5
     _aoeProperties:
-      _airSpeed: 10
-      _aoeRadius: 3
-      _damage: 40
+      _airSpeed: 7
+      _aoeRadius: 2.5
+      _damage: 30
       _jumpTime: 1
-      _delay: 2
+      _delay: 4
 --- !u!114 &3937459016884770107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1088,8 +1088,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.4
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 3
+  m_Acceleration: 5
   avoidancePriority: 50
   m_AngularSpeed: 960
   m_StoppingDistance: 1.5
