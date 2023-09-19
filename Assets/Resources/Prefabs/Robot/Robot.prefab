@@ -1020,14 +1020,23 @@ MonoBehaviour:
   - {fileID: 0}
   _patrolSpeed: 3
   _chaseSpeed: 5.5
-  _chaseMinDistance: 2
-  _chaseMaxDistance: 8
-  _maxCombatDistance: 5
+  _chaseMinDistance: 6
+  _chaseMaxDistance: 14
+  _maxCombatDistance: 10
   _stanDuration: 1
   _stanChance: 0.2
-  _robotAttacks:
-  - {fileID: 11400000, guid: 735b2ea8d6ea5074a8ef1fb9cdc1720c, type: 2}
-  - {fileID: 11400000, guid: f2f55c63a34b6b348bf173b375a68a35, type: 2}
+  _attacksProperties:
+    _targetProperties:
+      _maxDistance: 2
+      _damage: 30
+      _punchTime: 0.65
+      _delay: 0.65
+    _aoeProperties:
+      _airSpeed: 10
+      _aoeRadius: 3
+      _damage: 40
+      _jumpTime: 1
+      _delay: 2
 --- !u!114 &3937459016884770107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2109,7 +2118,6 @@ MonoBehaviour:
   _navMeshAgent: {fileID: 3937459016884770106}
   _agentLinkMover: {fileID: 3937459016884770244}
   _animator: {fileID: 3953589399532733483}
-  _maxWalkSpeed: 5
   _animatorRobotSpeed: Speed
   _animatorStartJump: Start Jump
   _animatorEndJump: End Jump

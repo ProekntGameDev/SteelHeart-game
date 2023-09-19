@@ -15,7 +15,6 @@ namespace AI
         [SerializeField, Required] private Animator _animator;
 
         [Header("Animator Parameters")]
-        [SerializeField, Min(0)] private float _maxWalkSpeed;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] private string _animatorRobotSpeed;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorStartJump;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorEndJump;
@@ -30,8 +29,13 @@ namespace AI
             _health.OnChange.AddListener((value) => _animator.SetTrigger(_animatorTakeDamage));
             _health.OnDeath.AddListener(() => _animator.SetTrigger(_animatorDeath));
 
-            _robotBrain.OnAttack.AddListener((index) => _animator.SetTrigger(_animatorAttack));
-            _robotBrain.OnAttack.AddListener((index) => _animator.SetFloat(_animatorAttackIndex, index));
+            _robotBrain.OnAttack.AddListener(OnAttack);
+        }
+
+        private void OnAttack(int index)
+        {
+            _animator.SetFloat(_animatorAttackIndex, index);
+            _animator.SetTrigger(_animatorAttack);
         }
 
         private void OnEnable()

@@ -3,40 +3,68 @@ using UnityEngine.AI;
 
 namespace AI
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Robot/Attacks/Hammer Attack")]
-    public class RobotAttack_Hammer : ScriptableObject, IRobotAttack
+    public class RobotAttack_Hammer : IState
     {
-        public RobotAttackProperties AttackProperties => _attackProperties;
+        public Properties AttackProperties => _properties;
 
-        [SerializeField] private RobotAttackProperties _attackProperties;
-
+        private Properties _properties;
         private Player _player;
         private NavMeshAgent _navMeshAgent;
 
-        private float _endTime;
+        private float _startTime;
+        private bool _willAttack;
 
-        public void Init(NavMeshAgent navMeshAgent, Player player, Health robotHealth)
+        public RobotAttack_Hammer(NavMeshAgent navMeshAgent, Player player, Properties properties)
         {
+            _properties = properties;
             _player = player;
             _navMeshAgent = navMeshAgent;
         }
 
         public void OnEnter()
         {
-            _endTime = Time.time + (1 / _attackProperties.Speed);
+            _startTime = Time.time;
+            _willAttack = true;
         }
 
         public void OnExit()
         {
-            if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _attackProperties.MaxDistance && IsDone())
-                _player.Health.TakeDamage(_attackProperties.Damage);
-
-            _endTime = 0;
+            _startTime = 0;
         }
 
         public void Tick()
-        { }
+        {
+            if (_willAttack == false)
+                return;
 
-        public bool IsDone() => _endTime <= Time.time || _player.Health.Current == 0;
+            if (_startTime + _properties.PunchTime <= Time.time)
+                Attack();
+
+            _navMeshAgent.destination = _player.transform.position;
+        }
+
+        public bool IsDone() => _startTime + _properties.PunchTime + _properties.Delay <= Time.time || _player.Health.Current == 0;
+
+        private void Attack()
+        {
+            if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _properties.MaxDistance)
+                _player.Health.TakeDamage(_properties.Damage);
+
+            _willAttack = false;
+        }
+
+        [System.Serializable]
+        public class Properties
+        {
+            public float Damage => _damage;
+            public float MaxDistance => _maxDistance;
+            public float PunchTime => _punchTime;
+            public float Delay => _delay;
+
+            [SerializeField] private float _maxDistance;
+            [SerializeField] private float _damage;
+            [SerializeField] private float _punchTime;
+            [SerializeField] private float _delay;
+        }
     }
 }
