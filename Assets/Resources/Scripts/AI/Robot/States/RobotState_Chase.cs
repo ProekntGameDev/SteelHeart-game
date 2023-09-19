@@ -27,6 +27,7 @@ namespace AI
         public void OnEnter()
         {
             _navMeshAgent.speed = _speed;
+            _navMeshAgent.updateRotation = true;
 
             _baseStoppingDistance = _navMeshAgent.stoppingDistance;
             _navMeshAgent.stoppingDistance = _minDistance;

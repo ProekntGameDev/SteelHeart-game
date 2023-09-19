@@ -27,6 +27,7 @@ namespace AI
             if (_targetPointIndex >= _points.Length)
                 _targetPointIndex = 0;
 
+            _navMeshAgent.updateRotation = true;
             _navMeshAgent.SetDestination(_points[_targetPointIndex].position);
         }
 

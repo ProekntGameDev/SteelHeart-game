@@ -26,6 +26,7 @@ namespace AI
 
         public void OnEnter()
         {
+            _navMeshAgent.updateRotation = true;
             _navMeshAgent.speed = _properties.AirSpeed;
             _startTime = Time.time;
             _willAttack = true;
