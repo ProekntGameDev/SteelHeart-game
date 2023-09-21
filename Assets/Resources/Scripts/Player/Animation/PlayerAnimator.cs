@@ -12,6 +12,7 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] string _crouch;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Bool)] string _isGrounded;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Bool)] string _isOnLadder;
+    [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] string _takeDamage;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] string _jump;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] string _attack;
 
@@ -22,6 +23,8 @@ public class PlayerAnimator : MonoBehaviour
         _player.Movement.OnJump.AddListener(() => _animator.SetTrigger(_jump));
 
         _player.Combat.OnAttack.AddListener(() => _animator.SetTrigger(_attack));
+
+        _player.Health.OnChange.AddListener((value) => _animator.SetTrigger(_takeDamage));
     }
 
     private void Update()

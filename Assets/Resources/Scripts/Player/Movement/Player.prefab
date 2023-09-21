@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _friction: 8
-  _rotationSmooth: 0.04
+  _rotationTime: 0.2
   _gravity: -9.81
 --- !u!114 &3462377426396143072
 MonoBehaviour:
@@ -2729,6 +2729,7 @@ MonoBehaviour:
   _crouch: crouching
   _isGrounded: isGrounded
   _isOnLadder: isOnLadder
+  _takeDamage: takeDamage
   _jump: jump
   _attack: attack
 --- !u!114 &4311172044853365031
