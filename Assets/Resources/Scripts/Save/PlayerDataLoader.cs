@@ -12,6 +12,9 @@ public class PlayerDataLoader : MonoBehaviour
 
     public void Load(Player player)
     {
+        if (_saveManager.GetSaves().Length == 0)
+            return;
+
         PlayerSaveData playerSaveData = _saveManager.Load();
 
 #if UNITY_EDITOR
