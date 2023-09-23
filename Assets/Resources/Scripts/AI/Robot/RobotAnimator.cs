@@ -26,7 +26,7 @@ namespace AI
 
         private void Start()
         {
-            _health.OnChange.AddListener((value) => _animator.SetTrigger(_animatorTakeDamage));
+            _health.OnTakeDamage.AddListener(() => _animator.SetTrigger(_animatorTakeDamage));
             _health.OnDeath.AddListener(() => _animator.SetTrigger(_animatorDeath));
 
             _robotBrain.OnAttack.AddListener(OnAttack);

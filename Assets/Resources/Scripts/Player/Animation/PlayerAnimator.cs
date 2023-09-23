@@ -24,7 +24,7 @@ public class PlayerAnimator : MonoBehaviour
 
         _player.Combat.OnAttack.AddListener(() => _animator.SetTrigger(_attack));
 
-        _player.Health.OnChange.AddListener((value) => _animator.SetTrigger(_takeDamage));
+        _player.Health.OnTakeDamage.AddListener(() => _animator.SetTrigger(_takeDamage));
     }
 
     private void Update()

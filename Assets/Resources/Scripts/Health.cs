@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour, IDamagable
 {
     [HideInInspector] public UnityEvent OnDeath;
+    [HideInInspector] public UnityEvent OnTakeDamage;
     [HideInInspector] public UnityEvent<float> OnChange;
 
     public float Current => _currentHealth;
@@ -43,6 +44,7 @@ public class Health : MonoBehaviour, IDamagable
             OnDeath?.Invoke();
 
         OnChange?.Invoke(_currentHealth);
+        OnTakeDamage?.Invoke();
     }
 
     public void Load(PlayerSaveData data)
