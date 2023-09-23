@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace AI
 {
     public class RobotState_Delay : IState
     {
-        private Vector2 _delayRange;
+        private readonly Vector2 _delayRange;
+
         private float? _deadline;
 
         public RobotState_Delay(Vector2 delayRange)

@@ -26,10 +26,16 @@ public class LadderMoveState : MoveState
         _characterController.VerticalMove = false;
     }
 
-    public void Init(Ladder ladder)
+    public void SetLadder(Ladder ladder)
     {
         _ladder = ladder;
         _ladderCollider = _ladder.GetComponent<Collider>();
+    }
+
+    public void ResetLadder()
+    {
+        _ladder = null;
+        _ladderCollider = null;
     }
 
     public override void OnExit()
@@ -43,7 +49,8 @@ public class LadderMoveState : MoveState
             _characterController.CurrentVelocity = _ladder.transform.forward * _speed * -1;
 
         _characterController.VerticalMove = true;
-        _ladder = null;
+
+        ResetLadder();
     }
 
     public bool IsOnLadder()

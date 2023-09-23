@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Note : MonoBehaviour
+public class Note : Interactable
 {
     [SerializeField] private NoteData _data;
 

@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Linq;
 using System;
 
 namespace AI
@@ -9,23 +7,24 @@ namespace AI
     public class RobotState_Combat : IState
     {
         public event Action<int> OnPerformAttack;
-        public IReadOnlyList<IRobotAttack> Attacks => _attacks;
 
-        private NavMeshAgent _navMeshAgent;
-        private List<IRobotAttack> _attacks;
+        private readonly NavMeshAgent _navMeshAgent;
+        private readonly AttacksProperties _attackProperties;
+        private readonly float _maxDistance;
+        private readonly Player _player;
+        private readonly Health _robotHealth;
 
-        private float _maxDistance;
-        private Player _player;
-        private Health _robotHealth;
         private StateMachine _stateMachine;
+        private RobotAttack_Area _robotAreaAttack;
+        private RobotAttack_Hammer _robotTargetAttack;
 
-        public RobotState_Combat(Player player, HammerRobotBrain robotTankBrain, float maxDistance, List<IRobotAttack> attacks)
+        public RobotState_Combat(Player player, HammerRobotBrain robotTankBrain, float maxDistance, AttacksProperties attackProperties)
         {
             _navMeshAgent = robotTankBrain.GetComponent<NavMeshAgent>();
             _player = player;
             _robotHealth = robotTankBrain.GetComponent<Health>();
             _maxDistance = maxDistance;
-            _attacks = attacks;
+            _attackProperties = attackProperties;
 
             InitStateMachine();
 
@@ -36,7 +35,12 @@ namespace AI
         { }
 
         public void OnExit()
-        { }
+        {
+            if (_stateMachine.HasState == false)
+                return;
+
+            _stateMachine.SetState(null);
+        }
 
         public void Tick()
         {
@@ -48,18 +52,18 @@ namespace AI
             float distanceToPlayer = Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position);
             float playerSpeed = _player.Movement.CharacterController.CurrentVelocity.magnitude;
 
-            IRobotAttack bestAttack = _attacks.Where(x => x.AttackProperties.MaxDistance > distanceToPlayer)
-                .Where(x => playerSpeed <= (1 / x.AttackProperties.Speed))
-                .OrderByDescending(x => x.AttackProperties.Damage)
-                .FirstOrDefault();
-
-            if (bestAttack == null)
-                _navMeshAgent.destination = _player.transform.position;
-            else
+            if (distanceToPlayer <= _attackProperties.Target.MaxDistance)
             {
-                _stateMachine.SetState(bestAttack);
-                OnPerformAttack?.Invoke(_attacks.IndexOf(bestAttack));
+                _stateMachine.SetState(_robotTargetAttack);
+                OnPerformAttack?.Invoke(0);
             }
+            else if(distanceToPlayer <= _attackProperties.AoE.JumpDistance)
+            {
+                _stateMachine.SetState(_robotAreaAttack);
+                OnPerformAttack?.Invoke(1);
+            }
+            else
+                _navMeshAgent.destination = _player.transform.position;
 
         }
 
@@ -77,18 +81,24 @@ namespace AI
         {
             _stateMachine = new StateMachine();
 
-            foreach (var attack in _attacks)
-            {
-                attack.Init(_navMeshAgent, _player, _robotHealth);
-            }
+            _robotAreaAttack = new RobotAttack_Area(_navMeshAgent, _player, _robotHealth, _attackProperties.AoE);
+            _robotTargetAttack = new RobotAttack_Hammer(_navMeshAgent, _player, _attackProperties.Target);
         }
 
         private void SetupTransitions()
         {
-            foreach (var attack in _attacks)
-            {
-                _stateMachine.AddTransition(attack, null, () => attack.IsDone());
-            }
+            _stateMachine.AddTransition(_robotAreaAttack, null, _robotAreaAttack.IsDone);
+            _stateMachine.AddTransition(_robotTargetAttack, null, _robotTargetAttack.IsDone);
+        }
+
+        [Serializable]
+        public class AttacksProperties
+        {
+            public RobotAttack_Hammer.Properties Target => _targetProperties;
+            public RobotAttack_Area.Properties AoE => _aoeProperties;
+
+            [SerializeField] private RobotAttack_Hammer.Properties _targetProperties;
+            [SerializeField] private RobotAttack_Area.Properties _aoeProperties;
         }
     }
 }

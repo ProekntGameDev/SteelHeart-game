@@ -5,6 +5,7 @@ using Zenject;
 public partial class InertialCharacterController
 {
     public Vector3 CurrentVelocity { get { return _currentVelocity; } set { _currentVelocity = value; } }
+    public Vector3 Forward { get { return _forward; } set { _forward = value; } }
     public float VerticalVelocity { get { return _verticalVelocity; } set { _verticalVelocity = value; } }
     public bool VerticalMove { get; set; } = true;
     public bool UseGravity { get; set; } = true;
@@ -21,6 +22,7 @@ public partial class InertialCharacterController
     private CharacterController _characterController;
     private float _verticalVelocity;
     private Vector3 _currentVelocity;
+    private Vector3 _forward = Vector3.forward;
 
     public void ApplyGravity()
     {

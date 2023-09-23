@@ -117,6 +117,8 @@ GameObject:
   - component: {fileID: 5657708436143720653}
   - component: {fileID: 7905948143306809802}
   - component: {fileID: 522694860570892721}
+  - component: {fileID: 3032258966091814509}
+  - component: {fileID: 8814948332354404553}
   - component: {fileID: 459189093845946170}
   - component: {fileID: 5832861505826167757}
   - component: {fileID: 5025651418009326686}
@@ -197,6 +199,50 @@ MonoBehaviour:
     _damage: 20
     _attackSpeed: 0.7
     _aimSpeed: 180
+--- !u!114 &3032258966091814509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508284966404175256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef80a7bd06b9bb7459f312788e8f7c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  _outline: 1
+  _outlineLayer: 8
+  _setChildrenLayer: 0
+  _health: {fileID: 7905948143306809802}
+  _healthBarCanvas: {fileID: 3826425015774872065}
+  _healthBarImage: {fileID: 86711240473661042}
+  _healthBarText: {fileID: 6560252682486633382}
+--- !u!114 &8814948332354404553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508284966404175256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef80a7bd06b9bb7459f312788e8f7c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  _outline: 1
+  _outlineLayer: 8
+  _setChildrenLayer: 0
+  _health: {fileID: 7905948143306809802}
+  _healthBarCanvas: {fileID: 3826425015774872065}
+  _healthBarImage: {fileID: 86711240473661042}
+  _healthBarText: {fileID: 6560252682486633382}
 --- !u!195 &459189093845946170
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -441,7 +487,6 @@ GameObject:
   - component: {fileID: 3826425015774872065}
   - component: {fileID: 5300045308825985567}
   - component: {fileID: 4789841607117902804}
-  - component: {fileID: 5140648055284878916}
   m_Layer: 0
   m_Name: HP Bar Canvas
   m_TagString: Untagged
@@ -457,7 +502,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9168807754300894273}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -10.956633}
+  m_LocalPosition: {x: 0, y: 0, z: 0.09970094}
   m_LocalScale: {x: 0.0014999997, y: 0.0015, z: 1.4999996}
   m_Children:
   - {fileID: 2940422792371666240}
@@ -466,7 +511,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 12.729965, y: 4.4820824}
+  m_AnchoredPosition: {x: -0.000000014901161, y: 3.78}
   m_SizeDelta: {x: 512, y: 512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3826425015774872065
@@ -530,22 +575,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5140648055284878916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9168807754300894273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef80a7bd06b9bb7459f312788e8f7c72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetCamera: {fileID: 0}
-  _health: {fileID: 0}
-  _healthBarImage: {fileID: 86711240473661042}
-  _healthBarText: {fileID: 6560252682486633382}
 --- !u!1001 &8174541818184330273
 PrefabInstance:
   m_ObjectHideFlags: 0

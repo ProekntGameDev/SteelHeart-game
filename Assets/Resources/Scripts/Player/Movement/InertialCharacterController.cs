@@ -3,8 +3,10 @@ using UnityEngine;
 public partial class InertialCharacterController : MonoBehaviour
 {
     public float Height => _characterController.height;
+    public float SlopeLimit => _characterController.slopeLimit;
 
     [SerializeField] private float _friction = 0.2f;
+    [SerializeField] private float _rotationTime = 0.2f;
 
     public CollisionFlags GroundMove(Vector3 wishDirection, float accelerate, float maxVelocity)
     {
@@ -25,7 +27,9 @@ public partial class InertialCharacterController : MonoBehaviour
         //Slope movement
         Vector3 slopeMovement = _currentVelocity.magnitude * Vector3.down * (GetSlopeAngle() / 45);
 
-        return Move((_currentVelocity + slopeMovement) * Time.fixedDeltaTime);
+        CollisionFlags collisionFlags = Move((_currentVelocity + slopeMovement) * Time.fixedDeltaTime);
+
+        return collisionFlags;
     }
 
     public CollisionFlags AirMove(Vector3 wishDirection, float accelerate, float maxVelocity)
@@ -38,7 +42,15 @@ public partial class InertialCharacterController : MonoBehaviour
         return Move(_currentVelocity * Time.fixedDeltaTime);
     }
 
-    public CollisionFlags Move(Vector3 motion) => _characterController.Move(motion);
+    public CollisionFlags Move(Vector3 motion, bool updateGrounded = false)
+    {
+        CollisionFlags collisionFlags = _characterController.Move(motion);
+
+        if (updateGrounded)
+            IsGrounded = _characterController.isGrounded;
+
+        return collisionFlags;
+    }
 
     public void SetPosition(Vector3 newPosition)
     {
@@ -77,7 +89,7 @@ public partial class InertialCharacterController : MonoBehaviour
         if (forward.sqrMagnitude == 0)
             return;
 
-        transform.localRotation = Quaternion.LookRotation(forward, Vector3.up);
+        transform.forward = Vector3.Slerp(transform.forward, forward, _rotationTime);
     }
 
     public Vector2 ReadInputAxis() => _player.Input.Player.Axis.ReadValue<Vector2>();

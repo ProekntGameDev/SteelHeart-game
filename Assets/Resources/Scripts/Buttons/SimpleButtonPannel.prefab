@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7009400730277057522}
+  - component: {fileID: 3180199621978667018}
+  - component: {fileID: 5462946129639682425}
   m_Layer: 0
   m_Name: SimpleButtonPannel
   m_TagString: Untagged
@@ -32,6 +34,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3180199621978667018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7009400730277057521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d426f2aae1f57c468af9c4e6891e992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  _outline: 1
+  _outlineLayer: 8
+  _setChildrenLayer: 1
+  _animationTriggerName: OnPress
+  _animator: {fileID: 7009400730775863173}
+  _delay: 2
+--- !u!135 &5462946129639682425
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7009400730277057521}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 1.35, z: 0}
 --- !u!1 &7009400730418115218
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +240,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1572800232686244052, guid: 650a1c26b400b1948b6553b8c7ef6764, type: 3}
+    - {fileID: 1572800232829786912, guid: 650a1c26b400b1948b6553b8c7ef6764, type: 3}
+    - {fileID: 1572800232829786927, guid: 650a1c26b400b1948b6553b8c7ef6764, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 650a1c26b400b1948b6553b8c7ef6764, type: 3}
 --- !u!4 &7009400730371793865 stripped
 Transform:

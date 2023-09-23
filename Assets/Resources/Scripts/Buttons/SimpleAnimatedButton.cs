@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using NaughtyAttributes;
+using System.Collections;
 
 namespace Features.Buttons
 {
-    [RequireComponent(typeof(Animator))]
-    public class SimpleAnimatedButton : InteractableTrigger
+    public class SimpleAnimatedButton : Interactable
     {
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animationTriggerName = "OnPress";
         [SerializeField, Required] private Animator _animator;
+        [SerializeField] private float _delay;
 
         private bool _pressed = false;
 
@@ -15,21 +16,26 @@ namespace Features.Buttons
         {
             if(_animator == null)
                 _animator = GetComponent<Animator>();
-
-            OnInteract.AddListener(TryInteract);
         }
 
-        private void TryInteract()
+        public override void Interact()
         {
+            base.Interact();
+
             if (_pressed)
                 return;
 
             _pressed = true;
+            CanInteract = false;
             _animator.SetTrigger(_animationTriggerName);
+
+            StartCoroutine(Delay());
         }
 
-        private void OnAnimationComplete()
+        private IEnumerator Delay()
         {
+            yield return new WaitForSeconds(_delay);
+            CanInteract = true;
             _pressed = false;
         }
     }
