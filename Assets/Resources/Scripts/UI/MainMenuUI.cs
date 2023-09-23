@@ -14,7 +14,13 @@ public class MainMenuUI : MonoBehaviour
         _sceneManager.LoadNext();
     }
 
-    public void LoadFromSave() => _sceneManager.LoadFromSave();
+    public void LoadFromSave()
+    {
+        if (_saveManager.GetSaves().Length == 0)
+            return;
+
+        _sceneManager.LoadFromSave();
+    }
 
     public void Quit() => _sceneManager.Quit();
 }
