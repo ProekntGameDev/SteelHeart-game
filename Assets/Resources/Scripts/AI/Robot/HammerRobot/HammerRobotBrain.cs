@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.AI;
 using Zenject;
 using UnityEngine.Events;
