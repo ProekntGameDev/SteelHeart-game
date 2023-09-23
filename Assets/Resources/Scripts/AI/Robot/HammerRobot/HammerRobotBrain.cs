@@ -94,7 +94,7 @@ namespace AI
             _stateMachine.AddTransition(_stanState, _chaseState, _stanState.IsDone);
 
             _robotHealth.OnDeath.AddListener(OnDeath);
-            _robotHealth.OnChange.AddListener((value) => OnTakeDamage());
+            _robotHealth.OnTakeDamage.AddListener(OnTakeDamage);
         }
 
         private void OnTakeDamage()
