@@ -1,20 +1,20 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace AI
 {
-    public class TankRobotState_Shoot : IState
+    public class DroneState_Attack : IState
     {
         private NavMeshAgent _navMeshAgent;
-        private TankAttackProperties _attackProperties;
+        private DroneAttackProperties _attackProperties;
 
         private float _maxDistance;
         private Player _player;
 
         private float _endTime;
 
-        public TankRobotState_Shoot
-            (Player player, NavMeshAgent navMeshAgent, float maxDistance, TankAttackProperties attackProperties)
+        public DroneState_Attack
+            (Player player, NavMeshAgent navMeshAgent, float maxDistance, DroneAttackProperties attackProperties)
         {
             _navMeshAgent = navMeshAgent;
             _player = player;
