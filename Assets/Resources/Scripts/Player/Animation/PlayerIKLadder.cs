@@ -55,7 +55,6 @@ public class PlayerIKLadder : MonoBehaviour
 
         UpdateIK(ladder);
 
-
         UpdateIKTransform(_targetPointRight, _targetPointLeft, ladder);
     }
 

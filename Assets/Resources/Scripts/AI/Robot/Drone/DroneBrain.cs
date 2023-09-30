@@ -1,36 +1,21 @@
 using System;
-using AI;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
-using Zenject;
 
 namespace AI
 {
-    public class DroneBehavior : MonoBehaviour
+    public class DroneBehavior : RobotBrain
     {
         [HideInInspector] public UnityEvent<int> OnAttack;
 
-        [Required, SerializeField] private NavMeshAgent _navMeshAgent;
-        [Required, SerializeField] private Health _robotHealth;
-
-        //[Header("Death")] [Required, SerializeField]
-        //private RobotAnimator _animator;
-
         [SerializeField] private float _destroyDelay;
 
-        [SerializeField] private RobotVision _robotVision;
-
-        [BoxGroup("Idle")] [SerializeField, MinMaxSlider(0.0f, 15.0f)]
+        [SerializeField, BoxGroup("Idle"), MinMaxSlider(0.0f, 15.0f)]
         private Vector2 _idleDelayRange;
 
-        [SerializeField, BoxGroup("Patrolling")]
-        private Transform[] _patrolPoints;
-
-        [SerializeField, BoxGroup("Patrolling")]
-        private float _patrolSpeed;
+        [SerializeField, BoxGroup("Patrolling")] private Transform[] _patrolPoints;
+        [SerializeField, BoxGroup("Patrolling")] private float _patrolSpeed;
 
         [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
         [SerializeField, BoxGroup("Chasing")] private float _chaseMinDistance;
@@ -40,12 +25,7 @@ namespace AI
         [SerializeField, BoxGroup("Combat")] private DroneAttackProperties _attackProperties;
 
         [SerializeField, BoxGroup("Freeze")] private float _freezeMinHeight;
-        [SerializeField, BoxGroup("Freeze")] private float _freezeMaxHeight;
         [SerializeField, BoxGroup("Freeze")] private float _freezeDuration;
-
-        [Inject] private Player _player;
-
-        private StateMachine _stateMachine;
 
         private RobotState_Delay _delayState;
         private RobotState_Patrol _patrolState;
@@ -56,23 +36,14 @@ namespace AI
         private DroneState_Attack _attackState;
         private DroneState_Freeze _freezeState;
 
-        private void Awake()
+        protected override void Awake()
         {
-            _stateMachine = new StateMachine();
-
-            SetupStates();
-
-            SetupTransitions();
+            base.Awake();
 
             _stateMachine.SetState(_patrolState);
         }
 
-        private void Update()
-        {
-            _stateMachine.Tick();
-        }
-
-        private void SetupStates()
+        protected override void SetupStates()
         {
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
@@ -82,10 +53,10 @@ namespace AI
             _attackState = 
                 new DroneState_Attack(_player, _navMeshAgent, _chaseMinDistance, _maxCombatDistance, _attackProperties);
             _freezeState = 
-                new DroneState_Freeze(_navMeshAgent, _freezeMinHeight, _freezeMaxHeight, _freezeDuration);
+                new DroneState_Freeze(_navMeshAgent, _attackState, _freezeMinHeight, _freezeDuration);
         }
 
-        private void SetupTransitions()
+        protected override void SetupTransitions()
         {
             _stateMachine.AddTransition(_patrolState, _delayState, _patrolState.IsDone);
             _stateMachine.AddTransition(_delayState, _patrolState, _delayState.IsDone);
@@ -103,17 +74,11 @@ namespace AI
             _stateMachine.AddTransition(_freezeState, _delayState, _freezeState.IsDone);
             
             _robotHealth.OnDeath.AddListener(OnDeath);
-            //_robotHealth.OnTakeDamage.AddListener(OnTakeDamage);
         }
 
         private void OnDeath()
         {
             _stateMachine.SetState(_deathState);
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            _robotVision.OnGizmos();
         }
     }
 

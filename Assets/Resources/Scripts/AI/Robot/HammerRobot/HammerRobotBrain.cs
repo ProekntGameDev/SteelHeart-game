@@ -1,23 +1,16 @@
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AI;
-using Zenject;
 using UnityEngine.Events;
 
 namespace AI
 {
-    public class HammerRobotBrain : MonoBehaviour
+    public class HammerRobotBrain : RobotBrain
     {
         [HideInInspector] public UnityEvent<int> OnAttack;
-
-        [Required, SerializeField] private NavMeshAgent _navMeshAgent;
-        [Required, SerializeField] private Health _robotHealth;
 
         [Header("Death")]
         [Required, SerializeField] private RobotAnimator _animator;
         [SerializeField] private float _destroyDelay;
-
-        [SerializeField] private RobotVision _robotVision;
 
         [BoxGroup("Idle")]
         [SerializeField, MinMaxSlider(0.0f, 15.0f)] private Vector2 _idleDelayRange;
@@ -34,10 +27,6 @@ namespace AI
         [SerializeField, Range(0, 1), BoxGroup("Combat")] private float _stanChance;
         [SerializeField, BoxGroup("Combat")] private RobotState_Combat.AttacksProperties _attacksProperties;
 
-        [Inject] private Player _player;
-
-        private StateMachine _stateMachine;
-
         private RobotState_Delay _delayState;
         private RobotState_Patrol _patrolState;
         private RobotState_Chase _chaseState;
@@ -47,23 +36,14 @@ namespace AI
 
         public bool IsInStan => _stateMachine.IsInState(_stanState);
 
-        private void Awake()
+        protected override void Awake()
         {
-            _stateMachine = new StateMachine();
-
-            SetupStates();
-
-            SetupTransitions();
+            base.Awake();
 
             _stateMachine.SetState(_patrolState);
         }
 
-        private void Update()
-        {
-            _stateMachine.Tick();
-        }
-
-        private void SetupStates()
+        protected override void SetupStates()
         {
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
@@ -76,7 +56,7 @@ namespace AI
             _combatState.OnPerformAttack += (index) => OnAttack?.Invoke(index);
         }
 
-        private void SetupTransitions()
+        protected override void SetupTransitions()
         {
             _stateMachine.AddTransition(_patrolState, _delayState, _patrolState.IsDone);
             _stateMachine.AddTransition(_delayState, _patrolState, _delayState.IsDone);
@@ -110,11 +90,6 @@ namespace AI
         private void OnDeath()
         {
             _stateMachine.SetState(_deathState);
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            _robotVision.OnGizmos();
         }
     }
 }
