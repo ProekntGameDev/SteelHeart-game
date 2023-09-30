@@ -25,7 +25,7 @@ namespace AI
         [SerializeField, BoxGroup("Escape")] private float _escapeSpeed;
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
-        [SerializeField, BoxGroup("Combat")] private AttackProperties _attackProperties;
+        [SerializeField, BoxGroup("Combat")] private TankAttackProperties _attackProperties;
         //[SerializeField, BoxGroup("Combat")] private ScriptableObject _robotAttack;
         // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
 
@@ -94,7 +94,7 @@ namespace AI
     }
 
     [Serializable]
-    public struct AttackProperties
+    public struct TankAttackProperties
     {
         public Projectile Projectile => _projectile;
         public Transform ShootPoint => _shootPoint;

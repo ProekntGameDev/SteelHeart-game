@@ -1,23 +1,28 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace AI
 {
-    public class TankRobotState_Shoot : IState
+    public class DroneState_Attack : IState
     {
         private NavMeshAgent _navMeshAgent;
-        private TankAttackProperties _attackProperties;
+        private DroneAttackProperties _attackProperties;
 
+        private float _minDistance;
         private float _maxDistance;
+        private float _baseStoppingDistance;
+        
         private Player _player;
 
         private float _endTime;
+        private static int _attacksBeforeFreeze;
 
-        public TankRobotState_Shoot
-            (Player player, NavMeshAgent navMeshAgent, float maxDistance, TankAttackProperties attackProperties)
+        public DroneState_Attack
+            (Player player, NavMeshAgent navMeshAgent, float minDistance, float maxDistance, DroneAttackProperties attackProperties)
         {
             _navMeshAgent = navMeshAgent;
             _player = player;
+            _minDistance = minDistance;
             _maxDistance = maxDistance;
             _attackProperties = attackProperties;
         }
@@ -25,13 +30,19 @@ namespace AI
         public void OnEnter()
         {
             _endTime = Time.time + (1 / _attackProperties.Speed);
+            _attacksBeforeFreeze = _attackProperties.AttacksBeforeFreeze;
+            
             _navMeshAgent.updateRotation = false;
+
+            _baseStoppingDistance = _navMeshAgent.stoppingDistance;
+            _navMeshAgent.stoppingDistance = _minDistance;
         }
 
         public void OnExit()
         {
             _navMeshAgent.updateRotation = true;
-
+            _navMeshAgent.stoppingDistance = _baseStoppingDistance;
+            
             if (_endTime > Time.time)
                 return;
 
@@ -57,6 +68,8 @@ namespace AI
         {
             return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
         }
+
+        public bool IsTimeOut() => _attacksBeforeFreeze == 0;
 
         private void LookAtTarget()
         {
