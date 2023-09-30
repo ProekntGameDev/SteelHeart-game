@@ -15,6 +15,7 @@ namespace AI
         private Player _player;
 
         private float _endTime;
+        private static int _attacksBeforeFreeze;
 
         public DroneState_Attack
             (Player player, NavMeshAgent navMeshAgent, float minDistance, float maxDistance, DroneAttackProperties attackProperties)
@@ -29,6 +30,8 @@ namespace AI
         public void OnEnter()
         {
             _endTime = Time.time + (1 / _attackProperties.Speed);
+            _attacksBeforeFreeze = _attackProperties.AttacksBeforeFreeze;
+            
             _navMeshAgent.updateRotation = false;
 
             _baseStoppingDistance = _navMeshAgent.stoppingDistance;
@@ -65,6 +68,8 @@ namespace AI
         {
             return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
         }
+
+        public bool IsTimeOut() => _attacksBeforeFreeze == 0;
 
         private void LookAtTarget()
         {
