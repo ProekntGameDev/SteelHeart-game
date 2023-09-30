@@ -15,8 +15,8 @@ namespace AI
         [Required, SerializeField] private NavMeshAgent _navMeshAgent;
         [Required, SerializeField] private Health _robotHealth;
 
-        [Header("Death")] [Required, SerializeField]
-        private RobotAnimator _animator;
+        //[Header("Death")] [Required, SerializeField]
+        //private RobotAnimator _animator;
 
         [SerializeField] private float _destroyDelay;
 
@@ -37,8 +37,10 @@ namespace AI
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
         [SerializeField, BoxGroup("Combat")] private DroneAttackProperties _attackProperties;
-        //[SerializeField, BoxGroup("Combat")] private float _stanDuration;
-        //[SerializeField, BoxGroup("Combat")] private RobotState_Combat.AttacksProperties _attacksProperties;
+
+        [SerializeField, BoxGroup("Freeze")] private float _freezeMinHeight;
+        [SerializeField, BoxGroup("Freeze")] private float _freezeMaxHeight;
+        [SerializeField, BoxGroup("Freeze")] private float _freezeDuration;
 
         [Inject] private Player _player;
 
@@ -47,8 +49,11 @@ namespace AI
         private RobotState_Delay _delayState;
         private RobotState_Patrol _patrolState;
         private RobotState_Chase _chaseState;
-        private DroneState_Attack _attackState;
+        
         private RobotState_Death _deathState;
+        
+        private DroneState_Attack _attackState;
+        private DroneState_Freeze _freezeState;
 
         private void Awake()
         {
@@ -73,9 +78,8 @@ namespace AI
             _chaseState =
                 new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _chaseMinDistance, _chaseMaxDistance);
             _deathState = new RobotState_Death(gameObject, _destroyDelay);
-            _attackState = new DroneState_Attack(_player, _navMeshAgent, _maxCombatDistance, _attackProperties);
-            //_combatState = new RobotState_Combat(_player, this, _maxCombatDistance, _attacksProperties);
-            //_shootState.OnPerformAttack += (index) => OnAttack?.Invoke(index);
+            _attackState = new DroneState_Attack(_player, _navMeshAgent, _chaseMinDistance, _maxCombatDistance, _attackProperties);
+            _freezeState = new DroneState_Freeze(_navMeshAgent, _freezeMinHeight, _freezeMaxHeight, _freezeDuration);
         }
 
         private void SetupTransitions()
@@ -92,6 +96,8 @@ namespace AI
             _stateMachine.AddTransition(_attackState, _delayState, _attackState.IsDone);
             _stateMachine.AddTransition(_attackState, _chaseState, _attackState.IsLostPlayer);
 
+            _stateMachine.AddTransition(_freezeState, _delayState, _freezeState.IsDone);
+            
             _robotHealth.OnDeath.AddListener(OnDeath);
             //_robotHealth.OnTakeDamage.AddListener(OnTakeDamage);
         }

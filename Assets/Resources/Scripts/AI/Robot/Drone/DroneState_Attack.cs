@@ -8,16 +8,20 @@ namespace AI
         private NavMeshAgent _navMeshAgent;
         private DroneAttackProperties _attackProperties;
 
+        private float _minDistance;
         private float _maxDistance;
+        private float _baseStoppingDistance;
+        
         private Player _player;
 
         private float _endTime;
 
         public DroneState_Attack
-            (Player player, NavMeshAgent navMeshAgent, float maxDistance, DroneAttackProperties attackProperties)
+            (Player player, NavMeshAgent navMeshAgent, float minDistance, float maxDistance, DroneAttackProperties attackProperties)
         {
             _navMeshAgent = navMeshAgent;
             _player = player;
+            _minDistance = minDistance;
             _maxDistance = maxDistance;
             _attackProperties = attackProperties;
         }
@@ -26,12 +30,16 @@ namespace AI
         {
             _endTime = Time.time + (1 / _attackProperties.Speed);
             _navMeshAgent.updateRotation = false;
+
+            _baseStoppingDistance = _navMeshAgent.stoppingDistance;
+            _navMeshAgent.stoppingDistance = _minDistance;
         }
 
         public void OnExit()
         {
             _navMeshAgent.updateRotation = true;
-
+            _navMeshAgent.stoppingDistance = _baseStoppingDistance;
+            
             if (_endTime > Time.time)
                 return;
 
