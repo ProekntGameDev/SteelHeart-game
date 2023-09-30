@@ -15,7 +15,7 @@ namespace AI
         private Player _player;
 
         private float _endTime;
-        private static int _attacksBeforeFreeze;
+        private int _attacksBeforeFreeze;
 
         public DroneState_Attack
             (Player player, NavMeshAgent navMeshAgent, float minDistance, float maxDistance, DroneAttackProperties attackProperties)
@@ -25,12 +25,13 @@ namespace AI
             _minDistance = minDistance;
             _maxDistance = maxDistance;
             _attackProperties = attackProperties;
+
+            _attacksBeforeFreeze = _attackProperties.AttacksBeforeFreeze;
         }
 
         public void OnEnter()
         {
             _endTime = Time.time + (1 / _attackProperties.Speed);
-            _attacksBeforeFreeze = _attackProperties.AttacksBeforeFreeze;
             
             _navMeshAgent.updateRotation = false;
 
@@ -59,15 +60,14 @@ namespace AI
             LookAtTarget();
         }
 
-        public bool IsDone()
+        public void Reload()
         {
-            return _player.Health.Current == 0 || _endTime <= Time.time;
+            _attacksBeforeFreeze = _attackProperties.AttacksBeforeFreeze;
         }
 
-        public bool IsLostPlayer()
-        {
-            return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
-        }
+        public bool IsDone() =>_player.Health.Current == 0 || _endTime <= Time.time;
+
+        public bool IsLostPlayer() => Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
 
         public bool IsTimeOut() => _attacksBeforeFreeze == 0;
 
@@ -87,6 +87,8 @@ namespace AI
             projectile.transform.position = _attackProperties.ShootPoint.position;
 
             projectile.Init(direction, _attackProperties.Damage);
+
+            _attacksBeforeFreeze -= 1;
         }
     }
 }

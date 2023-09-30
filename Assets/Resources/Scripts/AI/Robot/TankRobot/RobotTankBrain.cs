@@ -1,18 +1,11 @@
 using System;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AI;
-using Zenject;
 
 namespace AI
 {
-    public class RobotTankBrain : MonoBehaviour
+    public class RobotTankBrain : RobotBrain
     {
-        [Required, SerializeField] private NavMeshAgent _navMeshAgent;
-        [Required, SerializeField] private Health _robotHealth;
-
-        [SerializeField] private RobotVision _robotVision;
-
         [BoxGroup("Idle")] [SerializeField, MinMaxSlider(0.0f, 15.0f)] private Vector2 _idleDelayRange;
 
         [SerializeField, BoxGroup("Patrolling")] private Transform[] _patrolPoints;
@@ -26,50 +19,34 @@ namespace AI
 
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
         [SerializeField, BoxGroup("Combat")] private TankAttackProperties _attackProperties;
-        //[SerializeField, BoxGroup("Combat")] private ScriptableObject _robotAttack;
-        // SOInheritedFrom attribute ensures that objects will inherit from IRobotAttack
 
-        private StateMachine _stateMachine;
         private RobotState_Delay _delayState;
         private RobotState_Patrol _patrolState;
         private TankRobotState_Chase _chaseState;
         private TankRobotState_Shoot _shootState;
         private TankRobotState_Escape _escapeState;
-
-        [Inject] private Player _player;
         
-        private const float ZeroDistance = 0f;
-        private void Awake()
+        protected override void Awake()
         {
-            _stateMachine = new StateMachine();
-
-            SetupStates();
-
-            SetupTransitions();
+            base.Awake();
 
             _stateMachine.SetState(_patrolState);
-
             _robotHealth.OnDeath.AddListener(() => Destroy(gameObject));
         }
 
-        private void Update()
-        {
-            _stateMachine.Tick();
-        }
-
-        private void SetupStates()
+        protected override void SetupStates()
         {
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed,_navMeshAgent, _patrolPoints);
             _chaseState = new TankRobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minChaseDistance, _maxCombatDistance);
             _escapeState = new TankRobotState_Escape
-                (_escapeSpeed, _escapeDistance, ZeroDistance, _navMeshAgent, _player);
+                (_escapeSpeed, _escapeDistance, 0, _navMeshAgent, _player);
 
             _shootState = new TankRobotState_Shoot
                 (_player, _navMeshAgent, _maxCombatDistance, _attackProperties);
         }
 
-        private void SetupTransitions()
+        protected override void SetupTransitions()
         {
             _stateMachine.AddTransition(_patrolState, _delayState, () => _patrolState.IsDone());
             _stateMachine.AddTransition(_delayState, _patrolState, () => _delayState.IsDone());
@@ -85,11 +62,6 @@ namespace AI
             _stateMachine.AddTransition(_shootState, _escapeState, () => _escapeState.IsPlayerClose());
 
             _stateMachine.AddTransition(_escapeState, _patrolState, () => _escapeState.IsPlayerFar());
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            _robotVision.OnGizmos();
         }
     }
 
