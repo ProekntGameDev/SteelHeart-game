@@ -48,8 +48,8 @@ namespace AI
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
             _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _chaseMinDistance, _chaseMaxDistance);
-            _stanState = new RobotState_Stan(_stanDuration);
-            _deathState = new RobotState_Death(gameObject, _destroyDelay);
+            _stanState = new RobotState_Stan(_navMeshAgent, _stanDuration);
+            _deathState = new RobotState_Death(_navMeshAgent, _destroyDelay);
 
             _combatState = new RobotState_Combat(_player, this, _maxCombatDistance, _attacksProperties);
 

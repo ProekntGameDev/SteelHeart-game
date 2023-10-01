@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 [Serializable]
@@ -8,6 +11,7 @@ public class PlayerSaveData
     public float Health { get; private set; }
     public float Stamina { get; private set; }
     public int Gears { get; private set; }
+    public IReadOnlyList<NoteSaveData> Notes { get; private set; }
     public PlayerMovementData AdditionalData { get; private set; }
 
     public PlayerSaveData(Player player, string scene, PlayerMovementData additionalData = null)
@@ -16,6 +20,7 @@ public class PlayerSaveData
         Health = player.Health.Current;
         Stamina = player.Stamina.Current;
         Gears = player.GearsHolder.Gears;
+        Notes = new List<NoteSaveData>(player.Journal.Notes.Select(x => new NoteSaveData(x)));
 
         AdditionalData = additionalData;
     }
@@ -25,6 +30,7 @@ public class PlayerSaveData
         player.Health.Load(this);
         player.Stamina.Load(this);
         player.GearsHolder.Load(this);
+        player.Journal.Load(this);
     }
 }
 
@@ -53,5 +59,21 @@ public class PlayerMovementData
         player.Movement.CharacterController.VerticalVelocity = Velocity.y;
 
         camera.transform.rotation = CameraRotation;
+    }
+}
+
+[Serializable]
+public class NoteSaveData
+{
+    public string Path { get; private set; }
+
+    public NoteSaveData(NoteData noteData)
+    {
+        Path = AssetDatabase.GetAssetPath(noteData);
+    }
+
+    public static implicit operator NoteData(NoteSaveData noteSaveData)
+    {
+        return AssetDatabase.LoadAssetAtPath<NoteData>(noteSaveData.Path);
     }
 }

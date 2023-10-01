@@ -1,7 +1,7 @@
 using NaughtyAttributes;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Zenject;
 
 public class JournalUI : BaseMenu
 {
@@ -11,6 +11,14 @@ public class JournalUI : BaseMenu
     [SerializeField, Required] private JournalNoteUI _textNotePrefab;
     [SerializeField, Required] private JournalNoteUI _audioNotePrefab;
     [SerializeField, Required] private JournalContent _content;
+
+    protected override void EscapePerformed(InputAction.CallbackContext context)
+    {
+        if (_panel.activeInHierarchy == false)
+            return;
+
+        Disable();
+    }
 
     private void Start()
     {
@@ -23,13 +31,5 @@ public class JournalUI : BaseMenu
 
         JournalNoteUI journalNoteUI = Instantiate(notePrefab, _scrollViewContent.transform);
         journalNoteUI.Init(_content, noteData);
-    }
-
-    protected override void EscapePerformed(InputAction.CallbackContext context)
-    {
-        if (_panel.activeInHierarchy == false)
-            return;
-
-        Disable();
     }
 }
