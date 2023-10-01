@@ -23,6 +23,17 @@ public class Journal : MonoBehaviour
         OnNoteAdded?.Invoke(noteData);
     }
 
+    public void Load(PlayerSaveData saveData)
+    {
+        _notes.Clear();
+
+        foreach (var note in saveData.Notes)
+        {
+            _notes.Add(note);
+            OnNoteAdded?.Invoke(note);
+        }
+    }
+
     private void OverlapTrigger(InputAction.CallbackContext context)
     {
         if (_player.Interactor.SelectedInteractable != null)

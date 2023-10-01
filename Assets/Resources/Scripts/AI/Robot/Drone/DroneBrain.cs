@@ -49,7 +49,7 @@ namespace AI
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
             _chaseState =
                 new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _chaseMinDistance, _chaseMaxDistance);
-            _deathState = new RobotState_Death(gameObject, _destroyDelay);
+            _deathState = new RobotState_Death(_navMeshAgent, _destroyDelay);
             _attackState = 
                 new DroneState_Attack(_player, _navMeshAgent, _chaseMinDistance, _maxCombatDistance, _attackProperties);
             _freezeState = 

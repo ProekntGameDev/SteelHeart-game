@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AI
 {
@@ -8,10 +9,10 @@ namespace AI
         private readonly Animator _animator;
         private readonly float _destroyDelay;
 
-        private GameObject _robot;
+        private NavMeshAgent _robot;
         private float _startTime;
 
-        public RobotState_Death(GameObject robot, Rigidbody rigidbody, Animator animator, float destroyDelay)
+        public RobotState_Death(NavMeshAgent robot, Rigidbody rigidbody, Animator animator, float destroyDelay)
         {
             _robot = robot;
             _rigidbody = rigidbody;
@@ -19,7 +20,7 @@ namespace AI
             _destroyDelay = destroyDelay;
         }
 
-        public RobotState_Death(GameObject robot, float destroyDelay)
+        public RobotState_Death(NavMeshAgent robot, float destroyDelay)
         {
             _robot = robot;
             _destroyDelay = destroyDelay;
@@ -31,6 +32,8 @@ namespace AI
 
             if (_rigidbody != null)
                 EnableRagdoll();
+
+            _robot.isStopped = true;
         }
 
         public void OnExit()
@@ -41,7 +44,7 @@ namespace AI
             if (IsDone() == false || _robot == null)
                 return;
 
-            GameObject.Destroy(_robot);
+            GameObject.Destroy(_robot.gameObject);
             _robot = null;
         }
 
