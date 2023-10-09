@@ -55,14 +55,12 @@ public class PlayerCombat : MonoBehaviour
 
     private void SetupTransitions()
     {
-        _player.Input.Player.Fire.performed += (context) => OnFirePerformed(context);
-
         _stateMachine.AddTransition(_attackState, _idleState, () => _attackState.IsDone());
     }
 
     private void OnFirePerformed(InputAction.CallbackContext context)
     {
-        if (context.phase != InputActionPhase.Performed && _stateMachine.IsInState(_attackState) == false)
+        if (_stateMachine == null || _stateMachine.IsInState(_attackState))
             return;
 
         if (_player.Movement.Ladder != null)
@@ -75,5 +73,15 @@ public class PlayerCombat : MonoBehaviour
     private void Update()
     {
         _stateMachine.Tick();
+    }
+
+    private void OnEnable()
+    {
+        _player.Input.Player.Fire.performed += OnFirePerformed;
+    }
+
+    private void OnDisable()
+    {
+        _player.Input.Player.Fire.performed -= OnFirePerformed;
     }
 }

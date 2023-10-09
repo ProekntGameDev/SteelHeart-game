@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
 using Zenject;
+using Random = UnityEngine.Random;
+using UnityEngine.InputSystem;
 
 namespace QTE
 {
@@ -12,24 +14,41 @@ namespace QTE
 
         [Inject] private Player _player;
 
+        private InputBinding _inputBinding;
+        private QTEObject _qTEObject;
+
         private void StartQTE(QTEObject qTEObject)
         {
-            qTEObject.StartQTE();
+            _inputBinding = _player.Input.Player.QTE.bindings[Random.Range(0, _player.Input.Player.QTE.bindings.Count)];
+            _qTEObject = qTEObject;
 
-            _qTEBar.SetActiveQTEPanel(true);
+            qTEObject.StartQTE(_inputBinding);
 
-            _player.Input.Player.QTE.performed += (context) => qTEObject.ForclickQTE();
-            qTEObject.OnEnd.AddListener((result) => EndQTE(qTEObject));
+            _qTEBar.EnableQTEPanel(_inputBinding);
+
+            _player.Input.Player.QTE.performed += QTEPerformed;
+            qTEObject.OnEnd.AddListener(EndQTE);
             qTEObject.OnProgressChanged.AddListener((newValue) => _qTEBar.FillAmountQTEBar = newValue);
         }
 
-        private void EndQTE(QTEObject qTEObject)
+        private void EndQTE(bool result)
         {
-            _player.Input.Player.QTE.performed -= (context) => qTEObject.ForclickQTE();
-            qTEObject.OnEnd.RemoveListener((result) => EndQTE(qTEObject));
-            qTEObject.OnProgressChanged.RemoveListener((newValue) => _qTEBar.FillAmountQTEBar = newValue);
+            _player.Input.Player.QTE.performed -= QTEPerformed;
+            _qTEObject.OnEnd.RemoveListener(EndQTE);
+            _qTEObject.OnProgressChanged.RemoveListener((newValue) => _qTEBar.FillAmountQTEBar = newValue);
 
-            _qTEBar.SetActiveQTEPanel(false);
+            _qTEBar.DisableQTEPanel();
+
+            _qTEObject = null;
+            _inputBinding = default;
+        }
+
+        private void QTEPerformed(InputAction.CallbackContext context)
+        {
+            if (_qTEObject == null || context.action.GetBindingForControl(context.control) != _inputBinding)
+                return;
+
+            _qTEObject.ForclickQTE();
         }
 
         private void OnEnable() => OnStartQTE += StartQTE;

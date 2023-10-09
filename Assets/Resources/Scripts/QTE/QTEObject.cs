@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace QTE
 {
@@ -23,14 +24,16 @@ namespace QTE
         [SerializeField, Range(0f, 1f)] private float _forclick;
         [SerializeField, Range(0f, 1f)] private float _startingValue;
 
+        private InputBinding _inputBinding;
         private Coroutine _coroutineRollbackQTE;
         private float _currentValue;
 
-        public void StartQTE()
+        public void StartQTE(InputBinding inputBinding)
         {
             if (IsActive == false || _coroutineRollbackQTE != null)
                 throw new System.InvalidOperationException();
 
+            _inputBinding = inputBinding;
             StartRollbackQTE();
             OnStart?.Invoke();
         }
