@@ -1,11 +1,14 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 namespace QTE
 {
     public class QTETrainPush : QTEBehavior
     {
+        public UnityEvent OnSuccess;
+
         [Header("Player")]
         [SerializeField, Required] private Animator _playerAnimator;
         [SerializeField, AnimatorLayer(nameof(_playerAnimator))] private int _qteLayer;
@@ -31,6 +34,7 @@ namespace QTE
         public override void OnStart()
         {
             _player.Combat.enabled = false;
+            _player.Interactor.enabled = false;
             _player.Movement.enabled = false;
             _player.transform.position = _playerStartPoint.position;
 
@@ -57,6 +61,9 @@ namespace QTE
             _targetPosition = result ? _endPoint.position : _startPoint.position;
 
             _isQteActive = false;
+
+            if (result)
+                OnSuccess?.Invoke();
         }
 
         private void Update()
@@ -79,6 +86,7 @@ namespace QTE
 
             if (Vector3.Distance(_player.transform.position, _playerStartPoint.position) < 0.1f || HasPlayerReachedEndPoint())
             {
+                _player.Interactor.enabled = true;
                 _player.Combat.enabled = true;
                 _player.Movement.enabled = true;
 
