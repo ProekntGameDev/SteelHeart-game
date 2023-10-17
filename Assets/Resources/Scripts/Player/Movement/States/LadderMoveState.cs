@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LadderMoveState : MoveState
+public class LadderMoveState : OldMovement.MoveState
 {
     public Ladder Ladder => _ladder;
 
@@ -9,7 +9,8 @@ public class LadderMoveState : MoveState
     private Collider _ladderCollider;
     private float _speed;
 
-    public LadderMoveState(InertialCharacterController characterController, Transform playerLadderTrigger, float speed) : base(characterController, 0, 0)
+    public LadderMoveState(InertialCharacterController characterController, Stamina stamina, Transform playerLadderTrigger, float speed) 
+        : base(characterController, stamina, new Settings())
     {
         _speed = speed;
         _playerLadderTrigger = playerLadderTrigger;

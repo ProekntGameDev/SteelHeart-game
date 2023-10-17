@@ -1,43 +1,72 @@
 using UnityEngine;
 
-public class MoveState : IState
+namespace OldMovement
 {
-    protected InertialCharacterController _characterController { get; private set; }
-    private float _maxSpeed;
-    private float _acceleration;
-
-    public MoveState(InertialCharacterController characterController, float acceleration, float maxSpeed)
+    public class MoveState : IState
     {
-        _characterController = characterController;
-        _maxSpeed = maxSpeed;
-        _acceleration = acceleration;
-    }
+        [System.Serializable]
+        public struct Settings
+        {
+            public float MaxSpeed => _maxSpeed;
+            public float Acceleration => _acceleration;
+            public float StaminRestoration => _staminRestoration;
+            public float StaminCost => _staminCost;
 
-    public virtual void OnEnter()
-    {
-    }
+            [SerializeField] private float _maxSpeed;
+            [SerializeField] private float _acceleration;
+            [SerializeField] private float _staminRestoration;
+            [SerializeField] private float _staminCost;
+        }
 
-    public virtual void OnExit()
-    {
-    }
+        public float StaminaCost => _settings.StaminCost;
 
-    public void Tick()
-    {
-        Vector3 input = _characterController.ReadInputAxis();
+        protected InertialCharacterController _characterController { get; private set; }
 
-        Vector3 forward = _characterController.Forward.normalized;
-        Vector3 right = Vector3.Cross(Vector3.up, forward);
+        private Settings _settings;
+        private Stamina _stamina;
 
-        Vector3 wishDirection = input.x * right + input.y * forward;
+        public MoveState(InertialCharacterController characterController, Stamina stamina, Settings settings)
+        {
+            _characterController = characterController;
+            _settings = settings;
+            _stamina = stamina;
+        }
 
-        wishDirection.Normalize();
+        public virtual void OnEnter()
+        {
+            if (_stamina.Current < _settings.StaminCost)
+                throw new System.InvalidOperationException();
 
-        Move(wishDirection, _acceleration, _maxSpeed);
-    }
+            _stamina.Decay(_settings.StaminCost);
+        }
 
-    protected virtual void Move(Vector3 wishDirection, float acceleration, float maxSpeed)
-    {
-        _characterController.GroundMove(wishDirection, acceleration, maxSpeed);
-        _characterController.Rotate(wishDirection);
+        public virtual void OnExit()
+        {
+        }
+
+        public void Tick()
+        {
+            Vector3 input = _characterController.ReadInputAxis();
+
+            Vector3 forward = _characterController.Forward.normalized;
+            Vector3 right = Vector3.Cross(Vector3.up, forward);
+
+            Vector3 wishDirection = input.x * right + input.y * forward;
+
+            wishDirection.Normalize();
+
+            Move(wishDirection, _settings.Acceleration, _settings.MaxSpeed);
+
+            if (_settings.StaminRestoration >= 0)
+                _stamina.RestoreFixedTime(_settings.StaminRestoration);
+            else
+                _stamina.Decay(-_settings.StaminRestoration * Time.fixedDeltaTime);
+        }
+
+        protected virtual void Move(Vector3 wishDirection, float acceleration, float maxSpeed)
+        {
+            _characterController.GroundMove(wishDirection, acceleration, maxSpeed);
+            _characterController.Rotate(wishDirection);
+        }
     }
 }

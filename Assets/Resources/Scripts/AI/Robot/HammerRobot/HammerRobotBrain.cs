@@ -1,16 +1,11 @@
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace AI
 {
     public class HammerRobotBrain : RobotBrain
     {
-        [HideInInspector] public UnityEvent<int> OnAttack;
-
-        [Header("Death")]
-        [Required, SerializeField] private RobotAnimator _animator;
-        [SerializeField] private float _destroyDelay;
+        [SerializeField, BoxGroup("Death")] private float _destroyDelay;
 
         [BoxGroup("Idle")]
         [SerializeField, MinMaxSlider(0.0f, 15.0f)] private Vector2 _idleDelayRange;
@@ -22,15 +17,10 @@ namespace AI
         [SerializeField, BoxGroup("Chasing")] private float _chaseMinDistance;
         [SerializeField, BoxGroup("Chasing")] private float _chaseMaxDistance;
 
-        [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
-        [SerializeField, BoxGroup("Combat")] private float _stanDuration;
-        [SerializeField, Range(0, 1), BoxGroup("Combat")] private float _stanChance;
-        [SerializeField, BoxGroup("Combat")] private RobotState_Combat.AttacksProperties _attacksProperties;
-
+        [SerializeField, BoxGroup("Combat")] private RobotState_Combat _combatState;
         private RobotState_Delay _delayState;
         private RobotState_Patrol _patrolState;
         private RobotState_Chase _chaseState;
-        private RobotState_Combat _combatState;
         private RobotState_Stan _stanState;
         private RobotState_Death _deathState;
 
@@ -48,12 +38,8 @@ namespace AI
             _delayState = new RobotState_Delay(_idleDelayRange);
             _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
             _chaseState = new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _chaseMinDistance, _chaseMaxDistance);
-            _stanState = new RobotState_Stan(_navMeshAgent, _stanDuration);
+            _stanState = new RobotState_Stan(_navMeshAgent, _combatState.StanDuration);
             _deathState = new RobotState_Death(_navMeshAgent, _destroyDelay);
-
-            _combatState = new RobotState_Combat(_player, this, _maxCombatDistance, _attacksProperties);
-
-            _combatState.OnPerformAttack += (index) => OnAttack?.Invoke(index);
         }
 
         protected override void SetupTransitions()
@@ -73,15 +59,12 @@ namespace AI
             _stateMachine.AddTransition(_stanState, _chaseState, _stanState.IsDone);
 
             _robotHealth.OnDeath.AddListener(OnDeath);
-            _robotHealth.OnTakeDamage.AddListener(OnTakeDamage);
+            _combatState.OnStan.AddListener(OnStan);
         }
 
-        private void OnTakeDamage()
+        private void OnStan()
         {
-            if (_stateMachine.IsInState(_deathState))
-                return;
-
-            if (Random.Range(0f, 1f) > _stanChance)
+            if (IsInStan)
                 return;
 
             _stateMachine.SetState(_stanState);

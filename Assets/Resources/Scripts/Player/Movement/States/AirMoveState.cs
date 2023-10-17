@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class AirMoveState : MoveState
+public class AirMoveState : OldMovement.MoveState
 {
-    public AirMoveState(InertialCharacterController characterController, float acceleration, float maxSpeed) : base (characterController, acceleration, maxSpeed)
+    public AirMoveState(InertialCharacterController characterController, Stamina stamina, Settings settings) : base (characterController, stamina, settings)
     { }
 
     protected override void Move(Vector3 wishDirection, float acceleration, float maxSpeed)

@@ -1,6 +1,5 @@
 using UnityEngine;
 using NaughtyAttributes;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(Health))]
 public class Player : MonoBehaviour

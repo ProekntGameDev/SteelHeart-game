@@ -10,14 +10,16 @@ namespace AI
 
         private float _maxDistance;
         private Player _player;
+        private Health _health;
 
         private float _endTime;
 
         public TankRobotState_Shoot
-            (Player player, NavMeshAgent navMeshAgent, float maxDistance, TankAttackProperties attackProperties)
+            (Player player, NavMeshAgent navMeshAgent, Health health, float maxDistance, TankAttackProperties attackProperties)
         {
             _navMeshAgent = navMeshAgent;
             _player = player;
+            _health = health;
             _maxDistance = maxDistance;
             _attackProperties = attackProperties;
         }
@@ -73,7 +75,7 @@ namespace AI
             projectile.transform.forward = direction;
             projectile.transform.position = _attackProperties.ShootPoint.position;
 
-            projectile.Init(direction, _attackProperties.Damage);
+            projectile.Init(direction, _attackProperties.Damage, _health);
         }
     }
 }

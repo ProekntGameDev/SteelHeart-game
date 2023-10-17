@@ -1,31 +1,33 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
 namespace AI
 {
-    public class RobotAttack_Hammer : IState
+    public class RobotAttack_Hammer : MonoBehaviour, IState
     {
         public Properties AttackProperties => _properties;
 
-        private Properties _properties;
-        private Player _player;
-        private NavMeshAgent _navMeshAgent;
+        [SerializeField] private Properties _properties;
+        [SerializeField, Required] private Health _robotHealth;
+        [SerializeField, Required] private NavMeshAgent _navMeshAgent;
+
+        [SerializeField, Required] private Animator _animator;
+        [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _trigger;
+
+        [Inject] private Player _player;
 
         private float _startTime;
         private bool _willAttack;
-
-        public RobotAttack_Hammer(NavMeshAgent navMeshAgent, Player player, Properties properties)
-        {
-            _properties = properties;
-            _player = player;
-            _navMeshAgent = navMeshAgent;
-        }
 
         public void OnEnter()
         {
             _navMeshAgent.updateRotation = false;
             _startTime = Time.time;
             _willAttack = true;
+
+            _animator.SetTrigger(_trigger);
         }
 
         public void OnExit()
@@ -52,7 +54,7 @@ namespace AI
         private void Attack()
         {
             if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _properties.MaxDistance)
-                _player.Health.TakeDamage(_properties.Damage);
+                _player.Health.TakeDamage(_properties.Damage, _robotHealth);
 
             _willAttack = false;
         }
@@ -61,14 +63,14 @@ namespace AI
         public class Properties
         {
             public float RotationSlerp => _rotationSlerp;
-            public float Damage => _damage;
+            public Damage Damage => _damage;
             public float MaxDistance => _maxDistance;
             public float PunchTime => _punchTime;
             public float Delay => _delay;
 
             [SerializeField, Range(0, 1)] private float _rotationSlerp;
             [SerializeField] private float _maxDistance;
-            [SerializeField] private float _damage;
+            [SerializeField] private Damage _damage;
             [SerializeField] private float _punchTime;
             [SerializeField] private float _delay;
         }

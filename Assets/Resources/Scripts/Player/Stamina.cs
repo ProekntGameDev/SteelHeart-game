@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Stamina : MonoBehaviour
 {
-    public event Action OnChange;
+    [HideInInspector] public UnityEvent OnChange;
 
     public float Maximum => _maximum;
     public float Current => _current;
@@ -19,19 +20,28 @@ public class Stamina : MonoBehaviour
             _current = _maximum;
     }
 
-    public void DecayFixedTime(float amount)
+    public void Decay(float amount)
     {
-        _current -= amount * Time.fixedDeltaTime;
-        if (_current < 0) _current = 0;
+        if (amount < 0)
+            throw new ArgumentOutOfRangeException(nameof(amount));
+
+        _current -= amount;
+
+        if (_current < 0) 
+            _current = 0;
+
         OnChange?.Invoke();
     }
 
-    public void RestoreFixedTime()
+    public void RestoreFixedTime(float multiplier)
     {
-        if (_current == _maximum) return;
+        if (multiplier < 0)
+            throw new ArgumentOutOfRangeException(nameof(multiplier));
 
-        _current += _restorationRate * Time.fixedDeltaTime;
-        if (_current > _maximum) _current = _maximum;
+        _current += _restorationRate * multiplier * Time.fixedDeltaTime;
+
+        _current = Mathf.Min(_current, _maximum);
+
         OnChange?.Invoke();
     }
 

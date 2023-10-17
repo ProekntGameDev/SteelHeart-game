@@ -92,6 +92,14 @@ public partial class InertialCharacterController : MonoBehaviour
         transform.forward = Vector3.Slerp(transform.forward, forward, _rotationTime);
     }
 
+    public void Rotate(Vector3 forward, float slerpTime)
+    {
+        if (forward.sqrMagnitude == 0)
+            return;
+
+        transform.forward = Vector3.Slerp(transform.forward, forward, slerpTime);
+    }
+
     public Vector2 ReadInputAxis() => _player.Input.Player.Axis.ReadValue<Vector2>();
 
     private void Accelerate(Vector3 accelerateDirection, float accelerate, float maxVelocity)

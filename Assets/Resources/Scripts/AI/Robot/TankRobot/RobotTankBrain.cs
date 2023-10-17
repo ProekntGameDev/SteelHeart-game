@@ -43,7 +43,7 @@ namespace AI
                 (_escapeSpeed, _escapeDistance, 0, _navMeshAgent, _player);
 
             _shootState = new TankRobotState_Shoot
-                (_player, _navMeshAgent, _maxCombatDistance, _attackProperties);
+                (_player, _navMeshAgent, _robotHealth, _maxCombatDistance, _attackProperties);
         }
 
         protected override void SetupTransitions()
