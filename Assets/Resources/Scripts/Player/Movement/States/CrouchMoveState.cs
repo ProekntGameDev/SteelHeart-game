@@ -1,11 +1,11 @@
-public class CrouchMoveState : MoveState
+public class CrouchMoveState : OldMovement.MoveState
 {
     public float StandHeight => _standHeight;
 
     private float _standHeight;
     private float _crouchHeight;
 
-    public CrouchMoveState(InertialCharacterController characterController, float crouchHeight, float acceleration, float maxSpeed) : base(characterController, acceleration, maxSpeed)
+    public CrouchMoveState(InertialCharacterController characterController, Stamina stamina, float crouchHeight, Settings settings) : base(characterController, stamina, settings)
     {
         _crouchHeight = crouchHeight;
     }

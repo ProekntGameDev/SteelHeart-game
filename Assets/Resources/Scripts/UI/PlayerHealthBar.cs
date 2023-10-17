@@ -1,26 +1,28 @@
+using System;
+using System.Globalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using Zenject;
 
 public class PlayerHealthBar : MonoBehaviour
 {
-    public Image image;
-    public TextMeshProUGUI healthPercent;
+    [SerializeField] private Image _image;
+    [SerializeField] private TMP_Text _text;
 
-    private Health _playerHealth;
+    [Inject] private Player _player;
 
     private void Awake()
     {
-        var playerController = FindObjectOfType<PlayerMovement>();
-        _playerHealth = playerController.GetComponent<Health>();
-
-        _playerHealth.OnChange.AddListener(UpdateBar);
+        _player.Health.OnChange.AddListener(OnHealthChanged);
     }
 
-    private void UpdateBar(float health)
+    private void OnHealthChanged(float newValue)
     {
-        float percentage = health / _playerHealth.Max;
-        image.fillAmount = percentage;
-        healthPercent.text = $"{(int)(percentage*100)}%";
+        var value = newValue / _player.Health.Max;
+        _image.fillAmount = value;
+
+        var presents = Math.Round(value, 3) * 100;
+        _text.text = presents.ToString(CultureInfo.CurrentCulture) + "%";
     }
 }

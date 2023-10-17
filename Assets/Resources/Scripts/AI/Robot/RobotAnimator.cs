@@ -18,24 +18,14 @@ namespace AI
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] private string _animatorRobotSpeed;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorStartJump;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorEndJump;
-        [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] private string _animatorAttackIndex;
-        [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorAttack;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorTakeDamage;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorDeath;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Bool)] private string _animatorStan;
 
         private void Start()
         {
-            _health.OnTakeDamage.AddListener(() => _animator.SetTrigger(_animatorTakeDamage));
+            _health.OnTakeDamage.AddListener((damage) => _animator.SetTrigger(_animatorTakeDamage));
             _health.OnDeath.AddListener(() => _animator.SetTrigger(_animatorDeath));
-
-            _robotBrain.OnAttack.AddListener(OnAttack);
-        }
-
-        private void OnAttack(int index)
-        {
-            _animator.SetFloat(_animatorAttackIndex, index);
-            _animator.SetTrigger(_animatorAttack);
         }
 
         private void OnEnable()

@@ -3,10 +3,14 @@ using UnityEngine;
 [RequireComponent(typeof(Player))]
 public class PlayerHealth : Health
 {
+    private Player _player;
+
     private void Start()
     {
-        Player player = GetComponent<Player>();
+        _player = GetComponent<Player>();
 
-        OnDeath.AddListener(() => player.enabled = false);
+        OnDeath.AddListener(() => _player.enabled = false);
     }
+
+    protected override DamageBlockResult TryBlockDamage(Damage damage, Health from) => _player.Combat.TryBlock(damage, from);
 }

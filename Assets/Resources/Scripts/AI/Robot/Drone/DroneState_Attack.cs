@@ -11,16 +11,18 @@ namespace AI
         private float _minDistance;
         private float _maxDistance;
         private float _baseStoppingDistance;
-        
+
+        private Health _droneHealth;
         private Player _player;
 
         private float _endTime;
         private int _attacksBeforeFreeze;
 
         public DroneState_Attack
-            (Player player, NavMeshAgent navMeshAgent, float minDistance, float maxDistance, DroneAttackProperties attackProperties)
+            (Player player, Health droneHealth, NavMeshAgent navMeshAgent, float minDistance, float maxDistance, DroneAttackProperties attackProperties)
         {
             _navMeshAgent = navMeshAgent;
+            _droneHealth = droneHealth;
             _player = player;
             _minDistance = minDistance;
             _maxDistance = maxDistance;
@@ -86,7 +88,7 @@ namespace AI
             projectile.transform.forward = direction;
             projectile.transform.position = _attackProperties.ShootPoint.position;
 
-            projectile.Init(direction, _attackProperties.Damage);
+            projectile.Init(direction, _attackProperties.Damage, _droneHealth);
 
             _attacksBeforeFreeze -= 1;
         }

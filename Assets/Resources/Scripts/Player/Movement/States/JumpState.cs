@@ -2,23 +2,32 @@ using UnityEngine;
 
 public class JumpState : IState
 {
-    private InertialCharacterController _characterController;
-    private JumpType _jumpType;
+    public float StaminaCost => _staminaCost;
 
-    private float _airAcceleration;
-    private float _maxVelocity;
+    private InertialCharacterController _characterController;
+    private Stamina _stamina;
+    private JumpType _jumpType;
+    private OldMovement.MoveState.Settings _settings;
+
+    private float _staminaCost;
     private float _timestamp;
 
-    public JumpState(InertialCharacterController characterController, float airAcceleration, float maxVelocity, JumpType jumpType)
+    public JumpState(InertialCharacterController characterController, Stamina stamina, OldMovement.MoveState.Settings settings, JumpType jumpType, float staminaCost)
     {
         _characterController = characterController;
+        _stamina = stamina;
+        _staminaCost = staminaCost;
         _jumpType = jumpType;
-        _airAcceleration = airAcceleration;
-        _maxVelocity = maxVelocity;
+        _settings = settings;
     }
 
     public void OnEnter()
     {
+        if (_stamina.Current < _settings.StaminCost)
+            throw new System.InvalidOperationException();
+
+        _stamina.Decay(_settings.StaminCost);
+
         _timestamp = Time.time;
 
         _characterController.UseGravity = false;
@@ -43,9 +52,9 @@ public class JumpState : IState
         wishDirection.Normalize();
 
         if (_characterController.IsGrounded == false)
-            _characterController.AirMove(wishDirection, _airAcceleration, _maxVelocity);
+            _characterController.AirMove(wishDirection, _settings.Acceleration, _settings.MaxSpeed);
         else
-            _characterController.GroundMove(wishDirection, _airAcceleration, _maxVelocity);
+            _characterController.GroundMove(wishDirection, _settings.Acceleration, _settings.MaxSpeed);
 
         _characterController.Rotate(wishDirection);
     }

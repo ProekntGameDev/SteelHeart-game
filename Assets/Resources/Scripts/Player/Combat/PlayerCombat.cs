@@ -1,87 +1,140 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Zenject;
-using NaughtyAttributes;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [HideInInspector] public UnityEvent OnAttack;
+    private const float COMBO_ACTION_TIME = 2f;
+    private const int COMBO_QUEUE_CAPACITY = 5;
 
-    [SerializeField, Required] private OverlapSphere _attackPoint;
-    [SerializeField, Required] private OverlapSphere _punchAssistant;
-    [SerializeField] private float _damage;
-    [SerializeField] private float _delay;
-    [SerializeField] private float _cooldown;
-    [SerializeField] private float _staminaCost;
+    public bool IsInBlockState => _currentCombatState == _blockState;
+
+    [SerializeField] private ParryState _parryState;
+    [SerializeField] private StanState _stanState;
+    [SerializeField] private BlockState _blockState;
+    [SerializeField] private LightAttackState _lightAttackState;
+    [SerializeField] private HeavyAttackState _heavyAttackState;
 
     [Inject] private Player _player;
 
-    private IdleCombatState _idleState;
-    private AttackCombatState _attackState;
+    private BaseCombatState _currentCombatState;
 
-    private StateMachine _stateMachine;
+    private List<BaseCombatState> _combos => new List<BaseCombatState> { _lightAttackState, _heavyAttackState, _blockState };
 
-    private void Start()
+    private List<ComboAction> _inputComboList = new List<ComboAction>(COMBO_QUEUE_CAPACITY+1);
+
+    public DamageBlockResult TryBlock(Damage damage, Health from)
     {
-        InitStateMachine();
+        DamageBlockResult result = DamageBlockResult.None;
+
+        if (_currentCombatState != _blockState || from == null)
+            return result;
+        else
+            result = _blockState.BlockDamage(damage);
+
+        if (result == DamageBlockResult.Broken)
+        {
+            _currentCombatState?.OnInterrupt();
+            _stanState.Init(_blockState.StanDuration);
+            UpdateState(_stanState);
+        }
+        else if (result == DamageBlockResult.Reflected)
+        {
+            _parryState.ParryTarget = from;
+            UpdateState(_parryState);
+        }
+
+        return result;
     }
 
-#if UNITY_EDITOR
-    private void OnValidate()
+    public void ResetCombot() => _inputComboList.Clear();
+
+    private void UpdateState(BaseCombatState newState)
     {
-        if (_stateMachine == null)
+        _currentCombatState?.Exit();
+        _currentCombatState = newState;
+        _currentCombatState?.Enter();
+    }
+
+    private void FixedUpdate()
+    {
+        _currentCombatState?.Tick();
+
+        if (_currentCombatState != null)
+        {
+            if (_currentCombatState.IsDone())
+                UpdateState(null);
+
+            else if (_player.Movement.CanUseCombat == false)
+            {
+                if (_currentCombatState.IsInterruptible)
+                    _currentCombatState.OnInterrupt();
+                UpdateState(null);
+            }
+        }
+
+        UpdateComboList();
+    }
+
+    private void AddActionToCombo(InputAction.CallbackContext context)
+    {
+        _inputComboList.Add(new ComboAction(context));
+
+        while (_inputComboList.Count >= COMBO_QUEUE_CAPACITY)
+            _inputComboList.RemoveAt(0);
+    }
+
+    private void UpdateComboList()
+    {
+        for (int i = 0; i < _inputComboList.Count; i++)
+        {
+            if (_inputComboList[i].IsExpired())
+            {
+                _inputComboList.RemoveAt(i);
+                i -= 1;
+            }
+        }
+
+        if (_currentCombatState != null || _player.Movement.CanUseCombat == false)
             return;
 
-        InitStateMachine();
-    }
-#endif
-
-    private void InitStateMachine()
-    {
-        _stateMachine = new StateMachine();
-
-        SetupStates();
-        SetupTransitions();
-
-        _stateMachine.SetState(_idleState);
-    }
-
-    private void SetupStates()
-    {
-        _idleState = new IdleCombatState();
-        _attackState = new AttackCombatState(_player, _attackPoint, _punchAssistant, _delay, _cooldown, _damage);
-    }
-
-    private void SetupTransitions()
-    {
-        _stateMachine.AddTransition(_attackState, _idleState, () => _attackState.IsDone());
-    }
-
-    private void OnFirePerformed(InputAction.CallbackContext context)
-    {
-        if (_stateMachine == null || _stateMachine.IsInState(_attackState))
-            return;
-
-        if (_player.Movement.Ladder != null)
-            return;
-
-        _stateMachine.SetState(_attackState);
-        OnAttack?.Invoke();
-    }
-
-    private void Update()
-    {
-        _stateMachine.Tick();
+        foreach (var attack in _combos)
+        {
+            if (attack.IsInCombo(_inputComboList))
+            {
+                UpdateState(attack);
+                ResetCombot();
+                return;
+            }
+        }
     }
 
     private void OnEnable()
     {
-        _player.Input.Player.Fire.performed += OnFirePerformed;
+        _player.Input.Player.Block.performed += AddActionToCombo;
+        _player.Input.Player.FireHold.performed += AddActionToCombo;
+        _player.Input.Player.Fire.canceled += AddActionToCombo;
     }
 
     private void OnDisable()
     {
-        _player.Input.Player.Fire.performed -= OnFirePerformed;
+        _player.Input.Player.Block.performed -= AddActionToCombo;
+        _player.Input.Player.FireHold.performed -= AddActionToCombo;
+        _player.Input.Player.Fire.canceled -= AddActionToCombo;
+    }
+
+    public class ComboAction
+    { 
+        public float StartTime { get; private set; }
+        public InputAction Action { get; private set; }
+
+        public ComboAction(InputAction.CallbackContext context)
+        {
+            Action = context.action;
+            StartTime = (float)context.startTime;
+        }
+
+        public bool IsExpired() => Time.time >= StartTime + COMBO_ACTION_TIME;
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,12 +9,14 @@ public class Projectile : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private Vector3 _direction;
+    private Health _owner;
     private float _damage;
 
-    public void Init(Vector3 direction, float damage)
+    public void Init(Vector3 direction, float damage, Health owner)
     {
         _direction = direction;
         _damage = damage;
+        _owner = owner;
 
         _rigidbody.velocity = _direction * _speed;
 
@@ -33,7 +34,7 @@ public class Projectile : MonoBehaviour
             return;
 
         if (other.TryGetComponent(out IDamagable damagable))
-            damagable.TakeDamage(_damage);
+            damagable.TakeDamage(new Damage(_damage, false, false), _owner);
 
         Destroy(gameObject);
     }

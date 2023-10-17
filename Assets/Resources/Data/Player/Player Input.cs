@@ -82,6 +82,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""FireHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""003dc610-8035-446e-b7a1-12a4f282c0c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Drop"",
                     ""type"": ""Button"",
                     ""id"": ""fb916074-8dc5-431f-abbe-c86f78cfd0da"",
@@ -104,6 +113,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""4fd3165b-8276-4e0f-a2ba-420dbed2f0a4"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""c76bd705-10c1-4ba8-ab49-ae4a473a9723"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""c9263282-2bd9-4ffa-b1b9-1325f4c9da6e"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -316,6 +343,39 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Mouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce7c4c4a-67fb-41b8-90f8-a7a71894c5dc"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8f6a170-e3d7-4a7e-bd0a-03e69b8248e5"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8caf0848-8c6b-405d-a7e5-73e7eeef51f0"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -913,9 +973,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Axis = m_Player.FindAction("Axis", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_FireHold = m_Player.FindAction("FireHold", throwIfNotFound: true);
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_QTE = m_Player.FindAction("QTE", throwIfNotFound: true);
         m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
+        m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
+        m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
         // Player UI
         m_PlayerUI = asset.FindActionMap("Player UI", throwIfNotFound: true);
         m_PlayerUI_Pause = m_PlayerUI.FindAction("Pause", throwIfNotFound: true);
@@ -999,9 +1062,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Axis;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_FireHold;
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_QTE;
     private readonly InputAction m_Player_Mouse;
+    private readonly InputAction m_Player_Block;
+    private readonly InputAction m_Player_Roll;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -1012,9 +1078,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Axis => m_Wrapper.m_Player_Axis;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @FireHold => m_Wrapper.m_Player_FireHold;
         public InputAction @Drop => m_Wrapper.m_Player_Drop;
         public InputAction @QTE => m_Wrapper.m_Player_QTE;
         public InputAction @Mouse => m_Wrapper.m_Player_Mouse;
+        public InputAction @Block => m_Wrapper.m_Player_Block;
+        public InputAction @Roll => m_Wrapper.m_Player_Roll;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1042,6 +1111,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
+            @FireHold.started += instance.OnFireHold;
+            @FireHold.performed += instance.OnFireHold;
+            @FireHold.canceled += instance.OnFireHold;
             @Drop.started += instance.OnDrop;
             @Drop.performed += instance.OnDrop;
             @Drop.canceled += instance.OnDrop;
@@ -1051,6 +1123,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Mouse.started += instance.OnMouse;
             @Mouse.performed += instance.OnMouse;
             @Mouse.canceled += instance.OnMouse;
+            @Block.started += instance.OnBlock;
+            @Block.performed += instance.OnBlock;
+            @Block.canceled += instance.OnBlock;
+            @Roll.started += instance.OnRoll;
+            @Roll.performed += instance.OnRoll;
+            @Roll.canceled += instance.OnRoll;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1073,6 +1151,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
+            @FireHold.started -= instance.OnFireHold;
+            @FireHold.performed -= instance.OnFireHold;
+            @FireHold.canceled -= instance.OnFireHold;
             @Drop.started -= instance.OnDrop;
             @Drop.performed -= instance.OnDrop;
             @Drop.canceled -= instance.OnDrop;
@@ -1082,6 +1163,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Mouse.started -= instance.OnMouse;
             @Mouse.performed -= instance.OnMouse;
             @Mouse.canceled -= instance.OnMouse;
+            @Block.started -= instance.OnBlock;
+            @Block.performed -= instance.OnBlock;
+            @Block.canceled -= instance.OnBlock;
+            @Roll.started -= instance.OnRoll;
+            @Roll.performed -= instance.OnRoll;
+            @Roll.canceled -= instance.OnRoll;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1288,9 +1375,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnAxis(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnFireHold(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
         void OnQTE(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
+        void OnRoll(InputAction.CallbackContext context);
     }
     public interface IPlayerUIActions
     {

@@ -494,13 +494,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Attack Index
-    m_Type: 1
-    m_DefaultFloat: -1
+  - m_Name: LightAttack
+    m_Type: 9
+    m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Attack
+  - m_Name: HeavyAttack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -702,11 +702,8 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Attack
+    m_ConditionEvent: HeavyAttack
     m_EventTreshold: 0
-  - m_ConditionMode: 4
-    m_ConditionEvent: Attack Index
-    m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4500061249019653077}
   m_Solo: 0
@@ -822,11 +819,8 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Attack
+    m_ConditionEvent: LightAttack
     m_EventTreshold: 0
-  - m_ConditionMode: 4
-    m_ConditionEvent: Attack Index
-    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6693134738158982190}
   m_Solo: 0

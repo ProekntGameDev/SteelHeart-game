@@ -27,6 +27,8 @@ public class PlayerIKLadder : MonoBehaviour
     private Vector3 _leftSmoothVelocity;
     private Animator _animator;
 
+    private Ladder _ladder;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -34,28 +36,26 @@ public class PlayerIKLadder : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if (_player.Movement.Ladder == null)
+        if (_player.Movement.IsOnLadder == false)
         {
             _lastLadderPoint = null;
             return;
         }
 
-        Ladder ladder = _player.Movement.Ladder;
-
         if (_lastLadderPoint == null)
         {
-            UpdateIK(ladder);
+            UpdateIK(_ladder);
 
             _targetPointRight = _lastLadderPoint.Value;
             _targetPointLeft = _lastLadderPoint.Value;
 
-            UpdateIKTransform(_lastLadderPoint.Value, _lastLadderPoint.Value, ladder);
+            UpdateIKTransform(_lastLadderPoint.Value, _lastLadderPoint.Value, _ladder);
             return;
         }
 
-        UpdateIK(ladder);
+        UpdateIK(_ladder);
 
-        UpdateIKTransform(_targetPointRight, _targetPointLeft, ladder);
+        UpdateIKTransform(_targetPointRight, _targetPointLeft, _ladder);
     }
 
     private void UpdateIK(Ladder ladder)
@@ -85,5 +85,17 @@ public class PlayerIKLadder : MonoBehaviour
 
         _animator.SetIKPosition(goal, goalPosition);
         _animator.SetIKRotation(goal, Quaternion.Euler(transform.rotation.eulerAngles + goalLocalRotation));
+    }
+
+    private void UpdateLadder(Ladder ladder) => _ladder = ladder;
+
+    private void OnEnable()
+    {
+        _player.Movement.OnLadderInteract.AddListener(UpdateLadder);
+    }
+
+    private void OnDisable()
+    {
+        _player.Movement.OnLadderInteract.RemoveListener(UpdateLadder);
     }
 }

@@ -1,35 +1,32 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using NaughtyAttributes;
+using Zenject;
+using UnityEngine.Events;
+
+using Random = UnityEngine.Random;
 
 namespace AI
 {
-    public class RobotState_Combat : IState
+    public class RobotState_Combat : MonoBehaviour, IState
     {
-        public event Action<int> OnPerformAttack;
+        [HideInInspector] public UnityEvent OnStan;
 
-        private readonly NavMeshAgent _navMeshAgent;
-        private readonly AttacksProperties _attackProperties;
-        private readonly float _maxDistance;
-        private readonly Player _player;
-        private readonly Health _robotHealth;
+        public float StanDuration => _stanDuration;
+
+        [SerializeField,Required] private NavMeshAgent _navMeshAgent;
+        [SerializeField, Required] private Health _robotHealth;
+        [SerializeField] private float _maxDistance;
+        [SerializeField] private float _stanDuration;
+        [SerializeField, Range(0, 1)] private float _stanChance;
+
+        [SerializeField, Required] private RobotAttack_Area _robotAreaAttack;
+        [SerializeField, Required] private RobotAttack_Hammer _robotTargetAttack;
+
+        [Inject] private Player _player;
 
         private StateMachine _stateMachine;
-        private RobotAttack_Area _robotAreaAttack;
-        private RobotAttack_Hammer _robotTargetAttack;
-
-        public RobotState_Combat(Player player, HammerRobotBrain robotTankBrain, float maxDistance, AttacksProperties attackProperties)
-        {
-            _navMeshAgent = robotTankBrain.GetComponent<NavMeshAgent>();
-            _player = player;
-            _robotHealth = robotTankBrain.GetComponent<Health>();
-            _maxDistance = maxDistance;
-            _attackProperties = attackProperties;
-
-            InitStateMachine();
-
-            SetupTransitions();  
-        }
 
         public void OnEnter()
         { }
@@ -52,37 +49,34 @@ namespace AI
             float distanceToPlayer = Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position);
             float playerSpeed = _player.Movement.CharacterController.CurrentVelocity.magnitude;
 
-            if (distanceToPlayer <= _attackProperties.Target.MaxDistance)
-            {
+            if (distanceToPlayer <= _robotTargetAttack.AttackProperties.MaxDistance)
                 _stateMachine.SetState(_robotTargetAttack);
-                OnPerformAttack?.Invoke(0);
-            }
-            else if(distanceToPlayer <= _attackProperties.AoE.JumpDistance)
-            {
+            else if(distanceToPlayer <= _robotAreaAttack.AttackProperties.JumpDistance)
                 _stateMachine.SetState(_robotAreaAttack);
-                OnPerformAttack?.Invoke(1);
-            }
             else
                 _navMeshAgent.destination = _player.transform.position;
 
         }
 
-        public bool IsDone()
-        {
-            return _player.Health.Current == 0;
-        }
+        public bool IsDone() => _player.Health.Current == 0;
 
         public bool IsLostPlayer()
         {
             return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
         }
 
+        private void Awake()
+        {
+            InitStateMachine();
+
+            SetupTransitions();
+
+            _robotHealth.OnTakeDamage.AddListener(OnTakeDamage);
+        }
+
         private void InitStateMachine()
         {
             _stateMachine = new StateMachine();
-
-            _robotAreaAttack = new RobotAttack_Area(_navMeshAgent, _player, _robotHealth, _attackProperties.AoE);
-            _robotTargetAttack = new RobotAttack_Hammer(_navMeshAgent, _player, _attackProperties.Target);
         }
 
         private void SetupTransitions()
@@ -91,14 +85,15 @@ namespace AI
             _stateMachine.AddTransition(_robotTargetAttack, null, _robotTargetAttack.IsDone);
         }
 
-        [Serializable]
-        public class AttacksProperties
+        private void OnTakeDamage(Damage damage)
         {
-            public RobotAttack_Hammer.Properties Target => _targetProperties;
-            public RobotAttack_Area.Properties AoE => _aoeProperties;
+            if (_robotHealth.Current == 0)
+                return;
 
-            [SerializeField] private RobotAttack_Hammer.Properties _targetProperties;
-            [SerializeField] private RobotAttack_Area.Properties _aoeProperties;
+            if (Random.Range(0f, 1f) > _stanChance)
+                return;
+
+            OnStan?.Invoke();
         }
     }
 }
