@@ -27,9 +27,9 @@ namespace AI
         [SerializeField, BoxGroup("Freeze")] private float _freezeMinHeight;
         [SerializeField, BoxGroup("Freeze")] private float _freezeDuration;
 
-        private RobotState_Delay _delayState;
-        private RobotState_Patrol _patrolState;
-        private RobotState_Chase _chaseState;
+        [SerializeField] private RobotState_Delay _delayState;
+        [SerializeField] private RobotState_Patrol _patrolState;
+        [SerializeField] private RobotState_Chase _chaseState;
         
         private RobotState_Death _deathState;
         
@@ -45,11 +45,6 @@ namespace AI
 
         protected override void SetupStates()
         {
-            _delayState = new RobotState_Delay(_idleDelayRange);
-            _patrolState = new RobotState_Patrol(_patrolSpeed, _navMeshAgent, _patrolPoints);
-            _chaseState =
-                new RobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _chaseMinDistance, _chaseMaxDistance);
-            _deathState = new RobotState_Death(_navMeshAgent, _destroyDelay);
             _attackState = 
                 new DroneState_Attack(_player, _robotHealth, _navMeshAgent, _chaseMinDistance, _maxCombatDistance, _attackProperties);
             _freezeState = 

@@ -13,14 +13,11 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private ParryState _parryState;
     [SerializeField] private StanState _stanState;
     [SerializeField] private BlockState _blockState;
-    [SerializeField] private LightAttackState _lightAttackState;
-    [SerializeField] private HeavyAttackState _heavyAttackState;
+    [SerializeField] private List<BaseCombatState> _combos;
 
     [Inject] private Player _player;
 
     private BaseCombatState _currentCombatState;
-
-    private List<BaseCombatState> _combos => new List<BaseCombatState> { _lightAttackState, _heavyAttackState, _blockState };
 
     private List<ComboAction> _inputComboList = new List<ComboAction>(COMBO_QUEUE_CAPACITY+1);
 
@@ -103,7 +100,9 @@ public class PlayerCombat : MonoBehaviour
         {
             if (attack.IsInCombo(_inputComboList))
             {
-                UpdateState(attack);
+                if (attack.IsReady())
+                    UpdateState(attack);
+
                 ResetCombot();
                 return;
             }

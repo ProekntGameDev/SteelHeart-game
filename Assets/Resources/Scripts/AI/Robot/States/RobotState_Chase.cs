@@ -1,28 +1,21 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
 namespace AI
 {
-    public class RobotState_Chase : IState
+    public class RobotState_Chase : MonoBehaviour, IState
     {
-        private readonly RobotVision _robotVision;
-        private readonly NavMeshAgent _navMeshAgent;
-        private readonly float _speed;
-        private readonly float _minDistance;
-        private readonly float _maxDistance;
+        [SerializeField, Required] private NavMeshAgent _navMeshAgent;
+        [SerializeField] private RobotVision _robotVision;
+        [SerializeField] private float _speed;
+        [SerializeField] private float _minDistance;
+        [SerializeField] private float _maxDistance;
 
-        private Player _player;
+        [Inject] private Player _player;
+
         private float _baseStoppingDistance;
-
-        public RobotState_Chase(RobotVision robotVision, NavMeshAgent navMeshAgent, float speed, float minDistance, float maxDistance)
-        {
-            _robotVision = robotVision;
-            _navMeshAgent = navMeshAgent;
-            _speed = speed;
-
-            _minDistance = minDistance;
-            _maxDistance = maxDistance;
-        }
 
         public void OnEnter()
         {

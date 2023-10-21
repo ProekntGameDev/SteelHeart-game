@@ -1,39 +1,31 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace AI
 {
-    public class RobotState_Death : IState
+    public class RobotState_Death : MonoBehaviour, IState
     {
-        private readonly Rigidbody _rigidbody;
-        private readonly Animator _animator;
-        private readonly float _destroyDelay;
+        [SerializeField, Required] private NavMeshAgent _robot;
+        [SerializeField] private float _destroyDelay;
+        [SerializeField] private bool _ragdoll;
 
-        private NavMeshAgent _robot;
+        [SerializeField, ShowIf(nameof(_ragdoll))] private Rigidbody _rigidbody;
+
+        [SerializeField, HideIf(nameof(_ragdoll))] private Animator _animator;
+        [HideIf(nameof(_ragdoll))]
+        [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _animatorDeathTrigger;
+
         private float _startTime;
-
-        public RobotState_Death(NavMeshAgent robot, Rigidbody rigidbody, Animator animator, float destroyDelay)
-        {
-            _robot = robot;
-            _rigidbody = rigidbody;
-            _animator = animator;
-            _destroyDelay = destroyDelay;
-        }
-
-        public RobotState_Death(NavMeshAgent robot, float destroyDelay)
-        {
-            _robot = robot;
-            _destroyDelay = destroyDelay;
-        }
 
         public void OnEnter()
         {
             _startTime = Time.time;
 
-            if (_rigidbody != null)
+            if (_ragdoll)
                 EnableRagdoll();
-
-            _robot.isStopped = true;
+            else
+                _animator.SetTrigger(_animatorDeathTrigger);
         }
 
         public void OnExit()
@@ -41,14 +33,12 @@ namespace AI
 
         public void Tick()
         {
-            if (IsDone() == false || _robot == null)
+            if (_startTime + _destroyDelay > Time.time || _robot == null)
                 return;
 
-            GameObject.Destroy(_robot.gameObject);
+            Destroy(_robot.gameObject);
             _robot = null;
         }
-
-        public bool IsDone() => _startTime + _destroyDelay <= Time.time;
 
         private void EnableRagdoll()
         {

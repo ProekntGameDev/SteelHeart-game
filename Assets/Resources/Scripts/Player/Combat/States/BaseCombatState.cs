@@ -14,7 +14,7 @@ public abstract class BaseCombatState : MonoBehaviour
     protected abstract InputAction[] _buttons { get; }
 
     public virtual bool IsDone() => true;
-    public virtual bool IsReady() => _endTime + _cooldown <= Time.time;
+    public virtual bool IsReady() => _endTime + _cooldown <= Time.time && _player.Stamina.Current >= _staminaCost;
 
     public virtual void Tick()
     {
@@ -24,12 +24,15 @@ public abstract class BaseCombatState : MonoBehaviour
     public virtual void Exit()
     {
         _endTime = Time.time;
+
+        _player.Stamina.Decay(_staminaCost);
     }
 
     public virtual void OnInterrupt()
     { }
 
     [SerializeField, Required] protected OverlapSphere _punchAssistant;
+    [SerializeField] protected float _staminaCost;
     [SerializeField] protected float _cooldown;
 
     [Inject] protected Player _player;

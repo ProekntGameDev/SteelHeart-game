@@ -1,17 +1,13 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace AI
 {
-    public class RobotState_Delay : IState
+    public class RobotState_Delay : MonoBehaviour, IState
     {
-        private readonly Vector2 _delayRange;
+        [SerializeField, MinMaxSlider(0.0f, 15.0f)] private Vector2 _delayRange;
 
         private float? _deadline;
-
-        public RobotState_Delay(Vector2 delayRange)
-        {
-            _delayRange = delayRange;
-        }
 
         public void OnEnter()
         {
@@ -25,9 +21,7 @@ namespace AI
         }
 
         public void Tick()
-        {
-
-        }
+        { }
 
         public bool IsDone()
         {

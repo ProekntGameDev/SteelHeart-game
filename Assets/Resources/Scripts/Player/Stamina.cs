@@ -33,6 +33,18 @@ public class Stamina : MonoBehaviour
         OnChange?.Invoke();
     }
 
+    public void Restore(float amount)
+    {
+        if (amount < 0)
+            throw new ArgumentOutOfRangeException(nameof(amount));
+
+        _current += amount;
+
+        _current = Mathf.Min(_current, _maximum);
+
+        OnChange?.Invoke();
+    }
+
     public void RestoreFixedTime(float multiplier)
     {
         if (multiplier < 0)
