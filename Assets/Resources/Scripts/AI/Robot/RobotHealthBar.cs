@@ -8,6 +8,7 @@ public class RobotHealthBar : Interactable
 {
     [SerializeField, Required] private Health _health;
     [SerializeField, Required] private Canvas _healthBarCanvas;
+    [SerializeField, Required] private GameObject _finishHint;
     [SerializeField, Required] private Image _healthBarImage;
     [SerializeField, Required] private TextMeshProUGUI _healthBarText;
 
@@ -44,6 +45,9 @@ public class RobotHealthBar : Interactable
 
     private void UpdateHealthBar(float newValue)
     {
+        if (newValue == 0)
+            _healthBarImage.gameObject.SetActive(false);
+
         float healthPercent = newValue / _health.Max;
 
         _healthBarImage.fillAmount = healthPercent;

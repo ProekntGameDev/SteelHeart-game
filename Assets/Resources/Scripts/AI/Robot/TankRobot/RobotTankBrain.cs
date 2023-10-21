@@ -20,8 +20,9 @@ namespace AI
         [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
         [SerializeField, BoxGroup("Combat")] private TankAttackProperties _attackProperties;
 
-        private RobotState_Delay _delayState;
-        private RobotState_Patrol _patrolState;
+        [SerializeField] private RobotState_Delay _delayState;
+        [SerializeField] private RobotState_Patrol _patrolState;
+
         private TankRobotState_Chase _chaseState;
         private TankRobotState_Shoot _shootState;
         private TankRobotState_Escape _escapeState;
@@ -36,8 +37,6 @@ namespace AI
 
         protected override void SetupStates()
         {
-            _delayState = new RobotState_Delay(_idleDelayRange);
-            _patrolState = new RobotState_Patrol(_patrolSpeed,_navMeshAgent, _patrolPoints);
             _chaseState = new TankRobotState_Chase(_robotVision, _navMeshAgent, _chaseSpeed, _minChaseDistance, _maxCombatDistance);
             _escapeState = new TankRobotState_Escape
                 (_escapeSpeed, _escapeDistance, 0, _navMeshAgent, _player);

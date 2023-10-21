@@ -106,10 +106,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnRollPerformed(InputAction.CallbackContext context)
     {
-        if (_currentMovementState == _ladderMovement || _currentMovementState == _rollMovement)
+        if (_currentMovementState != _standardMovement || CharacterController.IsGrounded == false)
             return;
 
-        if (_player.Stamina.Current < _rollMovement.StaminaCost || CharacterController.IsGrounded == false)
+        if (_player.Stamina.Current < _rollMovement.StaminaCost || _rollMovement.IsReady() == false)
             return;
 
         UpdateState(_rollMovement);

@@ -1,22 +1,16 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace AI
 {
-    public class RobotState_Patrol : IState
+    public class RobotState_Patrol : MonoBehaviour, IState
     {
-        private float _speed;
-        private NavMeshAgent _navMeshAgent;
-        private Transform[] _points;
+        [SerializeField, Required] private NavMeshAgent _navMeshAgent;
+        [SerializeField] private Transform[] _points;
+        [SerializeField] private float _speed;
 
         private int _targetPointIndex;
-
-        public RobotState_Patrol(float speed, NavMeshAgent navMeshAgent, Transform[] points)
-        {
-            _speed = speed;
-            _navMeshAgent = navMeshAgent;
-            _points = points;
-        }
 
         public void OnEnter()
         {
@@ -32,12 +26,10 @@ namespace AI
         }
 
         public void OnExit()
-        {
-        }
+        { }
 
         public void Tick()
-        {
-        }
+        { }
 
         public bool IsDone()
         {
