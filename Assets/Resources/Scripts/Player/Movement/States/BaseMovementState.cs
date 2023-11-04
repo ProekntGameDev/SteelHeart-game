@@ -11,14 +11,14 @@ public abstract class BaseMovementState : MonoBehaviour
 
     [Inject] protected Player Player { get; private set; }
 
-    protected InertialCharacterController CharacterController { get; private set; }
+    protected PlayerCharacterController CharacterController { get; private set; }
 
     public virtual void OnJump()
     { 
         
     }
 
-    protected Vector3 GetWishDirection(InertialCharacterController characterController)
+    protected Vector3 GetWishDirection(PlayerCharacterController characterController)
     {
         Vector3 input = characterController.ReadInputAxis();
 

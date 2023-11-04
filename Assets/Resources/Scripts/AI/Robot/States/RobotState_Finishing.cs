@@ -13,6 +13,7 @@ namespace AI
         public FinishAnimation FinishAnimation => _finishAnimation;
 
         [SerializeField, Required] private NavMeshAgent _navMeshAgent;
+        [SerializeField, Required] private HammerRobotBrain _robotBrain;
         [SerializeField, Required] private Animator _animator;
         [SerializeField] private FinishAnimation _finishAnimation;
         [SerializeField] private float _duration;
@@ -49,7 +50,7 @@ namespace AI
 
         public bool TryFinish()
         {
-            if (_endTime == 0)
+            if (_endTime == 0 || _robotBrain.IsInDeathState)
                 return false;
 
             _endTime = Time.time + _finishAnimation.Duration;

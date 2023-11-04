@@ -72,9 +72,16 @@ GameObject:
   m_Component:
   - component: {fileID: 2183941901615211280}
   - component: {fileID: 3047051451995367412}
+  - component: {fileID: 606009419371493096}
+  - component: {fileID: 8945040155265731456}
+  - component: {fileID: 7061713118735560691}
+  - component: {fileID: 1574999791680126953}
+  - component: {fileID: 6049229543138851017}
+  - component: {fileID: 7509570245570319040}
+  - component: {fileID: 2983858117220891882}
   - component: {fileID: 4143017166103450933}
   - component: {fileID: 1382963596966160773}
-  - component: {fileID: 4130911765854759993}
+  - component: {fileID: 1667466970831138410}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -113,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _navMeshAgent: {fileID: 4143017166103450933}
+  _aiMoveAgent: {fileID: 2983858117220891882}
   _robotHealth: {fileID: 1382963596966160773}
   _robotVision:
     _eyeTransform: {fileID: 1385325186528203138}
@@ -120,14 +128,93 @@ MonoBehaviour:
   OnAttack:
     m_PersistentCalls:
       m_Calls: []
-  _destroyDelay: 1
-  _idleDelayRange: {x: 5, y: 10}
-  _patrolPoints: []
-  _patrolSpeed: 5
-  _chaseSpeed: 8
-  _chaseMinDistance: 7
-  _chaseMaxDistance: 12
-  _maxCombatDistance: 12
+  _delayState: {fileID: 606009419371493096}
+  _patrolState: {fileID: 8945040155265731456}
+  _chaseState: {fileID: 7061713118735560691}
+  _deathState: {fileID: 1574999791680126953}
+  _attackState: {fileID: 6049229543138851017}
+  _freezeState: {fileID: 7509570245570319040}
+--- !u!114 &606009419371493096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3243739272820873682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a094bbc1677c3545a05d58f989aa229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _delayRange: {x: 5, y: 10}
+--- !u!114 &8945040155265731456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3243739272820873682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc4d1c438e57dd429967963c8471964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _aiMoveAgent: {fileID: 2983858117220891882}
+  _points:
+  - {fileID: 0}
+  - {fileID: 0}
+  _speed: 5
+--- !u!114 &7061713118735560691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3243739272820873682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ce7c3314da9d94797fa18e7e11fbd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _aiMoveAgent: {fileID: 2983858117220891882}
+  _robotVision:
+    _eyeTransform: {fileID: 1385325186528203138}
+    _maxDistance: 10
+  _speed: 8
+  _minDistance: 7
+  _maxDistance: 12
+--- !u!114 &1574999791680126953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3243739272820873682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be141db4dfbbf142beb584d809a7364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _robot: {fileID: 2983858117220891882}
+  _destroyDelay: 3
+  _ragdoll: 0
+  _rigidbody: {fileID: 0}
+  _animator: {fileID: 574899606852510758}
+  _animatorDeathTrigger: 
+--- !u!114 &6049229543138851017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3243739272820873682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43be676370d7402980f3e127abb15344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _aiMoveAgent: {fileID: 2983858117220891882}
+  _droneHealth: {fileID: 1382963596966160773}
   _attackProperties:
     _projectile: {fileID: 20555866342353005, guid: ec78a42412033d84792e9a7a23a490dd, type: 3}
     _shootPoint: {fileID: 1241127802457352909}
@@ -135,9 +222,38 @@ MonoBehaviour:
     _attackSpeed: 0.4
     _attacksBeforeFreeze: 2
     _aimSpeed: 180
-  _freezeMinHeight: 0.5
-  _freezeMaxHeight: 2.5
-  _freezeDuration: 7
+  _minDistance: 0
+  _maxDistance: 12
+--- !u!114 &7509570245570319040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3243739272820873682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33248d38a6de4b7f979678b1f26d4efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _aiMoveAgent: {fileID: 2983858117220891882}
+  _attackState: {fileID: 6049229543138851017}
+  _minHeight: 0.5
+  _duration: 7
+--- !u!114 &2983858117220891882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3243739272820873682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9fdea55ad52f648873eb420ea75afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gravity: -9.81
+  _friction: 0.2
 --- !u!195 &4143017166103450933
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -182,8 +298,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _maximumHealth: 100
---- !u!135 &4130911765854759993
-SphereCollider:
+--- !u!143 &1667466970831138410
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -201,7 +317,12 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Height: 0.75
+  m_Radius: 0.75
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!1001 &4000688474014031065
 PrefabInstance:

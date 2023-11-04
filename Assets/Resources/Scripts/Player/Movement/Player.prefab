@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 7091997220151180121}
   - component: {fileID: 6671667134467412115}
   m_Layer: 7
-  m_Name: FinishingDistance
+  m_Name: Finishing Distance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1317,6 +1317,8 @@ GameObject:
   - component: {fileID: 2645881623079008797}
   - component: {fileID: 489955310511095144}
   - component: {fileID: 1269939041649927264}
+  - component: {fileID: 5241966159291204289}
+  - component: {fileID: 4302900574004213428}
   m_Layer: 7
   m_Name: Combos
   m_TagString: Untagged
@@ -1391,6 +1393,54 @@ MonoBehaviour:
   _startAttackTrigger: attackAltStart
   _breakAttackTrigger: attackAltBreak
   _endAttackTrigger: attackAltEnd
+--- !u!114 &5241966159291204289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935400968028959524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 485b90faf3faa994ea36c2f86aa59242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _punchAssistant: {fileID: 7240603257246854986}
+  _staminaCost: 5
+  _cooldown: 3
+  _attackPoint: {fileID: 9048045667223021902}
+  _height: 3
+  _duration: 1
+  _damage:
+    _value: 10
+    _canBlock: 0
+    _isPiercing: 1
+  _animator: {fileID: 3822857734986495546}
+  _attackTrigger: attack
+--- !u!114 &4302900574004213428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935400968028959524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 611c7c1b6eacb944abe1c810fa7eac9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _punchAssistant: {fileID: 7240603257246854986}
+  _staminaCost: 10
+  _cooldown: 4
+  _attackPoint: {fileID: 2355313695989656301}
+  _additionalVerticalSpeed: 75
+  _damage:
+    _value: 40
+    _canBlock: 0
+    _isPiercing: 1
+  _animator: {fileID: 3822857734986495546}
+  _startAttackTrigger: attackAltStart
+  _landTrigger: attackAltEnd
 --- !u!1 &3264611570072082787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,12 +1675,13 @@ GameObject:
   - component: {fileID: 3462377426396143089}
   - component: {fileID: 8667510622959938111}
   - component: {fileID: 2281101296991554125}
+  - component: {fileID: 5524905533038375378}
   - component: {fileID: 8687656215703528967}
-  - component: {fileID: 3462377426396143073}
   - component: {fileID: 601937172354016615}
   - component: {fileID: 8172145250851161384}
   - component: {fileID: 8567124642147185509}
   - component: {fileID: 4798410206658727863}
+  - component: {fileID: 5859358505920643925}
   - component: {fileID: 839975683607114930}
   - component: {fileID: 2831966578352651375}
   m_Layer: 7
@@ -1706,6 +1757,20 @@ MonoBehaviour:
   _playerInteractor: {fileID: 820165559128873030}
   _playerCombat: {fileID: 3007286867057084472}
   _gearsHolder: {fileID: 6384890687973125165}
+--- !u!114 &5524905533038375378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462377426396143079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed238ce20923bfb4db99e1f9ee166e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationTime: 0.2
+  _gravity: -9.81
 --- !u!114 &8687656215703528967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1728,21 +1793,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _maximumHealth: 100
---- !u!114 &3462377426396143073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3462377426396143079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed238ce20923bfb4db99e1f9ee166e25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _friction: 8
-  _rotationTime: 0.2
-  _gravity: -9.81
 --- !u!114 &601937172354016615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1762,7 +1812,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _standardMovement: {fileID: 8567124642147185509}
-  _rollMovement: {fileID: 4798410206658727863}
+  _rollMovement: {fileID: 5859358505920643925}
   _ladderMovement: {fileID: 8172145250851161384}
   _ladderTrigger: {fileID: 2812509236763883375}
 --- !u!114 &8172145250851161384
@@ -1797,12 +1847,11 @@ MonoBehaviour:
   _walkStaminaRestoration: 5
   _runStaminaConsumption: 5
   _jumpStaminaCost: 10
-  _maxCrouchSpeed: 4
-  _maxWalkSpeed: 6
-  _maxRunSpeed: 16
-  _maxAirSpeed: 16
-  _airAcceleration: 9
-  _groundAcceleration: 150
+  _crouchSpeed: 3
+  _walkSpeed: 5
+  _runSpeed: 8
+  _maxAirSpeed: 10
+  _airAcceleration: 25
   _crouchHeight: 1.5
   _jumpHeight: 2
 --- !u!114 &4798410206658727863
@@ -1821,6 +1870,23 @@ MonoBehaviour:
   _cooldown: 2
   _distance: 2.5
   _speed: 15
+--- !u!114 &5859358505920643925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462377426396143079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad64f012fadfb14492e5659c7f01f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _staminaCost: 5
+  _cooldown: 1.5
+  _impulse: 5
+  _friction: 0.7
+  _minSpeed: 3
 --- !u!208 &839975683607114930
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -3025,6 +3091,53 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19292217, y: 0.08336677, z: 0.13793248}
   m_Center: {x: 0.053428072, y: 0.002031495, z: 0.0023984835}
+--- !u!1 &4952958369992446743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3893235036858854278}
+  - component: {fileID: 2355313695989656301}
+  m_Layer: 7
+  m_Name: Land Attack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3893235036858854278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4952958369992446743}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1167767989900948468}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2355313695989656301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4952958369992446743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7ae1f77d1a54542b587f87a18102b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 3
+  _triggerInteraction: 1
+  _gizmosColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &4959203882979163730
 GameObject:
   m_ObjectHideFlags: 0
@@ -3256,6 +3369,7 @@ MonoBehaviour:
   _standartMovement: {fileID: 8567124642147185509}
   _animator: {fileID: 3822857734986495546}
   _ragdoll: {fileID: 3474381815594823900}
+  _speedDumpTime: 0.05
   _playerSpeed: speed
   _crouch: crouching
   _isGrounded: isGrounded
@@ -3673,6 +3787,7 @@ Transform:
   - {fileID: 539683456012730362}
   - {fileID: 9048045667223021901}
   - {fileID: 7091997220151180121}
+  - {fileID: 3893235036858854278}
   m_Father: {fileID: 3462377426396143089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3007286867057084472
@@ -3694,6 +3809,8 @@ MonoBehaviour:
   - {fileID: 5162404734920120904}
   - {fileID: 489955310511095144}
   - {fileID: 1269939041649927264}
+  - {fileID: 5241966159291204289}
+  - {fileID: 4302900574004213428}
 --- !u!114 &8492032539195246930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4172,7 +4289,7 @@ GameObject:
   - component: {fileID: 539683456012730362}
   - component: {fileID: 7240603257246854986}
   m_Layer: 7
-  m_Name: PunchAssistant
+  m_Name: Punch Assistant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

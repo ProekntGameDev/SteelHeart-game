@@ -1,30 +1,24 @@
-using UnityEngine.AI;
 using UnityEngine;
+using NaughtyAttributes;
+using Zenject;
 
 namespace AI
 {
-    public class TankRobotState_Escape : IState
+    public class TankRobotState_Escape : MonoBehaviour, IState
     {
         private const float EscapeMultiplier = 2f;
 
-        private float _speed;
-        private float _escapingDistance;
-        private float _stoppingDistance;
-        private NavMeshAgent _navMeshAgent;
-        private Player _player;
+        [SerializeField, Required] private AIMoveAgent _aiMoveAgent;
+        [SerializeField] private float _speed;
+        [SerializeField] private float _escapingDistance;
+        [SerializeField] private float _stoppingDistance;
 
-        public TankRobotState_Escape(float speed, float escapingDistance, float stoppingDistance, NavMeshAgent navMeshAgent, Player player)
-        {
-            _speed = speed;
-            _escapingDistance = escapingDistance;
-            _stoppingDistance = stoppingDistance;
-            _navMeshAgent = navMeshAgent;
-            _player = player;
-        }
+        [Inject] private Player _player;
+
         public void OnEnter()
         {
-            _navMeshAgent.stoppingDistance = _stoppingDistance;
-            _navMeshAgent.speed = _speed;
+            _aiMoveAgent.StoppingDistance = _stoppingDistance;
+            _aiMoveAgent.Speed = _speed;
         }
 
         public void OnExit()
@@ -32,20 +26,20 @@ namespace AI
 
         public void Tick()
         {
-            Vector3 directionToPlayer = _navMeshAgent.transform.position - _player.transform.position;
-            Vector3 newPosition = _navMeshAgent.transform.position + directionToPlayer;
+            Vector3 directionToPlayer = _aiMoveAgent.transform.position - _player.transform.position;
+            Vector3 newPosition = _aiMoveAgent.transform.position + directionToPlayer;
 
-            _navMeshAgent.SetDestination(newPosition);
+            _aiMoveAgent.SetDestination(newPosition);
         }
 
         public bool IsPlayerClose()
         {
-            return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) < _escapingDistance;
+            return Vector3.Distance(_player.transform.position, _aiMoveAgent.transform.position) < _escapingDistance;
         }
 
         public bool IsPlayerFar()
         {
-            return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _escapingDistance * EscapeMultiplier;
+            return Vector3.Distance(_player.transform.position, _aiMoveAgent.transform.position) > _escapingDistance * EscapeMultiplier;
         }
     }
 }

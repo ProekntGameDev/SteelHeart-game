@@ -273,7 +273,7 @@ MonoBehaviour:
       _isPiercing: 1
     _jumpTime: 1.3
     _delay: 3.5
-  _navMeshAgent: {fileID: 3937459016884770106}
+  _aiMoveAgent: {fileID: 8351218131687064723}
   _robotHealth: {fileID: 3937459016884770107}
   _animator: {fileID: 3953589399532733483}
   _trigger: HeavyAttack
@@ -299,7 +299,7 @@ MonoBehaviour:
     _punchTime: 0.75
     _delay: 1
   _robotHealth: {fileID: 3937459016884770107}
-  _navMeshAgent: {fileID: 3937459016884770106}
+  _aiMoveAgent: {fileID: 8351218131687064723}
   _animator: {fileID: 3953589399532733483}
   _trigger: LightAttack
 --- !u!1 &984256741215349187
@@ -1228,9 +1228,10 @@ GameObject:
   - component: {fileID: 3303391867076676608}
   - component: {fileID: 3937459016884770107}
   - component: {fileID: 9080294590736142416}
+  - component: {fileID: 8351218131687064723}
   - component: {fileID: 3937459016884770106}
   - component: {fileID: 3937459016884770244}
-  - component: {fileID: 2637806150644830503}
+  - component: {fileID: 469583922403108293}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -1270,6 +1271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _navMeshAgent: {fileID: 3937459016884770106}
+  _aiMoveAgent: {fileID: 8351218131687064723}
   _robotHealth: {fileID: 3937459016884770107}
   _robotVision:
     _eyeTransform: {fileID: 3937459016016217390}
@@ -1324,6 +1326,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _navMeshAgent: {fileID: 3937459016884770106}
+  _robotBrain: {fileID: 3937459016884770104}
   _animator: {fileID: 3953589399532733483}
   _finishAnimation:
     _playerState: Finish1
@@ -1359,7 +1362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be141db4dfbbf142beb584d809a7364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _robot: {fileID: 3937459016884770106}
+  _robot: {fileID: 8351218131687064723}
   _destroyDelay: 4.5
   _ragdoll: 0
   _rigidbody: {fileID: 0}
@@ -1377,7 +1380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc4d1c438e57dd429967963c8471964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _navMeshAgent: {fileID: 3937459016884770106}
+  _aiMoveAgent: {fileID: 8351218131687064723}
   _points: []
   _speed: 1.5
 --- !u!114 &1026832770504592542
@@ -1392,7 +1395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ce7c3314da9d94797fa18e7e11fbd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _navMeshAgent: {fileID: 3937459016884770106}
+  _aiMoveAgent: {fileID: 8351218131687064723}
   _robotVision:
     _eyeTransform: {fileID: 3937459016016217390}
     _maxDistance: 10
@@ -1411,7 +1414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63ac7f9601e5104c868f45c43df0e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _navMeshAgent: {fileID: 3937459016884770106}
+  _aiMoveAgent: {fileID: 8351218131687064723}
   _animator: {fileID: 3953589399532733483}
   _isInStan: Stan
 --- !u!114 &3937459016884770107
@@ -1456,9 +1459,22 @@ MonoBehaviour:
   _setChildrenLayer: 0
   _health: {fileID: 3937459016884770107}
   _healthBarCanvas: {fileID: 3937459016305117297}
-  _finishHint: {fileID: 0}
   _healthBarImage: {fileID: 3937459017449269789}
   _healthBarText: {fileID: 3937459017614005652}
+--- !u!114 &8351218131687064723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3937459016884770110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9fdea55ad52f648873eb420ea75afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gravity: -9.81
+  _friction: 1
 --- !u!195 &3937459016884770106
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1527,8 +1543,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!136 &2637806150644830503
-CapsuleCollider:
+--- !u!143 &469583922403108293
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1545,10 +1561,13 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4
+  serializedVersion: 3
   m_Height: 3
-  m_Direction: 1
+  m_Radius: 0.4
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &3937459017449269779
 GameObject:

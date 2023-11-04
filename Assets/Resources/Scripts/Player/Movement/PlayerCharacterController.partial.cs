@@ -2,7 +2,7 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
-public partial class InertialCharacterController
+public partial class PlayerCharacterController
 {
     public Vector3 CurrentVelocity { get { return _currentVelocity; } set { _currentVelocity = value; } }
     public Vector3 Forward { get { return _forward; } set { _forward = value; } }

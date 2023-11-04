@@ -1,38 +1,28 @@
 using UnityEngine;
-using UnityEngine.AI;
+using Zenject;
 
 namespace AI
 {
-    public class TankRobotState_Shoot : IState
+    public class TankRobotState_Shoot : MonoBehaviour, IState
     {
-        private NavMeshAgent _navMeshAgent;
-        private TankAttackProperties _attackProperties;
+        [SerializeField] private AIMoveAgent _aiMoveAgent;
+        [SerializeField] private TankAttackProperties _attackProperties;
+        [SerializeField] private float _maxDistance;
+        [SerializeField] private Health _health;
 
-        private float _maxDistance;
-        private Player _player;
-        private Health _health;
+        [Inject] private Player _player;
 
         private float _endTime;
-
-        public TankRobotState_Shoot
-            (Player player, NavMeshAgent navMeshAgent, Health health, float maxDistance, TankAttackProperties attackProperties)
-        {
-            _navMeshAgent = navMeshAgent;
-            _player = player;
-            _health = health;
-            _maxDistance = maxDistance;
-            _attackProperties = attackProperties;
-        }
 
         public void OnEnter()
         {
             _endTime = Time.time + (1 / _attackProperties.Speed);
-            _navMeshAgent.updateRotation = false;
+            _aiMoveAgent.UpdateRotation = false;
         }
 
         public void OnExit()
         {
-            _navMeshAgent.updateRotation = true;
+            _aiMoveAgent.UpdateRotation = true;
 
             if (_endTime > Time.time)
                 return;
@@ -57,21 +47,21 @@ namespace AI
 
         public bool IsLostPlayer()
         {
-            return Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
+            return Vector3.Distance(_player.transform.position, _aiMoveAgent.transform.position) > _maxDistance;
         }
 
         private void LookAtTarget()
         {
-            Vector3 lookPosition = _player.transform.position - _navMeshAgent.transform.position;
+            Vector3 lookPosition = _player.transform.position - _aiMoveAgent.transform.position;
             lookPosition.y = 0f;
             Quaternion rotation = Quaternion.LookRotation(lookPosition);
 
-            _navMeshAgent.transform.rotation = Quaternion.RotateTowards(_navMeshAgent.transform.rotation, rotation, _attackProperties.AimSpeed * Time.deltaTime);
+            _aiMoveAgent.transform.rotation = Quaternion.RotateTowards(_aiMoveAgent.transform.rotation, rotation, _attackProperties.AimSpeed * Time.deltaTime);
         }
 
         private void Shoot(Vector3 direction)
         {
-            Projectile projectile = GameObject.Instantiate(_attackProperties.Projectile, _navMeshAgent.transform);
+            Projectile projectile = Instantiate(_attackProperties.Projectile, _aiMoveAgent.transform);
             projectile.transform.forward = direction;
             projectile.transform.position = _attackProperties.ShootPoint.position;
 

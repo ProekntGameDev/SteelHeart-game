@@ -1,50 +1,39 @@
-﻿using UnityEngine;
-using UnityEngine.AI;
+﻿using NaughtyAttributes;
+using UnityEngine;
+using Zenject;
 
 namespace AI
 {
-    public class DroneState_Attack : IState
+    public class DroneState_Attack : MonoBehaviour, IState
     {
-        private NavMeshAgent _navMeshAgent;
-        private DroneAttackProperties _attackProperties;
+        [SerializeField, Required] private AIMoveAgent _aiMoveAgent;
+        [SerializeField, Required] private Health _droneHealth;
 
-        private float _minDistance;
-        private float _maxDistance;
-        private float _baseStoppingDistance;
+        [SerializeField] private DroneAttackProperties _attackProperties;
+        [SerializeField] private float _minDistance;
+        [SerializeField] private float _maxDistance;
 
-        private Health _droneHealth;
-        private Player _player;
+
+        [Inject] private Player _player;
 
         private float _endTime;
+        private float _baseStoppingDistance;
         private int _attacksBeforeFreeze;
-
-        public DroneState_Attack
-            (Player player, Health droneHealth, NavMeshAgent navMeshAgent, float minDistance, float maxDistance, DroneAttackProperties attackProperties)
-        {
-            _navMeshAgent = navMeshAgent;
-            _droneHealth = droneHealth;
-            _player = player;
-            _minDistance = minDistance;
-            _maxDistance = maxDistance;
-            _attackProperties = attackProperties;
-
-            _attacksBeforeFreeze = _attackProperties.AttacksBeforeFreeze;
-        }
 
         public void OnEnter()
         {
             _endTime = Time.time + (1 / _attackProperties.Speed);
             
-            _navMeshAgent.updateRotation = false;
+            _aiMoveAgent.UpdateRotation = false;
 
-            _baseStoppingDistance = _navMeshAgent.stoppingDistance;
-            _navMeshAgent.stoppingDistance = _minDistance;
+            _baseStoppingDistance = _aiMoveAgent.StoppingDistance;
+            _aiMoveAgent.StoppingDistance = _minDistance;
         }
 
         public void OnExit()
         {
-            _navMeshAgent.updateRotation = true;
-            _navMeshAgent.stoppingDistance = _baseStoppingDistance;
+            _aiMoveAgent.UpdateRotation = true;
+            _aiMoveAgent.StoppingDistance = _baseStoppingDistance;
             
             if (_endTime > Time.time)
                 return;
@@ -69,22 +58,22 @@ namespace AI
 
         public bool IsDone() =>_player.Health.Current == 0 || _endTime <= Time.time;
 
-        public bool IsLostPlayer() => Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
+        public bool IsLostPlayer() => Vector3.Distance(_player.transform.position, _aiMoveAgent.transform.position) > _maxDistance;
 
         public bool IsTimeOut() => _attacksBeforeFreeze == 0;
 
         private void LookAtTarget()
         {
-            Vector3 lookPosition = _player.transform.position - _navMeshAgent.transform.position;
+            Vector3 lookPosition = _player.transform.position - _aiMoveAgent.transform.position;
             lookPosition.y = 0f;
             Quaternion rotation = Quaternion.LookRotation(lookPosition);
 
-            _navMeshAgent.transform.rotation = Quaternion.RotateTowards(_navMeshAgent.transform.rotation, rotation, _attackProperties.AimSpeed * Time.deltaTime);
+            _aiMoveAgent.transform.rotation = Quaternion.RotateTowards(_aiMoveAgent.transform.rotation, rotation, _attackProperties.AimSpeed * Time.deltaTime);
         }
 
         private void Shoot(Vector3 direction)
         {
-            Projectile projectile = GameObject.Instantiate(_attackProperties.Projectile, _navMeshAgent.transform);
+            Projectile projectile = Instantiate(_attackProperties.Projectile, _aiMoveAgent.transform);
             projectile.transform.forward = direction;
             projectile.transform.position = _attackProperties.ShootPoint.position;
 

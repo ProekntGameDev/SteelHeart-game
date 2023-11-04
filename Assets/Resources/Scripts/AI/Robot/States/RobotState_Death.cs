@@ -1,12 +1,11 @@
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace AI
 {
     public class RobotState_Death : MonoBehaviour, IState
     {
-        [SerializeField, Required] private NavMeshAgent _robot;
+        [SerializeField, Required] private AIMoveAgent _robot;
         [SerializeField] private float _destroyDelay;
         [SerializeField] private bool _ragdoll;
 

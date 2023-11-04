@@ -10,6 +10,7 @@ namespace AI
         protected StateMachine _stateMachine { get; private set; }
 
         [Required, SerializeField] protected NavMeshAgent _navMeshAgent;
+        [Required, SerializeField] protected AIMoveAgent _aiMoveAgent;
         [Required, SerializeField] protected Health _robotHealth;
         [SerializeField] protected RobotVision _robotVision;
 
@@ -19,8 +20,6 @@ namespace AI
         {
             _stateMachine = new StateMachine();
 
-            SetupStates();
-
             SetupTransitions();
         }
 
@@ -28,8 +27,6 @@ namespace AI
         {
             _stateMachine.Tick();
         }
-
-        protected abstract void SetupStates();
 
         protected abstract void SetupTransitions();
 

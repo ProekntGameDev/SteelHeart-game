@@ -8,6 +8,7 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField, Required] private StandardMovement _standartMovement;
     [SerializeField] private Animator _animator;
     [SerializeField] private Rigidbody _ragdoll;
+    [SerializeField] private float _speedDumpTime;
 
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] string _playerSpeed;
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Float)] string _crouch;
@@ -28,7 +29,7 @@ public class PlayerAnimator : MonoBehaviour
     private void Update()
     {
         _animator.SetFloat(_crouch, _standartMovement.IsCrouching ? 1 : 0);
-        _animator.SetFloat(_playerSpeed, _player.Movement.CharacterController.CurrentVelocity.magnitude);
+        _animator.SetFloat(_playerSpeed, _player.Movement.CharacterController.CurrentVelocity.magnitude, _speedDumpTime, Time.deltaTime);
         _animator.SetBool(_isGrounded, _player.Movement.CharacterController.IsGrounded);
         _animator.SetBool(_isOnLadder, _player.Movement.IsOnLadder);
     }
