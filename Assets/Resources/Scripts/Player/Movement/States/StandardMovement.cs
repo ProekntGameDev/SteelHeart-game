@@ -15,12 +15,11 @@ public class StandardMovement : BaseMovementState
     [SerializeField, Foldout("Stamina")] private float _runStaminaConsumption;
     [SerializeField, Foldout("Stamina")] private float _jumpStaminaCost;
 
-    [SerializeField, Foldout("Velocities")] private float _maxCrouchSpeed;
-    [SerializeField, Foldout("Velocities")] private float _maxWalkSpeed;
-    [SerializeField, Foldout("Velocities")] private float _maxRunSpeed;
+    [SerializeField, Foldout("Velocities")] private float _crouchSpeed;
+    [SerializeField, Foldout("Velocities")] private float _walkSpeed;
+    [SerializeField, Foldout("Velocities")] private float _runSpeed;
     [SerializeField, Foldout("Velocities")] private float _maxAirSpeed;
     [SerializeField, Foldout("Velocities")] private float _airAcceleration;
-    [SerializeField, Foldout("Velocities")] private float _groundAcceleration;
 
     [SerializeField] private float _crouchHeight;
     [SerializeField] private float _jumpHeight;
@@ -49,16 +48,22 @@ public class StandardMovement : BaseMovementState
 
         if (CharacterController.IsGrounded == false && TryStepOnSlope() == false)
         {
-            CharacterController.AirMove(wishDirection, _airAcceleration, _maxAirSpeed);
+            CharacterController.CurrentVelocity = CharacterController.CurrentVelocity + (wishDirection * _airAcceleration * Time.fixedDeltaTime);
+
+            if (CharacterController.CurrentVelocity.magnitude > _maxAirSpeed)
+                CharacterController.CurrentVelocity = CharacterController.CurrentVelocity.normalized * _maxAirSpeed;
+
+            CharacterController.Move();
             return;
         }
 
         CheckRun();
-        float maxSpeed = IsCrouching ? _maxCrouchSpeed : (_isRunning ? _maxRunSpeed : _maxWalkSpeed);
+        float speed = IsCrouching ? _crouchSpeed : (_isRunning ? _runSpeed : _walkSpeed);
 
         UpdateStamina(wishDirection);
 
-        CharacterController.GroundMove(wishDirection, _groundAcceleration, maxSpeed);
+        CharacterController.CurrentVelocity = wishDirection * speed;
+        CharacterController.Move();
     }
 
     public override void Exit()

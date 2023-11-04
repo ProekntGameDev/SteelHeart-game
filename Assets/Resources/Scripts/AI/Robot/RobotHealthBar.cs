@@ -8,7 +8,6 @@ public class RobotHealthBar : Interactable
 {
     [SerializeField, Required] private Health _health;
     [SerializeField, Required] private Canvas _healthBarCanvas;
-    [SerializeField, Required] private GameObject _finishHint;
     [SerializeField, Required] private Image _healthBarImage;
     [SerializeField, Required] private TextMeshProUGUI _healthBarText;
 

@@ -100,11 +100,14 @@ public class PlayerCombat : MonoBehaviour
         {
             if (attack.IsInCombo(_inputComboList))
             {
-                if (attack.IsReady())
-                    UpdateState(attack);
+                if (attack.CanEnter())
+                {
+                    if (attack.IsReady())
+                        UpdateState(attack);
 
-                ResetCombot();
-                return;
+                    ResetCombot();
+                    return;
+                }
             }
         }
     }

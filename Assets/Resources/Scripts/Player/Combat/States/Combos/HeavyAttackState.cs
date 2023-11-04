@@ -81,6 +81,8 @@ public class HeavyAttackState : BaseCombatState
         return result;
     }
 
+    public override bool CanEnter() => _player.Movement.CharacterController.IsGrounded;
+
     private void OnFireCanceled(InputAction.CallbackContext context)
     {
         if (context.canceled == false)

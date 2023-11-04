@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AI;
 using Zenject;
 
 namespace AI
@@ -10,7 +9,7 @@ namespace AI
         public Properties AttackProperties => _properties;
 
         [SerializeField] private Properties _properties;
-        [SerializeField, Required] private NavMeshAgent _navMeshAgent;
+        [SerializeField, Required] private AIMoveAgent _aiMoveAgent;
         [SerializeField, Required] private Health _robotHealth;
 
         [SerializeField, Required] private Animator _animator;
@@ -23,8 +22,8 @@ namespace AI
 
         public void OnEnter()
         {
-            _navMeshAgent.updateRotation = true;
-            _navMeshAgent.speed = _properties.AirSpeed;
+            _aiMoveAgent.UpdateRotation = true;
+            _aiMoveAgent.Speed = _properties.AirSpeed;
             _startTime = Time.time;
             _willAttack = true;
 
@@ -44,14 +43,14 @@ namespace AI
             if (_startTime + _properties.JumpTime <= Time.time)
                 Attack();
 
-            _navMeshAgent.destination = _player.transform.position;
+            _aiMoveAgent.SetDestination(_player.transform.position);
         }
 
         public bool IsDone() => _startTime + _properties.JumpTime + _properties.Delay <= Time.time || _player.Health.Current == 0;
 
         private void Attack()
         {
-            Collider[] colliders = Physics.OverlapSphere(_navMeshAgent.transform.position, _properties.AoERadius);
+            Collider[] colliders = Physics.OverlapSphere(_aiMoveAgent.transform.position, _properties.AoERadius);
 
             foreach (var collider in colliders)
                 if (collider.TryGetComponent(out IDamagable damagable))

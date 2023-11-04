@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AI;
 using Zenject;
 
 namespace AI
@@ -11,7 +10,7 @@ namespace AI
 
         [SerializeField] private Properties _properties;
         [SerializeField, Required] private Health _robotHealth;
-        [SerializeField, Required] private NavMeshAgent _navMeshAgent;
+        [SerializeField, Required] private AIMoveAgent _aiMoveAgent;
 
         [SerializeField, Required] private Animator _animator;
         [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)] private string _trigger;
@@ -23,7 +22,7 @@ namespace AI
 
         public void OnEnter()
         {
-            _navMeshAgent.updateRotation = false;
+            _aiMoveAgent.UpdateRotation = false;
             _startTime = Time.time;
             _willAttack = true;
 
@@ -43,17 +42,17 @@ namespace AI
             if (_startTime + _properties.PunchTime <= Time.time)
                 Attack();
 
-            _navMeshAgent.destination = _player.transform.position;
+            _aiMoveAgent.SetDestination(_player.transform.position);
 
-            Vector3 directionToPlayer = (_player.transform.position - _navMeshAgent.transform.position).normalized;
-            _navMeshAgent.transform.forward = Vector3.Slerp(_navMeshAgent.transform.forward, directionToPlayer, _properties.RotationSlerp);
+            Vector3 directionToPlayer = (_player.transform.position - _aiMoveAgent.transform.position).normalized;
+            _aiMoveAgent.transform.forward = Vector3.Slerp(_aiMoveAgent.transform.forward, directionToPlayer, _properties.RotationSlerp);
         }
 
         public bool IsDone() => _startTime + _properties.PunchTime + _properties.Delay <= Time.time || _player.Health.Current == 0;
 
         private void Attack()
         {
-            if (Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _properties.MaxDistance)
+            if (Vector3.Distance(_aiMoveAgent.transform.position, _player.transform.position) < _properties.MaxDistance)
                 _player.Health.TakeDamage(_properties.Damage, _robotHealth);
 
             _willAttack = false;

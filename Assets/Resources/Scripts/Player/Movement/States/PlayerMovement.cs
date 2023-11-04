@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Zenject;
 
-[RequireComponent(typeof(InertialCharacterController))]
+[RequireComponent(typeof(PlayerCharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     [HideInInspector] public UnityEvent OnJump;
@@ -13,25 +13,25 @@ public class PlayerMovement : MonoBehaviour
     public bool CanUseCombat => _currentMovementState.CanUseCombat();
     public bool IsOnLadder => _currentMovementState == _ladderMovement;
 
-    public InertialCharacterController CharacterController 
+    public PlayerCharacterController CharacterController 
     {
         get
         {
             if (_characterController == null)
-                _characterController = GetComponent<InertialCharacterController>();
+                _characterController = GetComponent<PlayerCharacterController>();
             return _characterController;
         }
     }
 
     [SerializeField, Required] private StandardMovement _standardMovement;
-    [SerializeField, Required] private RollMovement _rollMovement;
+    [SerializeField, Required] private SlideMovement _rollMovement;
     [SerializeField, Required] private LadderMovement _ladderMovement;
     [SerializeField, Required] private OverlapSphere _ladderTrigger;
 
     [Inject] private Player _player;
 
     private BaseMovementState _currentMovementState;
-    private InertialCharacterController _characterController;
+    private PlayerCharacterController _characterController;
 
     private void Awake()
     {

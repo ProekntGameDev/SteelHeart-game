@@ -1,37 +1,27 @@
-﻿using UnityEngine;
-using UnityEngine.AI;
+﻿using NaughtyAttributes;
+using UnityEngine;
 
 namespace AI
 {
-    public class DroneState_Freeze : IState
+    public class DroneState_Freeze : MonoBehaviour, IState
     {
-        private NavMeshAgent _navMeshAgent;
-        private DroneState_Attack _attackState;
+        [SerializeField, Required] private AIMoveAgent _aiMoveAgent;
+        [SerializeField, Required] private DroneState_Attack _attackState;
 
-        private float _minHeight;
-        private float _duration;
+        [SerializeField] private float _minHeight;
+        [SerializeField] private float _duration;
 
         private float _maxHeight;
         private float _endTime;
 
-        public DroneState_Freeze
-            (NavMeshAgent navMeshAgent, DroneState_Attack attackState, float minHeight, float duration)
-        {
-            _navMeshAgent = navMeshAgent;
-            _attackState = attackState;
-
-            _minHeight = minHeight;
-            _duration = duration;
-        }
-
         public void OnEnter()
         {
-            _maxHeight = _navMeshAgent.baseOffset;
+            _maxHeight = _aiMoveAgent.BaseOffset;
 
             _endTime = Time.time + _duration;
 
-            _navMeshAgent.baseOffset = _minHeight;
-            _navMeshAgent.isStopped = true;
+            _aiMoveAgent.BaseOffset = _minHeight;
+            _aiMoveAgent.IsStopped = true;
         }
 
         public void OnExit()
@@ -40,8 +30,8 @@ namespace AI
 
             _attackState.Reload();
 
-            _navMeshAgent.baseOffset = _maxHeight;
-            _navMeshAgent.isStopped = false;
+            _aiMoveAgent.BaseOffset = _maxHeight;
+            _aiMoveAgent.IsStopped = false;
         }
 
         public void Tick()

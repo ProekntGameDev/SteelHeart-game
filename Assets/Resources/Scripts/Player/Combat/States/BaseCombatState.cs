@@ -13,6 +13,7 @@ public abstract class BaseCombatState : MonoBehaviour
 
     protected abstract InputAction[] _buttons { get; }
 
+    public virtual bool CanEnter() => true;
     public virtual bool IsDone() => true;
     public virtual bool IsReady() => _endTime + _cooldown <= Time.time && _player.Stamina.Current >= _staminaCost;
 

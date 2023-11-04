@@ -4,6 +4,8 @@ namespace AI
 {
     public class HammerRobotBrain : RobotBrain
     {
+        public bool IsInDeathState => _stateMachine.IsInState(_deathState);
+
         [Header("States")]
         [SerializeField] private RobotState_Finishing _finishingState;
         [SerializeField] private RobotState_Combat _combatState;
@@ -19,9 +21,6 @@ namespace AI
 
             _stateMachine.SetState(_patrolState);
         }
-
-        protected override void SetupStates()
-        { }
 
         protected override void SetupTransitions()
         {

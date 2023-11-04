@@ -1,30 +1,23 @@
+using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AI;
+using Zenject;
 
 namespace AI
 {
-    public class TankRobotState_Chase : IState
+    public class TankRobotState_Chase : MonoBehaviour, IState
     {
-        private RobotVision _robotVision;
-        private NavMeshAgent _navMeshAgent;
-        private Player _player;
-        private float _speed;
-        private float _minDistance;
-        private float _maxDistance;
+        [SerializeField, Required] private AIMoveAgent _aiMoveAgent;
+        [SerializeField] private RobotVision _robotVision;
+        [SerializeField] private float _speed;
+        [SerializeField] private float _minDistance;
+        [SerializeField] private float _maxDistance;
 
-        public TankRobotState_Chase(RobotVision robotVision, NavMeshAgent navMeshAgent, float speed, float minDistance, float maxDistance)
-        {
-            _robotVision = robotVision;
-            _navMeshAgent = navMeshAgent;
-            _speed = speed;
-            _minDistance = minDistance;
-            _maxDistance = maxDistance;
-        }
+        [Inject] private Player _player;
 
         public void OnEnter()
         {
-            _navMeshAgent.speed = _speed;
-            _navMeshAgent.stoppingDistance = _minDistance;
+            _aiMoveAgent.Speed = _speed;
+            _aiMoveAgent.StoppingDistance = _minDistance;
         }
 
         public void OnExit()
@@ -36,19 +29,19 @@ namespace AI
         {
             if (_robotVision.IsVisible(out _player))
             {
-                _navMeshAgent.destination = _player.transform.position;
+                _aiMoveAgent.SetDestination(_player.transform.position);
             }
 
         }
 
         public bool IsLostPlayer()
         {
-            return _player == null || Vector3.Distance(_player.transform.position, _navMeshAgent.transform.position) > _maxDistance;
+            return _player == null || Vector3.Distance(_player.transform.position, _aiMoveAgent.transform.position) > _maxDistance;
         }
 
         public bool IsDone()
         {
-            return _navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && _player != null;
+            return _aiMoveAgent.IsDone() && _player != null;
         }
     }
 }

@@ -29,4 +29,6 @@ public class LightAttackState : BaseCombatState
             if (collider.TryGetComponent(out IDamagable damagable))
                 damagable.TakeDamage(_damage, _player.Health);
     }
+
+    public override bool CanEnter() => _player.Movement.CharacterController.IsGrounded;
 }

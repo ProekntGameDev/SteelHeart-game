@@ -1,5 +1,4 @@
 using System;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,46 +8,18 @@ namespace AI
     {
         [HideInInspector] public UnityEvent<int> OnAttack;
 
-        [SerializeField] private float _destroyDelay;
-
-        [SerializeField, BoxGroup("Idle"), MinMaxSlider(0.0f, 15.0f)]
-        private Vector2 _idleDelayRange;
-
-        [SerializeField, BoxGroup("Patrolling")] private Transform[] _patrolPoints;
-        [SerializeField, BoxGroup("Patrolling")] private float _patrolSpeed;
-
-        [SerializeField, BoxGroup("Chasing")] private float _chaseSpeed;
-        [SerializeField, BoxGroup("Chasing")] private float _chaseMinDistance;
-        [SerializeField, BoxGroup("Chasing")] private float _chaseMaxDistance;
-
-        [SerializeField, BoxGroup("Combat")] private float _maxCombatDistance;
-        [SerializeField, BoxGroup("Combat")] private DroneAttackProperties _attackProperties;
-
-        [SerializeField, BoxGroup("Freeze")] private float _freezeMinHeight;
-        [SerializeField, BoxGroup("Freeze")] private float _freezeDuration;
-
         [SerializeField] private RobotState_Delay _delayState;
         [SerializeField] private RobotState_Patrol _patrolState;
         [SerializeField] private RobotState_Chase _chaseState;
-        
-        private RobotState_Death _deathState;
-        
-        private DroneState_Attack _attackState;
-        private DroneState_Freeze _freezeState;
+        [SerializeField] private RobotState_Death _deathState;
+        [SerializeField] private DroneState_Attack _attackState;
+        [SerializeField] private DroneState_Freeze _freezeState;
 
         protected override void Awake()
         {
             base.Awake();
 
             _stateMachine.SetState(_patrolState);
-        }
-
-        protected override void SetupStates()
-        {
-            _attackState = 
-                new DroneState_Attack(_player, _robotHealth, _navMeshAgent, _chaseMinDistance, _maxCombatDistance, _attackProperties);
-            _freezeState = 
-                new DroneState_Freeze(_navMeshAgent, _attackState, _freezeMinHeight, _freezeDuration);
         }
 
         protected override void SetupTransitions()
