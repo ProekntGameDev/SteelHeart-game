@@ -15,6 +15,8 @@ namespace AI
 
         [Inject] private Player _player;
 
+        private Vector3 _direction;
+
         public void OnEnter()
         {
             _aiMoveAgent.StoppingDistance = _stoppingDistance;
@@ -27,9 +29,17 @@ namespace AI
         public void Tick()
         {
             Vector3 directionToPlayer = _aiMoveAgent.transform.position - _player.transform.position;
-            Vector3 newPosition = _aiMoveAgent.transform.position + directionToPlayer;
+            directionToPlayer = directionToPlayer.normalized * _escapingDistance;
 
-            _aiMoveAgent.SetDestination(newPosition);
+            for (int i = 0; i < 48; i++)
+            {
+                _direction = Quaternion.Euler(0, (360 / 48) * i, 0) * directionToPlayer;
+
+                _aiMoveAgent.SetDestination(_aiMoveAgent.transform.position + _direction);
+                Debug.DrawLine(_aiMoveAgent.transform.position, _aiMoveAgent.transform.position + _direction);
+                if (_aiMoveAgent.CanCalculatePath(_aiMoveAgent.transform.position + _direction))
+                    break;
+            }
         }
 
         public bool IsPlayerClose()

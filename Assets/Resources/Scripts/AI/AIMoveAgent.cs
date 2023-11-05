@@ -4,6 +4,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(CharacterController))]
 public class AIMoveAgent : MonoBehaviour
 {
+    public bool HasPath { get { return NavMeshAgent.hasPath; } }
     public float Speed { get { return NavMeshAgent.speed; } set { NavMeshAgent.speed = value; } }
     public float BaseOffset { get { return NavMeshAgent.baseOffset; } set { NavMeshAgent.baseOffset = value; } }
     public float StoppingDistance { get { return NavMeshAgent.stoppingDistance; } set { NavMeshAgent.stoppingDistance = value; } }
@@ -29,6 +30,8 @@ public class AIMoveAgent : MonoBehaviour
     private Vector3 _destination;
     private NavMeshAgent _navMeshAgent;
     private CharacterController _characterController;
+
+    public bool CanCalculatePath(Vector3 targetPosition) => _navMeshAgent.CalculatePath(targetPosition, new NavMeshPath());
 
     public void SetVelocity(Vector3 velocity)
     {
