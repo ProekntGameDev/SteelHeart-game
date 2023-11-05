@@ -50,7 +50,9 @@ public class Health : MonoBehaviour, IDamagable
             OnDeath?.Invoke();
 
         OnChange?.Invoke(_currentHealth);
-        OnTakeDamage?.Invoke(damage);
+
+        if(_currentHealth > 0)
+            OnTakeDamage?.Invoke(damage);
 
         return result;
     }

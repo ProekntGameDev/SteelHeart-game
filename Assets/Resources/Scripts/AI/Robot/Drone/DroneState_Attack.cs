@@ -1,18 +1,20 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 namespace AI
 {
     public class DroneState_Attack : MonoBehaviour, IState
     {
+        [HideInInspector] public UnityEvent OnShoot;
+
         [SerializeField, Required] private AIMoveAgent _aiMoveAgent;
         [SerializeField, Required] private Health _droneHealth;
 
         [SerializeField] private DroneAttackProperties _attackProperties;
         [SerializeField] private float _minDistance;
         [SerializeField] private float _maxDistance;
-
 
         [Inject] private Player _player;
 
@@ -73,6 +75,8 @@ namespace AI
 
         private void Shoot(Vector3 direction)
         {
+            OnShoot?.Invoke();
+
             Projectile projectile = Instantiate(_attackProperties.Projectile, _aiMoveAgent.transform);
             projectile.transform.forward = direction;
             projectile.transform.position = _attackProperties.ShootPoint.position;
